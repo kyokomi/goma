@@ -7,6 +7,10 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
+
+	"github.com/kyokomi/goma/goma"
+
+	_ "github.com/go-sql-driver/mysql"
 )
 
 var (
@@ -19,11 +23,12 @@ var (
 )
 
 func init() {
-	flag.StringVar(&driver, "d", "", "sql driver")
-	flag.StringVar(&dataSource, "s", "", "sql data source")
+	flag.StringVar(&driver, "driver", "", "sql driver")
+	flag.StringVar(&dataSource, "source", "", "sql data source")
 	flag.StringVar(&out, "o", "", "output file")
 	flag.StringVar(&file, "file", os.Getenv("GOFILE"), "input file")
 	flag.StringVar(&pkg, "pkg", os.Getenv("GOPACKAGE"), "output package")
+	flag.Parse()
 }
 
 type DaoTemplateData struct {
@@ -40,8 +45,39 @@ type TableTemplateData struct {
 //go:generate ego -package main templates
 
 func main() {
+	log.SetFlags(log.Llongfile)
+
+	fmt.Println(driver, dataSource)
 
 	// TODO: DBを読み込む いまはquestテーブル固定
+	opts := goma.Options{
+		Driver: "mysql",
+		Source: "admin:password@tcp(localhost:3306)/test",
+		DBName: "test",
+		Debug:  true,
+	}
+
+	// TODO: xormのtool使ったほうが早そう
+	/*
+		// xorm reverse mysql root:@/test?charset=utf8 templates/goxorm
+		Orm, err := xorm.NewEngine(args[0], args[1])
+		if err != nil {
+			log.Errorf("%v", err)
+			return
+		}
+
+		tables, err := Orm.DBMetas()
+		if err != nil {
+			log.Errorf("%v", err)
+			return
+		}
+	*/
+
+	g, err := goma.NewGoma(opts)
+	if err != nil {
+		log.Fatalln(err)
+	}
+	defer g.Close()
 
 	data := DaoTemplateData{
 		Name:       "QuestDao",
@@ -66,6 +102,4 @@ func main() {
 	if err := ioutil.WriteFile("dao/quest_gen.go", buf.Bytes(), 0644); err != nil {
 		log.Fatalln(err)
 	}
-
-	fmt.Println(buf.String())
 }

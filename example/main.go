@@ -15,7 +15,9 @@ func main() {
 	fmt.Println("Hello doma!")
 
 	opts := goma.Options{
-		Debug: true,
+		Driver: "mysql",
+		Source: "admin:password@tcp(localhost:3306)/test",
+		Debug:  true,
 	}
 	g, err := goma.NewGoma(opts)
 	if err != nil {

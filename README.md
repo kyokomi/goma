@@ -12,7 +12,7 @@ package main
 
 import "fmt"
 
-//go:generate goma
+//go:generate goma driver="mysql" source="admin:password@tcp(localhost:3306)/test"
 
 func main() {
 	fmt.Println("hoge")

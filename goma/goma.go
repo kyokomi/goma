@@ -17,7 +17,10 @@ type Goma struct {
 type QueryArgs map[string]interface{}
 
 type Options struct {
-	Debug bool
+	Driver string // DriverName
+	Source string // DataSource
+	DBName string // DataBaseName
+	Debug  bool
 }
 
 func NewGoma(options Options) (*Goma, error) {
@@ -25,8 +28,7 @@ func NewGoma(options Options) (*Goma, error) {
 	var d Goma
 	d.options = options
 
-	// TODO: 引数でもらうようにする
-	db, err := sql.Open("mysql", "admin:password@tcp(localhost:3306)/test")
+	db, err := sql.Open(options.Driver, options.Source)
 	if err != nil {
 		return nil, err
 	}
