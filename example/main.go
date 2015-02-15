@@ -6,8 +6,8 @@ import (
 	"log"
 
 	"github.com/k0kubun/pp"
+	"github.com/kyokomi/goma/example/dao"
 	"github.com/kyokomi/goma/goma"
-    "github.com/kyokomi/goma/example/dao"
 )
 
 func main() {
@@ -33,10 +33,10 @@ func main() {
 
 	pp.Println(q)
 
-    qs, err := dao.Quest(g).SelectAll()
-    if err != nil {
-        log.Fatalln(err)
-    }
+	qs, err := dao.Quest(g).SelectAll()
+	if err != nil {
+		log.Fatalln(err)
+	}
 
-    pp.Println(qs)
+	pp.Println(qs)
 }

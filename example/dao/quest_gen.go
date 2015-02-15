@@ -40,22 +40,22 @@ func (d *QuestDao) SelectAll() ([]*QuestEntity, error) {
 
 	var entitys []*QuestEntity
 	rows, err := d.Query(questSelectAll)
-    if err != nil {
-        return nil, err
-    }
-    
+	if err != nil {
+		return nil, err
+	}
+
 	for rows.Next() {
 		var entity QuestEntity
 		err = rows.Scan(&entity.ID, &entity.Name, &entity.Detail)
-        if err != nil {
-            break
-        }
-        
+		if err != nil {
+			break
+		}
+
 		entitys = append(entitys, &entity)
 	}
-    if err != nil {
-        return nil, err
-    }
+	if err != nil {
+		return nil, err
+	}
 
 	return entitys, nil
 }
