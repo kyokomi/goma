@@ -6,22 +6,22 @@ import (
 	"github.com/kyokomi/goma/goma"
 )
 
-// <%= daoData.Name %> is generated <%= daoData.Table.MemberName %> table.
+// <%= daoData.Name %> is generated <%= daoData.Table.Name %> table.
 type <%= daoData.Name %> struct {
 	*goma.Goma
 }
 
-var <%= daoData.Table.MemberName %> *<%= daoData.Name %>
+var <%= daoData.Table.Name %> *<%= daoData.Name %>
 
-// <%= daoData.Table.Name %> is <%= daoData.Name %> singleton.
-func <%= daoData.Table.Name %>(g *goma.Goma) *<%= daoData.Name %> {
-	if <%= daoData.Table.MemberName %> == nil {
-		<%= daoData.Table.MemberName %> = &<%= daoData.Name %>{Goma: g}
+// <%= daoData.Table.TitleName %> is <%= daoData.Name %> singleton.
+func <%= daoData.Table.TitleName %>(g *goma.Goma) *<%= daoData.Name %> {
+	if <%= daoData.Table.Name %> == nil {
+		<%= daoData.Table.Name %> = &<%= daoData.Name %>{Goma: g}
 	}
-	return <%= daoData.Table.MemberName %>
+	return <%= daoData.Table.Name %>
 }
 
-// <%= daoData.EntityName %> is generated <%= daoData.Table.MemberName %> table.
+// <%= daoData.EntityName %> is generated <%= daoData.Table.Name %> table.
 type <%= daoData.EntityName %> struct {
 	ID     int
 	Name   string

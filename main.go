@@ -10,7 +10,11 @@ import (
 
 	"github.com/kyokomi/goma/goma"
 
+	"strings"
+
 	_ "github.com/go-sql-driver/mysql"
+	"github.com/go-xorm/core"
+	"github.com/go-xorm/xorm"
 )
 
 var (
@@ -38,8 +42,9 @@ type DaoTemplateData struct {
 }
 
 type TableTemplateData struct {
-	Name       string
-	MemberName string
+	Name string
+	TitleName  string
+	Columns []*core.Column
 }
 
 //go:generate ego -package main templates
@@ -49,7 +54,6 @@ func main() {
 
 	fmt.Println(driver, dataSource)
 
-	// TODO: DBを読み込む いまはquestテーブル固定
 	opts := goma.Options{
 		Driver: "mysql",
 		Source: "admin:password@tcp(localhost:3306)/test",
@@ -57,35 +61,17 @@ func main() {
 		Debug:  true,
 	}
 
-	// TODO: xormのtool使ったほうが早そう
-	/*
-		// xorm reverse mysql root:@/test?charset=utf8 templates/goxorm
-		Orm, err := xorm.NewEngine(args[0], args[1])
-		if err != nil {
-			log.Errorf("%v", err)
-			return
-		}
-
-		tables, err := Orm.DBMetas()
-		if err != nil {
-			log.Errorf("%v", err)
-			return
-		}
-	*/
-
-	g, err := goma.NewGoma(opts)
+	// TODO: xorm reverse mysql root:@/test?charset=utf8 templates/goxorm
+	orm, err := xorm.NewEngine(opts.Driver, opts.Source)
 	if err != nil {
-		log.Fatalln(err)
+		log.Fatalf("%v", err)
+		return
 	}
-	defer g.Close()
 
-	data := DaoTemplateData{
-		Name:       "QuestDao",
-		EntityName: "QuestEntity",
-		Table: TableTemplateData{
-			Name:       "Quest",
-			MemberName: "quest",
-		},
+	tables, err := orm.DBMetas()
+	if err != nil {
+		log.Fatalf("%v", err)
+		return
 	}
 
 	if err := os.Mkdir("sql", 0755); err != nil {
@@ -96,10 +82,50 @@ func main() {
 		log.Println("dao dir exsist")
 	}
 
-	var buf bytes.Buffer
-	DaoTemplate(&buf, data)
+	for _, table := range tables {
+		fmt.Println("========== ", table.Name, " ==========")
 
-	if err := ioutil.WriteFile("dao/quest_gen.go", buf.Bytes(), 0644); err != nil {
-		log.Fatalln(err)
+		data := DaoTemplateData{
+			Name:       strings.Title(table.Name) + "Dao",
+			EntityName: strings.Title(table.Name) + "Entity",
+			Table: TableTemplateData{
+				Name: table.Name,
+				TitleName: strings.Title(table.Name),
+				Columns: table.Columns(),
+			},
+		}
+
+		var buf bytes.Buffer
+		if err := DaoTemplate(&buf, data); err != nil {
+			log.Fatalln(err)
+		} else {
+			if err := ioutil.WriteFile("dao/"+table.Name+"_gen.go", buf.Bytes(), 0644); err != nil {
+				log.Fatalln(err)
+			}
+		}
+
+		if err := os.Mkdir("sql/"+table.Name, 0755); err != nil {
+			log.Println("sql/"+table.Name +" dir exsist")
+		}
+
+		buf.Reset()
+		
+		if err := SelectAllTemplate(&buf, data.Table); err != nil {
+			log.Fatalln(err)
+		} else {
+			if err := ioutil.WriteFile("sql/"+table.Name+"/selectAll.sql", buf.Bytes(), 0644); err != nil {
+				log.Fatalln(err)
+			}
+		}
+
+		buf.Reset()
+		
+		if err := SelectByIDTemplate(&buf, data.Table); err != nil {
+			log.Fatalln(err)
+		} else {
+			if err := ioutil.WriteFile("sql/"+table.Name+"/selectByID.sql", buf.Bytes(), 0644); err != nil {
+				log.Fatalln(err)
+			}
+		}
 	}
 }

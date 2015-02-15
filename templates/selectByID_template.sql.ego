@@ -1,0 +1,7 @@
+<%!func SelectByIDTemplate(w io.Writer, tableData TableTemplateData) error %>select
+  *
+FROM
+  <%= tableData.Name %>
+WHERE
+<% for idx, column := range tableData.Columns { %><% if !column.IsPrimaryKey { %><% continue %><% } %><% if idx != 0 { %>and<% } %>  <%= column.Name %> = /* <%= column.Name %> */1
+<% } %>

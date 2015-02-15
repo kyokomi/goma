@@ -1,0 +1,4 @@
+<%!func SelectAllTemplate(w io.Writer, tableData TableTemplateData) error %>select
+  *
+FROM
+  <%= tableData.Name %>
