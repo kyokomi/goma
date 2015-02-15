@@ -10,14 +10,14 @@ import (
 )
 
 type Goma struct {
-    *sql.DB
-    options Options
+	*sql.DB
+	options Options
 }
 
 type QueryArgs map[string]interface{}
 
 type Options struct {
-    Debug bool
+	Debug bool
 }
 
 func NewGoma(options Options) (*Goma, error) {

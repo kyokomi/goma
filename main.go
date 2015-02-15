@@ -27,9 +27,9 @@ func init() {
 }
 
 type DaoTemplateData struct {
-	Name  string
+	Name       string
 	EntityName string
-	Table TableTemplateData
+	Table      TableTemplateData
 }
 
 type TableTemplateData struct {
@@ -44,7 +44,7 @@ func main() {
 	// TODO: DBを読み込む いまはquestテーブル固定
 
 	data := DaoTemplateData{
-		Name: "QuestDao",
+		Name:       "QuestDao",
 		EntityName: "QuestEntity",
 		Table: TableTemplateData{
 			Name:       "Quest",
