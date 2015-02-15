@@ -1,0 +1,87 @@
+<%!func DaoTemplate(w io.Writer, daoData DaoTemplateData) error %>package dao
+
+// GENERATE CODE
+
+import (
+	"github.com/kyokomi/goma/goma"
+)
+
+// <%= daoData.Name %> is generated <%= daoData.Table.MemberName %> table.
+type <%= daoData.Name %> struct {
+	*goma.Goma
+}
+
+var <%= daoData.Table.MemberName %> *<%= daoData.Name %>
+
+// <%= daoData.Table.Name %> is <%= daoData.Name %> singleton.
+func <%= daoData.Table.Name %>(g *goma.Goma) *<%= daoData.Name %> {
+	if <%= daoData.Table.MemberName %> == nil {
+		<%= daoData.Table.MemberName %> = &<%= daoData.Name %>{Goma: g}
+	}
+	return <%= daoData.Table.MemberName %>
+}
+
+// <%= daoData.EntityName %> is generated <%= daoData.Table.MemberName %> table.
+type <%= daoData.EntityName %> struct {
+	ID     int
+	Name   string
+	Detail string
+}
+
+// TODO: あとで消す
+const questSelectAll = `
+select
+  *
+FROM
+  quest
+`
+
+func (d *<%= daoData.Name %>) SelectAll() ([]*<%= daoData.EntityName %>, error) {
+
+	var entitys []*<%= daoData.EntityName %>
+	rows, err := d.Query(questSelectAll)
+	if err != nil {
+		return nil, err
+	}
+
+	for rows.Next() {
+		var entity <%= daoData.EntityName %>
+		err = rows.Scan(&entity.ID, &entity.Name, &entity.Detail)
+		if err != nil {
+			break
+		}
+
+		entitys = append(entitys, &entity)
+	}
+	if err != nil {
+		return nil, err
+	}
+
+	return entitys, nil
+}
+
+// TODO: あとで消す
+const questSelectByID = `
+select
+  *
+FROM
+  quest
+WHERE
+  id = /* id */1
+and
+  name = /* name */"hoge"
+`
+
+func (d *<%= daoData.Name %>) SelectByID(args goma.QueryArgs) (*<%= daoData.EntityName %>, error) {
+
+	// TODO: sqlファイルを読み込む（Dao生成時にmethod名、引数をKeyにmapで保持する
+	queryString := d.QueryArgs(questSelectByID, args)
+
+	var entity <%= daoData.EntityName %>
+	err := d.QueryRow(queryString).Scan(&entity.ID, &entity.Name, &entity.Detail)
+	if err != nil {
+		return nil, err
+	}
+
+	return &entity, nil
+}

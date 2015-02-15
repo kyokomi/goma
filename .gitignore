@@ -74,4 +74,6 @@ _testmain.go
 *.test
 *.prof
 
+### Go generate
 
+ego.go
