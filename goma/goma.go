@@ -11,10 +11,14 @@ import (
 
 type Goma struct {
 	*sql.DB
-	options Options
+	options    Options
+	queryCache map[TableName]map[QueryName]string
 }
 
 type QueryArgs map[string]interface{}
+
+type TableName string
+type QueryName string
 
 type Options struct {
 	Driver string // DriverName
@@ -22,6 +26,26 @@ type Options struct {
 	DBName string // DataBaseName
 	Debug  bool
 }
+
+// TODO: あとで消す
+const questSelectAll = `
+select
+	*
+FROM
+	quest
+`
+
+// TODO: あとで消す
+const questSelectByID = `
+select
+  *
+FROM
+  quest
+WHERE
+  id = /* id */1
+and
+  name = /* name */"hoge"
+`
 
 func NewGoma(options Options) (*Goma, error) {
 
@@ -35,6 +59,15 @@ func NewGoma(options Options) (*Goma, error) {
 
 	d.DB = db
 
+	// sql下のディレクトリをtableNameとする
+	// 各ディレクトリのファイル名 - .sqlをqueryNameとする
+
+	// TODO: queryCacheする（一旦ハードコーディング）
+	d.queryCache = make(map[TableName]map[QueryName]string, 1)
+	d.queryCache["quest"] = make(map[QueryName]string, 2)
+	d.queryCache["quest"]["selectAll"] = questSelectAll
+	d.queryCache["quest"]["selectByID"] = questSelectByID
+
 	return &d, nil
 }
 
@@ -46,7 +79,18 @@ func (d *Goma) Close() error {
 	return err
 }
 
-func (d *Goma) QueryArgs(queryString string, args QueryArgs) string {
+func (d *Goma) QueryArgs(tableName TableName, queryName QueryName, args QueryArgs) string {
+	cacheQuery := d.queryCache[tableName][queryName]
+	if cacheQuery == "" {
+		// TODO: ないときどうする? 再度読み込み?
+	}
+	return d.queryArgs(cacheQuery, args)
+}
+
+func (d *Goma) queryArgs(queryString string, args QueryArgs) string {
+	if len(args) <= 0 {
+		return queryString
+	}
 
 	d.Println("old: ", queryString)
 

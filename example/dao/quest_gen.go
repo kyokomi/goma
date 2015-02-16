@@ -28,18 +28,12 @@ type QuestEntity struct {
 	Detail string
 }
 
-// TODO: あとで消す
-const questSelectAll = `
-select
-  *
-FROM
-  quest
-`
-
 func (d *QuestDao) SelectAll() ([]*QuestEntity, error) {
 
+	queryString := d.QueryArgs("quest", "selectAll", nil)
+
 	var entitys []*QuestEntity
-	rows, err := d.Query(questSelectAll)
+	rows, err := d.Query(queryString)
 	if err != nil {
 		return nil, err
 	}
@@ -60,22 +54,9 @@ func (d *QuestDao) SelectAll() ([]*QuestEntity, error) {
 	return entitys, nil
 }
 
-// TODO: あとで消す
-const questSelectByID = `
-select
-  *
-FROM
-  quest
-WHERE
-  id = /* id */1
-and
-  name = /* name */"hoge"
-`
-
 func (d *QuestDao) SelectByID(args goma.QueryArgs) (*QuestEntity, error) {
 
-	// TODO: sqlファイルを読み込む（Dao生成時にmethod名、引数をKeyにmapで保持する
-	queryString := d.QueryArgs(questSelectByID, args)
+	queryString := d.QueryArgs("quest", "selectByID", args)
 
 	var entity QuestEntity
 	err := d.QueryRow(queryString).Scan(&entity.ID, &entity.Name, &entity.Detail)

@@ -42,9 +42,9 @@ type DaoTemplateData struct {
 }
 
 type TableTemplateData struct {
-	Name string
-	TitleName  string
-	Columns []*core.Column
+	Name      string
+	TitleName string
+	Columns   []*core.Column
 }
 
 //go:generate ego -package main templates
@@ -89,9 +89,9 @@ func main() {
 			Name:       strings.Title(table.Name) + "Dao",
 			EntityName: strings.Title(table.Name) + "Entity",
 			Table: TableTemplateData{
-				Name: table.Name,
+				Name:      table.Name,
 				TitleName: strings.Title(table.Name),
-				Columns: table.Columns(),
+				Columns:   table.Columns(),
 			},
 		}
 
@@ -105,11 +105,11 @@ func main() {
 		}
 
 		if err := os.Mkdir("sql/"+table.Name, 0755); err != nil {
-			log.Println("sql/"+table.Name +" dir exsist")
+			log.Println("sql/" + table.Name + " dir exsist")
 		}
 
 		buf.Reset()
-		
+
 		if err := SelectAllTemplate(&buf, data.Table); err != nil {
 			log.Fatalln(err)
 		} else {
@@ -119,7 +119,7 @@ func main() {
 		}
 
 		buf.Reset()
-		
+
 		if err := SelectByIDTemplate(&buf, data.Table); err != nil {
 			log.Fatalln(err)
 		} else {
