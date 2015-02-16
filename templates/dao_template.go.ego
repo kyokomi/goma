@@ -23,10 +23,8 @@ func <%= daoData.Table.TitleName %>(g *goma.Goma) *<%= daoData.Name %> {
 
 // <%= daoData.EntityName %> is generated <%= daoData.Table.Name %> table.
 type <%= daoData.EntityName %> struct {
-	ID     int
-	Name   string
-	Detail string
-}
+<% for _, column := range daoData.Table.Columns { %>    <%= column.TitleName %> <%= column.TypeName %>
+<% } %>}
 
 func (d *<%= daoData.Name %>) SelectAll() ([]*<%= daoData.EntityName %>, error) {
 
@@ -40,7 +38,7 @@ func (d *<%= daoData.Name %>) SelectAll() ([]*<%= daoData.EntityName %>, error) 
 
 	for rows.Next() {
 		var entity <%= daoData.EntityName %>
-		err = rows.Scan(&entity.ID, &entity.Name, &entity.Detail)
+		err = rows.Scan(<% for idx, column := range daoData.Table.Columns { %><% if idx != 0 { %>, <% } %>&entity.<%= column.TitleName %><% } %>)
 		if err != nil {
 			break
 		}
@@ -54,12 +52,15 @@ func (d *<%= daoData.Name %>) SelectAll() ([]*<%= daoData.EntityName %>, error) 
 	return entitys, nil
 }
 
-func (d *<%= daoData.Name %>) SelectByID(args goma.QueryArgs) (*<%= daoData.EntityName %>, error) {
+func (d *<%= daoData.Name %>) SelectByID(<% for idx, column := range daoData.Table.Columns { %><% if !column.IsPrimaryKey { %><% continue %><% } %><% if idx != 0 { %>, <% } %><%= column.Name %> <%= column.TypeName %><% } %>) (*<%= daoData.EntityName %>, error) {
 
+    args := goma.QueryArgs{
+    <% for _, column := range daoData.Table.Columns { %><% if !column.IsPrimaryKey { %><% continue %><% } %>    "<%= column.Name %>": <%= column.Name %>,
+    <% } %>}
 	queryString := d.QueryArgs("<%= daoData.Table.Name %>", "selectByID", args)
 
 	var entity <%= daoData.EntityName %>
-	err := d.QueryRow(queryString).Scan(&entity.ID, &entity.Name, &entity.Detail)
+	err := d.QueryRow(queryString).Scan(<% for idx, column := range daoData.Table.Columns { %><% if idx != 0 { %>, <% } %>&entity.<%= column.TitleName %><% } %>)
 	if err != nil {
 		return nil, err
 	}

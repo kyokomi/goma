@@ -54,8 +54,11 @@ func (d *QuestDao) SelectAll() ([]*QuestEntity, error) {
 	return entitys, nil
 }
 
-func (d *QuestDao) SelectByID(args goma.QueryArgs) (*QuestEntity, error) {
+func (d *QuestDao) SelectByID(id int) (*QuestEntity, error) {
 
+	args := goma.QueryArgs{
+		"id": id,
+	}
 	queryString := d.QueryArgs("quest", "selectByID", args)
 
 	var entity QuestEntity

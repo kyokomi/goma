@@ -35,6 +35,13 @@ func init() {
 	flag.Parse()
 }
 
+type ColumnTemplateData struct {
+	Name         string
+	TitleName    string
+	TypeName     string
+	IsPrimaryKey bool
+}
+
 type DaoTemplateData struct {
 	Name       string
 	EntityName string
@@ -44,7 +51,7 @@ type DaoTemplateData struct {
 type TableTemplateData struct {
 	Name      string
 	TitleName string
-	Columns   []*core.Column
+	Columns   []ColumnTemplateData
 }
 
 //go:generate ego -package main templates
@@ -85,13 +92,24 @@ func main() {
 	for _, table := range tables {
 		fmt.Println("========== ", table.Name, " ==========")
 
+		columns := make([]ColumnTemplateData, 0)
+		for _, c := range table.Columns() {
+			column := ColumnTemplateData{
+				Name:         c.Name,
+				TitleName:    strings.Title(c.Name), // TODO: golintする
+				TypeName:     core.SQLType2Type(c.SQLType).Name(),
+				IsPrimaryKey: c.IsPrimaryKey,
+			}
+			columns = append(columns, column)
+		}
+
 		data := DaoTemplateData{
 			Name:       strings.Title(table.Name) + "Dao",
 			EntityName: strings.Title(table.Name) + "Entity",
 			Table: TableTemplateData{
 				Name:      table.Name,
 				TitleName: strings.Title(table.Name),
-				Columns:   table.Columns(),
+				Columns:   columns,
 			},
 		}
 
@@ -99,6 +117,7 @@ func main() {
 		if err := DaoTemplate(&buf, data); err != nil {
 			log.Fatalln(err)
 		} else {
+			// TODO: gofmtする
 			if err := ioutil.WriteFile("dao/"+table.Name+"_gen.go", buf.Bytes(), 0644); err != nil {
 				log.Fatalln(err)
 			}

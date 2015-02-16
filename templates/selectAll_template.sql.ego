@@ -1,4 +1,4 @@
 <%!func SelectAllTemplate(w io.Writer, tableData TableTemplateData) error %>select
-  *
-FROM
+  <% for idx, column := range tableData.Columns { %><% if idx != 0 { %>, <% } %><%= column.Name %>
+<% } %>FROM
   <%= tableData.Name %>

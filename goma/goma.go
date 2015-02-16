@@ -43,8 +43,6 @@ FROM
   quest
 WHERE
   id = /* id */1
-and
-  name = /* name */"hoge"
 `
 
 func NewGoma(options Options) (*Goma, error) {
