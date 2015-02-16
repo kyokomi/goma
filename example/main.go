@@ -2,22 +2,21 @@ package main
 
 import (
 	"fmt"
-
 	"log"
 
-	"github.com/k0kubun/pp"
 	"github.com/kyokomi/goma/example/dao"
 	"github.com/kyokomi/goma/goma"
 )
 
+//go:generate goma -driver=mysql -source=admin:password@tcp(localhost:3306)/test
+
 func main() {
-	log.SetFlags(log.Llongfile)
-	fmt.Println("Hello doma!")
+	fmt.Println("Hello goma!")
 
 	opts := goma.Options{
 		Driver: "mysql",
 		Source: "admin:password@tcp(localhost:3306)/test",
-		Debug:  true,
+		Debug:  false,
 	}
 	g, err := goma.NewGoma(opts)
 	if err != nil {
@@ -25,20 +24,10 @@ func main() {
 	}
 	defer g.Close()
 
-	q, err := dao.Quest(g).SelectByID(goma.QueryArgs{
-		"id":   1,
-		"name": "quest1",
-	})
+	q, err := dao.Quest(g).SelectByID(1)
 	if err != nil {
 		log.Fatalln(err)
 	}
 
-	pp.Println(q)
-
-	qs, err := dao.Quest(g).SelectAll()
-	if err != nil {
-		log.Fatalln(err)
-	}
-
-	pp.Println(qs)
+	fmt.Printf("%+v\n", q)
 }

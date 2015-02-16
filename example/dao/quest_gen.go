@@ -13,7 +13,7 @@ type QuestDao struct {
 
 var quest *QuestDao
 
-// NewQuestDao is QuestDao singleton.
+// Quest is QuestDao singleton.
 func Quest(g *goma.Goma) *QuestDao {
 	if quest == nil {
 		quest = &QuestDao{Goma: g}
@@ -23,14 +23,14 @@ func Quest(g *goma.Goma) *QuestDao {
 
 // QuestEntity is generated quest table.
 type QuestEntity struct {
-	ID     int
-	Name   string
-	Detail string
+    Id int
+    Name string
+    Detail string
 }
 
 func (d *QuestDao) SelectAll() ([]*QuestEntity, error) {
 
-	queryString := d.QueryArgs("quest", "selectAll", nil)
+    queryString := d.QueryArgs("quest", "selectAll", nil)
 
 	var entitys []*QuestEntity
 	rows, err := d.Query(queryString)
@@ -40,7 +40,7 @@ func (d *QuestDao) SelectAll() ([]*QuestEntity, error) {
 
 	for rows.Next() {
 		var entity QuestEntity
-		err = rows.Scan(&entity.ID, &entity.Name, &entity.Detail)
+		err = rows.Scan(&entity.Id, &entity.Name, &entity.Detail)
 		if err != nil {
 			break
 		}
@@ -56,13 +56,13 @@ func (d *QuestDao) SelectAll() ([]*QuestEntity, error) {
 
 func (d *QuestDao) SelectByID(id int) (*QuestEntity, error) {
 
-	args := goma.QueryArgs{
-		"id": id,
-	}
+    args := goma.QueryArgs{
+        "id": id,
+    }
 	queryString := d.QueryArgs("quest", "selectByID", args)
 
 	var entity QuestEntity
-	err := d.QueryRow(queryString).Scan(&entity.ID, &entity.Name, &entity.Detail)
+	err := d.QueryRow(queryString).Scan(&entity.Id, &entity.Name, &entity.Detail)
 	if err != nil {
 		return nil, err
 	}

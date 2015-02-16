@@ -5,18 +5,57 @@ I'm making based on [Doma](https://github.com/domaframework/doma);
 
 ## Usage
 
+### Example `test` database `quest` table
+
+```
+mysql> SHOW COLUMNS FROM quest;
++--------+---------+------+-----+---------+-------+
+| Field  | Type    | Null | Key | Default | Extra |
++--------+---------+------+-----+---------+-------+
+| id     | int(11) | NO   | PRI | 0       |       |
+| name   | text    | YES  |     | NULL    |       |
+| detail | text    | YES  |     | NULL    |       |
++--------+---------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+```
+
 ### Example main.go
 
 ```go
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"log"
 
-//go:generate goma driver="mysql" source="admin:password@tcp(localhost:3306)/test"
+	"github.com/kyokomi/goma/example/dao"
+	"github.com/kyokomi/goma/goma"
+)
+
+//go:generate goma -driver=mysql -source=admin:password@tcp(localhost:3306)/test
 
 func main() {
-	fmt.Println("hoge")
+	fmt.Println("Hello goma!")
+
+	opts := goma.Options{
+		Driver: "mysql",
+		Source: "admin:password@tcp(localhost:3306)/test",
+		Debug:  false,
+	}
+	g, err := goma.NewGoma(opts)
+	if err != nil {
+		log.Fatalln(err)
+	}
+	defer g.Close()
+
+	q, err := dao.Quest(g).SelectByID(1)
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	fmt.Printf("%+v\n", q)
 }
+
 ```
 
 ### Run
@@ -37,13 +76,12 @@ $ go generate
 └── sql
 ```
 
-## TODO
+[example code](https://github.com/kyokomi/goma/blob/master/example)
 
-- [x] go generateで`mysql, admin:password@tcp(localhost:3306)/test`みたいなのをもらってEntityを生成する
-    - xxxx_gen.goに書き込む（xxxxはテーブル名）
-- [x] DBにあるTable一覧で、sqlパッケージ下に一致するパッケージがあるか探す
-    - みつからないものは新規生成（とりあえず、SelectByIDとSelectAll）
-    - 見つかったら上書きとか考慮する
-- [ ] NewGomaするときに全パッケージのsqlをcacheする（パッケージ、メソッド名、引数でKeyにする）
-    - ベタ書きのsql文字列を消す
-- [ ] xxxx_gen.goでカラム考慮
+## Author
+
+[kyokomi](https://github.com/kyokomi)
+
+## Licence
+
+[Apache License Version 2.0](https://github.com/kyokomi/goma/blob/master/LICENSE)

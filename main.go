@@ -68,7 +68,7 @@ func main() {
 		Debug:  true,
 	}
 
-	// TODO: xorm reverse mysql root:@/test?charset=utf8 templates/goxorm
+	// xorm reverse mysql root:@/test?charset=utf8 templates/goxorm
 	orm, err := xorm.NewEngine(opts.Driver, opts.Source)
 	if err != nil {
 		log.Fatalf("%v", err)

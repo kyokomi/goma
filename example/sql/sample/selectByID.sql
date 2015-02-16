@@ -1,9 +1,8 @@
 select
   id
 , name
-, detail
 FROM
-  quest
+  sample
 WHERE
   id = /* id */1
 

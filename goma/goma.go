@@ -6,6 +6,10 @@ import (
 	"regexp"
 	"strconv"
 
+	"io/ioutil"
+
+	"strings"
+
 	_ "github.com/go-sql-driver/mysql"
 )
 
@@ -27,24 +31,6 @@ type Options struct {
 	Debug  bool
 }
 
-// TODO: あとで消す
-const questSelectAll = `
-select
-	*
-FROM
-	quest
-`
-
-// TODO: あとで消す
-const questSelectByID = `
-select
-  *
-FROM
-  quest
-WHERE
-  id = /* id */1
-`
-
 func NewGoma(options Options) (*Goma, error) {
 
 	var d Goma
@@ -57,14 +43,45 @@ func NewGoma(options Options) (*Goma, error) {
 
 	d.DB = db
 
+	// TODO: startディレクトリOptionsでもらう？
 	// sql下のディレクトリをtableNameとする
 	// 各ディレクトリのファイル名 - .sqlをqueryNameとする
+	dirs, err := ioutil.ReadDir("./sql")
+	if err != nil {
+		return nil, err
+	}
 
-	// TODO: queryCacheする（一旦ハードコーディング）
-	d.queryCache = make(map[TableName]map[QueryName]string, 1)
-	d.queryCache["quest"] = make(map[QueryName]string, 2)
-	d.queryCache["quest"]["selectAll"] = questSelectAll
-	d.queryCache["quest"]["selectByID"] = questSelectByID
+	d.queryCache = make(map[TableName]map[QueryName]string, len(dirs))
+	for _, dir := range dirs {
+		if !dir.IsDir() {
+			continue
+		}
+
+		fileInfos, err := ioutil.ReadDir("./sql/" + dir.Name())
+		if err != nil {
+			log.Println(err)
+			continue
+		}
+
+		tableName := TableName(dir.Name())
+
+		d.queryCache[tableName] = make(map[QueryName]string, len(fileInfos))
+
+		for _, fileInfo := range fileInfos {
+			if fileInfo.IsDir() {
+				continue
+			}
+
+			f, err := ioutil.ReadFile("./sql/" + dir.Name() + "/" + fileInfo.Name())
+			if err != nil {
+				log.Println(err)
+				continue
+			}
+
+			queryName := QueryName(strings.Replace(fileInfo.Name(), ".sql", "", -1))
+			d.queryCache[tableName][queryName] = string(f)
+		}
+	}
 
 	return &d, nil
 }
