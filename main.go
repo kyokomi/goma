@@ -44,12 +44,31 @@ type DaoTemplateData struct {
 	Name       string
 	EntityName string
 	Table      TableTemplateData
+	Imports    []string
 }
 
 type TableTemplateData struct {
 	Name      string
 	TitleName string
 	Columns   []ColumnTemplateData
+}
+
+type Set map[string]bool
+
+func (s Set) Add(key string) {
+	if key != "" {
+		s[key] = true
+	}
+}
+
+func (s Set) Slice() []string {
+	var keys []string
+	for key, val := range s {
+		if val {
+			keys = append(keys, key)
+		}
+	}
+	return keys
 }
 
 //go:generate ego -package main templates
@@ -81,12 +100,22 @@ func main() {
 	for _, table := range tables {
 		fmt.Println("========== ", table.Name, " ==========")
 
+		importsMap := make(Set, 0)
+
 		columns := make([]ColumnTemplateData, 0)
 		for _, c := range table.Columns() {
+
+			typ := core.SQLType2Type(c.SQLType)
+			importsMap.Add(typ.PkgPath())
+
+			typeName := typ.Name()
+			if typ.PkgPath() != "" {
+				typeName = typ.PkgPath() + "." + typ.Name()
+			}
 			column := ColumnTemplateData{
 				Name:         c.Name,
 				TitleName:    strings.Title(c.Name), // TODO: golintする
-				TypeName:     core.SQLType2Type(c.SQLType).Name(),
+				TypeName:     typeName,
 				IsPrimaryKey: c.IsPrimaryKey,
 			}
 			columns = append(columns, column)
@@ -100,6 +129,7 @@ func main() {
 				TitleName: strings.Title(table.Name),
 				Columns:   columns,
 			},
+			Imports: importsMap.Slice(),
 		}
 
 		var buf bytes.Buffer

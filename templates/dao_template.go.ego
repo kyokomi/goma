@@ -4,7 +4,8 @@
 
 import (
 	"github.com/kyokomi/goma/goma"
-)
+	<% for _, importName := range daoData.Imports { %>"<%= importName %>"
+<% } %>)
 
 // <%= daoData.Name %> is generated <%= daoData.Table.Name %> table.
 type <%= daoData.Name %> struct {
