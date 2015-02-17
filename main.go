@@ -8,8 +8,6 @@ import (
 	"log"
 	"os"
 
-	"github.com/kyokomi/goma/goma"
-
 	"strings"
 
 	_ "github.com/go-sql-driver/mysql"
@@ -59,17 +57,8 @@ type TableTemplateData struct {
 func main() {
 	log.SetFlags(log.Llongfile)
 
-	fmt.Println(driver, dataSource)
-
-	opts := goma.Options{
-		Driver: "mysql",
-		Source: "admin:password@tcp(localhost:3306)/test",
-		DBName: "test",
-		Debug:  true,
-	}
-
 	// xorm reverse mysql root:@/test?charset=utf8 templates/goxorm
-	orm, err := xorm.NewEngine(opts.Driver, opts.Source)
+	orm, err := xorm.NewEngine(driver, dataSource)
 	if err != nil {
 		log.Fatalf("%v", err)
 		return
