@@ -4,7 +4,7 @@ package dao
 
 import (
 	"github.com/kyokomi/goma/goma"
-)
+	)
 
 // QuestDao is generated quest table.
 type QuestDao struct {
@@ -61,11 +61,20 @@ func (d *QuestDao) SelectByID(id int) (*QuestEntity, error) {
     }
 	queryString := d.QueryArgs("quest", "selectByID", args)
 
-	var entity QuestEntity
-	err := d.QueryRow(queryString).Scan(&entity.Id, &entity.Name, &entity.Detail)
+	rows, err := d.Query(queryString)
 	if err != nil {
 		return nil, err
 	}
+	defer rows.Close()
 
+	if !rows.Next() {
+		return nil, nil
+	}
+
+	var entity QuestEntity
+	if err := d.QueryRow(queryString).Scan(&entity.Id, &entity.Name, &entity.Detail); err != nil {
+		return nil, err
+	}
+	
 	return &entity, nil
 }

@@ -4,7 +4,7 @@ package dao
 
 import (
 	"github.com/kyokomi/goma/goma"
-)
+	)
 
 // SampleDao is generated sample table.
 type SampleDao struct {
@@ -60,11 +60,20 @@ func (d *SampleDao) SelectByID(id int) (*SampleEntity, error) {
     }
 	queryString := d.QueryArgs("sample", "selectByID", args)
 
-	var entity SampleEntity
-	err := d.QueryRow(queryString).Scan(&entity.Id, &entity.Name)
+	rows, err := d.Query(queryString)
 	if err != nil {
 		return nil, err
 	}
+	defer rows.Close()
 
+	if !rows.Next() {
+		return nil, nil
+	}
+
+	var entity SampleEntity
+	if err := d.QueryRow(queryString).Scan(&entity.Id, &entity.Name); err != nil {
+		return nil, err
+	}
+	
 	return &entity, nil
 }
