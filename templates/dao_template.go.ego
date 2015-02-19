@@ -60,11 +60,20 @@ func (d *<%= daoData.Name %>) SelectByID(<% for idx, column := range daoData.Tab
     <% } %>}
 	queryString := d.QueryArgs("<%= daoData.Table.Name %>", "selectByID", args)
 
-	var entity <%= daoData.EntityName %>
-	err := d.QueryRow(queryString).Scan(<% for idx, column := range daoData.Table.Columns { %><% if idx != 0 { %>, <% } %>&entity.<%= column.TitleName %><% } %>)
+	rows, err := d.Query(queryString)
 	if err != nil {
 		return nil, err
 	}
+	defer rows.Close()
 
+	if !rows.Next() {
+		return nil, nil
+	}
+
+	var entity <%= daoData.EntityName %>
+	if err := d.QueryRow(queryString).Scan(<% for idx, column := range daoData.Table.Columns { %><% if idx != 0 { %>, <% } %>&entity.<%= column.TitleName %><% } %>); err != nil {
+		return nil, err
+	}
+	
 	return &entity, nil
 }

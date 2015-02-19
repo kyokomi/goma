@@ -112,6 +112,11 @@ func main() {
 			if typ.PkgPath() != "" {
 				typeName = typ.PkgPath() + "." + typ.Name()
 			}
+
+			if c.SQLType.IsTime() {
+				typeName = "*" + typeName
+			}
+
 			column := ColumnTemplateData{
 				Name:         c.Name,
 				TitleName:    strings.Title(c.Name), // TODO: golintする
