@@ -15,6 +15,7 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/go-xorm/core"
 	"github.com/go-xorm/xorm"
+	"github.com/kyokomi/goma/lint"
 )
 
 var (
@@ -44,6 +45,7 @@ type ColumnTemplateData struct {
 
 type DaoTemplateData struct {
 	Name       string
+	MemberName string
 	EntityName string
 	Table      TableTemplateData
 	Imports    []string
@@ -121,7 +123,7 @@ func main() {
 
 			column := ColumnTemplateData{
 				Name:         c.Name,
-				TitleName:    strings.Title(c.Name), // TODO: golintする
+				TitleName:    lint.String(strings.Title(c.Name)),
 				TypeName:     typeName,
 				IsPrimaryKey: c.IsPrimaryKey,
 			}
@@ -129,11 +131,12 @@ func main() {
 		}
 
 		data := DaoTemplateData{
-			Name:       strings.Title(table.Name) + "Dao",
-			EntityName: strings.Title(table.Name) + "Entity",
+			Name:       lint.String(strings.Title(table.Name) + "Dao"),
+			MemberName: lint.String(table.Name),
+			EntityName: lint.String(strings.Title(table.Name) + "Entity"),
 			Table: TableTemplateData{
 				Name:      table.Name,
-				TitleName: strings.Title(table.Name),
+				TitleName: lint.String(strings.Title(table.Name)),
 				Columns:   columns,
 			},
 			Imports: importsMap.Slice(),

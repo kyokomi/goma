@@ -14,14 +14,14 @@ type <%= daoData.Name %> struct {
 	*goma.Goma
 }
 
-var <%= daoData.Table.Name %> *<%= daoData.Name %>
+var <%= daoData.MemberName %> *<%= daoData.Name %>
 
 // <%= daoData.Table.TitleName %> is <%= daoData.Name %> singleton.
 func <%= daoData.Table.TitleName %>(g *goma.Goma) *<%= daoData.Name %> {
-	if <%= daoData.Table.Name %> == nil {
-		<%= daoData.Table.Name %> = &<%= daoData.Name %>{Goma: g}
+	if <%= daoData.MemberName %> == nil {
+		<%= daoData.MemberName %> = &<%= daoData.Name %>{Goma: g}
 	}
-	return <%= daoData.Table.Name %>
+	return <%= daoData.MemberName %>
 }
 
 // <%= daoData.EntityName %> is generated <%= daoData.Table.Name %> table.
