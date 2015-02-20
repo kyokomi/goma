@@ -3,7 +3,9 @@ package main
 import (
 	"fmt"
 	"log"
-
+	
+	_ "github.com/go-sql-driver/mysql"
+	
 	"github.com/kyokomi/goma/example/dao"
 	"github.com/kyokomi/goma/goma"
 )

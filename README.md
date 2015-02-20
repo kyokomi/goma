@@ -30,7 +30,9 @@ mysql> SHOW COLUMNS FROM quest;
 3 rows in set (0.00 sec)
 ```
 
-### Example main.go
+### Example main.go（mysql）
+
+your **import sql/driver**
 
 ```go
 package main
@@ -38,6 +40,8 @@ package main
 import (
 	"fmt"
 	"log"
+
+	_ "github.com/go-sql-driver/mysql"
 
 	"github.com/kyokomi/goma/example/dao"
 	"github.com/kyokomi/goma/goma"

@@ -9,8 +9,6 @@ import (
 	"io/ioutil"
 
 	"strings"
-
-	_ "github.com/go-sql-driver/mysql"
 )
 
 type Goma struct {
