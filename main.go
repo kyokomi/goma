@@ -10,6 +10,8 @@ import (
 
 	"strings"
 
+	"go/format"
+
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/go-xorm/core"
 	"github.com/go-xorm/xorm"
@@ -141,8 +143,12 @@ func main() {
 		if err := DaoTemplate(&buf, data); err != nil {
 			log.Fatalln(err)
 		} else {
-			// TODO: gofmtする
-			if err := ioutil.WriteFile("dao/"+table.Name+"_gen.go", buf.Bytes(), 0644); err != nil {
+
+			bts, err := format.Source(buf.Bytes())
+			if err != nil {
+				log.Fatalln(err)
+			}
+			if err := ioutil.WriteFile("dao/"+table.Name+"_gen.go", bts, 0644); err != nil {
 				log.Fatalln(err)
 			}
 		}
