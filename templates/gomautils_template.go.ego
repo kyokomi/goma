@@ -1,0 +1,39 @@
+<%!func HelperTemplate(w io.Writer, helperData HelperTemplateData) error %>package <%= helperData.PkgName %>
+
+// NOTE: THIS FILE WAS PRODUCED BY THE
+// GOMA CODE GENERATION TOOL (github.com/kyokomi/goma)
+// DO NOT EDIT
+
+import (
+    <%= helperData.DriverImport %>
+	
+	"<%= helperData.DaoImport %>"
+        
+	"github.com/kyokomi/goma/goma"
+)
+
+type Goma struct {
+	*goma.Goma
+
+	// dao
+	<% for _, daoData := range helperData.DaoList { %><%= daoData.Table.TitleName %> *<%= helperData.DaoPkgName %>.<%= daoData.Name %>
+    <% } %>
+}
+
+func NewGoma() (Goma, error) {
+
+	opts := goma.Options{
+	    <% for _, t := range helperData.Options { %><% for key, value := range t { %><%= key %>: <%= value %>,<% } %>
+    <% } %>}
+	
+    g, err := goma.NewGoma(opts)
+    if err != nil {
+        return Goma{}, err
+    }
+
+    gm := Goma{}
+    gm.Goma = g
+    <% for _, daoData := range helperData.DaoList { %>gm.<%= daoData.Table.TitleName %> = <%= helperData.DaoPkgName %>.<%= daoData.Table.TitleName %>(g)
+    <% } %>
+	return gm, nil
+} 

@@ -13,21 +13,21 @@ import (
 func main() {
 	fmt.Println("Hello goma!")
 
-	g, err := Goma()
+	goma, err := NewGoma()
 	if err != nil {
 		log.Fatalln(err)
 	}
-	defer g.Close()
+	defer goma.Close()
 
 	// TODO: 念のため削除
-	_, err = dao.Quest(g).Delete(99)
+	_, err = goma.Quest.Delete(99)
 	if err != nil {
 		log.Fatalln(err)
 	}
 
 	now := time.Now()
 
-	_, err = dao.Quest(g).Insert(dao.QuestEntity{
+	_, err = goma.Quest.Insert(dao.QuestEntity{
 		ID:       99,
 		Name:     "test",
 		Detail:   "test detail",
@@ -37,13 +37,13 @@ func main() {
 		log.Fatalln(err)
 	}
 
-	if q, err := dao.Quest(g).SelectByID(99); err != nil {
+	if q, err := goma.Quest.SelectByID(99); err != nil {
 		log.Fatalln(err)
 	} else {
 		fmt.Printf("insert after: %+v\n", q)
 	}
 
-	_, err = dao.Quest(g).Update(dao.QuestEntity{
+	_, err = goma.Quest.Update(dao.QuestEntity{
 		ID:       99,
 		Name:     "test 2",
 		Detail:   "test detail 2",
@@ -53,18 +53,18 @@ func main() {
 		log.Fatalln(err)
 	}
 
-	if q, err := dao.Quest(g).SelectByID(99); err != nil {
+	if q, err := goma.Quest.SelectByID(99); err != nil {
 		log.Fatalln(err)
 	} else {
 		fmt.Printf("update after: %+v\n", q)
 	}
 
-	_, err = dao.Quest(g).Delete(99)
+	_, err = goma.Quest.Delete(99)
 	if err != nil {
 		log.Fatalln(err)
 	}
 
-	if q, err := dao.Quest(g).SelectByID(99); err != nil {
+	if q, err := goma.Quest.SelectByID(99); err != nil {
 		log.Fatalln(err)
 	} else {
 		fmt.Printf("delete after: %+v\n", q)

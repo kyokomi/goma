@@ -46,12 +46,13 @@ func (o Options) Source() string {
 	panic("not support driver name: " + o.Driver)
 }
 
+// Tuples opions to string array map.
 func (o Options) Tuples() []map[string]interface{} {
-	
+
 	// mapそのままだと順番がgenerateするごとに変わるの配列のmapにしてる
-	
+
 	// TODO: あとでなんとかする... reflect とか使えばなんとかなりそう
-	t := make([]map[string]interface{}, 0)
+	var t []map[string]interface{}
 	t = append(t, map[string]interface{}{"Driver": fmt.Sprintf(`"%s"`, o.Driver)})
 	t = append(t, map[string]interface{}{"UserName": fmt.Sprintf(`"%s"`, o.UserName)})
 	t = append(t, map[string]interface{}{"PassWord": fmt.Sprintf(`"%s"`, o.PassWord)})

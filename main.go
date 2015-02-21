@@ -2,20 +2,19 @@ package main
 
 import (
 	"flag"
+	"fmt"
 	"log"
 	"os"
+	"path/filepath"
+	"reflect"
+	"strings"
 	"time"
 
-	"strings"
-
-	"reflect"
-
-	_ "github.com/go-sql-driver/mysql"
-	_ "github.com/lib/pq"
 	"github.com/go-xorm/core"
 	"github.com/go-xorm/xorm"
 
-	"path/filepath"
+	_ "github.com/go-sql-driver/mysql"
+	_ "github.com/lib/pq"
 
 	"github.com/kyokomi/goma/goma"
 	"github.com/kyokomi/goma/lint"
@@ -47,8 +46,8 @@ func init() {
 	flag.IntVar(&port, "port", 3306, "database port")
 	flag.StringVar(&dbName, "db", "test", "database name")
 	flag.BoolVar(&debug, "debug", false, "goma debug mode")
-	flag.StringVar(&sqlRootDir, "sql", "./sql", "generate sql root dir")
-	flag.StringVar(&daoRootDir, "dao", "./dao", "generate dao root dir")
+	flag.StringVar(&sqlRootDir, "sql", "sql", "generate sql root dir")
+	flag.StringVar(&daoRootDir, "dao", "dao", "generate dao root dir")
 
 	flag.StringVar(&file, "file", os.Getenv("GOFILE"), "input file")
 	flag.StringVar(&pkg, "pkg", os.Getenv("GOPACKAGE"), "output package")
@@ -70,6 +69,8 @@ var driverImports = map[string]string{
 
 func main() {
 	log.SetFlags(log.Llongfile)
+
+	fmt.Println(pkg, file)
 
 	opt := goma.Options{}
 	opt.Driver = driver
@@ -101,16 +102,18 @@ func main() {
 		log.Fatalln(err)
 	}
 
-	// helper generate
-
 	helperData := HelperTemplateData{}
 	helperData.PkgName = pkg
 	helperData.DriverImport = driverImports[opt.Driver]
 	helperData.Options = opt.Tuples()
 
-	if err := helperData.execHelperTemplate(currentDir); err != nil {
-		log.Fatalln(err)
-	}
+	daoPkgName := strings.Replace(opt.DaoRootDir, `\./`, "", -1)
+	daoPkgName = strings.Replace(opt.DaoRootDir, `\/`, "", -1)
+	srcIdx := strings.Index(currentDir, "src/")
+	helperData.DaoImport = filepath.Join(currentDir[srcIdx+len("src/"):], daoPkgName)
+	helperData.DaoPkgName = daoPkgName
+
+	var daoList []DaoTemplateData
 
 	// sql, dao generate
 
@@ -129,6 +132,16 @@ func main() {
 		if err := data.Table.execTableTemplate(sqlRootPath); err != nil {
 			log.Fatalln(err)
 		}
+
+		daoList = append(daoList, data)
+	}
+
+	// helper generate
+
+	helperData.DaoList = daoList
+
+	if err := helperData.execHelperTemplate(currentDir); err != nil {
+		log.Fatalln(err)
 	}
 }
 

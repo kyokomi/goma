@@ -12,6 +12,16 @@ import (
 	"github.com/kyokomi/goma/debuglog"
 )
 
+// HelperTemplateData helper data.
+type HelperTemplateData struct {
+	PkgName      string
+	DriverImport string
+	DaoImport    string
+	DaoPkgName   string
+	DaoList      []DaoTemplateData
+	Options      []map[string]interface{}
+}
+
 // DaoTemplateData dao data.
 type DaoTemplateData struct {
 	Name       string
@@ -37,19 +47,12 @@ type ColumnTemplateData struct {
 	Sample       string
 }
 
-// HelperTemplateData helper data.
-type HelperTemplateData struct {
-	PkgName      string
-	DriverImport string
-	Options      []map[string]interface{}
-}
-
 func (d HelperTemplateData) execHelperTemplate(rootDir string) error {
 	var buf bytes.Buffer
 	if err := HelperTemplate(&buf, d); err != nil {
 		return err
 	}
-	return formatFileWrite(rootDir, "helper_gen.go", buf.Bytes())
+	return formatFileWrite(rootDir, "gomautils_gen.go", buf.Bytes())
 }
 
 func (d DaoTemplateData) execDaoTemplate(daoRootDir string) error {

@@ -38,9 +38,6 @@ package main
 
 import (
 	"fmt"
-	"log"
-
-	"github.com/kyokomi/goma/example/dao"
 )
 
 //go:generate goma -driver=mysql -user=admin -password=password -host=localhost -port=3306 -db=test -debug=true
@@ -62,8 +59,8 @@ driver and dataSource params.
 goma options params.
 
 - `debug=false`: goma debug mode (`true`: log output)
-- `dao="./dao"`: generate dao root dirs
-- `sql="./sql"`: generate sql root dir
+- `dao="dao"`: generate dao root dirs
+- `sql="sql"`: generate sql root dir
 
 ### Run
 
@@ -79,7 +76,7 @@ $ go generate
 ├── dao
 │   ├── xxxxx1_gen.go
 │   └── xxxxx2_gen.go
-├── helper_gen.go
+├── gomautils_gen.go
 ├── main.go
 └── sql
     ├── xxxxx1
@@ -100,11 +97,17 @@ $ go generate
 
 ### Generate Code Usage
 
+import your generate dao package.
+
+```go
+import "xxxxxxx/yyyyyy/zzzz/dao"
+```
+
 #### GomaOpen
 
 ```go
 // ひらけゴマ!!
-g, err := Goma() // helper_gen.go
+goma, err := NewGoma() // gomautils_gen.go
 if err != nil {
     log.Fatalln(err)
 }
@@ -114,7 +117,7 @@ defer g.Close()
 #### Insert
  
 ```go
-_, err = dao.Quest(g).Insert(dao.QuestEntity{
+_, err = goma.Quest.Insert(dao.QuestEntity{
     ID:       99,
     Name:     "test",
     Detail:   "test detail",
@@ -128,7 +131,7 @@ if err != nil {
 #### Select
 
 ```go
-questEntity, err := dao.Quest(g).SelectByID(99); err != nil {
+questEntity, err := goma.Quest.SelectByID(99); err != nil {
     log.Fatalln(err)
 }
 
@@ -138,7 +141,7 @@ fmt.Printf("insert after: %+v\n", questEntity)
 #### Update
 
 ```go
-_, err = dao.Quest(g).Update(dao.QuestEntity{
+_, err = goma.Quest.Update(dao.QuestEntity{
     ID:       99,
     Name:     "test 2",
     Detail:   "test detail 2",
@@ -152,7 +155,7 @@ if err != nil {
 #### Delete
 
 ```go
-_, err = dao.Quest(g).Delete(99)
+_, err = goma.Quest.Delete(99)
 if err != nil {
     log.Fatalln(err)
 }

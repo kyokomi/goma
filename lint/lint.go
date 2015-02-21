@@ -12,7 +12,7 @@ import (
 	"unicode"
 )
 
-// lintName returns a different name if it should be different.
+// String returns a different name if it should be different.
 func String(name string) (should string) {
 	// Fast path for simple cases: "_" and all lowercase.
 	if name == "_" {

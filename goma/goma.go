@@ -10,8 +10,8 @@ import (
 	"io/ioutil"
 
 	"fmt"
-	"strings"
 	"path/filepath"
+	"strings"
 )
 
 // Goma is sql.DB access wrapper.
@@ -72,7 +72,7 @@ func (d *Goma) cacheQuery() error {
 		}
 
 		tableName := tableName(dir.Name())
-		
+
 		d.queryCache[tableName] = make(map[queryName]string, len(fileInfos))
 
 		for _, fileInfo := range fileInfos {
@@ -95,7 +95,7 @@ func (d *Goma) cacheQuery() error {
 			d.debugPrintln(d.queryCache[tableName][queryName])
 		}
 	}
-	
+
 	return nil
 }
 
