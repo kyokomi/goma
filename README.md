@@ -1,4 +1,7 @@
-# goma
+goma
+====================
+[![GoDoc](https://godoc.org/github.com/kyokomi/goma/goma?status.svg)](https://godoc.org/github.com/kyokomi/goma/goma)
+
 goma is a Database access framework for golang（Go）
 
 I'm making based on [Doma](https://github.com/domaframework/doma);
@@ -143,6 +146,11 @@ $ tree
 ```
 
 [example code](https://github.com/kyokomi/goma/blob/master/example)
+
+## Support Driver
+
+- mysql（https://github.com/go-sql-driver/mysql）
+- postgres（https://github.com/lib/pq）
 
 ## Author
 
