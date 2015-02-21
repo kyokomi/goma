@@ -46,16 +46,20 @@ func (o Options) Source() string {
 	panic("not support driver name: " + o.Driver)
 }
 
-func (o Options) Map() map[string]interface{} {
-	m := make(map[string]interface{}, 0)
-	m["Driver"] = fmt.Sprintf(`"%s"`, o.Driver)
-	m["UserName"] = fmt.Sprintf(`"%s"`, o.UserName)
-	m["PassWord"] = fmt.Sprintf(`"%s"`, o.PassWord)
-	m["Host"] = fmt.Sprintf(`"%s"`, o.Host)
-	m["Port"] = o.Port
-	m["DBName"] = fmt.Sprintf(`"%s"`, o.DBName)
-	m["Debug"] = o.Debug
-	m["SQLRootDir"] = fmt.Sprintf(`"%s"`, o.SQLRootDir)
-	m["DaoRootDir"] = fmt.Sprintf(`"%s"`, o.DaoRootDir)
-	return m
+func (o Options) Tuples() []map[string]interface{} {
+	
+	// mapそのままだと順番がgenerateするごとに変わるの配列のmapにしてる
+	
+	// TODO: あとでなんとかする... reflect とか使えばなんとかなりそう
+	t := make([]map[string]interface{}, 0)
+	t = append(t, map[string]interface{}{"Driver": fmt.Sprintf(`"%s"`, o.Driver)})
+	t = append(t, map[string]interface{}{"UserName": fmt.Sprintf(`"%s"`, o.UserName)})
+	t = append(t, map[string]interface{}{"PassWord": fmt.Sprintf(`"%s"`, o.PassWord)})
+	t = append(t, map[string]interface{}{"Host": fmt.Sprintf(`"%s"`, o.Host)})
+	t = append(t, map[string]interface{}{"Port": o.Port})
+	t = append(t, map[string]interface{}{"DBName": fmt.Sprintf(`"%s"`, o.DBName)})
+	t = append(t, map[string]interface{}{"Debug": o.Debug})
+	t = append(t, map[string]interface{}{"SQLRootDir": fmt.Sprintf(`"%s"`, o.SQLRootDir)})
+	t = append(t, map[string]interface{}{"DaoRootDir": fmt.Sprintf(`"%s"`, o.DaoRootDir)})
+	return t
 }

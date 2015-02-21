@@ -28,8 +28,8 @@ type tableName string
 type queryName string
 
 // NewGoma is create goma client.
-// - database opne
-// - query local cache
+// - database open
+// - query local memory cache
 func NewGoma(options Options) (*Goma, error) {
 
 	var d Goma

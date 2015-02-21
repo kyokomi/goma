@@ -41,7 +41,7 @@ type ColumnTemplateData struct {
 type HelperTemplateData struct {
 	PkgName      string
 	DriverImport string
-	Options      map[string]interface{}
+	Options      []map[string]interface{}
 }
 
 func (d HelperTemplateData) execHelperTemplate(rootDir string) error {

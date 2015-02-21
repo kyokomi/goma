@@ -394,7 +394,9 @@ _, _ = fmt.Fprintf(w, "%v",  helperData.DriverImport )
 //line helper_template.go.ego:9
 _, _ = fmt.Fprintf(w, "\n\t\n\t\"github.com/kyokomi/goma/goma\"\n)\n\nfunc Goma() (*goma.Goma, error) {\n\n\topts := goma.Options{\n\t    ")
 //line helper_template.go.ego:16
- for key, value := range helperData.Options { 
+ for _, t := range helperData.Options { 
+//line helper_template.go.ego:16
+ for key, value := range t { 
 //line helper_template.go.ego:16
 _, _ = fmt.Fprintf(w, "%v",  key )
 //line helper_template.go.ego:16
@@ -402,7 +404,11 @@ _, _ = fmt.Fprintf(w, ": ")
 //line helper_template.go.ego:16
 _, _ = fmt.Fprintf(w, "%v",  value )
 //line helper_template.go.ego:16
-_, _ = fmt.Fprintf(w, ",\n    ")
+_, _ = fmt.Fprintf(w, ",")
+//line helper_template.go.ego:16
+ } 
+//line helper_template.go.ego:17
+_, _ = fmt.Fprintf(w, "\n    ")
 //line helper_template.go.ego:17
  } 
 //line helper_template.go.ego:17

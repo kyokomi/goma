@@ -13,13 +13,13 @@ import (
 func Goma() (*goma.Goma, error) {
 
 	opts := goma.Options{
-		Debug:      "true",
 		Driver:     "mysql",
 		UserName:   "admin",
 		PassWord:   "password",
-		Port:       3306,
 		Host:       "localhost",
+		Port:       3306,
 		DBName:     "test",
+		Debug:      true,
 		SQLRootDir: "./sql",
 		DaoRootDir: "./dao",
 	}

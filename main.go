@@ -106,7 +106,7 @@ func main() {
 	helperData := HelperTemplateData{}
 	helperData.PkgName = pkg
 	helperData.DriverImport = driverImports[opt.Driver]
-	helperData.Options = opt.Map()
+	helperData.Options = opt.Tuples()
 
 	if err := helperData.execHelperTemplate(currentDir); err != nil {
 		log.Fatalln(err)

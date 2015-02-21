@@ -13,7 +13,7 @@ import (
 func Goma() (*goma.Goma, error) {
 
 	opts := goma.Options{
-	    <% for key, value := range helperData.Options { %><%= key %>: <%= value %>,
+	    <% for _, t := range helperData.Options { %><% for key, value := range t { %><%= key %>: <%= value %>,<% } %>
     <% } %>}
 	
 	return goma.NewGoma(opts)
