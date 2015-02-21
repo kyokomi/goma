@@ -109,13 +109,10 @@ func main() {
 
 ```
 
-### Run（example）
+### Run
 
 ```
 $ go generate
-$ go run main.go helper_gen.go
-Hello goma!
-&{Id:1 Name:quest1 Detail:quest1です}
 ```
 
 ### Output
@@ -123,8 +120,6 @@ Hello goma!
 - `xxxxx1`,`xxxxx2`: TableName
  
 ```
-$ tree
-.
 ├── dao
 │   ├── xxxxx1_gen.go
 │   └── xxxxx2_gen.go
