@@ -11,6 +11,7 @@ import (
 
 	"fmt"
 	"strings"
+	"path/filepath"
 )
 
 // Goma is sql.DB access wrapper.
@@ -42,13 +43,19 @@ func NewGoma(options Options) (*Goma, error) {
 	}
 
 	d.DB = db
+	d.cacheQuery()
 
-	// TODO: startディレクトリOptionsでもらう？
+	return &d, nil
+}
+
+func (d *Goma) cacheQuery() error {
+	sqlRootDir := d.options.SQLRootDir
+
 	// sql下のディレクトリをtableNameとする
 	// 各ディレクトリのファイル名 - .sqlをqueryNameとする
-	dirs, err := ioutil.ReadDir("./sql")
+	dirs, err := ioutil.ReadDir(sqlRootDir)
 	if err != nil {
-		return nil, err
+		return err
 	}
 
 	d.queryCache = make(map[tableName]map[queryName]string, len(dirs))
@@ -57,14 +64,15 @@ func NewGoma(options Options) (*Goma, error) {
 			continue
 		}
 
-		fileInfos, err := ioutil.ReadDir("./sql/" + dir.Name())
+		dirPath := filepath.Join(sqlRootDir, dir.Name())
+		fileInfos, err := ioutil.ReadDir(dirPath)
 		if err != nil {
 			log.Println(err)
 			continue
 		}
 
 		tableName := tableName(dir.Name())
-
+		
 		d.queryCache[tableName] = make(map[queryName]string, len(fileInfos))
 
 		for _, fileInfo := range fileInfos {
@@ -72,21 +80,23 @@ func NewGoma(options Options) (*Goma, error) {
 				continue
 			}
 
-			f, err := ioutil.ReadFile("./sql/" + dir.Name() + "/" + fileInfo.Name())
+			filePath := filepath.Join(sqlRootDir, dir.Name(), fileInfo.Name())
+			f, err := ioutil.ReadFile(filePath)
 			if err != nil {
 				log.Println(err)
 				continue
 			}
 
+			// queryName.sqlのqueryNameを抽出
 			queryName := queryName(strings.Replace(fileInfo.Name(), ".sql", "", -1))
 			d.queryCache[tableName][queryName] = string(f)
 
-			d.debugPrintln("cache ok:")
+			d.debugPrintln("cache ok: ", filePath)
 			d.debugPrintln(d.queryCache[tableName][queryName])
 		}
 	}
-
-	return &d, nil
+	
+	return nil
 }
 
 // Close sql.DB close.

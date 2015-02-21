@@ -1,23 +1,21 @@
 package main
 
 import (
-	"bytes"
 	"flag"
-	"fmt"
-	"io/ioutil"
 	"log"
 	"os"
 	"time"
 
 	"strings"
 
-	"go/format"
-
 	"reflect"
 
 	_ "github.com/go-sql-driver/mysql"
+	_ "github.com/lib/pq"
 	"github.com/go-xorm/core"
 	"github.com/go-xorm/xorm"
+
+	"path/filepath"
 
 	"github.com/kyokomi/goma/goma"
 	"github.com/kyokomi/goma/lint"
@@ -31,7 +29,10 @@ var (
 	password string
 	host     string
 	port     int
-	debug    bool
+
+	debug      bool
+	sqlRootDir string
+	daoRootDir string
 
 	// go generate default flags
 	file string // input file (or directory)
@@ -46,6 +47,8 @@ func init() {
 	flag.IntVar(&port, "port", 3306, "database port")
 	flag.StringVar(&dbName, "db", "test", "database name")
 	flag.BoolVar(&debug, "debug", false, "goma debug mode")
+	flag.StringVar(&sqlRootDir, "sql", "./sql", "generate sql root dir")
+	flag.StringVar(&daoRootDir, "dao", "./dao", "generate dao root dir")
 
 	flag.StringVar(&file, "file", os.Getenv("GOFILE"), "input file")
 	flag.StringVar(&pkg, "pkg", os.Getenv("GOPACKAGE"), "output package")
@@ -76,6 +79,10 @@ func main() {
 	opt.Port = port
 	opt.DBName = dbName
 
+	opt.Debug = debug
+	opt.SQLRootDir = sqlRootDir
+	opt.DaoRootDir = daoRootDir
+
 	// xorm reverse mysql root:@/test?charset=utf8 templates/goxorm
 	orm, err := xorm.NewEngine(driver, opt.Source())
 	if err != nil {
@@ -89,150 +96,86 @@ func main() {
 		return
 	}
 
-	// helper generate
-
-	buf := bytes.Buffer{}
-	helperData := HelperTemplateData{
-		PkgName:      pkg,
-		DriverImport: driverImports[opt.Driver],
-		Options:      opt.Map(),
+	currentDir, err := os.Getwd()
+	if err != nil {
+		log.Fatalln(err)
 	}
 
-	if err := HelperTemplate(&buf, helperData); err != nil {
+	// helper generate
+
+	helperData := HelperTemplateData{}
+	helperData.PkgName = pkg
+	helperData.DriverImport = driverImports[opt.Driver]
+	helperData.Options = opt.Map()
+
+	if err := helperData.execHelperTemplate(currentDir); err != nil {
 		log.Fatalln(err)
-	} else {
-		bts, err := format.Source(buf.Bytes())
-		if err != nil {
-			log.Fatalln(err, buf.String())
-		}
-		if err := ioutil.WriteFile("helper_gen.go", bts, 0644); err != nil {
-			log.Fatalln(err)
-		}
 	}
 
 	// sql, dao generate
 
-	if err := os.Mkdir("sql", 0755); err != nil {
-		debugPrintln("sql dir exist")
-	}
-
-	if err := os.Mkdir("dao", 0755); err != nil {
-		debugPrintln("dao dir exist")
-	}
-
 	for _, table := range tables {
-		debugPrintln("start ", table.Name)
+		// create templateData
+		data := newTemplateData(table)
 
-		importsMap := make(set, 0)
-
-		var columns []ColumnTemplateData
-		for _, c := range table.Columns() {
-
-			typ := core.SQLType2Type(c.SQLType)
-			importsMap.add(typ.PkgPath())
-
-			typeName := typ.Name()
-			if typ.PkgPath() != "" {
-				typeName = typ.PkgPath() + "." + typ.Name()
-			}
-
-			sampleData := sampleDataMap[typ]
-
-			column := ColumnTemplateData{
-				Name:         c.Name,
-				TitleName:    lint.String(strings.Title(c.Name)),
-				TypeName:     typeName,
-				IsPrimaryKey: c.IsPrimaryKey,
-				Sample:       sampleData,
-			}
-			columns = append(columns, column)
-		}
-
-		data := DaoTemplateData{
-			Name:       lint.String(strings.Title(table.Name) + "Dao"),
-			MemberName: lint.String(table.Name),
-			EntityName: lint.String(strings.Title(table.Name) + "Entity"),
-			Table: TableTemplateData{
-				Name:      table.Name,
-				TitleName: lint.String(strings.Title(table.Name)),
-				Columns:   columns,
-			},
-			Imports: importsMap.slice(),
-		}
-
-		var buf bytes.Buffer
-		if err := DaoTemplate(&buf, data); err != nil {
+		// dao template
+		daoRootPath := filepath.Join(currentDir, opt.DaoRootDir)
+		if err := data.execDaoTemplate(daoRootPath); err != nil {
 			log.Fatalln(err)
-		} else {
-
-			bts, err := format.Source(buf.Bytes())
-			if err != nil {
-				log.Fatalln(err, buf.String())
-			}
-			if err := ioutil.WriteFile("dao/"+table.Name+"_gen.go", bts, 0644); err != nil {
-				log.Fatalln(err)
-			}
 		}
 
-		if err := os.Mkdir("sql/"+table.Name, 0755); err != nil {
-			debugPrintln("sql/" + table.Name + " dir exsist")
-		}
-
-		buf.Reset()
-
-		if err := SelectAllTemplate(&buf, data.Table); err != nil {
+		// sql template
+		sqlRootPath := filepath.Join(currentDir, opt.SQLRootDir)
+		if err := data.Table.execTableTemplate(sqlRootPath); err != nil {
 			log.Fatalln(err)
-		} else {
-			if err := ioutil.WriteFile("sql/"+table.Name+"/selectAll.sql", buf.Bytes(), 0644); err != nil {
-				log.Fatalln(err)
-			}
-		}
-
-		buf.Reset()
-
-		if err := SelectByIDTemplate(&buf, data.Table); err != nil {
-			log.Fatalln(err)
-		} else {
-			if err := ioutil.WriteFile("sql/"+table.Name+"/selectByID.sql", buf.Bytes(), 0644); err != nil {
-				log.Fatalln(err)
-			}
-		}
-
-		buf.Reset()
-
-		if err := InsertTemplate(&buf, data.Table); err != nil {
-			log.Fatalln(err)
-		} else {
-			if err := ioutil.WriteFile("sql/"+table.Name+"/insert.sql", buf.Bytes(), 0644); err != nil {
-				log.Fatalln(err)
-			}
-		}
-
-		buf.Reset()
-
-		if err := UpdateTemplate(&buf, data.Table); err != nil {
-			log.Fatalln(err)
-		} else {
-			if err := ioutil.WriteFile("sql/"+table.Name+"/update.sql", buf.Bytes(), 0644); err != nil {
-				log.Fatalln(err)
-			}
-		}
-
-		buf.Reset()
-
-		if err := DeleteTemplate(&buf, data.Table); err != nil {
-			log.Fatalln(err)
-		} else {
-			if err := ioutil.WriteFile("sql/"+table.Name+"/delete.sql", buf.Bytes(), 0644); err != nil {
-				log.Fatalln(err)
-			}
 		}
 	}
 }
 
-func debugPrintln(v ...interface{}) {
-	// SliceInsert (https://code.google.com/p/go-wiki/wiki/SliceTricks)
-	v = append(v[:0], append([]interface{}{"[goma]", "[debug]"}, v[0:]...)...)
+func newTemplateData(table *core.Table) DaoTemplateData {
+	imports := newImports(table.Columns())
+	columns := newColumns(table.Columns())
 
-	fmt.Println(v...)
+	data := DaoTemplateData{}
+	data.Name = lint.String(strings.Title(table.Name) + "Dao")
+	data.MemberName = lint.String(table.Name)
+	data.EntityName = lint.String(strings.Title(table.Name) + "Entity")
+	data.Table = TableTemplateData{
+		Name:      table.Name,
+		TitleName: lint.String(strings.Title(table.Name)),
+		Columns:   columns,
+	}
+	data.Imports = imports.slice()
+	return data
+}
+
+func newImports(columns []*core.Column) set {
+	importsMap := make(set, 0)
+	for _, c := range columns {
+		typ := core.SQLType2Type(c.SQLType)
+		importsMap.add(typ.PkgPath())
+	}
+	return importsMap
+}
+
+func newColumns(columns []*core.Column) []ColumnTemplateData {
+	var results []ColumnTemplateData
+	for _, c := range columns {
+
+		typ := core.SQLType2Type(c.SQLType)
+		typeName := typ.Name()
+		if typ.PkgPath() != "" {
+			typeName = typ.PkgPath() + "." + typ.Name()
+		}
+
+		column := ColumnTemplateData{
+			Name:         c.Name,
+			TitleName:    lint.String(strings.Title(c.Name)),
+			TypeName:     typeName,
+			IsPrimaryKey: c.IsPrimaryKey,
+			Sample:       sampleDataMap[typ],
+		}
+		results = append(results, column)
+	}
+	return results
 }

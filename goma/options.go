@@ -4,13 +4,18 @@ import "fmt"
 
 // Options is open sql.DB options.
 type Options struct {
+	// driver and dataSource
 	Driver   string // DriverName
 	UserName string // access user name `admin`
 	PassWord string // access user password `password`
 	Host     string // localhost
 	Port     int    // 3306
 	DBName   string // DataBaseName
-	Debug    bool
+
+	// goma
+	Debug      bool   // goma debug mode (default false)
+	SQLRootDir string // goma sql root dir path (default './sql')
+	DaoRootDir string // goma dao root dir path (default './dao')
 }
 
 // Source create driver databaseSource.
@@ -49,5 +54,8 @@ func (o Options) Map() map[string]interface{} {
 	m["Host"] = fmt.Sprintf(`"%s"`, o.Host)
 	m["Port"] = o.Port
 	m["DBName"] = fmt.Sprintf(`"%s"`, o.DBName)
+	m["Debug"] = o.Debug
+	m["SQLRootDir"] = fmt.Sprintf(`"%s"`, o.SQLRootDir)
+	m["DaoRootDir"] = fmt.Sprintf(`"%s"`, o.DaoRootDir)
 	return m
 }
