@@ -1,0 +1,6 @@
+<%!func DeleteTemplate(w io.Writer, tableData TableTemplateData) error %>delete
+from
+  <%= tableData.Name %>
+where
+<% for idx, column := range tableData.Columns { %><% if !column.IsPrimaryKey { %><% continue %><% } %><% if idx != 0 { %>and<% } %>  <%= column.Name %> = /* <%= column.Name %> */1
+<% } %>

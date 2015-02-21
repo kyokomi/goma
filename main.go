@@ -7,10 +7,13 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
+	"time"
 
 	"strings"
 
 	"go/format"
+
+	"reflect"
 
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/go-xorm/core"
@@ -36,13 +39,6 @@ func init() {
 	flag.Parse()
 }
 
-type ColumnTemplateData struct {
-	Name         string
-	TitleName    string
-	TypeName     string
-	IsPrimaryKey bool
-}
-
 type DaoTemplateData struct {
 	Name       string
 	MemberName string
@@ -55,6 +51,14 @@ type TableTemplateData struct {
 	Name      string
 	TitleName string
 	Columns   []ColumnTemplateData
+}
+
+type ColumnTemplateData struct {
+	Name         string
+	TitleName    string
+	TypeName     string
+	IsPrimaryKey bool
+	Sample       string
 }
 
 type Set map[string]bool
@@ -73,6 +77,12 @@ func (s Set) Slice() []string {
 		}
 	}
 	return keys
+}
+
+var sampleDataMap = map[reflect.Type]string{
+	reflect.TypeOf(int(1)):         "1",
+	reflect.TypeOf(string("test")): "'test'",
+	reflect.TypeOf(time.Now()):     "'2006/01/02 13:40:00'",
 }
 
 //go:generate ego -package main templates
@@ -121,11 +131,14 @@ func main() {
 				typeName = "*" + typeName
 			}
 
+			sampleData := sampleDataMap[typ]
+
 			column := ColumnTemplateData{
 				Name:         c.Name,
 				TitleName:    lint.String(strings.Title(c.Name)),
 				TypeName:     typeName,
 				IsPrimaryKey: c.IsPrimaryKey,
+				Sample:       sampleData,
 			}
 			columns = append(columns, column)
 		}
@@ -149,7 +162,7 @@ func main() {
 
 			bts, err := format.Source(buf.Bytes())
 			if err != nil {
-				log.Fatalln(err)
+				log.Fatalln(err, buf.String())
 			}
 			if err := ioutil.WriteFile("dao/"+table.Name+"_gen.go", bts, 0644); err != nil {
 				log.Fatalln(err)
@@ -176,6 +189,36 @@ func main() {
 			log.Fatalln(err)
 		} else {
 			if err := ioutil.WriteFile("sql/"+table.Name+"/selectByID.sql", buf.Bytes(), 0644); err != nil {
+				log.Fatalln(err)
+			}
+		}
+
+		buf.Reset()
+
+		if err := InsertTemplate(&buf, data.Table); err != nil {
+			log.Fatalln(err)
+		} else {
+			if err := ioutil.WriteFile("sql/"+table.Name+"/insert.sql", buf.Bytes(), 0644); err != nil {
+				log.Fatalln(err)
+			}
+		}
+
+		buf.Reset()
+
+		if err := UpdateTemplate(&buf, data.Table); err != nil {
+			log.Fatalln(err)
+		} else {
+			if err := ioutil.WriteFile("sql/"+table.Name+"/update.sql", buf.Bytes(), 0644); err != nil {
+				log.Fatalln(err)
+			}
+		}
+
+		buf.Reset()
+
+		if err := DeleteTemplate(&buf, data.Table); err != nil {
+			log.Fatalln(err)
+		} else {
+			if err := ioutil.WriteFile("sql/"+table.Name+"/delete.sql", buf.Bytes(), 0644); err != nil {
 				log.Fatalln(err)
 			}
 		}

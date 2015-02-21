@@ -1,0 +1,5 @@
+<%!func InsertTemplate(w io.Writer, tableData TableTemplateData) error %>insert into <%= tableData.Name %>(
+  <% for idx, column := range tableData.Columns { %><% if idx != 0 { %>, <% } %><%= column.Name %>
+<% } %>) values(
+  <% for idx, column := range tableData.Columns { %><% if idx != 0 { %>, <% } %>/* <%= column.Name %> */<%= column.Sample %>
+<% } %>);
