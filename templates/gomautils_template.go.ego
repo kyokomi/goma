@@ -12,6 +12,7 @@ import (
 	"github.com/kyokomi/goma/goma"
 )
 
+// Goma goma.Goma utils.
 type Goma struct {
 	*goma.Goma
 
@@ -20,6 +21,7 @@ type Goma struct {
     <% } %>
 }
 
+// NewGoma is goma.Goma wrapper utils.
 func NewGoma() (Goma, error) {
 
 	opts := goma.Options{
