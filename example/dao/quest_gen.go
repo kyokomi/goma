@@ -19,14 +19,14 @@ type QuestDao struct {
 	*goma.Goma
 }
 
-var quest *QuestDao
+var sQuest *QuestDao
 
 // Quest is QuestDao singleton.
 func Quest(g *goma.Goma) *QuestDao {
-	if quest == nil {
-		quest = &QuestDao{Goma: g}
+	if sQuest == nil {
+		sQuest = &QuestDao{Goma: g}
 	}
-	return quest
+	return sQuest
 }
 
 // SelectAll select quest table all recode.

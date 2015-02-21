@@ -19,14 +19,14 @@ type SampleDao struct {
 	*goma.Goma
 }
 
-var sample *SampleDao
+var sSample *SampleDao
 
 // Sample is SampleDao singleton.
 func Sample(g *goma.Goma) *SampleDao {
-	if sample == nil {
-		sample = &SampleDao{Goma: g}
+	if sSample == nil {
+		sSample = &SampleDao{Goma: g}
 	}
-	return sample
+	return sSample
 }
 
 // SelectAll select sample table all recode.

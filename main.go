@@ -157,7 +157,7 @@ func newTemplateData(table *core.Table, opt goma.Options) DaoTemplateData {
 
 	data := DaoTemplateData{}
 	data.Name = lint.String(strings.Title(table.Name) + "Dao")
-	data.MemberName = lint.String(table.Name)
+	data.MemberName = "s" + lint.String(strings.Title(table.Name))
 	data.EntityName = lint.String(strings.Title(table.Name) + "Entity")
 	data.DaoPkgName = opt.DaoPkgName()
 	data.EntityPkgName = opt.EntityPkgName()
