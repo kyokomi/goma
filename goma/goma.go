@@ -91,8 +91,7 @@ func (d *Goma) cacheQuery() error {
 			queryName := queryName(strings.Replace(fileInfo.Name(), ".sql", "", -1))
 			d.queryCache[tableName][queryName] = string(f)
 
-			d.debugPrintln("cache ok: ", filePath)
-			d.debugPrintln(d.queryCache[tableName][queryName])
+			d.debugPrintln("[goma]", "[debug]", "cache ok:", filePath)
 		}
 	}
 
