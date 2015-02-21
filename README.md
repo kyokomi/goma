@@ -165,6 +165,61 @@ if err != nil {
 }
 ```
 
+### Add Custom Query Example
+
+create new file [sql/updateAll.sql](https://github.com/kyokomi/goma/blob/master/example/sql/updateAll.sql).
+
+```sql
+update quest set
+    name = /* name */'test'
+,   detail = /* detail */'test'
+,   create_at = /* create_at */'2006/01/02 13:40:00'
+```
+
+create new file [dao/quest_custom.go](https://github.com/kyokomi/goma/blob/master/example/dao/quest_custom.go).
+
+```go
+package dao
+
+import (
+	"database/sql"
+	"log"
+
+	"github.com/kyokomi/goma/example/entity"
+	"github.com/kyokomi/goma/goma"
+)
+
+// Update update quest table.
+func (d *QuestDao) UpdateAll(entity entity.QuestEntity) (sql.Result, error) {
+
+	args := goma.QueryArgs{
+		"name":      entity.Name,
+		"detail":    entity.Detail,
+		"create_at": entity.CreateAt,
+	}
+	queryString := d.QueryArgs("quest", "updateAll", args)
+
+	result, err := d.Exec(queryString)
+	if err != nil {
+		log.Println(err, queryString)
+	}
+	return result, err
+}
+```
+
+#### Call
+
+```go
+_, err = goma.Quest.UpdateAll(entity.QuestEntity{
+    Name:     "test 2",
+    Detail:   "test detail 2",
+    CreateAt: time.Now(),
+})
+if err != nil {
+    log.Fatalln(err)
+}
+```
+
 ## Support Driver
 
 - mysql（https://github.com/go-sql-driver/mysql）
