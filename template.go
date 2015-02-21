@@ -24,3 +24,10 @@ type ColumnTemplateData struct {
 	IsPrimaryKey bool
 	Sample       string
 }
+
+// HelperTemplateData helper data.
+type HelperTemplateData struct {
+	PkgName      string
+	DriverImport string
+	Options      map[string]interface{}
+}

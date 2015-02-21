@@ -26,30 +26,6 @@ type QueryArgs map[string]interface{}
 type tableName string
 type queryName string
 
-// Options is open sql.DB options.
-type Options struct {
-	Driver   string // DriverName
-	UserName string // access user name `admin`
-	PassWord string // access user password `password`
-	Host     string // localhost
-	Port     int    // 3306
-	DBName   string // DataBaseName
-	Debug    bool
-}
-
-func (o Options) source() string {
-	// admin:password@tcp(localhost:3306)/test?parseTime=true&loc=Local
-	return fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?parseTime=%v&loc=%s",
-		o.UserName,
-		o.PassWord,
-		o.Host,
-		o.Port,
-		o.DBName,
-		true,
-		"Local",
-	)
-}
-
 // NewGoma is create goma client.
 // - database opne
 // - query local cache
@@ -58,9 +34,9 @@ func NewGoma(options Options) (*Goma, error) {
 	var d Goma
 	d.options = options
 
-	d.debugPrintln(options.source())
+	d.debugPrintln(options.Source())
 
-	db, err := sql.Open(options.Driver, options.source())
+	db, err := sql.Open(options.Driver, options.Source())
 	if err != nil {
 		return nil, err
 	}

@@ -5,27 +5,15 @@ import (
 	"log"
 	"time"
 
-	_ "github.com/go-sql-driver/mysql"
-
 	"github.com/kyokomi/goma/example/dao"
-	"github.com/kyokomi/goma/goma"
 )
 
-//go:generate goma -driver=mysql -source=admin:password@tcp(localhost:3306)/test?parseTime=true&loc=Local
+//go:generate goma -driver=mysql -user=admin -password=password -host=localhost -port=3306 -db=test -debug=true
 
 func main() {
 	fmt.Println("Hello goma!")
 
-	opts := goma.Options{
-		Driver:   "mysql",
-		UserName: "admin",
-		PassWord: "password",
-		Host:     "localhost",
-		Port:     3306,
-		DBName:   "test",
-		Debug:    true,
-	}
-	g, err := goma.NewGoma(opts)
+	g, err := Goma()
 	if err != nil {
 		log.Fatalln(err)
 	}

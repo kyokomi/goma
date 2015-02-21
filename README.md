@@ -33,8 +33,6 @@ mysql> SHOW COLUMNS FROM quest;
 
 ### Example main.go（mysql）
 
-your **import sql/driver**
-
 ```go
 package main
 
@@ -42,31 +40,19 @@ import (
 	"fmt"
 	"log"
 
-	_ "github.com/go-sql-driver/mysql"
-
 	"github.com/kyokomi/goma/example/dao"
-	"github.com/kyokomi/goma/goma"
 )
 
-//go:generate goma -driver=mysql -source=admin:password@tcp(localhost:3306)/test?parseTime=true&loc=Local
+//go:generate goma -driver=mysql -user=admin -password=password -host=localhost -port=3306 -db=test -debug=true
 
 func main() {
 	fmt.Println("Hello goma!")
 
-	opts := goma.Options{
-		Driver:   "mysql",
-		UserName: "admin",
-		PassWord: "password",
-		Host:     "localhost",
-		Port:     3306,
-		DBName:   "test",
-		Debug:    true,
-	}
-	g, err := goma.NewGoma(opts)
-	if err != nil {
-		log.Fatalln(err)
-	}
-	defer g.Close()
+    g, err := Goma()
+    if err != nil {
+        log.Fatalln(err)
+    }
+    defer g.Close()
 
 	// Insert
 
@@ -124,7 +110,7 @@ func main() {
 
 ```
 $ go generate
-$ go run main.go
+$ go run main.go helper_gen.go
 Hello goma!
 &{Id:1 Name:quest1 Detail:quest1です}
 ```
@@ -139,6 +125,7 @@ $ tree
 ├── dao
 │   ├── xxxxx1_gen.go
 │   └── xxxxx2_gen.go
+├── helper_gen.go
 ├── main.go
 └── sql
     ├── xxxxx1

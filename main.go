@@ -18,22 +18,35 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/go-xorm/core"
 	"github.com/go-xorm/xorm"
+
+	"github.com/kyokomi/goma/goma"
 	"github.com/kyokomi/goma/lint"
 )
 
 var (
 	// command line flags
-	driver     string
-	dataSource string
-	out        string // output file
-	file       string // input file (or directory)
-	pkg        string // output package name
+	driver   string
+	dbName   string
+	user     string
+	password string
+	host     string
+	port     int
+	debug    bool
+
+	// go generate default flags
+	file string // input file (or directory)
+	pkg  string // output package name
 )
 
 func init() {
-	flag.StringVar(&driver, "driver", "", "sql driver")
-	flag.StringVar(&dataSource, "source", "", "sql data source")
-	flag.StringVar(&out, "o", "", "output file")
+	flag.StringVar(&driver, "driver", "mysql", "sql driver")
+	flag.StringVar(&user, "user", "admin", "database access user's name")
+	flag.StringVar(&password, "password", "password", "database access user's password")
+	flag.StringVar(&host, "host", "localhost", "database host")
+	flag.IntVar(&port, "port", 3306, "database port")
+	flag.StringVar(&dbName, "db", "test", "database name")
+	flag.BoolVar(&debug, "debug", false, "goma debug mode")
+
 	flag.StringVar(&file, "file", os.Getenv("GOFILE"), "input file")
 	flag.StringVar(&pkg, "pkg", os.Getenv("GOPACKAGE"), "output package")
 	flag.Parse()
@@ -45,13 +58,26 @@ var sampleDataMap = map[reflect.Type]string{
 	reflect.TypeOf(time.Now()):     "'2006/01/02 13:40:00'",
 }
 
+var driverImports = map[string]string{
+	"mysql":    `_ "github.com/go-sql-driver/mysql"`,
+	"postgres": `_ "github.com/lib/pq"`,
+}
+
 //go:generate ego -package main templates
 
 func main() {
 	log.SetFlags(log.Llongfile)
 
+	opt := goma.Options{}
+	opt.Driver = driver
+	opt.UserName = user
+	opt.PassWord = password
+	opt.Host = host
+	opt.Port = port
+	opt.DBName = dbName
+
 	// xorm reverse mysql root:@/test?charset=utf8 templates/goxorm
-	orm, err := xorm.NewEngine(driver, dataSource)
+	orm, err := xorm.NewEngine(driver, opt.Source())
 	if err != nil {
 		log.Fatalf("%v", err)
 		return
@@ -62,6 +88,29 @@ func main() {
 		log.Fatalf("%v", err)
 		return
 	}
+
+	// helper generate
+
+	buf := bytes.Buffer{}
+	helperData := HelperTemplateData{
+		PkgName:      pkg,
+		DriverImport: driverImports[opt.Driver],
+		Options:      opt.Map(),
+	}
+
+	if err := HelperTemplate(&buf, helperData); err != nil {
+		log.Fatalln(err)
+	} else {
+		bts, err := format.Source(buf.Bytes())
+		if err != nil {
+			log.Fatalln(err, buf.String())
+		}
+		if err := ioutil.WriteFile("helper_gen.go", bts, 0644); err != nil {
+			log.Fatalln(err)
+		}
+	}
+
+	// sql, dao generate
 
 	if err := os.Mkdir("sql", 0755); err != nil {
 		debugPrintln("sql dir exist")

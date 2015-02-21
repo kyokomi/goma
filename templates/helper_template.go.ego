@@ -1,0 +1,20 @@
+<%!func HelperTemplate(w io.Writer, helperData HelperTemplateData) error %>package <%= helperData.PkgName %>
+
+// NOTE: THIS FILE WAS PRODUCED BY THE
+// GOMA CODE GENERATION TOOL (github.com/kyokomi/goma)
+// DO NOT EDIT
+
+import (
+    <%= helperData.DriverImport %>
+	
+	"github.com/kyokomi/goma/goma"
+)
+
+func Goma() (*goma.Goma, error) {
+
+	opts := goma.Options{
+	    <% for key, value := range helperData.Options { %><%= key %>: <%= value %>,
+    <% } %>}
+	
+	return goma.NewGoma(opts)
+} 
