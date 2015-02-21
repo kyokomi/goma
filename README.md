@@ -61,6 +61,7 @@ goma options params.
 - `debug=false`: goma debug mode (`true`: log output)
 - `dao="dao"`: generate dao root dirs
 - `sql="sql"`: generate sql root dir
+- `entity="entity"`: generate entity root dir
 
 ### Run
 
@@ -74,6 +75,9 @@ $ go generate
  
 ```
 ├── dao
+│   ├── xxxxx1_gen.go
+│   └── xxxxx2_gen.go
+├── entity
 │   ├── xxxxx1_gen.go
 │   └── xxxxx2_gen.go
 ├── gomautils_gen.go
@@ -100,7 +104,7 @@ $ go generate
 import your generate dao package.
 
 ```go
-import "xxxxxxx/yyyyyy/zzzz/dao"
+import "xxxxxxx/yyyyyy/zzzz/entity"
 ```
 
 #### GomaOpen
@@ -117,7 +121,7 @@ defer g.Close()
 #### Insert
  
 ```go
-_, err = goma.Quest.Insert(dao.QuestEntity{
+_, err = goma.Quest.Insert(entity.QuestEntity{
     ID:       99,
     Name:     "test",
     Detail:   "test detail",
@@ -141,7 +145,7 @@ fmt.Printf("insert after: %+v\n", questEntity)
 #### Update
 
 ```go
-_, err = goma.Quest.Update(dao.QuestEntity{
+_, err = goma.Quest.Update(entity.QuestEntity{
     ID:       99,
     Name:     "test 2",
     Detail:   "test detail 2",

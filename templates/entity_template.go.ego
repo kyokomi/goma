@@ -1,0 +1,17 @@
+<%!func EntityTemplate(w io.Writer, daoData DaoTemplateData) error %>package <%= daoData.EntityPkgName %>
+
+// NOTE: THIS FILE WAS PRODUCED BY THE
+// GOMA CODE GENERATION TOOL (github.com/kyokomi/goma)
+// DO NOT EDIT
+
+<% if len(daoData.Imports) > 0 { %>import (
+	<% for _, importName := range daoData.Imports { %>
+	    "<%= importName %>"
+    <% } %>
+)<% } %>
+    
+// <%= daoData.EntityName %> is generated <%= daoData.Table.Name %> table.
+type <%= daoData.EntityName %> struct {
+<% for _, column := range daoData.Table.Columns { %><%= column.TitleName %> <%= column.TypeName %>
+<% } %>
+}

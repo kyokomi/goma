@@ -24,11 +24,14 @@ type HelperTemplateData struct {
 
 // DaoTemplateData dao data.
 type DaoTemplateData struct {
-	Name       string
-	MemberName string
-	EntityName string
-	Table      TableTemplateData
-	Imports    []string
+	Name          string
+	MemberName    string
+	EntityName    string
+	Table         TableTemplateData
+	Imports       []string
+	DaoPkgName    string
+	EntityPkgName string
+	EntityImport  string
 }
 
 // TableTemplateData table data.
@@ -61,6 +64,14 @@ func (d DaoTemplateData) execDaoTemplate(daoRootDir string) error {
 		return err
 	}
 	return formatFileWrite(daoRootDir, d.Table.Name+"_gen.go", buf.Bytes())
+}
+
+func (d DaoTemplateData) execEntityTemplate(entityRootDir string) error {
+	var buf bytes.Buffer
+	if err := EntityTemplate(&buf, d); err != nil {
+		return err
+	}
+	return formatFileWrite(entityRootDir, d.Table.Name+"_gen.go", buf.Bytes())
 }
 
 func (t TableTemplateData) execTableTemplate(sqlRootDir string) error {

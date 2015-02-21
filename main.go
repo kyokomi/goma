@@ -29,9 +29,10 @@ var (
 	host     string
 	port     int
 
-	debug      bool
-	sqlRootDir string
-	daoRootDir string
+	debug         bool
+	sqlRootDir    string
+	daoRootDir    string
+	entityRootDir string
 
 	// go generate default flags
 	file string // input file (or directory)
@@ -48,6 +49,7 @@ func init() {
 	flag.BoolVar(&debug, "debug", false, "goma debug mode")
 	flag.StringVar(&sqlRootDir, "sql", "sql", "generate sql root dir")
 	flag.StringVar(&daoRootDir, "dao", "dao", "generate dao root dir")
+	flag.StringVar(&entityRootDir, "entity", "entity", "generate entity root dir")
 
 	flag.StringVar(&file, "file", os.Getenv("GOFILE"), "input file")
 	flag.StringVar(&pkg, "pkg", os.Getenv("GOPACKAGE"), "output package")
@@ -83,6 +85,12 @@ func main() {
 	opt.Debug = debug
 	opt.SQLRootDir = sqlRootDir
 	opt.DaoRootDir = daoRootDir
+	opt.EntityRootDir = entityRootDir
+	currentDir, err := os.Getwd()
+	if err != nil {
+		log.Fatalln(err)
+	}
+	opt.CurrentDir = currentDir
 
 	// xorm reverse mysql root:@/test?charset=utf8 templates/goxorm
 	orm, err := xorm.NewEngine(driver, opt.Source())
@@ -97,38 +105,36 @@ func main() {
 		return
 	}
 
-	currentDir, err := os.Getwd()
-	if err != nil {
-		log.Fatalln(err)
-	}
-
 	helperData := HelperTemplateData{}
 	helperData.PkgName = pkg
 	helperData.DriverImport = driverImports[opt.Driver]
 	helperData.Options = opt.Tuples()
 
-	daoPkgName := strings.Replace(opt.DaoRootDir, `\./`, "", -1)
-	daoPkgName = strings.Replace(opt.DaoRootDir, `\/`, "", -1)
-	srcIdx := strings.Index(currentDir, "src/")
-	helperData.DaoImport = filepath.Join(currentDir[srcIdx+len("src/"):], daoPkgName)
-	helperData.DaoPkgName = daoPkgName
+	helperData.DaoImport = opt.DaoImportPath()
+	helperData.DaoPkgName = opt.DaoPkgName()
 
 	var daoList []DaoTemplateData
-
+	
 	// sql, dao generate
 
 	for _, table := range tables {
 		// create templateData
-		data := newTemplateData(table)
+		data := newTemplateData(table, opt)
 
 		// dao template
-		daoRootPath := filepath.Join(currentDir, opt.DaoRootDir)
+		daoRootPath := filepath.Join(opt.CurrentDir, opt.DaoRootDir)
 		if err := data.execDaoTemplate(daoRootPath); err != nil {
 			log.Fatalln(err)
 		}
-
+		
+		// entity template
+		entityRootPath := filepath.Join(opt.CurrentDir, opt.EntityRootDir)
+		if err := data.execEntityTemplate(entityRootPath); err != nil {
+			log.Fatalln(err)
+		}
+		
 		// sql template
-		sqlRootPath := filepath.Join(currentDir, opt.SQLRootDir)
+		sqlRootPath := filepath.Join(opt.CurrentDir, opt.SQLRootDir)
 		if err := data.Table.execTableTemplate(sqlRootPath); err != nil {
 			log.Fatalln(err)
 		}
@@ -145,7 +151,7 @@ func main() {
 	}
 }
 
-func newTemplateData(table *core.Table) DaoTemplateData {
+func newTemplateData(table *core.Table, opt goma.Options) DaoTemplateData {
 	imports := newImports(table.Columns())
 	columns := newColumns(table.Columns())
 
@@ -153,12 +159,16 @@ func newTemplateData(table *core.Table) DaoTemplateData {
 	data.Name = lint.String(strings.Title(table.Name) + "Dao")
 	data.MemberName = lint.String(table.Name)
 	data.EntityName = lint.String(strings.Title(table.Name) + "Entity")
+	data.DaoPkgName = opt.DaoPkgName()
+	data.EntityPkgName = opt.EntityPkgName()
+	data.EntityImport = opt.EntityImportPath()
 	data.Table = TableTemplateData{
 		Name:      table.Name,
 		TitleName: lint.String(strings.Title(table.Name)),
 		Columns:   columns,
 	}
 	data.Imports = imports.slice()
+	
 	return data
 }
 

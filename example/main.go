@@ -5,7 +5,7 @@ import (
 	"log"
 	"time"
 
-	"github.com/kyokomi/goma/example/dao"
+	"github.com/kyokomi/goma/example/entity"
 )
 
 //go:generate goma -driver=mysql -user=admin -password=password -host=localhost -port=3306 -db=test -debug=true
@@ -27,7 +27,7 @@ func main() {
 
 	now := time.Now()
 
-	_, err = goma.Quest.Insert(dao.QuestEntity{
+	_, err = goma.Quest.Insert(entity.QuestEntity{
 		ID:       99,
 		Name:     "test",
 		Detail:   "test detail",
@@ -43,7 +43,7 @@ func main() {
 		fmt.Printf("insert after: %+v\n", q)
 	}
 
-	_, err = goma.Quest.Update(dao.QuestEntity{
+	_, err = goma.Quest.Update(entity.QuestEntity{
 		ID:       99,
 		Name:     "test 2",
 		Detail:   "test detail 2",

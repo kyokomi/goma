@@ -5,6 +5,8 @@ package main
 // DO NOT EDIT
 
 import (
+	"os"
+
 	_ "github.com/go-sql-driver/mysql"
 
 	"github.com/kyokomi/goma/example/dao"
@@ -35,6 +37,12 @@ func NewGoma() (Goma, error) {
 		SQLRootDir: "sql",
 		DaoRootDir: "dao",
 	}
+
+	currentDir, err := os.Getwd()
+	if err != nil {
+		return Goma{}, err
+	}
+	opts.CurrentDir = currentDir
 
 	g, err := goma.NewGoma(opts)
 	if err != nil {

@@ -7,9 +7,9 @@ package dao
 import (
 	"log"
 
-	"time"
-
 	"database/sql"
+
+	"github.com/kyokomi/goma/example/entity"
 
 	"github.com/kyokomi/goma/goma"
 )
@@ -29,26 +29,19 @@ func Sample(g *goma.Goma) *SampleDao {
 	return sample
 }
 
-// SampleEntity is generated sample table.
-type SampleEntity struct {
-	ID       int
-	Name     string
-	CreateAt time.Time
-}
-
 // SelectAll select sample table all recode.
-func (d *SampleDao) SelectAll() ([]*SampleEntity, error) {
+func (d *SampleDao) SelectAll() ([]*entity.SampleEntity, error) {
 
 	queryString := d.QueryArgs("sample", "selectAll", nil)
 
-	var entitys []*SampleEntity
+	var entitys []*entity.SampleEntity
 	rows, err := d.Query(queryString)
 	if err != nil {
 		return nil, err
 	}
 
 	for rows.Next() {
-		var entity SampleEntity
+		var entity entity.SampleEntity
 		err = rows.Scan(&entity.ID, &entity.Name, &entity.CreateAt)
 		if err != nil {
 			break
@@ -65,7 +58,7 @@ func (d *SampleDao) SelectAll() ([]*SampleEntity, error) {
 }
 
 // SelectByID select sample table by primaryKey.
-func (d *SampleDao) SelectByID(id int) (*SampleEntity, error) {
+func (d *SampleDao) SelectByID(id int) (*entity.SampleEntity, error) {
 
 	args := goma.QueryArgs{
 		"id": id,
@@ -82,7 +75,7 @@ func (d *SampleDao) SelectByID(id int) (*SampleEntity, error) {
 		return nil, nil
 	}
 
-	var entity SampleEntity
+	var entity entity.SampleEntity
 	if err := d.QueryRow(queryString).Scan(&entity.ID, &entity.Name, &entity.CreateAt); err != nil {
 		log.Println(err, queryString)
 		return nil, err
@@ -92,7 +85,7 @@ func (d *SampleDao) SelectByID(id int) (*SampleEntity, error) {
 }
 
 // Insert insert sample table.
-func (d *SampleDao) Insert(entity SampleEntity) (sql.Result, error) {
+func (d *SampleDao) Insert(entity entity.SampleEntity) (sql.Result, error) {
 
 	args := goma.QueryArgs{
 		"id":        entity.ID,
@@ -109,7 +102,7 @@ func (d *SampleDao) Insert(entity SampleEntity) (sql.Result, error) {
 }
 
 // Update update sample table.
-func (d *SampleDao) Update(entity SampleEntity) (sql.Result, error) {
+func (d *SampleDao) Update(entity entity.SampleEntity) (sql.Result, error) {
 
 	args := goma.QueryArgs{
 		"id":        entity.ID,
