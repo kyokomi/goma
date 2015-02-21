@@ -5,6 +5,8 @@
 // DO NOT EDIT
 
 import (
+    "log"
+    
 	<% for _, importName := range daoData.Imports { %>
 	    "<%= importName %>"
     <% } %>
@@ -55,6 +57,7 @@ func (d *<%= daoData.Name %>) SelectAll() ([]*<%= daoData.EntityName %>, error) 
 		entitys = append(entitys, &entity)
 	}
 	if err != nil {
+	    log.Println(err, queryString)
 		return nil, err
 	}
 
@@ -81,6 +84,7 @@ func (d *<%= daoData.Name %>) SelectByID(<% for idx, column := range daoData.Tab
 
 	var entity <%= daoData.EntityName %>
 	if err := d.QueryRow(queryString).Scan(<% for idx, column := range daoData.Table.Columns { %><% if idx != 0 { %>, <% } %>&entity.<%= column.TitleName %><% } %>); err != nil {
+	    log.Println(err, queryString)
 		return nil, err
 	}
 	
@@ -96,7 +100,11 @@ func (d *<%= daoData.Name %>) Insert(entity <%= daoData.EntityName %>) (sql.Resu
 	}
 	queryString := d.QueryArgs("<%= daoData.Table.Name %>", "insert", args)
 	
-	return d.Exec(queryString)
+	result, err := d.Exec(queryString)
+    if err != nil {
+        log.Println(err, queryString)
+    }
+    return result, err
 }
 
 // Update update <%= daoData.Table.Name %> table.
@@ -108,7 +116,11 @@ func (d *<%= daoData.Name %>) Update(entity <%= daoData.EntityName %>) (sql.Resu
 	}
 	queryString := d.QueryArgs("<%= daoData.Table.Name %>", "update", args)
 
-	return d.Exec(queryString)
+	result, err := d.Exec(queryString)
+	if err != nil {
+        log.Println(err, queryString)
+    }
+    return result, err
 }
 
 // Delete delete <%= daoData.Table.Name %> table by primaryKey.
@@ -119,5 +131,9 @@ func (d *<%= daoData.Name %>) Delete(<% for idx, column := range daoData.Table.C
     <% } %>}
 	queryString := d.QueryArgs("<%= daoData.Table.Name %>", "delete", args)
 
-	return d.Exec(queryString)
+    result, err := d.Exec(queryString)
+	if err != nil {
+        log.Println(err, queryString)
+    }
+    return result, err
 }

@@ -5,6 +5,10 @@ package dao
 // DO NOT EDIT
 
 import (
+	"log"
+
+	"time"
+
 	"database/sql"
 
 	"github.com/kyokomi/goma/goma"
@@ -27,8 +31,9 @@ func Sample(g *goma.Goma) *SampleDao {
 
 // SampleEntity is generated sample table.
 type SampleEntity struct {
-	ID   int
-	Name string
+	ID       int
+	Name     string
+	CreateAt time.Time
 }
 
 // SelectAll select sample table all recode.
@@ -44,7 +49,7 @@ func (d *SampleDao) SelectAll() ([]*SampleEntity, error) {
 
 	for rows.Next() {
 		var entity SampleEntity
-		err = rows.Scan(&entity.ID, &entity.Name)
+		err = rows.Scan(&entity.ID, &entity.Name, &entity.CreateAt)
 		if err != nil {
 			break
 		}
@@ -52,6 +57,7 @@ func (d *SampleDao) SelectAll() ([]*SampleEntity, error) {
 		entitys = append(entitys, &entity)
 	}
 	if err != nil {
+		log.Println(err, queryString)
 		return nil, err
 	}
 
@@ -77,7 +83,8 @@ func (d *SampleDao) SelectByID(id int) (*SampleEntity, error) {
 	}
 
 	var entity SampleEntity
-	if err := d.QueryRow(queryString).Scan(&entity.ID, &entity.Name); err != nil {
+	if err := d.QueryRow(queryString).Scan(&entity.ID, &entity.Name, &entity.CreateAt); err != nil {
+		log.Println(err, queryString)
 		return nil, err
 	}
 
@@ -88,24 +95,34 @@ func (d *SampleDao) SelectByID(id int) (*SampleEntity, error) {
 func (d *SampleDao) Insert(entity SampleEntity) (sql.Result, error) {
 
 	args := goma.QueryArgs{
-		"id":   entity.ID,
-		"name": entity.Name,
+		"id":        entity.ID,
+		"name":      entity.Name,
+		"create_at": entity.CreateAt,
 	}
 	queryString := d.QueryArgs("sample", "insert", args)
 
-	return d.Exec(queryString)
+	result, err := d.Exec(queryString)
+	if err != nil {
+		log.Println(err, queryString)
+	}
+	return result, err
 }
 
 // Update update sample table.
 func (d *SampleDao) Update(entity SampleEntity) (sql.Result, error) {
 
 	args := goma.QueryArgs{
-		"id":   entity.ID,
-		"name": entity.Name,
+		"id":        entity.ID,
+		"name":      entity.Name,
+		"create_at": entity.CreateAt,
 	}
 	queryString := d.QueryArgs("sample", "update", args)
 
-	return d.Exec(queryString)
+	result, err := d.Exec(queryString)
+	if err != nil {
+		log.Println(err, queryString)
+	}
+	return result, err
 }
 
 // Delete delete sample table by primaryKey.
@@ -116,5 +133,9 @@ func (d *SampleDao) Delete(id int) (sql.Result, error) {
 	}
 	queryString := d.QueryArgs("sample", "delete", args)
 
-	return d.Exec(queryString)
+	result, err := d.Exec(queryString)
+	if err != nil {
+		log.Println(err, queryString)
+	}
+	return result, err
 }

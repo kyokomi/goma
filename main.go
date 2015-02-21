@@ -39,46 +39,6 @@ func init() {
 	flag.Parse()
 }
 
-type DaoTemplateData struct {
-	Name       string
-	MemberName string
-	EntityName string
-	Table      TableTemplateData
-	Imports    []string
-}
-
-type TableTemplateData struct {
-	Name      string
-	TitleName string
-	Columns   []ColumnTemplateData
-}
-
-type ColumnTemplateData struct {
-	Name         string
-	TitleName    string
-	TypeName     string
-	IsPrimaryKey bool
-	Sample       string
-}
-
-type Set map[string]bool
-
-func (s Set) Add(key string) {
-	if key != "" {
-		s[key] = true
-	}
-}
-
-func (s Set) Slice() []string {
-	var keys []string
-	for key, val := range s {
-		if val {
-			keys = append(keys, key)
-		}
-	}
-	return keys
-}
-
 var sampleDataMap = map[reflect.Type]string{
 	reflect.TypeOf(int(1)):         "1",
 	reflect.TypeOf(string("test")): "'test'",
@@ -104,31 +64,27 @@ func main() {
 	}
 
 	if err := os.Mkdir("sql", 0755); err != nil {
-		log.Println("sql dir exsist")
+		debugPrintln("sql dir exist")
 	}
 
 	if err := os.Mkdir("dao", 0755); err != nil {
-		log.Println("dao dir exsist")
+		debugPrintln("dao dir exist")
 	}
 
 	for _, table := range tables {
-		fmt.Println("========== ", table.Name, " ==========")
+		debugPrintln("start ", table.Name)
 
-		importsMap := make(Set, 0)
+		importsMap := make(set, 0)
 
-		columns := make([]ColumnTemplateData, 0)
+		var columns []ColumnTemplateData
 		for _, c := range table.Columns() {
 
 			typ := core.SQLType2Type(c.SQLType)
-			importsMap.Add(typ.PkgPath())
+			importsMap.add(typ.PkgPath())
 
 			typeName := typ.Name()
 			if typ.PkgPath() != "" {
 				typeName = typ.PkgPath() + "." + typ.Name()
-			}
-
-			if c.SQLType.IsTime() {
-				typeName = "*" + typeName
 			}
 
 			sampleData := sampleDataMap[typ]
@@ -152,7 +108,7 @@ func main() {
 				TitleName: lint.String(strings.Title(table.Name)),
 				Columns:   columns,
 			},
-			Imports: importsMap.Slice(),
+			Imports: importsMap.slice(),
 		}
 
 		var buf bytes.Buffer
@@ -170,7 +126,7 @@ func main() {
 		}
 
 		if err := os.Mkdir("sql/"+table.Name, 0755); err != nil {
-			log.Println("sql/" + table.Name + " dir exsist")
+			debugPrintln("sql/" + table.Name + " dir exsist")
 		}
 
 		buf.Reset()
@@ -223,4 +179,11 @@ func main() {
 			}
 		}
 	}
+}
+
+func debugPrintln(v ...interface{}) {
+	// SliceInsert (https://code.google.com/p/go-wiki/wiki/SliceTricks)
+	v = append(v[:0], append([]interface{}{"[goma]", "[debug]"}, v[0:]...)...)
+
+	fmt.Println(v...)
 }

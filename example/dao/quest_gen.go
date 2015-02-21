@@ -5,6 +5,10 @@ package dao
 // DO NOT EDIT
 
 import (
+	"log"
+
+	"time"
+
 	"database/sql"
 
 	"github.com/kyokomi/goma/goma"
@@ -27,9 +31,10 @@ func Quest(g *goma.Goma) *QuestDao {
 
 // QuestEntity is generated quest table.
 type QuestEntity struct {
-	ID     int
-	Name   string
-	Detail string
+	ID       int
+	Name     string
+	Detail   string
+	CreateAt time.Time
 }
 
 // SelectAll select quest table all recode.
@@ -45,7 +50,7 @@ func (d *QuestDao) SelectAll() ([]*QuestEntity, error) {
 
 	for rows.Next() {
 		var entity QuestEntity
-		err = rows.Scan(&entity.ID, &entity.Name, &entity.Detail)
+		err = rows.Scan(&entity.ID, &entity.Name, &entity.Detail, &entity.CreateAt)
 		if err != nil {
 			break
 		}
@@ -53,6 +58,7 @@ func (d *QuestDao) SelectAll() ([]*QuestEntity, error) {
 		entitys = append(entitys, &entity)
 	}
 	if err != nil {
+		log.Println(err, queryString)
 		return nil, err
 	}
 
@@ -78,7 +84,8 @@ func (d *QuestDao) SelectByID(id int) (*QuestEntity, error) {
 	}
 
 	var entity QuestEntity
-	if err := d.QueryRow(queryString).Scan(&entity.ID, &entity.Name, &entity.Detail); err != nil {
+	if err := d.QueryRow(queryString).Scan(&entity.ID, &entity.Name, &entity.Detail, &entity.CreateAt); err != nil {
+		log.Println(err, queryString)
 		return nil, err
 	}
 
@@ -89,26 +96,36 @@ func (d *QuestDao) SelectByID(id int) (*QuestEntity, error) {
 func (d *QuestDao) Insert(entity QuestEntity) (sql.Result, error) {
 
 	args := goma.QueryArgs{
-		"id":     entity.ID,
-		"name":   entity.Name,
-		"detail": entity.Detail,
+		"id":        entity.ID,
+		"name":      entity.Name,
+		"detail":    entity.Detail,
+		"create_at": entity.CreateAt,
 	}
 	queryString := d.QueryArgs("quest", "insert", args)
 
-	return d.Exec(queryString)
+	result, err := d.Exec(queryString)
+	if err != nil {
+		log.Println(err, queryString)
+	}
+	return result, err
 }
 
 // Update update quest table.
 func (d *QuestDao) Update(entity QuestEntity) (sql.Result, error) {
 
 	args := goma.QueryArgs{
-		"id":     entity.ID,
-		"name":   entity.Name,
-		"detail": entity.Detail,
+		"id":        entity.ID,
+		"name":      entity.Name,
+		"detail":    entity.Detail,
+		"create_at": entity.CreateAt,
 	}
 	queryString := d.QueryArgs("quest", "update", args)
 
-	return d.Exec(queryString)
+	result, err := d.Exec(queryString)
+	if err != nil {
+		log.Println(err, queryString)
+	}
+	return result, err
 }
 
 // Delete delete quest table by primaryKey.
@@ -119,5 +136,9 @@ func (d *QuestDao) Delete(id int) (sql.Result, error) {
 	}
 	queryString := d.QueryArgs("quest", "delete", args)
 
-	return d.Exec(queryString)
+	result, err := d.Exec(queryString)
+	if err != nil {
+		log.Println(err, queryString)
+	}
+	return result, err
 }

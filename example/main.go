@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"log"
+	"time"
 
 	_ "github.com/go-sql-driver/mysql"
 
@@ -10,16 +11,19 @@ import (
 	"github.com/kyokomi/goma/goma"
 )
 
-//go:generate goma -driver=mysql -source=admin:password@tcp(localhost:3306)/test
+//go:generate goma -driver=mysql -source=admin:password@tcp(localhost:3306)/test?parseTime=true&loc=Local
 
 func main() {
 	fmt.Println("Hello goma!")
 
 	opts := goma.Options{
-		Driver: "mysql",
-		Source: "admin:password@tcp(localhost:3306)/test",
-		Debug:  false,
-		DBName: "test",
+		Driver:   "mysql",
+		UserName: "admin",
+		PassWord: "password",
+		Host:     "localhost",
+		Port:     3306,
+		DBName:   "test",
+		Debug:    true,
 	}
 	g, err := goma.NewGoma(opts)
 	if err != nil {
@@ -33,10 +37,13 @@ func main() {
 		log.Fatalln(err)
 	}
 
+	now := time.Now()
+
 	_, err = dao.Quest(g).Insert(dao.QuestEntity{
-		ID:     99,
-		Name:   "test",
-		Detail: "test detail",
+		ID:       99,
+		Name:     "test",
+		Detail:   "test detail",
+		CreateAt: now,
 	})
 	if err != nil {
 		log.Fatalln(err)
@@ -49,9 +56,10 @@ func main() {
 	}
 
 	_, err = dao.Quest(g).Update(dao.QuestEntity{
-		ID:     99,
-		Name:   "test 2",
-		Detail: "test detail 2",
+		ID:       99,
+		Name:     "test 2",
+		Detail:   "test detail 2",
+		CreateAt: now,
 	})
 	if err != nil {
 		log.Fatalln(err)

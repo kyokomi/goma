@@ -5,36 +5,62 @@ import (
 	"log"
 	"regexp"
 	"strconv"
+	"time"
 
 	"io/ioutil"
 
+	"fmt"
 	"strings"
 )
 
+// Goma is sql.DB access wrapper.
 type Goma struct {
 	*sql.DB
 	options    Options
-	queryCache map[TableName]map[QueryName]string
+	queryCache map[tableName]map[queryName]string
 }
 
+// QueryArgs sql query args
 type QueryArgs map[string]interface{}
 
-type TableName string
-type QueryName string
+type tableName string
+type queryName string
 
+// Options is open sql.DB options.
 type Options struct {
-	Driver string // DriverName
-	Source string // DataSource
-	DBName string // DataBaseName
-	Debug  bool
+	Driver   string // DriverName
+	UserName string // access user name `admin`
+	PassWord string // access user password `password`
+	Host     string // localhost
+	Port     int    // 3306
+	DBName   string // DataBaseName
+	Debug    bool
 }
 
+func (o Options) source() string {
+	// admin:password@tcp(localhost:3306)/test?parseTime=true&loc=Local
+	return fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?parseTime=%v&loc=%s",
+		o.UserName,
+		o.PassWord,
+		o.Host,
+		o.Port,
+		o.DBName,
+		true,
+		"Local",
+	)
+}
+
+// NewGoma is create goma client.
+// - database opne
+// - query local cache
 func NewGoma(options Options) (*Goma, error) {
 
 	var d Goma
 	d.options = options
 
-	db, err := sql.Open(options.Driver, options.Source)
+	d.debugPrintln(options.source())
+
+	db, err := sql.Open(options.Driver, options.source())
 	if err != nil {
 		return nil, err
 	}
@@ -49,7 +75,7 @@ func NewGoma(options Options) (*Goma, error) {
 		return nil, err
 	}
 
-	d.queryCache = make(map[TableName]map[QueryName]string, len(dirs))
+	d.queryCache = make(map[tableName]map[queryName]string, len(dirs))
 	for _, dir := range dirs {
 		if !dir.IsDir() {
 			continue
@@ -61,9 +87,9 @@ func NewGoma(options Options) (*Goma, error) {
 			continue
 		}
 
-		tableName := TableName(dir.Name())
+		tableName := tableName(dir.Name())
 
-		d.queryCache[tableName] = make(map[QueryName]string, len(fileInfos))
+		d.queryCache[tableName] = make(map[queryName]string, len(fileInfos))
 
 		for _, fileInfo := range fileInfos {
 			if fileInfo.IsDir() {
@@ -76,23 +102,28 @@ func NewGoma(options Options) (*Goma, error) {
 				continue
 			}
 
-			queryName := QueryName(strings.Replace(fileInfo.Name(), ".sql", "", -1))
+			queryName := queryName(strings.Replace(fileInfo.Name(), ".sql", "", -1))
 			d.queryCache[tableName][queryName] = string(f)
+
+			d.debugPrintln("cache ok:")
+			d.debugPrintln(d.queryCache[tableName][queryName])
 		}
 	}
 
 	return &d, nil
 }
 
+// Close sql.DB close.
 func (d *Goma) Close() error {
-	d.Println("goma close")
+	d.debugPrintln("goma close")
 
 	err := d.DB.Close()
 
 	return err
 }
 
-func (d *Goma) QueryArgs(tableName TableName, queryName QueryName, args QueryArgs) string {
+// QueryArgs create sql query in the local cache.
+func (d *Goma) QueryArgs(tableName tableName, queryName queryName, args QueryArgs) string {
 	cacheQuery := d.queryCache[tableName][queryName]
 	if cacheQuery == "" {
 		// TODO: ないときどうする? 再度読み込み?
@@ -105,8 +136,6 @@ func (d *Goma) queryArgs(queryString string, args QueryArgs) string {
 		return queryString
 	}
 
-	d.Println("old: ", queryString)
-
 	for key, val := range args {
 		re := regexp.MustCompile(`\/\* ` + key + ` \*\/.*`)
 
@@ -115,18 +144,18 @@ func (d *Goma) queryArgs(queryString string, args QueryArgs) string {
 		case int:
 			replaceWord = strconv.Itoa(val.(int))
 		case string:
-			replaceWord = "\"" + val.(string) + "\""
+			replaceWord = "'" + val.(string) + "'"
+		case time.Time:
+			replaceWord = "'" + val.(time.Time).Format("2006-01-02 15:04:05") + "'"
 		}
 		queryString = re.ReplaceAllString(queryString, replaceWord)
 	}
 
-	d.Println("new: ", queryString)
-
 	return queryString
 }
 
-func (d *Goma) Println(v ...interface{}) {
+func (d *Goma) debugPrintln(v ...interface{}) {
 	if d.options.Debug {
-		log.Println(v)
+		fmt.Println(v...)
 	}
 }

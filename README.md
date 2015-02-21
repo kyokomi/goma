@@ -20,14 +20,15 @@ $ go install github.com/kyokomi/goma
 
 ```
 mysql> SHOW COLUMNS FROM quest;
-+--------+---------+------+-----+---------+-------+
-| Field  | Type    | Null | Key | Default | Extra |
-+--------+---------+------+-----+---------+-------+
-| id     | int(11) | NO   | PRI | 0       |       |
-| name   | text    | YES  |     | NULL    |       |
-| detail | text    | YES  |     | NULL    |       |
-+--------+---------+------+-----+---------+-------+
-3 rows in set (0.00 sec)
++-----------+----------+------+-----+---------+-------+
+| Field     | Type     | Null | Key | Default | Extra |
++-----------+----------+------+-----+---------+-------+
+| id        | int(11)  | NO   | PRI | 0       |       |
+| name      | text     | YES  |     | NULL    |       |
+| detail    | text     | YES  |     | NULL    |       |
+| create_at | datetime | YES  |     | NULL    |       |
++-----------+----------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
 ```
 
 ### Example main.go（mysql）
@@ -47,15 +48,19 @@ import (
 	"github.com/kyokomi/goma/goma"
 )
 
-//go:generate goma -driver=mysql -source=admin:password@tcp(localhost:3306)/test
+//go:generate goma -driver=mysql -source=admin:password@tcp(localhost:3306)/test?parseTime=true&loc=Local
 
 func main() {
 	fmt.Println("Hello goma!")
 
 	opts := goma.Options{
-		Driver: "mysql",
-		Source: "admin:password@tcp(localhost:3306)/test",
-		Debug:  false,
+		Driver:   "mysql",
+		UserName: "admin",
+		PassWord: "password",
+		Host:     "localhost",
+		Port:     3306,
+		DBName:   "test",
+		Debug:    true,
 	}
 	g, err := goma.NewGoma(opts)
 	if err != nil {
@@ -63,12 +68,54 @@ func main() {
 	}
 	defer g.Close()
 
-	q, err := dao.Quest(g).SelectByID(1)
+	// Insert
+
+	_, err = dao.Quest(g).Insert(dao.QuestEntity{
+		ID:       99,
+		Name:     "test",
+		Detail:   "test detail",
+		CreateAt: time.Now(),
+	})
 	if err != nil {
 		log.Fatalln(err)
 	}
 
-	fmt.Printf("%+v\n", q)
+	if q, err := dao.Quest(g).SelectByID(99); err != nil {
+		log.Fatalln(err)
+	} else {
+		fmt.Printf("insert after: %+v\n", q)
+	}
+	
+	// Update
+
+	_, err = dao.Quest(g).Update(dao.QuestEntity{
+		ID:       99,
+		Name:     "test 2",
+		Detail:   "test detail 2",
+		CreateAt: time.Now(),
+	})
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	if q, err := dao.Quest(g).SelectByID(99); err != nil {
+		log.Fatalln(err)
+	} else {
+		fmt.Printf("update after: %+v\n", q)
+	}
+
+	// Delete
+
+	_, err = dao.Quest(g).Delete(99)
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	if q, err := dao.Quest(g).SelectByID(99); err != nil {
+		log.Fatalln(err)
+	} else {
+		fmt.Printf("delete after: %+v\n", q)
+	}
 }
 
 ```
@@ -95,11 +142,17 @@ $ tree
 ├── main.go
 └── sql
     ├── xxxxx1
+    │   ├── delete.sql
+    │   ├── insert.sql
     │   ├── selectAll.sql
-    │   └── selectByID.sql
+    │   ├── selectByID.sql
+    │   └── update.sql
     └── xxxxx2
+        ├── delete.sql
+        ├── insert.sql
         ├── selectAll.sql
-        └── selectByID.sql
+        ├── selectByID.sql
+        └── update.sql
 ```
 
 [example code](https://github.com/kyokomi/goma/blob/master/example)
