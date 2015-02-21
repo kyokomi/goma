@@ -11,10 +11,7 @@ I'm making based on [Doma](https://github.com/domaframework/doma);
 ## Install
 
 ```
-$ go get github.com/benbjohnson/ego/cmd/ego
-$ go get -u -v github.com/kyokomi/goma
-$ go generate github.com/kyokomi/goma
-$ go install github.com/kyokomi/goma
+$ go get -u github.com/kyokomi/goma
 ```
 
 ## Usage
