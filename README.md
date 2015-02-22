@@ -1,5 +1,8 @@
 goma (胡麻)
 ====================
+
+[![Circle CI](https://circleci.com/gh/kyokomi/goma.svg?style=svg)](https://circleci.com/gh/kyokomi/goma)
+[![Coverage Status](https://coveralls.io/repos/kyokomi/goma/badge.svg?branch=master)](https://coveralls.io/r/kyokomi/goma?branch=master)
 [![GoDoc](https://godoc.org/github.com/kyokomi/goma/goma?status.svg)](https://godoc.org/github.com/kyokomi/goma/goma)
 
 goma (胡麻) is a Database access framework for golang（Go）
