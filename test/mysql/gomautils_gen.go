@@ -20,6 +20,7 @@ type Goma struct {
 
 	// dao
 	GomaNumericTypes *dao.GomaNumericTypesDao
+	GomaStringTypes  *dao.GomaStringTypesDao
 }
 
 // NewGoma is goma.Goma wrapper utils.
@@ -51,6 +52,7 @@ func NewGoma() (Goma, error) {
 	gm := Goma{}
 	gm.Goma = g
 	gm.GomaNumericTypes = dao.GomaNumericTypes(g)
+	gm.GomaStringTypes = dao.GomaStringTypes(g)
 
 	return gm, nil
 }
