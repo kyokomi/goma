@@ -1,10 +1,10 @@
-dependencies:
-  pre:
-    - go get -u -f -v github.com/benbjohnson/ego/cmd/ego
-    - go get -u -v github.com/kyokomi/goma/goma
 test:
   pre:
+    - go get -u -f -v github.com/benbjohnson/ego/cmd/ego
+    - go get -u -f -v github.com/kyokomi/goma/goma
     - go get github.com/axw/gocov/gocov
     - go get github.com/mattn/goveralls
+    - mkdir -p $HOME/.go_workspace/src/_/home/ubuntu/
+    - ln -s $HOME/$CIRCLE_PROJECT_REPONAME $HOME/.go_workspace/src/_/home/ubuntu/
   post:
-    - goveralls -v -service=circle-ci -repotoken $COVERALLS_GOMA_TOKEN
+    - goveralls -v -service=circle-ci -repotoken $COVERALLS_GOMA_TOKEN github.com/kyokomi/goma
