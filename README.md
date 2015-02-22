@@ -14,10 +14,11 @@ I'm making based on [Doma](https://github.com/domaframework/doma);
 ## Install
 
 ```
-$ go get -u github.com/kyokomi/goma
+$ go get -u github.com/kyokomi/goma/gen/goma
 ```
 
 ## Usage
+
 
 ### Example `test` database `quest` table
 

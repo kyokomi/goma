@@ -5,15 +5,15 @@
 // https://developers.google.com/open-source/licenses/bsd.
 
 // Package lint contains a linter for Go source code.
-package lint
+package main
 
 import (
 	"strings"
 	"unicode"
 )
 
-// String returns a different name if it should be different.
-func String(name string) (should string) {
+// lintName returns a different name if it should be different.
+func lintName(name string) (should string) {
 	// Fast path for simple cases: "_" and all lowercase.
 	if name == "_" {
 		return name

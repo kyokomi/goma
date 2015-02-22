@@ -8,8 +8,6 @@ import (
 	"io/ioutil"
 	"os"
 	"path/filepath"
-
-	"github.com/kyokomi/goma/debuglog"
 )
 
 // HelperTemplateData helper data.
@@ -101,7 +99,7 @@ func (t TableTemplateData) execTableTemplate(sqlRootDir string) error {
 			return
 		}
 
-		debuglog.Println("generate file:", filePath)
+		debugPrintln("generate file:", filePath)
 	}
 
 	fileWriteFunc(SelectAllTemplate, "selectAll.sql")
@@ -128,6 +126,14 @@ func formatFileWrite(path, fileName string, data []byte) error {
 		return fmt.Errorf("file write error: %s \n%s", err, filePath)
 	}
 
-	debuglog.Println("generate file:", filePath)
+	debugPrintln("generate file:", filePath)
 	return nil
+}
+
+// Println Debug Println
+func debugPrintln(v ...interface{}) {
+	// SliceInsert (https://code.google.com/p/go-wiki/wiki/SliceTricks)
+	v = append(v[:0], append([]interface{}{"[goma]", "[debug]"}, v[0:]...)...)
+
+	fmt.Println(v...)
 }

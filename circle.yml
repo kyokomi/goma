@@ -1,7 +1,7 @@
 test:
   pre:
     - go get -u -f -v github.com/benbjohnson/ego/cmd/ego
-    - go get -u -f -v github.com/kyokomi/goma/goma
+    - go get -u -f -v github.com/kyokomi/goma/gen/goma
     - go get github.com/axw/gocov/gocov
     - go get github.com/mattn/goveralls
     - mkdir -p $HOME/.go_workspace/src/_/home/ubuntu/

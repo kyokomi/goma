@@ -17,7 +17,6 @@ import (
 	_ "github.com/lib/pq"
 
 	"github.com/kyokomi/goma"
-	"github.com/kyokomi/goma/lint"
 )
 
 var (
@@ -160,15 +159,15 @@ func newTemplateData(table *core.Table, opt goma.Options) DaoTemplateData {
 	columns := newColumns(table.Columns())
 
 	data := DaoTemplateData{}
-	data.Name = lint.String(strings.Title(table.Name) + "Dao")
-	data.MemberName = "s" + lint.String(strings.Title(table.Name))
-	data.EntityName = lint.String(strings.Title(table.Name) + "Entity")
+	data.Name = lintName(strings.Title(table.Name) + "Dao")
+	data.MemberName = "s" + lintName(strings.Title(table.Name))
+	data.EntityName = lintName(strings.Title(table.Name) + "Entity")
 	data.DaoPkgName = opt.DaoPkgName()
 	data.EntityPkgName = opt.EntityPkgName()
 	data.EntityImport = opt.EntityImportPath()
 	data.Table = TableTemplateData{
 		Name:      table.Name,
-		TitleName: lint.String(strings.Title(table.Name)),
+		TitleName: lintName(strings.Title(table.Name)),
 		Columns:   columns,
 	}
 	data.Imports = imports.slice()
@@ -212,7 +211,7 @@ func newColumns(columns []*core.Column) []ColumnTemplateData {
 
 		column := ColumnTemplateData{
 			Name:         c.Name,
-			TitleName:    lint.String(strings.Title(c.Name)),
+			TitleName:    lintName(strings.Title(c.Name)),
 			TypeName:     typeName,
 			TypeDetail:   typeDetail,
 			IsPrimaryKey: c.IsPrimaryKey,
