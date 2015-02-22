@@ -23,6 +23,7 @@ func main() {
 	numericTest(goma)
 	stringTest(goma)
 	dateTest(goma)
+	binaryTest(goma)
 }
 
 func numericTest(g Goma) {
@@ -139,5 +140,47 @@ func dateTest(g Goma) {
 	} else {
 		fmt.Printf("%s: %+v\n", dao.TableName, e)
 	}
+}
 
+func binaryTest(g Goma) {
+
+	id := int64(1234567890)
+
+	// date
+	dao := g.GomaBinaryTypes
+
+	_, err := dao.Insert(entity.GomaBinaryTypesEntity{
+		ID:                id,
+		BinaryColumns:     []uint8{49},
+		TinyblobColumns:   []uint8{49, 49, 50, 51, 52, 53, 54, 55, 56},
+		BlobColumns:       []uint8{49, 49, 50, 51, 52, 53, 54, 55, 56},
+		MediumblobColumns: []uint8{49, 49, 50, 51, 52, 53, 54, 55, 56},
+		LongblobColumns:   []uint8{110, 111, 112, 113, 114, 115, 116, 117, 118},
+		VarbinaryColumns:  []uint8{49, 49, 50, 51, 52, 53, 54, 55, 56},
+	})
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	if e, err := dao.SelectByID(id); err != nil {
+		log.Fatalln(err)
+	} else {
+		fmt.Printf("%s: %s\n", dao.TableName, string(e.BinaryColumns))
+		fmt.Printf("%s: %s\n", dao.TableName, string(e.TinyblobColumns))
+		fmt.Printf("%s: %s\n", dao.TableName, string(e.BlobColumns))
+		fmt.Printf("%s: %s\n", dao.TableName, string(e.MediumblobColumns))
+		fmt.Printf("%s: %s\n", dao.TableName, string(e.LongblobColumns))
+		fmt.Printf("%s: %s\n", dao.TableName, string(e.VarbinaryColumns))
+	}
+
+	_, err = dao.Delete(id)
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	if e, err := dao.SelectByID(id); err != nil {
+		log.Fatalln(err)
+	} else {
+		fmt.Printf("%s: %+v\n", dao.TableName, e)
+	}
 }

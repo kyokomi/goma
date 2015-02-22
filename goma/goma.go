@@ -150,6 +150,8 @@ func queryArgs(queryString string, args QueryArgs) string {
 			replaceWord = strconv.FormatInt(val.(int64), 10)
 		case string:
 			replaceWord = "'" + val.(string) + "'"
+		case []uint8:
+			replaceWord = "'" + string(val.([]uint8)) + "'"
 			//		case Time:
 			//			replaceWord = "'" + val.(Time).Time.Format("15:04:05") + "'"
 			//		case Date:

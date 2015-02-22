@@ -62,6 +62,7 @@ var sampleDataMap = map[reflect.Type]string{
 	reflect.TypeOf(float64(64.1)):  "64.1",
 	reflect.TypeOf(int64(64)):      "64",
 	reflect.TypeOf(string("1111")): "'1111'",
+	reflect.TypeOf([]uint8{}):      "'abcdefghijk'",
 	reflect.TypeOf(time.Now()):     "'2006/01/02 13:40:00'",
 }
 
@@ -193,7 +194,7 @@ func newColumns(columns []*core.Column) []ColumnTemplateData {
 		if typ.PkgPath() != "" {
 			typeName = typ.PkgPath() + "." + typ.Name()
 		}
-		
+
 		if typeName == "" {
 			typeName = typ.String()
 		}
@@ -207,7 +208,7 @@ func newColumns(columns []*core.Column) []ColumnTemplateData {
 		if c.SQLType.DefaultLength > 0 {
 			typeLength = fmt.Sprintf("(%d)", c.SQLType.DefaultLength)
 		}
-		typeDetail := fmt.Sprintf("`goma:\"%s" + typeLength + primaryKey + "\"`", c.SQLType.Name)
+		typeDetail := fmt.Sprintf("`goma:\"%s"+typeLength+primaryKey+"\"`", c.SQLType.Name)
 
 		column := ColumnTemplateData{
 			Name:         c.Name,

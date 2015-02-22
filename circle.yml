@@ -7,8 +7,6 @@ dependencies:
   override:
     - go get -t -d -v ./...
     - go build -v -o ./dist/goma
-    - go generate
-    - go install github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME
 test:
   pre:
     - go get github.com/axw/gocov/gocov
