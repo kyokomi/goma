@@ -112,11 +112,12 @@ func (d *Goma) QueryArgs(tableName tableName, queryName queryName, args QueryArg
 	cacheQuery := d.queryCache[tableName][queryName]
 	if cacheQuery == "" {
 		// TODO: ないときどうする? 再度読み込み?
+		d.debugPrintln("not cache!")
 	}
-	return d.queryArgs(cacheQuery, args)
+	return queryArgs(cacheQuery, args)
 }
 
-func (d *Goma) queryArgs(queryString string, args QueryArgs) string {
+func queryArgs(queryString string, args QueryArgs) string {
 	if len(args) <= 0 {
 		return queryString
 	}
