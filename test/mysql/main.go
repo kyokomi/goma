@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"log"
 
+	"time"
+
 	"github.com/kyokomi/goma/test/mysql/entity"
 )
 
@@ -20,15 +22,17 @@ func main() {
 
 	numericTest(goma)
 	stringTest(goma)
+	dateTest(goma)
 }
 
-func numericTest(goma Goma) {
+func numericTest(g Goma) {
 
 	id := int64(1234567890)
 
 	// numeric
+	dao := g.GomaNumericTypes
 
-	_, err := goma.GomaNumericTypes.Insert(entity.GomaNumericTypesEntity{
+	_, err := dao.Insert(entity.GomaNumericTypesEntity{
 		ID:               id,
 		TinyintColumns:   int(8),
 		BoolColumns:      int(1),
@@ -46,31 +50,32 @@ func numericTest(goma Goma) {
 		log.Fatalln(err)
 	}
 
-	if numericTbl, err := goma.GomaNumericTypes.SelectByID(id); err != nil {
+	if e, err := dao.SelectByID(id); err != nil {
 		log.Fatalln(err)
 	} else {
-		fmt.Printf("%s: %+v\n", goma.GomaNumericTypes.TableName, numericTbl)
+		fmt.Printf("%s: %+v\n", dao.TableName, e)
 	}
 
-	_, err = goma.GomaNumericTypes.Delete(id)
+	_, err = dao.Delete(id)
 	if err != nil {
 		log.Fatalln(err)
 	}
 
-	if numericTbl, err := goma.GomaNumericTypes.SelectByID(id); err != nil {
+	if e, err := dao.SelectByID(id); err != nil {
 		log.Fatalln(err)
 	} else {
-		fmt.Printf("%s: %+v\n", goma.GomaNumericTypes.TableName, numericTbl)
+		fmt.Printf("%s: %+v\n", dao.TableName, e)
 	}
 }
 
-func stringTest(goma Goma) {
+func stringTest(g Goma) {
 
 	id := int64(1234567890)
 
 	// string
+	dao := g.GomaStringTypes
 
-	_, err := goma.GomaStringTypes.Insert(entity.GomaStringTypesEntity{
+	_, err := dao.Insert(entity.GomaStringTypesEntity{
 		ID:             id,
 		Text:           "あいうえおかきくけこ",
 		CharColumns:    "a",
@@ -80,21 +85,56 @@ func stringTest(goma Goma) {
 		log.Fatalln(err)
 	}
 
-	if numericTbl, err := goma.GomaStringTypes.SelectByID(id); err != nil {
+	if e, err := dao.SelectByID(id); err != nil {
 		log.Fatalln(err)
 	} else {
-		fmt.Printf("%s: %+v\n", goma.GomaStringTypes.TableName, numericTbl)
+		fmt.Printf("%s: %+v\n", dao.TableName, e)
 	}
 
-	_, err = goma.GomaStringTypes.Delete(id)
+	_, err = dao.Delete(id)
 	if err != nil {
 		log.Fatalln(err)
 	}
 
-	if numericTbl, err := goma.GomaStringTypes.SelectByID(id); err != nil {
+	if e, err := dao.SelectByID(id); err != nil {
 		log.Fatalln(err)
 	} else {
-		fmt.Printf("%s: %+v\n", goma.GomaStringTypes.TableName, numericTbl)
+		fmt.Printf("%s: %+v\n", dao.TableName, e)
+	}
+}
+
+func dateTest(g Goma) {
+
+	id := int64(1234567890)
+
+	// date
+	dao := g.GomaDateTypes
+
+	_, err := dao.Insert(entity.GomaDateTypesEntity{
+		ID:               id,
+		DateColumns:      time.Now(),
+		DatetimeColumns:  time.Now(),
+		TimestampColumns: time.Now(),
+	})
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	if e, err := dao.SelectByID(id); err != nil {
+		log.Fatalln(err)
+	} else {
+		fmt.Printf("%s: %+v\n", dao.TableName, e)
+	}
+
+	_, err = dao.Delete(id)
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	if e, err := dao.SelectByID(id); err != nil {
+		log.Fatalln(err)
+	} else {
+		fmt.Printf("%s: %+v\n", dao.TableName, e)
 	}
 
 }

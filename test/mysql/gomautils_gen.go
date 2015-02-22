@@ -19,6 +19,7 @@ type Goma struct {
 	*goma.Goma
 
 	// dao
+	GomaDateTypes    *dao.GomaDateTypesDao
 	GomaNumericTypes *dao.GomaNumericTypesDao
 	GomaStringTypes  *dao.GomaStringTypesDao
 }
@@ -51,6 +52,7 @@ func NewGoma() (Goma, error) {
 
 	gm := Goma{}
 	gm.Goma = g
+	gm.GomaDateTypes = dao.GomaDateTypes(g)
 	gm.GomaNumericTypes = dao.GomaNumericTypes(g)
 	gm.GomaStringTypes = dao.GomaStringTypes(g)
 

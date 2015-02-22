@@ -225,8 +225,8 @@ if err != nil {
 
 ## Support Driver
 
-- mysql（https://github.com/go-sql-driver/mysql）
-- postgres（https://github.com/lib/pq）
+- mysql ( https://github.com/go-sql-driver/mysql )
+- postgres ( https://github.com/lib/pq )
 
 ## Author
 

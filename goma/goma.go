@@ -117,6 +117,17 @@ func (d *Goma) QueryArgs(tableName tableName, queryName queryName, args QueryArg
 	return queryArgs(cacheQuery, args)
 }
 
+// TODO: Time Deprecated 独自typeをentityパッケージにimportする必要があるため
+//type Time struct {
+//	time.Time
+//}
+//
+//func (t *Time) Scan(v interface{}) (err error) {
+//	t.Time, err = time.Parse("15:04:05", string(v.([]uint8)))
+//	return
+//}
+//var _ sql.Scanner = (*Time)(nil)
+
 func queryArgs(queryString string, args QueryArgs) string {
 	if len(args) <= 0 {
 		return queryString
@@ -139,8 +150,16 @@ func queryArgs(queryString string, args QueryArgs) string {
 			replaceWord = strconv.FormatInt(val.(int64), 10)
 		case string:
 			replaceWord = "'" + val.(string) + "'"
+			//		case Time:
+			//			replaceWord = "'" + val.(Time).Time.Format("15:04:05") + "'"
+			//		case Date:
+			//			replaceWord = "'" + time.Time(val.(Date)).Format("2006-01-02") + "'"
+			//		case Timestamp:
+			//			replaceWord = "'" + time.Time(val.(Timestamp)).Format("2006-01-02 15:04:05.999999999") + "'"
+			//		case mysql.NullTime:
+			//			replaceWord = "'" + val.(mysql.NullTime).Time.Format("2006-01-02 15:04:05.999999999") + "'"
 		case time.Time:
-			replaceWord = "'" + val.(time.Time).Format("2006-01-02 15:04:05") + "'"
+			replaceWord = "'" + val.(time.Time).Format("2006-01-02 15:04:05.999999999") + "'"
 		}
 		queryString = re.ReplaceAllString(queryString, replaceWord)
 	}
