@@ -193,11 +193,27 @@ func newColumns(columns []*core.Column) []ColumnTemplateData {
 		if typ.PkgPath() != "" {
 			typeName = typ.PkgPath() + "." + typ.Name()
 		}
+		
+		if typeName == "" {
+			typeName = typ.String()
+		}
+
+		primaryKey := ""
+		if c.IsPrimaryKey {
+			primaryKey = ":pk"
+		}
+
+		typeLength := ""
+		if c.SQLType.DefaultLength > 0 {
+			typeLength = fmt.Sprintf("(%d)", c.SQLType.DefaultLength)
+		}
+		typeDetail := fmt.Sprintf("`goma:\"%s" + typeLength + primaryKey + "\"`", c.SQLType.Name)
 
 		column := ColumnTemplateData{
 			Name:         c.Name,
 			TitleName:    lint.String(strings.Title(c.Name)),
 			TypeName:     typeName,
+			TypeDetail:   typeDetail,
 			IsPrimaryKey: c.IsPrimaryKey,
 			Sample:       sampleDataMap[typ],
 		}

@@ -12,6 +12,5 @@
     
 // <%= daoData.EntityName %> is generated <%= daoData.Table.Name %> table.
 type <%= daoData.EntityName %> struct {
-<% for _, column := range daoData.Table.Columns { %><%= column.TitleName %> <%= column.TypeName %>
-<% } %>
-}
+<% for _, column := range daoData.Table.Columns { %><%= column.TitleName %> <%= column.TypeName %> //<%= column.TypeDetail %>
+<% } %>}

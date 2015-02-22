@@ -46,6 +46,7 @@ type ColumnTemplateData struct {
 	Name         string
 	TitleName    string
 	TypeName     string
+	TypeDetail   string
 	IsPrimaryKey bool
 	Sample       string
 }

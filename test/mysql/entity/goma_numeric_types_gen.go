@@ -6,16 +6,16 @@ package entity
 
 // GomaNumericTypesEntity is generated goma_numeric_types table.
 type GomaNumericTypesEntity struct {
-	ID               int64
-	TinyintColumns   int
-	BoolColumns      int
-	SmallintColumns  int
-	MediumintColumns int
-	IntColumns       int
-	IntegerColumns   int
-	SerialColumns    int64
-	DecimalColumns   string
-	NumericColumns   string
-	FloatColumns     float32
-	DoubleColumns    float64
+	ID               int64   //`goma:"BIGINT(20):pk"`
+	TinyintColumns   int     //`goma:"TINYINT(4)"`
+	BoolColumns      int     //`goma:"TINYINT(1)"`
+	SmallintColumns  int     //`goma:"SMALLINT(6)"`
+	MediumintColumns int     //`goma:"MEDIUMINT(9)"`
+	IntColumns       int     //`goma:"INT(11)"`
+	IntegerColumns   int     //`goma:"INT(11)"`
+	SerialColumns    int64   //`goma:"BIGINT(20)"`
+	DecimalColumns   string  //`goma:"DECIMAL(10)"`
+	NumericColumns   string  //`goma:"DECIMAL(10)"`
+	FloatColumns     float32 //`goma:"FLOAT"`
+	DoubleColumns    float64 //`goma:"DOUBLE"`
 }

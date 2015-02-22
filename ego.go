@@ -431,12 +431,16 @@ _, _ = fmt.Fprintf(w, "%v",  column.TitleName )
 _, _ = fmt.Fprintf(w, " ")
 //line entity_template.go.ego:15
 _, _ = fmt.Fprintf(w, "%v",  column.TypeName )
+//line entity_template.go.ego:15
+_, _ = fmt.Fprintf(w, " //")
+//line entity_template.go.ego:15
+_, _ = fmt.Fprintf(w, "%v",  column.TypeDetail )
 //line entity_template.go.ego:16
 _, _ = fmt.Fprintf(w, "\n")
 //line entity_template.go.ego:16
  } 
-//line entity_template.go.ego:17
-_, _ = fmt.Fprintf(w, "\n}\n")
+//line entity_template.go.ego:16
+_, _ = fmt.Fprintf(w, "}\n")
 return nil
 }
 //line gomautils_template.go.ego:1
