@@ -128,6 +128,14 @@ func (d *Goma) queryArgs(queryString string, args QueryArgs) string {
 		switch val.(type) {
 		case int:
 			replaceWord = strconv.Itoa(val.(int))
+		case bool:
+			replaceWord = strconv.FormatBool(val.(bool))
+		case float32:
+			replaceWord = strconv.FormatFloat(float64(val.(float32)), 'f', 3, 32)
+		case float64:
+			replaceWord = strconv.FormatFloat(val.(float64), 'f', 3, 64)
+		case int64:
+			replaceWord = strconv.FormatInt(val.(int64), 10)
 		case string:
 			replaceWord = "'" + val.(string) + "'"
 		case time.Time:

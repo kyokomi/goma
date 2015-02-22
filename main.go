@@ -58,7 +58,10 @@ func init() {
 
 var sampleDataMap = map[reflect.Type]string{
 	reflect.TypeOf(int(1)):         "1",
-	reflect.TypeOf(string("test")): "'test'",
+	reflect.TypeOf(float32(32.1)):  "32.1",
+	reflect.TypeOf(float64(64.1)):  "64.1",
+	reflect.TypeOf(int64(64)):      "64",
+	reflect.TypeOf(string("1111")): "'1111'",
 	reflect.TypeOf(time.Now()):     "'2006/01/02 13:40:00'",
 }
 
@@ -114,7 +117,7 @@ func main() {
 	helperData.DaoPkgName = opt.DaoPkgName()
 
 	var daoList []DaoTemplateData
-	
+
 	// sql, dao generate
 
 	for _, table := range tables {
@@ -126,13 +129,13 @@ func main() {
 		if err := data.execDaoTemplate(daoRootPath); err != nil {
 			log.Fatalln(err)
 		}
-		
+
 		// entity template
 		entityRootPath := filepath.Join(opt.CurrentDir, opt.EntityRootDir)
 		if err := data.execEntityTemplate(entityRootPath); err != nil {
 			log.Fatalln(err)
 		}
-		
+
 		// sql template
 		sqlRootPath := filepath.Join(opt.CurrentDir, opt.SQLRootDir)
 		if err := data.Table.execTableTemplate(sqlRootPath); err != nil {
@@ -168,7 +171,7 @@ func newTemplateData(table *core.Table, opt goma.Options) DaoTemplateData {
 		Columns:   columns,
 	}
 	data.Imports = imports.slice()
-	
+
 	return data
 }
 

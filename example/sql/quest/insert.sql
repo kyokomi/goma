@@ -5,7 +5,7 @@ insert into quest(
 , create_at
 ) values(
   /* id */1
-, /* name */'test'
-, /* detail */'test'
+, /* name */'1111'
+, /* detail */'1111'
 , /* create_at */'2006/01/02 13:40:00'
 );
