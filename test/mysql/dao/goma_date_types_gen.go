@@ -11,7 +11,7 @@ import (
 
 	"github.com/kyokomi/goma/test/mysql/entity"
 
-	"github.com/kyokomi/goma/goma"
+	"github.com/kyokomi/goma"
 )
 
 // GomaDateTypesDao is generated goma_date_types table.

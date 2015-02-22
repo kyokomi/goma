@@ -10,7 +10,7 @@ import (
 
 // SampleEntity is generated sample table.
 type SampleEntity struct {
-	ID       int
-	Name     string
-	CreateAt time.Time
+	ID       int       //`goma:"INT(11):pk"`
+	Name     string    //`goma:"TEXT"`
+	CreateAt time.Time //`goma:"TIMESTAMP"`
 }

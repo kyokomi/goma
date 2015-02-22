@@ -11,7 +11,7 @@ import (
     
     "<%= daoData.EntityImport %>"
     
-    "github.com/kyokomi/goma/goma"
+    "github.com/kyokomi/goma"
 )
 
 // <%= daoData.Name %> is generated <%= daoData.Table.Name %> table.

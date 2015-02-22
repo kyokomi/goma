@@ -11,7 +11,7 @@ import (
 
 	"github.com/kyokomi/goma/example/entity"
 
-	"github.com/kyokomi/goma/goma"
+	"github.com/kyokomi/goma"
 )
 
 // QuestDao is generated quest table.

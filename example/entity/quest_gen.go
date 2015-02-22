@@ -10,8 +10,8 @@ import (
 
 // QuestEntity is generated quest table.
 type QuestEntity struct {
-	ID       int
-	Name     string
-	Detail   string
-	CreateAt time.Time
+	ID       int       //`goma:"INT(11):pk"`
+	Name     string    //`goma:"TEXT"`
+	Detail   string    //`goma:"TEXT"`
+	CreateAt time.Time //`goma:"DATETIME"`
 }

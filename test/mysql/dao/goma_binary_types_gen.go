@@ -11,7 +11,7 @@ import (
 
 	"github.com/kyokomi/goma/test/mysql/entity"
 
-	"github.com/kyokomi/goma/goma"
+	"github.com/kyokomi/goma"
 )
 
 // GomaBinaryTypesDao is generated goma_binary_types table.

@@ -16,7 +16,7 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 	_ "github.com/lib/pq"
 
-	"github.com/kyokomi/goma/goma"
+	"github.com/kyokomi/goma"
 	"github.com/kyokomi/goma/lint"
 )
 

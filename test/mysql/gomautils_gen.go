@@ -11,7 +11,7 @@ import (
 
 	"github.com/kyokomi/goma/test/mysql/dao"
 
-	"github.com/kyokomi/goma/goma"
+	"github.com/kyokomi/goma"
 )
 
 // Goma goma.Goma utils.

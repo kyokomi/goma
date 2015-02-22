@@ -4,8 +4,8 @@ import (
 	"database/sql"
 	"log"
 
+	"github.com/kyokomi/goma"
 	"github.com/kyokomi/goma/example/entity"
-	"github.com/kyokomi/goma/goma"
 )
 
 // Update update quest table.

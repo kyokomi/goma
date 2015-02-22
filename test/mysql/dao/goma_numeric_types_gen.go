@@ -11,7 +11,7 @@ import (
 
 	"github.com/kyokomi/goma/test/mysql/entity"
 
-	"github.com/kyokomi/goma/goma"
+	"github.com/kyokomi/goma"
 )
 
 // GomaNumericTypesDao is generated goma_numeric_types table.

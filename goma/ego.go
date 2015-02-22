@@ -14,7 +14,7 @@ _, _ = fmt.Fprintf(w, "\n\n// NOTE: THIS FILE WAS PRODUCED BY THE\n// GOMA CODE 
 //line dao_template.go.ego:12
 _, _ = fmt.Fprintf(w, "%v",  daoData.EntityImport )
 //line dao_template.go.ego:12
-_, _ = fmt.Fprintf(w, "\"\n    \n    \"github.com/kyokomi/goma/goma\"\n)\n\n// ")
+_, _ = fmt.Fprintf(w, "\"\n    \n    \"github.com/kyokomi/goma\"\n)\n\n// ")
 //line dao_template.go.ego:17
 _, _ = fmt.Fprintf(w, "%v",  daoData.Name )
 //line dao_template.go.ego:17
@@ -458,7 +458,7 @@ _, _ = fmt.Fprintf(w, "\n\t\n\t\"")
 //line gomautils_template.go.ego:12
 _, _ = fmt.Fprintf(w, "%v",  helperData.DaoImport )
 //line gomautils_template.go.ego:12
-_, _ = fmt.Fprintf(w, "\"\n        \n\t\"github.com/kyokomi/goma/goma\"\n)\n\n// Goma goma.Goma utils.\ntype Goma struct {\n\t*goma.Goma\n\n\t// dao\n\t")
+_, _ = fmt.Fprintf(w, "\"\n        \n\t\"github.com/kyokomi/goma\"\n)\n\n// Goma goma.Goma utils.\ntype Goma struct {\n\t*goma.Goma\n\n\t// dao\n\t")
 //line gomautils_template.go.ego:22
  for _, daoData := range helperData.DaoList { 
 //line gomautils_template.go.ego:22
