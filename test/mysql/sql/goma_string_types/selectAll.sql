@@ -1,6 +1,9 @@
 select
   id
-, text
+, text_columns
+, tinytext_columns
+, mediumtext_columns
+, longtext_columns
 , char_columns
 , varchar_columns
 FROM

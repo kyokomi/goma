@@ -76,10 +76,13 @@ func stringTest(g Goma) {
 	dao := g.GomaStringTypes
 
 	_, err := dao.Insert(entity.GomaStringTypesEntity{
-		ID:             id,
-		Text:           "あいうえおかきくけこ",
-		CharColumns:    "a",
-		VarcharColumns: "1234567890abcdefghijkelmnopqrstuvwxyz",
+		ID:                id,
+		TextColumns:       "あいうえおかきくけこ",
+		TinytextColumns:   "abc",
+		MediumtextColumns: "abcdefg",
+		LongtextColumns:   "鉄1234567890abcdefghijkelmnopqrstuvwxyz1234567890abcdefghijkelmnopqrstuvwxyz柱",
+		CharColumns:       "a",
+		VarcharColumns:    "1234567890abcdefghijkelmnopqrstuvwxyz",
 	})
 	if err != nil {
 		log.Fatalln(err)

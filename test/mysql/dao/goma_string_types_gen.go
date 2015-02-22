@@ -46,7 +46,7 @@ func (d *GomaStringTypesDao) SelectAll() ([]*entity.GomaStringTypesEntity, error
 
 	for rows.Next() {
 		var entity entity.GomaStringTypesEntity
-		err = rows.Scan(&entity.ID, &entity.Text, &entity.CharColumns, &entity.VarcharColumns)
+		err = rows.Scan(&entity.ID, &entity.TextColumns, &entity.TinytextColumns, &entity.MediumtextColumns, &entity.LongtextColumns, &entity.CharColumns, &entity.VarcharColumns)
 		if err != nil {
 			break
 		}
@@ -80,7 +80,7 @@ func (d *GomaStringTypesDao) SelectByID(id int64) (*entity.GomaStringTypesEntity
 	}
 
 	var entity entity.GomaStringTypesEntity
-	if err := d.QueryRow(queryString).Scan(&entity.ID, &entity.Text, &entity.CharColumns, &entity.VarcharColumns); err != nil {
+	if err := d.QueryRow(queryString).Scan(&entity.ID, &entity.TextColumns, &entity.TinytextColumns, &entity.MediumtextColumns, &entity.LongtextColumns, &entity.CharColumns, &entity.VarcharColumns); err != nil {
 		log.Println(err, queryString)
 		return nil, err
 	}
@@ -92,10 +92,13 @@ func (d *GomaStringTypesDao) SelectByID(id int64) (*entity.GomaStringTypesEntity
 func (d *GomaStringTypesDao) Insert(entity entity.GomaStringTypesEntity) (sql.Result, error) {
 
 	args := goma.QueryArgs{
-		"id":              entity.ID,
-		"text":            entity.Text,
-		"char_columns":    entity.CharColumns,
-		"varchar_columns": entity.VarcharColumns,
+		"id":                 entity.ID,
+		"text_columns":       entity.TextColumns,
+		"tinytext_columns":   entity.TinytextColumns,
+		"mediumtext_columns": entity.MediumtextColumns,
+		"longtext_columns":   entity.LongtextColumns,
+		"char_columns":       entity.CharColumns,
+		"varchar_columns":    entity.VarcharColumns,
 	}
 	queryString := d.QueryArgs("goma_string_types", "insert", args)
 
@@ -110,10 +113,13 @@ func (d *GomaStringTypesDao) Insert(entity entity.GomaStringTypesEntity) (sql.Re
 func (d *GomaStringTypesDao) Update(entity entity.GomaStringTypesEntity) (sql.Result, error) {
 
 	args := goma.QueryArgs{
-		"id":              entity.ID,
-		"text":            entity.Text,
-		"char_columns":    entity.CharColumns,
-		"varchar_columns": entity.VarcharColumns,
+		"id":                 entity.ID,
+		"text_columns":       entity.TextColumns,
+		"tinytext_columns":   entity.TinytextColumns,
+		"mediumtext_columns": entity.MediumtextColumns,
+		"longtext_columns":   entity.LongtextColumns,
+		"char_columns":       entity.CharColumns,
+		"varchar_columns":    entity.VarcharColumns,
 	}
 	queryString := d.QueryArgs("goma_string_types", "update", args)
 
