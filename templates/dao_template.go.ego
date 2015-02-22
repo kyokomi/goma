@@ -17,6 +17,7 @@ import (
 // <%= daoData.Name %> is generated <%= daoData.Table.Name %> table.
 type <%= daoData.Name %> struct {
 	*goma.Goma
+	TableName string
 }
 
 var <%= daoData.MemberName %> *<%= daoData.Name %>
@@ -24,7 +25,10 @@ var <%= daoData.MemberName %> *<%= daoData.Name %>
 // <%= daoData.Table.TitleName %> is <%= daoData.Name %> singleton.
 func <%= daoData.Table.TitleName %>(g *goma.Goma) *<%= daoData.Name %> {
 	if <%= daoData.MemberName %> == nil {
-		<%= daoData.MemberName %> = &<%= daoData.Name %>{Goma: g}
+		<%= daoData.MemberName %> = &<%= daoData.Name %>{
+		    Goma: g, 
+		    TableName: "<%= daoData.Table.TitleName %>",
+        }
 	}
 	return <%= daoData.MemberName %>
 }

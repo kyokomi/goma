@@ -17,6 +17,7 @@ import (
 // GomaStringTypesDao is generated goma_string_types table.
 type GomaStringTypesDao struct {
 	*goma.Goma
+	TableName string
 }
 
 var sGomaStringTypes *GomaStringTypesDao
@@ -24,7 +25,10 @@ var sGomaStringTypes *GomaStringTypesDao
 // GomaStringTypes is GomaStringTypesDao singleton.
 func GomaStringTypes(g *goma.Goma) *GomaStringTypesDao {
 	if sGomaStringTypes == nil {
-		sGomaStringTypes = &GomaStringTypesDao{Goma: g}
+		sGomaStringTypes = &GomaStringTypesDao{
+			Goma:      g,
+			TableName: "GomaStringTypes",
+		}
 	}
 	return sGomaStringTypes
 }

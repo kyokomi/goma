@@ -27,7 +27,7 @@ func numericTest(goma Goma) {
 	id := int64(1234567890)
 
 	// numeric
-	
+
 	_, err := goma.GomaNumericTypes.Insert(entity.GomaNumericTypesEntity{
 		ID:               id,
 		TinyintColumns:   int(8),
@@ -49,7 +49,7 @@ func numericTest(goma Goma) {
 	if numericTbl, err := goma.GomaNumericTypes.SelectByID(id); err != nil {
 		log.Fatalln(err)
 	} else {
-		fmt.Printf("numericTbl: %+v\n", numericTbl)
+		fmt.Printf("%s: %+v\n", goma.GomaNumericTypes.TableName, numericTbl)
 	}
 
 	_, err = goma.GomaNumericTypes.Delete(id)
@@ -60,21 +60,21 @@ func numericTest(goma Goma) {
 	if numericTbl, err := goma.GomaNumericTypes.SelectByID(id); err != nil {
 		log.Fatalln(err)
 	} else {
-		fmt.Printf("numericTbl: %+v\n", numericTbl)
+		fmt.Printf("%s: %+v\n", goma.GomaNumericTypes.TableName, numericTbl)
 	}
 }
 
 func stringTest(goma Goma) {
 
 	id := int64(1234567890)
-	
+
 	// string
 
 	_, err := goma.GomaStringTypes.Insert(entity.GomaStringTypesEntity{
-		ID:               id,
-		Text:             "あいうえおかきくけこ",
-		CharColumns:      "a",
-		VarcharColumns:   "1234567890abcdefghijkelmnopqrstuvwxyz",
+		ID:             id,
+		Text:           "あいうえおかきくけこ",
+		CharColumns:    "a",
+		VarcharColumns: "1234567890abcdefghijkelmnopqrstuvwxyz",
 	})
 	if err != nil {
 		log.Fatalln(err)
@@ -83,7 +83,7 @@ func stringTest(goma Goma) {
 	if numericTbl, err := goma.GomaStringTypes.SelectByID(id); err != nil {
 		log.Fatalln(err)
 	} else {
-		fmt.Printf("stringTbl: %+v\n", numericTbl)
+		fmt.Printf("%s: %+v\n", goma.GomaStringTypes.TableName, numericTbl)
 	}
 
 	_, err = goma.GomaStringTypes.Delete(id)
@@ -94,7 +94,7 @@ func stringTest(goma Goma) {
 	if numericTbl, err := goma.GomaStringTypes.SelectByID(id); err != nil {
 		log.Fatalln(err)
 	} else {
-		fmt.Printf("stringTbl: %+v\n", numericTbl)
+		fmt.Printf("%s: %+v\n", goma.GomaStringTypes.TableName, numericTbl)
 	}
-	
+
 }

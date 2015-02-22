@@ -10,9 +10,9 @@ func main() {
 	fmt.Println("Hello goma!")
 
 	// TODO: こんどやる
-//	goma, err := NewGoma()
-//	if err != nil {
-//		log.Fatalln(err)
-//	}
-//	defer goma.Close()
+	//	goma, err := NewGoma()
+	//	if err != nil {
+	//		log.Fatalln(err)
+	//	}
+	//	defer goma.Close()
 }

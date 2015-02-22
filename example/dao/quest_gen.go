@@ -17,6 +17,7 @@ import (
 // QuestDao is generated quest table.
 type QuestDao struct {
 	*goma.Goma
+	TableName string
 }
 
 var sQuest *QuestDao
@@ -24,7 +25,10 @@ var sQuest *QuestDao
 // Quest is QuestDao singleton.
 func Quest(g *goma.Goma) *QuestDao {
 	if sQuest == nil {
-		sQuest = &QuestDao{Goma: g}
+		sQuest = &QuestDao{
+			Goma:      g,
+			TableName: "Quest",
+		}
 	}
 	return sQuest
 }

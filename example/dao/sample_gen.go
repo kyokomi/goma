@@ -17,6 +17,7 @@ import (
 // SampleDao is generated sample table.
 type SampleDao struct {
 	*goma.Goma
+	TableName string
 }
 
 var sSample *SampleDao
@@ -24,7 +25,10 @@ var sSample *SampleDao
 // Sample is SampleDao singleton.
 func Sample(g *goma.Goma) *SampleDao {
 	if sSample == nil {
-		sSample = &SampleDao{Goma: g}
+		sSample = &SampleDao{
+			Goma:      g,
+			TableName: "Sample",
+		}
 	}
 	return sSample
 }

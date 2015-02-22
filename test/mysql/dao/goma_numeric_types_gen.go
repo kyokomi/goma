@@ -17,6 +17,7 @@ import (
 // GomaNumericTypesDao is generated goma_numeric_types table.
 type GomaNumericTypesDao struct {
 	*goma.Goma
+	TableName string
 }
 
 var sGomaNumericTypes *GomaNumericTypesDao
@@ -24,7 +25,10 @@ var sGomaNumericTypes *GomaNumericTypesDao
 // GomaNumericTypes is GomaNumericTypesDao singleton.
 func GomaNumericTypes(g *goma.Goma) *GomaNumericTypesDao {
 	if sGomaNumericTypes == nil {
-		sGomaNumericTypes = &GomaNumericTypesDao{Goma: g}
+		sGomaNumericTypes = &GomaNumericTypesDao{
+			Goma:      g,
+			TableName: "GomaNumericTypes",
+		}
 	}
 	return sGomaNumericTypes
 }

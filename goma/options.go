@@ -2,8 +2,8 @@ package goma
 
 import (
 	"fmt"
-	"strings"
 	"path/filepath"
+	"strings"
 )
 
 // Options is open sql.DB options.
