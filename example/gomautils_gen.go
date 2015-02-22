@@ -19,9 +19,8 @@ type Goma struct {
 	*goma.Goma
 
 	// dao
-	GOMANUMERICTYPETEST *dao.GOMANUMERICTYPETESTDao
-	Quest               *dao.QuestDao
-	Sample              *dao.SampleDao
+	Quest  *dao.QuestDao
+	Sample *dao.SampleDao
 }
 
 // NewGoma is goma.Goma wrapper utils.
@@ -52,7 +51,6 @@ func NewGoma() (Goma, error) {
 
 	gm := Goma{}
 	gm.Goma = g
-	gm.GOMANUMERICTYPETEST = dao.GOMANUMERICTYPETEST(g)
 	gm.Quest = dao.Quest(g)
 	gm.Sample = dao.Sample(g)
 
