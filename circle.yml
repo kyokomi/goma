@@ -1,17 +1,17 @@
 dependencies:
   pre:
     - go get -u -f github.com/benbjohnson/ego/cmd/ego
-    - mkdir -p $HOME/.go_project/src/github.com/$CIRCLE_PROJECT_USERNAME
-    - ln -s $HOME/$CIRCLE_PROJECT_REPONAME $HOME/.go_project/src/github.com/$CIRCLE_PROJECT_USERNAME
-    - export GOPATH=$GOPATH:$HOME/.go_project
+    - mkdir -p $HOME/.go_workspace/src/_/home/ubuntu/
+    - ln -snf $HOME/$CIRCLE_PROJECT_REPONAME $HOME/.go_workspace/src/_/home/ubuntu/
   override:
-    - go get -t -d -v ./...
+    - cd $HOME/.go_workspace/src/_/home/ubuntu/$CIRCLE_PROJECT_REPONAME
+    - go get -u -f -t -d -v ./...
+    - go generate
     - go build -v -o ./dist/goma
+    - go install
 test:
   pre:
     - go get github.com/axw/gocov/gocov
     - go get github.com/mattn/goveralls
-    - mkdir -p $HOME/.go_workspace/src/_/home/ubuntu/
-    - ln -s $HOME/$CIRCLE_PROJECT_REPONAME $HOME/.go_workspace/src/_/home/ubuntu/
   post:
     - goveralls -v -service=circle-ci -repotoken $COVERALLS_GOMA_TOKEN ./goma
