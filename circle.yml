@@ -1,0 +1,17 @@
+dependencies:
+  pre:
+    - go get -u github.com/benbjohnson/ego/cmd/ego
+    - mkdir -p $HOME/.go_project/src/github.com/$CIRCLE_PROJECT_USERNAME
+    - ln -s $HOME/$CIRCLE_PROJECT_REPONAME $HOME/.go_project/src/github.com/$CIRCLE_PROJECT_USERNAME
+  override:
+    - go get -t -d -v ./...
+    - go build -v -o ./dist/goma
+  post:
+    - go generate
+    - go install
+test:
+  pre:
+    - go get github.com/axw/gocov/gocov
+    - go get github.com/mattn/goveralls
+  post:
+    - goveralls -v -service=circle-ci -repotoken $COVERALLS_GOMA_TOKEN ./goma
