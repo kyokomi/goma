@@ -17,20 +17,51 @@ import (
 // GomaBinaryTypesDao is generated goma_binary_types table.
 type GomaBinaryTypesDao struct {
 	*goma.Goma
+	tx        *sql.Tx
 	TableName string
 }
 
-var sGomaBinaryTypes *GomaBinaryTypesDao
-
-// GomaBinaryTypes is GomaBinaryTypesDao singleton.
+// GomaBinaryTypes is GomaBinaryTypesDao.
 func GomaBinaryTypes(g *goma.Goma) *GomaBinaryTypesDao {
-	if sGomaBinaryTypes == nil {
-		sGomaBinaryTypes = &GomaBinaryTypesDao{
-			Goma:      g,
-			TableName: "GomaBinaryTypes",
-		}
+	tblDao := &GomaBinaryTypesDao{}
+	tblDao.Goma = g
+	tblDao.tx = nil
+	tblDao.TableName = "GomaBinaryTypes"
+	return tblDao
+}
+
+// IsTx started transaction?
+func (d *GomaBinaryTypesDao) IsTx() bool {
+	return d.tx != nil
+}
+
+// SetTx set transaction.
+func (d *GomaBinaryTypesDao) SetTx(tx *sql.Tx) {
+	d.tx = tx
+}
+
+// ResetTx reset transaction.
+// Call after Commit of Rollback.
+func (d *GomaBinaryTypesDao) ResetTx() {
+	d.tx = nil
+}
+
+func (d *GomaBinaryTypesDao) daoQuery(query string, args ...interface{}) (rows *sql.Rows, err error) {
+	if d.IsTx() {
+		rows, err = d.tx.Query(query, args...)
+	} else {
+		rows, err = d.Query(query, args...)
 	}
-	return sGomaBinaryTypes
+	return
+}
+
+func (d *GomaBinaryTypesDao) daoExec(query string, args ...interface{}) (result sql.Result, err error) {
+	if d.IsTx() {
+		result, err = d.tx.Exec(query, args...)
+	} else {
+		result, err = d.Exec(query, args...)
+	}
+	return
 }
 
 // SelectAll select goma_binary_types table all recode.
@@ -39,7 +70,7 @@ func (d *GomaBinaryTypesDao) SelectAll() ([]*entity.GomaBinaryTypesEntity, error
 	queryString := d.QueryArgs("goma_binary_types", "selectAll", nil)
 
 	var entitys []*entity.GomaBinaryTypesEntity
-	rows, err := d.Query(queryString)
+	rows, err := d.daoQuery(queryString)
 	if err != nil {
 		return nil, err
 	}
@@ -69,7 +100,7 @@ func (d *GomaBinaryTypesDao) SelectByID(id int64) (*entity.GomaBinaryTypesEntity
 	}
 	queryString := d.QueryArgs("goma_binary_types", "selectByID", args)
 
-	rows, err := d.Query(queryString)
+	rows, err := d.daoQuery(queryString)
 	if err != nil {
 		return nil, err
 	}
@@ -80,7 +111,7 @@ func (d *GomaBinaryTypesDao) SelectByID(id int64) (*entity.GomaBinaryTypesEntity
 	}
 
 	var entity entity.GomaBinaryTypesEntity
-	if err := d.QueryRow(queryString).Scan(&entity.ID, &entity.BinaryColumns, &entity.TinyblobColumns, &entity.BlobColumns, &entity.MediumblobColumns, &entity.LongblobColumns, &entity.VarbinaryColumns); err != nil {
+	if err := rows.Scan(&entity.ID, &entity.BinaryColumns, &entity.TinyblobColumns, &entity.BlobColumns, &entity.MediumblobColumns, &entity.LongblobColumns, &entity.VarbinaryColumns); err != nil {
 		log.Println(err, queryString)
 		return nil, err
 	}
@@ -102,7 +133,7 @@ func (d *GomaBinaryTypesDao) Insert(entity entity.GomaBinaryTypesEntity) (sql.Re
 	}
 	queryString := d.QueryArgs("goma_binary_types", "insert", args)
 
-	result, err := d.Exec(queryString)
+	result, err := d.daoExec(queryString)
 	if err != nil {
 		log.Println(err, queryString)
 	}
@@ -123,7 +154,7 @@ func (d *GomaBinaryTypesDao) Update(entity entity.GomaBinaryTypesEntity) (sql.Re
 	}
 	queryString := d.QueryArgs("goma_binary_types", "update", args)
 
-	result, err := d.Exec(queryString)
+	result, err := d.daoExec(queryString)
 	if err != nil {
 		log.Println(err, queryString)
 	}
@@ -138,7 +169,7 @@ func (d *GomaBinaryTypesDao) Delete(id int64) (sql.Result, error) {
 	}
 	queryString := d.QueryArgs("goma_binary_types", "delete", args)
 
-	result, err := d.Exec(queryString)
+	result, err := d.daoExec(queryString)
 	if err != nil {
 		log.Println(err, queryString)
 	}

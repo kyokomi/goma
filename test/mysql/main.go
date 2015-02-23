@@ -24,6 +24,7 @@ func main() {
 	stringTest(goma)
 	dateTest(goma)
 	binaryTest(goma)
+	txTest(goma)
 }
 
 func numericTest(g Goma) {
@@ -146,10 +147,12 @@ func binaryTest(g Goma) {
 
 	id := int64(1234567890)
 
+	var err error
+
 	// date
 	dao := g.GomaBinaryTypes
 
-	_, err := dao.Insert(entity.GomaBinaryTypesEntity{
+	_, err = dao.Insert(entity.GomaBinaryTypesEntity{
 		ID:                id,
 		BinaryColumns:     []uint8{49},
 		TinyblobColumns:   []uint8{49, 49, 50, 51, 52, 53, 54, 55, 56},
@@ -182,5 +185,87 @@ func binaryTest(g Goma) {
 		log.Fatalln(err)
 	} else {
 		fmt.Printf("%s: %+v\n", dao.TableName, e)
+	}
+}
+
+func txTest(g Goma) {
+
+	id := int64(1234567890)
+
+	tx, err := g.Begin()
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	// string
+	dao := g.GomaStringTypes
+	dao.SetTx(tx)
+
+	e := entity.GomaStringTypesEntity{
+		ID:                id,
+		TextColumns:       "あいうえおかきくけこ",
+		TinytextColumns:   "abc",
+		MediumtextColumns: "abcdefg",
+		LongtextColumns:   "鉄1234567890abcdefghijkelmnopqrstuvwxyz1234567890abcdefghijkelmnopqrstuvwxyz柱",
+		CharColumns:       "a",
+		VarcharColumns:    "1234567890abcdefghijkelmnopqrstuvwxyz",
+	}
+
+	_, err = dao.Insert(e)
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	// Rollback（insertを無効にする）
+	if err := tx.Rollback(); err != nil {
+		log.Fatalln(err)
+	}
+
+	// Rollback後に使うならResetもしくは新しいtxを設定する
+	dao.ResetTx()
+
+	// 再度トランザクションをはる
+	tx, err = g.Begin()
+	if err != nil {
+		log.Fatalln(err)
+	}
+	dao.SetTx(tx)
+
+	// Rollbackでnilのはず
+	if e, err := dao.SelectByID(id); err != nil {
+		log.Fatalln(err)
+	} else {
+		fmt.Printf("Rollbackでnilのはず => %s: %+v\n", dao.TableName, e)
+	}
+
+	// Insertする
+	_, err = dao.Insert(e)
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	// Commit
+	if err := tx.Commit(); err != nil {
+		log.Fatalln(err)
+	}
+	// Commit後後に使うならResetもしくは新しいtxを設定する
+	dao.ResetTx()
+
+	// Commitしたのでnilじゃない
+	if e, err := dao.SelectByID(id); err != nil {
+		log.Fatalln(err)
+	} else {
+		fmt.Printf("Commitしたのでnilじゃない => %s: %+v\n", dao.TableName, e)
+	}
+
+	_, err = dao.Delete(id)
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	if e, err := dao.SelectByID(id); err != nil {
+		log.Fatalln(err)
+	} else {
+		fmt.Printf("普通にDeleteしてnilのはず => %s: %+v\n", dao.TableName, e)
 	}
 }

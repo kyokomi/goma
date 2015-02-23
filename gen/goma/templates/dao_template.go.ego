@@ -17,6 +17,7 @@ import (
 // <%= daoData.Name %> is generated <%= daoData.Table.Name %> table.
 type <%= daoData.Name %> struct {
 	*goma.Goma
+	tx *sql.Tx
 	TableName string
 }
 
@@ -24,11 +25,43 @@ type <%= daoData.Name %> struct {
 func <%= daoData.Table.TitleName %>(g *goma.Goma) *<%= daoData.Name %> {
     tblDao := &<%= daoData.Name %>{}
     tblDao.Goma = g
+    tblDao.tx = nil
     tblDao.TableName = "<%= daoData.Table.TitleName %>"
 	return tblDao
 }
+
+// IsTx started transaction?
+func (d *<%= daoData.Name %>) IsTx() bool {
+	return d.tx != nil
+}
+
+// SetTx set transaction.
+func (d *<%= daoData.Name %>) SetTx(tx *sql.Tx) {
+	d.tx = tx
+}
+
+// ResetTx reset transaction.
+// Call after Commit of Rollback.
+func (d *<%= daoData.Name %>) ResetTx() {
+	d.tx = nil
+}
+
+func (d *<%= daoData.Name %>) daoQuery(query string, args ...interface{}) (rows *sql.Rows, err error) {
+	if d.IsTx() {
+		rows, err = d.tx.Query(query, args...)
+	} else {
+		rows, err = d.Query(query, args...)
 	}
-	return <%= daoData.MemberName %>
+	return
+}
+
+func (d *<%= daoData.Name %>) daoExec(query string, args ...interface{}) (result sql.Result, err error) {
+	if d.IsTx() {
+		result, err = d.tx.Exec(query, args...)
+	} else {
+		result, err = d.Exec(query, args...)
+	}
+	return
 }
 
 // SelectAll select <%= daoData.Table.Name %> table all recode.
@@ -37,7 +70,7 @@ func (d *<%= daoData.Name %>) SelectAll() ([]*<%= daoData.EntityPkgName %>.<%= d
     queryString := d.QueryArgs("<%= daoData.Table.Name %>", "selectAll", nil)
 
 	var entitys []*<%= daoData.EntityPkgName %>.<%= daoData.EntityName %>
-	rows, err := d.Query(queryString)
+	rows, err := d.daoQuery(queryString)
 	if err != nil {
 		return nil, err
 	}
@@ -67,7 +100,7 @@ func (d *<%= daoData.Name %>) SelectByID(<% for idx, column := range daoData.Tab
     <% } %>}
 	queryString := d.QueryArgs("<%= daoData.Table.Name %>", "selectByID", args)
 
-	rows, err := d.Query(queryString)
+	rows, err := d.daoQuery(queryString)
 	if err != nil {
 		return nil, err
 	}
@@ -78,7 +111,7 @@ func (d *<%= daoData.Name %>) SelectByID(<% for idx, column := range daoData.Tab
 	}
 
 	var entity <%= daoData.EntityPkgName %>.<%= daoData.EntityName %>
-	if err := d.QueryRow(queryString).Scan(<% for idx, column := range daoData.Table.Columns { %><% if idx != 0 { %>, <% } %>&entity.<%= column.TitleName %><% } %>); err != nil {
+	if err := rows.Scan(<% for idx, column := range daoData.Table.Columns { %><% if idx != 0 { %>, <% } %>&entity.<%= column.TitleName %><% } %>); err != nil {
 	    log.Println(err, queryString)
 		return nil, err
 	}
@@ -95,7 +128,7 @@ func (d *<%= daoData.Name %>) Insert(entity <%= daoData.EntityPkgName %>.<%= dao
 	}
 	queryString := d.QueryArgs("<%= daoData.Table.Name %>", "insert", args)
 	
-	result, err := d.Exec(queryString)
+	result, err := d.daoExec(queryString)
     if err != nil {
         log.Println(err, queryString)
     }
@@ -111,7 +144,7 @@ func (d *<%= daoData.Name %>) Update(entity <%= daoData.EntityPkgName %>.<%= dao
 	}
 	queryString := d.QueryArgs("<%= daoData.Table.Name %>", "update", args)
 
-	result, err := d.Exec(queryString)
+	result, err := d.daoExec(queryString)
 	if err != nil {
         log.Println(err, queryString)
     }
@@ -126,7 +159,7 @@ func (d *<%= daoData.Name %>) Delete(<% for idx, column := range daoData.Table.C
     <% } %>}
 	queryString := d.QueryArgs("<%= daoData.Table.Name %>", "delete", args)
 
-    result, err := d.Exec(queryString)
+    result, err := d.daoExec(queryString)
 	if err != nil {
         log.Println(err, queryString)
     }
