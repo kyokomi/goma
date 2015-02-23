@@ -203,7 +203,7 @@ func (d *QuestDao) UpdateAll(entity entity.QuestEntity) (sql.Result, error) {
 	}
 	queryString := d.QueryArgs("quest", "updateAll", args)
 
-	result, err := d.Exec(queryString)
+	result, err := d.daoExec(queryString)
 	if err != nil {
 		log.Println(err, queryString)
 	}
