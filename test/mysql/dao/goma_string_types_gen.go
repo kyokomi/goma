@@ -22,8 +22,8 @@ type GomaStringTypesDao struct {
 }
 
 // GomaStringTypes is GomaStringTypesDao.
-func GomaStringTypes(g *goma.Goma) *GomaStringTypesDao {
-	tblDao := &GomaStringTypesDao{}
+func GomaStringTypes(g *goma.Goma) GomaStringTypesDao {
+	tblDao := GomaStringTypesDao{}
 	tblDao.Goma = g
 	tblDao.tx = nil
 	tblDao.TableName = "GomaStringTypes"
@@ -66,7 +66,6 @@ func (d *GomaStringTypesDao) daoExec(query string, args ...interface{}) (result 
 
 // SelectAll select goma_string_types table all recode.
 func (d *GomaStringTypesDao) SelectAll() ([]*entity.GomaStringTypesEntity, error) {
-
 	queryString := d.QueryArgs("goma_string_types", "selectAll", nil)
 
 	var entitys []*entity.GomaStringTypesEntity
@@ -94,7 +93,6 @@ func (d *GomaStringTypesDao) SelectAll() ([]*entity.GomaStringTypesEntity, error
 
 // SelectByID select goma_string_types table by primaryKey.
 func (d *GomaStringTypesDao) SelectByID(id int64) (*entity.GomaStringTypesEntity, error) {
-
 	args := goma.QueryArgs{
 		"id": id,
 	}
@@ -121,7 +119,6 @@ func (d *GomaStringTypesDao) SelectByID(id int64) (*entity.GomaStringTypesEntity
 
 // Insert insert goma_string_types table.
 func (d *GomaStringTypesDao) Insert(entity entity.GomaStringTypesEntity) (sql.Result, error) {
-
 	args := goma.QueryArgs{
 		"id":                 entity.ID,
 		"text_columns":       entity.TextColumns,
@@ -142,7 +139,6 @@ func (d *GomaStringTypesDao) Insert(entity entity.GomaStringTypesEntity) (sql.Re
 
 // Update update goma_string_types table.
 func (d *GomaStringTypesDao) Update(entity entity.GomaStringTypesEntity) (sql.Result, error) {
-
 	args := goma.QueryArgs{
 		"id":                 entity.ID,
 		"text_columns":       entity.TextColumns,
@@ -163,7 +159,6 @@ func (d *GomaStringTypesDao) Update(entity entity.GomaStringTypesEntity) (sql.Re
 
 // Delete delete goma_string_types table by primaryKey.
 func (d *GomaStringTypesDao) Delete(id int64) (sql.Result, error) {
-
 	args := goma.QueryArgs{
 		"id": id,
 	}

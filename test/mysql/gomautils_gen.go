@@ -17,17 +17,10 @@ import (
 // Goma goma.Goma utils.
 type Goma struct {
 	*goma.Goma
-
-	// dao
-	GomaBinaryTypes  *dao.GomaBinaryTypesDao
-	GomaDateTypes    *dao.GomaDateTypesDao
-	GomaNumericTypes *dao.GomaNumericTypesDao
-	GomaStringTypes  *dao.GomaStringTypesDao
 }
 
 // NewGoma is goma.Goma wrapper utils.
 func NewGoma() (Goma, error) {
-
 	opts := goma.Options{
 		Driver:     "mysql",
 		UserName:   "admin",
@@ -53,10 +46,18 @@ func NewGoma() (Goma, error) {
 
 	gm := Goma{}
 	gm.Goma = g
-	gm.GomaBinaryTypes = dao.GomaBinaryTypes(g)
-	gm.GomaDateTypes = dao.GomaDateTypes(g)
-	gm.GomaNumericTypes = dao.GomaNumericTypes(g)
-	gm.GomaStringTypes = dao.GomaStringTypes(g)
-
 	return gm, nil
+}
+
+func (g Goma) GomaBinaryTypes() dao.GomaBinaryTypesDao {
+	return dao.GomaBinaryTypes(g.Goma)
+}
+func (g Goma) GomaDateTypes() dao.GomaDateTypesDao {
+	return dao.GomaDateTypes(g.Goma)
+}
+func (g Goma) GomaNumericTypes() dao.GomaNumericTypesDao {
+	return dao.GomaNumericTypes(g.Goma)
+}
+func (g Goma) GomaStringTypes() dao.GomaStringTypesDao {
+	return dao.GomaStringTypes(g.Goma)
 }

@@ -17,15 +17,10 @@ import (
 // Goma goma.Goma utils.
 type Goma struct {
 	*goma.Goma
-
-	// dao
-	<% for _, daoData := range helperData.DaoList { %><%= daoData.Table.TitleName %> *<%= helperData.DaoPkgName %>.<%= daoData.Name %>
-    <% } %>
 }
 
 // NewGoma is goma.Goma wrapper utils.
 func NewGoma() (Goma, error) {
-
 	opts := goma.Options{
 	    <% for _, t := range helperData.Options { %><% for key, value := range t { %><%= key %>: <%= value %>,<% } %>
     <% } %>}
@@ -43,7 +38,10 @@ func NewGoma() (Goma, error) {
 
     gm := Goma{}
     gm.Goma = g
-    <% for _, daoData := range helperData.DaoList { %>gm.<%= daoData.Table.TitleName %> = <%= helperData.DaoPkgName %>.<%= daoData.Table.TitleName %>(g)
-    <% } %>
 	return gm, nil
 } 
+
+<% for _, daoData := range helperData.DaoList { %>func (g Goma) <%= daoData.Table.TitleName %>() <%= helperData.DaoPkgName %>.<%= daoData.Name %> {
+    return <%= helperData.DaoPkgName %>.<%= daoData.Table.TitleName %>(g.Goma)
+}
+<% } %>

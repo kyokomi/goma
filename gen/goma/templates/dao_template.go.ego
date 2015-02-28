@@ -22,8 +22,8 @@ type <%= daoData.Name %> struct {
 }
 
 // <%= daoData.Table.TitleName %> is <%= daoData.Name %>.
-func <%= daoData.Table.TitleName %>(g *goma.Goma) *<%= daoData.Name %> {
-    tblDao := &<%= daoData.Name %>{}
+func <%= daoData.Table.TitleName %>(g *goma.Goma) <%= daoData.Name %> {
+    tblDao := <%= daoData.Name %>{}
     tblDao.Goma = g
     tblDao.tx = nil
     tblDao.TableName = "<%= daoData.Table.TitleName %>"
@@ -66,7 +66,6 @@ func (d *<%= daoData.Name %>) daoExec(query string, args ...interface{}) (result
 
 // SelectAll select <%= daoData.Table.Name %> table all recode.
 func (d *<%= daoData.Name %>) SelectAll() ([]*<%= daoData.EntityPkgName %>.<%= daoData.EntityName %>, error) {
-
     queryString := d.QueryArgs("<%= daoData.Table.Name %>", "selectAll", nil)
 
 	var entitys []*<%= daoData.EntityPkgName %>.<%= daoData.EntityName %>
@@ -94,7 +93,6 @@ func (d *<%= daoData.Name %>) SelectAll() ([]*<%= daoData.EntityPkgName %>.<%= d
 
 // SelectByID select <%= daoData.Table.Name %> table by primaryKey.
 func (d *<%= daoData.Name %>) SelectByID(<% for idx, column := range daoData.Table.Columns { %><% if !column.IsPrimaryKey { %><% continue %><% } %><% if idx != 0 { %>, <% } %><%= column.Name %> <%= column.TypeName %><% } %>) (*<%= daoData.EntityPkgName %>.<%= daoData.EntityName %>, error) {
-
     args := goma.QueryArgs{
     <% for _, column := range daoData.Table.Columns { %><% if !column.IsPrimaryKey { %><% continue %><% } %>    "<%= column.Name %>": <%= column.Name %>,
     <% } %>}
@@ -121,7 +119,6 @@ func (d *<%= daoData.Name %>) SelectByID(<% for idx, column := range daoData.Tab
 
 // Insert insert <%= daoData.Table.Name %> table.
 func (d *<%= daoData.Name %>) Insert(entity <%= daoData.EntityPkgName %>.<%= daoData.EntityName %>) (sql.Result, error) {
-
 	args := goma.QueryArgs{
     <% for _, column := range daoData.Table.Columns { %>  "<%= column.Name %>": entity.<%= column.TitleName %>,
     <% } %>
@@ -137,7 +134,6 @@ func (d *<%= daoData.Name %>) Insert(entity <%= daoData.EntityPkgName %>.<%= dao
 
 // Update update <%= daoData.Table.Name %> table.
 func (d *<%= daoData.Name %>) Update(entity <%= daoData.EntityPkgName %>.<%= daoData.EntityName %>) (sql.Result, error) {
-
 	args := goma.QueryArgs{
 	<% for _, column := range daoData.Table.Columns { %>  "<%= column.Name %>": entity.<%= column.TitleName %>,
     <% } %>
@@ -153,7 +149,6 @@ func (d *<%= daoData.Name %>) Update(entity <%= daoData.EntityPkgName %>.<%= dao
 
 // Delete delete <%= daoData.Table.Name %> table by primaryKey.
 func (d *<%= daoData.Name %>) Delete(<% for idx, column := range daoData.Table.Columns { %><% if !column.IsPrimaryKey { %><% continue %><% } %><% if idx != 0 { %>, <% } %><%= column.Name %> <%= column.TypeName %><% } %>) (sql.Result, error) {
-
     args := goma.QueryArgs{
     <% for _, column := range daoData.Table.Columns { %><% if !column.IsPrimaryKey { %><% continue %><% } %>    "<%= column.Name %>": <%= column.Name %>,
     <% } %>}

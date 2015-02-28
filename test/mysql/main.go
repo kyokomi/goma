@@ -32,7 +32,7 @@ func numericTest(g Goma) {
 	id := int64(1234567890)
 
 	// numeric
-	dao := g.GomaNumericTypes
+	dao := g.GomaNumericTypes()
 
 	_, err := dao.Insert(entity.GomaNumericTypesEntity{
 		ID:               id,
@@ -75,7 +75,7 @@ func stringTest(g Goma) {
 	id := int64(1234567890)
 
 	// string
-	dao := g.GomaStringTypes
+	dao := g.GomaStringTypes()
 
 	_, err := dao.Insert(entity.GomaStringTypesEntity{
 		ID:                id,
@@ -113,7 +113,7 @@ func dateTest(g Goma) {
 	id := int64(1234567890)
 
 	// date
-	dao := g.GomaDateTypes
+	dao := g.GomaDateTypes()
 
 	_, err := dao.Insert(entity.GomaDateTypesEntity{
 		ID:               id,
@@ -150,7 +150,7 @@ func binaryTest(g Goma) {
 	var err error
 
 	// date
-	dao := g.GomaBinaryTypes
+	dao := g.GomaBinaryTypes()
 
 	_, err = dao.Insert(entity.GomaBinaryTypesEntity{
 		ID:                id,
@@ -198,7 +198,7 @@ func txTest(g Goma) {
 	}
 
 	// string
-	dao := g.GomaStringTypes
+	dao := g.GomaStringTypes()
 	dao.SetTx(tx)
 
 	e := entity.GomaStringTypesEntity{

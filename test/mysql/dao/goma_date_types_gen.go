@@ -22,8 +22,8 @@ type GomaDateTypesDao struct {
 }
 
 // GomaDateTypes is GomaDateTypesDao.
-func GomaDateTypes(g *goma.Goma) *GomaDateTypesDao {
-	tblDao := &GomaDateTypesDao{}
+func GomaDateTypes(g *goma.Goma) GomaDateTypesDao {
+	tblDao := GomaDateTypesDao{}
 	tblDao.Goma = g
 	tblDao.tx = nil
 	tblDao.TableName = "GomaDateTypes"
@@ -66,7 +66,6 @@ func (d *GomaDateTypesDao) daoExec(query string, args ...interface{}) (result sq
 
 // SelectAll select goma_date_types table all recode.
 func (d *GomaDateTypesDao) SelectAll() ([]*entity.GomaDateTypesEntity, error) {
-
 	queryString := d.QueryArgs("goma_date_types", "selectAll", nil)
 
 	var entitys []*entity.GomaDateTypesEntity
@@ -94,7 +93,6 @@ func (d *GomaDateTypesDao) SelectAll() ([]*entity.GomaDateTypesEntity, error) {
 
 // SelectByID select goma_date_types table by primaryKey.
 func (d *GomaDateTypesDao) SelectByID(id int64) (*entity.GomaDateTypesEntity, error) {
-
 	args := goma.QueryArgs{
 		"id": id,
 	}
@@ -121,7 +119,6 @@ func (d *GomaDateTypesDao) SelectByID(id int64) (*entity.GomaDateTypesEntity, er
 
 // Insert insert goma_date_types table.
 func (d *GomaDateTypesDao) Insert(entity entity.GomaDateTypesEntity) (sql.Result, error) {
-
 	args := goma.QueryArgs{
 		"id":                entity.ID,
 		"date_columns":      entity.DateColumns,
@@ -139,7 +136,6 @@ func (d *GomaDateTypesDao) Insert(entity entity.GomaDateTypesEntity) (sql.Result
 
 // Update update goma_date_types table.
 func (d *GomaDateTypesDao) Update(entity entity.GomaDateTypesEntity) (sql.Result, error) {
-
 	args := goma.QueryArgs{
 		"id":                entity.ID,
 		"date_columns":      entity.DateColumns,
@@ -157,7 +153,6 @@ func (d *GomaDateTypesDao) Update(entity entity.GomaDateTypesEntity) (sql.Result
 
 // Delete delete goma_date_types table by primaryKey.
 func (d *GomaDateTypesDao) Delete(id int64) (sql.Result, error) {
-
 	args := goma.QueryArgs{
 		"id": id,
 	}
