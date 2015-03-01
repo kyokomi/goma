@@ -45,7 +45,6 @@ update goma_numeric_types set
 `
 
 func TestQueryArgs(t *testing.T) {
-
 	opt := Options{}
 	opt.Driver = "mysql"
 	opt.Debug = true

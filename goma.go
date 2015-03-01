@@ -31,7 +31,6 @@ type queryName string
 // - database open
 // - query local memory cache
 func NewGoma(options Options) (*Goma, error) {
-
 	var d Goma
 	d.options = options
 

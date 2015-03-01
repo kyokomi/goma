@@ -49,15 +49,22 @@ func NewGoma() (Goma, error) {
 	return gm, nil
 }
 
+// GomaBinaryTypes is dao.GomaBinaryTypesDao helper.
 func (g Goma) GomaBinaryTypes() dao.GomaBinaryTypesDao {
 	return dao.GomaBinaryTypes(g.Goma)
 }
+
+// GomaDateTypes is dao.GomaDateTypesDao helper.
 func (g Goma) GomaDateTypes() dao.GomaDateTypesDao {
 	return dao.GomaDateTypes(g.Goma)
 }
+
+// GomaNumericTypes is dao.GomaNumericTypesDao helper.
 func (g Goma) GomaNumericTypes() dao.GomaNumericTypesDao {
 	return dao.GomaNumericTypes(g.Goma)
 }
+
+// GomaStringTypes is dao.GomaStringTypesDao helper.
 func (g Goma) GomaStringTypes() dao.GomaStringTypesDao {
 	return dao.GomaStringTypes(g.Goma)
 }

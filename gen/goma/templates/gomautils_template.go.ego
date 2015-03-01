@@ -39,9 +39,10 @@ func NewGoma() (Goma, error) {
     gm := Goma{}
     gm.Goma = g
 	return gm, nil
-} 
-
-<% for _, daoData := range helperData.DaoList { %>func (g Goma) <%= daoData.Table.TitleName %>() <%= helperData.DaoPkgName %>.<%= daoData.Name %> {
+}
+<% for _, daoData := range helperData.DaoList { %>
+// <%= daoData.Table.TitleName %> is <%= helperData.DaoPkgName %>.<%= daoData.Name %> helper.
+func (g Goma) <%= daoData.Table.TitleName %>() <%= helperData.DaoPkgName %>.<%= daoData.Name %> {
     return <%= helperData.DaoPkgName %>.<%= daoData.Table.TitleName %>(g.Goma)
 }
 <% } %>

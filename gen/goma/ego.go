@@ -478,15 +478,15 @@ _, _ = fmt.Fprintf(w, "\n    ")
 //line gomautils_template.go.ego:26
  } 
 //line gomautils_template.go.ego:26
-_, _ = fmt.Fprintf(w, "}\n    \n\tcurrentDir, err := os.Getwd()\n\tif err != nil {\n        return Goma{}, err\n\t}\n\topts.CurrentDir = currentDir\n\n    g, err := goma.NewGoma(opts)\n    if err != nil {\n        return Goma{}, err\n    }\n\n    gm := Goma{}\n    gm.Goma = g\n\treturn gm, nil\n} \n\n")
-//line gomautils_template.go.ego:44
+_, _ = fmt.Fprintf(w, "}\n    \n\tcurrentDir, err := os.Getwd()\n\tif err != nil {\n        return Goma{}, err\n\t}\n\topts.CurrentDir = currentDir\n\n    g, err := goma.NewGoma(opts)\n    if err != nil {\n        return Goma{}, err\n    }\n\n    gm := Goma{}\n    gm.Goma = g\n\treturn gm, nil\n}\n")
+//line gomautils_template.go.ego:43
  for _, daoData := range helperData.DaoList { 
 //line gomautils_template.go.ego:44
-_, _ = fmt.Fprintf(w, "func (g Goma) ")
+_, _ = fmt.Fprintf(w, "\n// ")
 //line gomautils_template.go.ego:44
 _, _ = fmt.Fprintf(w, "%v",  daoData.Table.TitleName )
 //line gomautils_template.go.ego:44
-_, _ = fmt.Fprintf(w, "() ")
+_, _ = fmt.Fprintf(w, " is ")
 //line gomautils_template.go.ego:44
 _, _ = fmt.Fprintf(w, "%v",  helperData.DaoPkgName )
 //line gomautils_template.go.ego:44
@@ -494,18 +494,30 @@ _, _ = fmt.Fprintf(w, ".")
 //line gomautils_template.go.ego:44
 _, _ = fmt.Fprintf(w, "%v",  daoData.Name )
 //line gomautils_template.go.ego:44
-_, _ = fmt.Fprintf(w, " {\n    return ")
+_, _ = fmt.Fprintf(w, " helper.\nfunc (g Goma) ")
+//line gomautils_template.go.ego:45
+_, _ = fmt.Fprintf(w, "%v",  daoData.Table.TitleName )
+//line gomautils_template.go.ego:45
+_, _ = fmt.Fprintf(w, "() ")
 //line gomautils_template.go.ego:45
 _, _ = fmt.Fprintf(w, "%v",  helperData.DaoPkgName )
 //line gomautils_template.go.ego:45
 _, _ = fmt.Fprintf(w, ".")
 //line gomautils_template.go.ego:45
-_, _ = fmt.Fprintf(w, "%v",  daoData.Table.TitleName )
+_, _ = fmt.Fprintf(w, "%v",  daoData.Name )
 //line gomautils_template.go.ego:45
+_, _ = fmt.Fprintf(w, " {\n    return ")
+//line gomautils_template.go.ego:46
+_, _ = fmt.Fprintf(w, "%v",  helperData.DaoPkgName )
+//line gomautils_template.go.ego:46
+_, _ = fmt.Fprintf(w, ".")
+//line gomautils_template.go.ego:46
+_, _ = fmt.Fprintf(w, "%v",  daoData.Table.TitleName )
+//line gomautils_template.go.ego:46
 _, _ = fmt.Fprintf(w, "(g.Goma)\n}\n")
-//line gomautils_template.go.ego:47
- } 
 //line gomautils_template.go.ego:48
+ } 
+//line gomautils_template.go.ego:49
 _, _ = fmt.Fprintf(w, "\n")
 return nil
 }
