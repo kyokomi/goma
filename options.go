@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"path/filepath"
 	"strings"
+	"reflect"
 )
 
 // Options is open sql.DB options.
@@ -15,6 +16,9 @@ type Options struct {
 	Host     string // localhost
 	Port     int    // 3306
 	DBName   string // DataBaseName
+
+	// postgres
+	SSLMode string // disable, verify-full
 
 	// goma
 	Debug         bool   // goma debug mode (default false)
@@ -59,11 +63,13 @@ func packageName(pkgRootDir string) string {
 
 // Source create driver databaseSource.
 func (o Options) Source() string {
-
+	var source string
 	switch o.Driver {
+	default:
+		panic("not support driver name: " + o.Driver)
 	case "mysql":
 		// admin:password@tcp(localhost:3306)/test?parseTime=true&loc=Local
-		return fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?parseTime=%v&loc=%s",
+		source = fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?parseTime=%v&loc=%s",
 			o.UserName,
 			o.PassWord,
 			o.Host,
@@ -73,33 +79,49 @@ func (o Options) Source() string {
 			"Local",
 		)
 	case "postgres":
-		return fmt.Sprintf("user=%s password=%s host=%s port=%d dbname=%s",
+		source = fmt.Sprintf("user=%s password=%s host=%s port=%d dbname=%s sslmode=%s",
 			o.UserName,
 			o.PassWord,
 			o.Host,
 			o.Port,
 			o.DBName,
+			o.SSLMode,
 		)
 	}
 
-	panic("not support driver name: " + o.Driver)
+	if o.Debug {
+		fmt.Println(source)
+	}
+
+	return source
 }
 
 // Tuples opions to string array map.
 func (o Options) Tuples() []map[string]interface{} {
-
 	// mapそのままだと順番がgenerateするごとに変わるの配列のmapにしてる
+	var res []map[string]interface{}
 
-	// TODO: あとでなんとかする... reflect とか使えばなんとかなりそう
-	var t []map[string]interface{}
-	t = append(t, map[string]interface{}{"Driver": fmt.Sprintf(`"%s"`, o.Driver)})
-	t = append(t, map[string]interface{}{"UserName": fmt.Sprintf(`"%s"`, o.UserName)})
-	t = append(t, map[string]interface{}{"PassWord": fmt.Sprintf(`"%s"`, o.PassWord)})
-	t = append(t, map[string]interface{}{"Host": fmt.Sprintf(`"%s"`, o.Host)})
-	t = append(t, map[string]interface{}{"Port": o.Port})
-	t = append(t, map[string]interface{}{"DBName": fmt.Sprintf(`"%s"`, o.DBName)})
-	t = append(t, map[string]interface{}{"Debug": o.Debug})
-	t = append(t, map[string]interface{}{"SQLRootDir": fmt.Sprintf(`"%s"`, o.SQLRootDir)})
-	t = append(t, map[string]interface{}{"DaoRootDir": fmt.Sprintf(`"%s"`, o.DaoRootDir)})
-	return t
+	fmt.Printf("%+v\n", o)
+
+	v := reflect.ValueOf(o)
+	t := v.Type()
+	for i := 0; i < v.NumField(); i++ {
+		name := t.Field(i).Name
+		if name == "CurrentDir" {
+			continue
+		}
+
+		var value interface{}
+		val := v.Field(i)
+		if val.Kind() == reflect.String{
+			value = fmt.Sprintf(`"%s"`, val.String())
+		} else if val.Kind() == reflect.Bool{
+			value = val.Bool()
+		} else {
+			value = val.Int()
+		}
+		res = append(res, map[string]interface{}{name: value})
+	}
+
+	return res
 }

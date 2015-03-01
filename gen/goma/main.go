@@ -28,6 +28,8 @@ var (
 	host     string
 	port     int
 
+	sslMode string
+
 	debug         bool
 	sqlRootDir    string
 	daoRootDir    string
@@ -45,6 +47,9 @@ func init() {
 	flag.StringVar(&host, "host", "localhost", "database host")
 	flag.IntVar(&port, "port", 3306, "database port")
 	flag.StringVar(&dbName, "db", "test", "database name")
+
+	flag.StringVar(&sslMode, "ssl", "disable", "postgres ssl mode")
+
 	flag.BoolVar(&debug, "debug", false, "goma debug mode")
 	flag.StringVar(&sqlRootDir, "sql", "sql", "generate sql root dir")
 	flag.StringVar(&daoRootDir, "dao", "dao", "generate dao root dir")
@@ -84,6 +89,8 @@ func main() {
 	opt.Host = host
 	opt.Port = port
 	opt.DBName = dbName
+
+	opt.SSLMode = sslMode
 
 	opt.Debug = debug
 	opt.SQLRootDir = sqlRootDir
