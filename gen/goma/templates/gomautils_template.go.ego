@@ -5,8 +5,6 @@
 // DO NOT EDIT
 
 import (
-    "os"
-
     <%= helperData.DriverImport %>
 	
 	"<%= helperData.DaoImport %>"
@@ -25,12 +23,6 @@ func NewGoma() (Goma, error) {
 	    <% for _, t := range helperData.Options { %><% for key, value := range t { %><%= key %>: <%= value %>,<% } %>
     <% } %>}
     
-	currentDir, err := os.Getwd()
-	if err != nil {
-        return Goma{}, err
-	}
-	opts.CurrentDir = currentDir
-
     g, err := goma.NewGoma(opts)
     if err != nil {
         return Goma{}, err

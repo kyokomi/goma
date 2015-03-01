@@ -28,6 +28,11 @@ type Options struct {
 	CurrentDir    string // goma currentDir path
 }
 
+// SQLRootDirPath result sql dir path.
+func (o Options) SQLRootDirPath() string {
+	return filepath.Join(o.CurrentDir, o.SQLRootDir)
+}
+
 // DaoImportPath result dao package import.
 func (o Options) DaoImportPath() string {
 	return importPath(o.CurrentDir, o.DaoPkgName())
@@ -106,11 +111,6 @@ func (o Options) Tuples() []map[string]interface{} {
 	v := reflect.ValueOf(o)
 	t := v.Type()
 	for i := 0; i < v.NumField(); i++ {
-		name := t.Field(i).Name
-		if name == "CurrentDir" {
-			continue
-		}
-
 		var value interface{}
 		val := v.Field(i)
 		if val.Kind() == reflect.String {
@@ -120,6 +120,8 @@ func (o Options) Tuples() []map[string]interface{} {
 		} else {
 			value = val.Int()
 		}
+
+		name := t.Field(i).Name
 		res = append(res, map[string]interface{}{name: value})
 	}
 

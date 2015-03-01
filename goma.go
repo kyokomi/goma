@@ -48,11 +48,11 @@ func NewGoma(options Options) (*Goma, error) {
 }
 
 func (d *Goma) cacheQuery() error {
-	sqlRootDir := d.options.SQLRootDir
+	sqlRootPath := d.options.SQLRootDirPath()
 
 	// sql下のディレクトリをtableNameとする
 	// 各ディレクトリのファイル名 - .sqlをqueryNameとする
-	dirs, err := ioutil.ReadDir(sqlRootDir)
+	dirs, err := ioutil.ReadDir(sqlRootPath)
 	if err != nil {
 		return err
 	}
@@ -63,7 +63,7 @@ func (d *Goma) cacheQuery() error {
 			continue
 		}
 
-		dirPath := filepath.Join(sqlRootDir, dir.Name())
+		dirPath := filepath.Join(sqlRootPath, dir.Name())
 		fileInfos, err := ioutil.ReadDir(dirPath)
 		if err != nil {
 			log.Println(err)
@@ -79,7 +79,7 @@ func (d *Goma) cacheQuery() error {
 				continue
 			}
 
-			filePath := filepath.Join(sqlRootDir, dir.Name(), fileInfo.Name())
+			filePath := filepath.Join(sqlRootPath, dir.Name(), fileInfo.Name())
 			f, err := ioutil.ReadFile(filePath)
 			if err != nil {
 				log.Println(err)
