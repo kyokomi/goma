@@ -50,7 +50,7 @@ _, _ = fmt.Fprintf(w, "{}\n    tblDao.Goma = g\n    tblDao.tx = nil\n    tblDao.
 //line dao_template.go.ego:29
 _, _ = fmt.Fprintf(w, "%v",  daoData.Table.TitleName )
 //line dao_template.go.ego:29
-_, _ = fmt.Fprintf(w, "\"\n\treturn tblDao\n}\n\n// IsTx started transaction?\nfunc (d *")
+_, _ = fmt.Fprintf(w, "\"\n\treturn tblDao\n}\n\n// IsTx started transaction?\nfunc (d ")
 //line dao_template.go.ego:34
 _, _ = fmt.Fprintf(w, "%v",  daoData.Name )
 //line dao_template.go.ego:34
@@ -62,11 +62,11 @@ _, _ = fmt.Fprintf(w, ") SetTx(tx *sql.Tx) {\n\td.tx = tx\n}\n\n// ResetTx reset
 //line dao_template.go.ego:45
 _, _ = fmt.Fprintf(w, "%v",  daoData.Name )
 //line dao_template.go.ego:45
-_, _ = fmt.Fprintf(w, ") ResetTx() {\n\td.tx = nil\n}\n\nfunc (d *")
+_, _ = fmt.Fprintf(w, ") ResetTx() {\n\td.tx = nil\n}\n\nfunc (d ")
 //line dao_template.go.ego:49
 _, _ = fmt.Fprintf(w, "%v",  daoData.Name )
 //line dao_template.go.ego:49
-_, _ = fmt.Fprintf(w, ") daoQuery(query string, args ...interface{}) (rows *sql.Rows, err error) {\n\tif d.IsTx() {\n\t\trows, err = d.tx.Query(query, args...)\n\t} else {\n\t\trows, err = d.Query(query, args...)\n\t}\n\treturn\n}\n\nfunc (d *")
+_, _ = fmt.Fprintf(w, ") daoQuery(query string, args ...interface{}) (rows *sql.Rows, err error) {\n\tif d.IsTx() {\n\t\trows, err = d.tx.Query(query, args...)\n\t} else {\n\t\trows, err = d.Query(query, args...)\n\t}\n\treturn\n}\n\nfunc (d ")
 //line dao_template.go.ego:58
 _, _ = fmt.Fprintf(w, "%v",  daoData.Name )
 //line dao_template.go.ego:58
@@ -74,7 +74,7 @@ _, _ = fmt.Fprintf(w, ") daoExec(query string, args ...interface{}) (result sql.
 //line dao_template.go.ego:67
 _, _ = fmt.Fprintf(w, "%v",  daoData.Table.Name )
 //line dao_template.go.ego:67
-_, _ = fmt.Fprintf(w, " table all recode.\nfunc (d *")
+_, _ = fmt.Fprintf(w, " table all recode.\nfunc (d ")
 //line dao_template.go.ego:68
 _, _ = fmt.Fprintf(w, "%v",  daoData.Name )
 //line dao_template.go.ego:68
@@ -126,7 +126,7 @@ _, _ = fmt.Fprintf(w, ")\n\t\tif err != nil {\n\t\t\tbreak\n\t\t}\n\n\t\tentitys
 //line dao_template.go.ego:94
 _, _ = fmt.Fprintf(w, "%v",  daoData.Table.Name )
 //line dao_template.go.ego:94
-_, _ = fmt.Fprintf(w, " table by primaryKey.\nfunc (d *")
+_, _ = fmt.Fprintf(w, " table by primaryKey.\nfunc (d ")
 //line dao_template.go.ego:95
 _, _ = fmt.Fprintf(w, "%v",  daoData.Name )
 //line dao_template.go.ego:95
@@ -216,7 +216,7 @@ _, _ = fmt.Fprintf(w, "); err != nil {\n\t    log.Println(err, queryString)\n\t\
 //line dao_template.go.ego:120
 _, _ = fmt.Fprintf(w, "%v",  daoData.Table.Name )
 //line dao_template.go.ego:120
-_, _ = fmt.Fprintf(w, " table.\nfunc (d *")
+_, _ = fmt.Fprintf(w, " table.\nfunc (d ")
 //line dao_template.go.ego:121
 _, _ = fmt.Fprintf(w, "%v",  daoData.Name )
 //line dao_template.go.ego:121
@@ -252,7 +252,7 @@ _, _ = fmt.Fprintf(w, "\", \"insert\", args)\n\t\n\tresult, err := d.daoExec(que
 //line dao_template.go.ego:135
 _, _ = fmt.Fprintf(w, "%v",  daoData.Table.Name )
 //line dao_template.go.ego:135
-_, _ = fmt.Fprintf(w, " table.\nfunc (d *")
+_, _ = fmt.Fprintf(w, " table.\nfunc (d ")
 //line dao_template.go.ego:136
 _, _ = fmt.Fprintf(w, "%v",  daoData.Name )
 //line dao_template.go.ego:136
@@ -288,7 +288,7 @@ _, _ = fmt.Fprintf(w, "\", \"update\", args)\n\n\tresult, err := d.daoExec(query
 //line dao_template.go.ego:150
 _, _ = fmt.Fprintf(w, "%v",  daoData.Table.Name )
 //line dao_template.go.ego:150
-_, _ = fmt.Fprintf(w, " table by primaryKey.\nfunc (d *")
+_, _ = fmt.Fprintf(w, " table by primaryKey.\nfunc (d ")
 //line dao_template.go.ego:151
 _, _ = fmt.Fprintf(w, "%v",  daoData.Name )
 //line dao_template.go.ego:151

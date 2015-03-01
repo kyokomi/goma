@@ -17,29 +17,59 @@ import (
 // SampleDao is generated sample table.
 type SampleDao struct {
 	*goma.Goma
+	tx        *sql.Tx
 	TableName string
 }
 
-var sSample *SampleDao
+// Sample is SampleDao.
+func Sample(g *goma.Goma) SampleDao {
+	tblDao := SampleDao{}
+	tblDao.Goma = g
+	tblDao.tx = nil
+	tblDao.TableName = "Sample"
+	return tblDao
+}
 
-// Sample is SampleDao singleton.
-func Sample(g *goma.Goma) *SampleDao {
-	if sSample == nil {
-		sSample = &SampleDao{
-			Goma:      g,
-			TableName: "Sample",
-		}
+// IsTx started transaction?
+func (d SampleDao) IsTx() bool {
+	return d.tx != nil
+}
+
+// SetTx set transaction.
+func (d *SampleDao) SetTx(tx *sql.Tx) {
+	d.tx = tx
+}
+
+// ResetTx reset transaction.
+// Call after Commit of Rollback.
+func (d *SampleDao) ResetTx() {
+	d.tx = nil
+}
+
+func (d SampleDao) daoQuery(query string, args ...interface{}) (rows *sql.Rows, err error) {
+	if d.IsTx() {
+		rows, err = d.tx.Query(query, args...)
+	} else {
+		rows, err = d.Query(query, args...)
 	}
-	return sSample
+	return
+}
+
+func (d SampleDao) daoExec(query string, args ...interface{}) (result sql.Result, err error) {
+	if d.IsTx() {
+		result, err = d.tx.Exec(query, args...)
+	} else {
+		result, err = d.Exec(query, args...)
+	}
+	return
 }
 
 // SelectAll select sample table all recode.
-func (d *SampleDao) SelectAll() ([]*entity.SampleEntity, error) {
-
+func (d SampleDao) SelectAll() ([]*entity.SampleEntity, error) {
 	queryString := d.QueryArgs("sample", "selectAll", nil)
 
 	var entitys []*entity.SampleEntity
-	rows, err := d.Query(queryString)
+	rows, err := d.daoQuery(queryString)
 	if err != nil {
 		return nil, err
 	}
@@ -62,14 +92,13 @@ func (d *SampleDao) SelectAll() ([]*entity.SampleEntity, error) {
 }
 
 // SelectByID select sample table by primaryKey.
-func (d *SampleDao) SelectByID(id int) (*entity.SampleEntity, error) {
-
+func (d SampleDao) SelectByID(id int) (*entity.SampleEntity, error) {
 	args := goma.QueryArgs{
 		"id": id,
 	}
 	queryString := d.QueryArgs("sample", "selectByID", args)
 
-	rows, err := d.Query(queryString)
+	rows, err := d.daoQuery(queryString)
 	if err != nil {
 		return nil, err
 	}
@@ -80,7 +109,7 @@ func (d *SampleDao) SelectByID(id int) (*entity.SampleEntity, error) {
 	}
 
 	var entity entity.SampleEntity
-	if err := d.QueryRow(queryString).Scan(&entity.ID, &entity.Name, &entity.CreateAt); err != nil {
+	if err := rows.Scan(&entity.ID, &entity.Name, &entity.CreateAt); err != nil {
 		log.Println(err, queryString)
 		return nil, err
 	}
@@ -89,8 +118,7 @@ func (d *SampleDao) SelectByID(id int) (*entity.SampleEntity, error) {
 }
 
 // Insert insert sample table.
-func (d *SampleDao) Insert(entity entity.SampleEntity) (sql.Result, error) {
-
+func (d SampleDao) Insert(entity entity.SampleEntity) (sql.Result, error) {
 	args := goma.QueryArgs{
 		"id":        entity.ID,
 		"name":      entity.Name,
@@ -98,7 +126,7 @@ func (d *SampleDao) Insert(entity entity.SampleEntity) (sql.Result, error) {
 	}
 	queryString := d.QueryArgs("sample", "insert", args)
 
-	result, err := d.Exec(queryString)
+	result, err := d.daoExec(queryString)
 	if err != nil {
 		log.Println(err, queryString)
 	}
@@ -106,8 +134,7 @@ func (d *SampleDao) Insert(entity entity.SampleEntity) (sql.Result, error) {
 }
 
 // Update update sample table.
-func (d *SampleDao) Update(entity entity.SampleEntity) (sql.Result, error) {
-
+func (d SampleDao) Update(entity entity.SampleEntity) (sql.Result, error) {
 	args := goma.QueryArgs{
 		"id":        entity.ID,
 		"name":      entity.Name,
@@ -115,7 +142,7 @@ func (d *SampleDao) Update(entity entity.SampleEntity) (sql.Result, error) {
 	}
 	queryString := d.QueryArgs("sample", "update", args)
 
-	result, err := d.Exec(queryString)
+	result, err := d.daoExec(queryString)
 	if err != nil {
 		log.Println(err, queryString)
 	}
@@ -123,14 +150,13 @@ func (d *SampleDao) Update(entity entity.SampleEntity) (sql.Result, error) {
 }
 
 // Delete delete sample table by primaryKey.
-func (d *SampleDao) Delete(id int) (sql.Result, error) {
-
+func (d SampleDao) Delete(id int) (sql.Result, error) {
 	args := goma.QueryArgs{
 		"id": id,
 	}
 	queryString := d.QueryArgs("sample", "delete", args)
 
-	result, err := d.Exec(queryString)
+	result, err := d.daoExec(queryString)
 	if err != nil {
 		log.Println(err, queryString)
 	}

@@ -17,29 +17,59 @@ import (
 // QuestDao is generated quest table.
 type QuestDao struct {
 	*goma.Goma
+	tx        *sql.Tx
 	TableName string
 }
 
-var sQuest *QuestDao
+// Quest is QuestDao.
+func Quest(g *goma.Goma) QuestDao {
+	tblDao := QuestDao{}
+	tblDao.Goma = g
+	tblDao.tx = nil
+	tblDao.TableName = "Quest"
+	return tblDao
+}
 
-// Quest is QuestDao singleton.
-func Quest(g *goma.Goma) *QuestDao {
-	if sQuest == nil {
-		sQuest = &QuestDao{
-			Goma:      g,
-			TableName: "Quest",
-		}
+// IsTx started transaction?
+func (d QuestDao) IsTx() bool {
+	return d.tx != nil
+}
+
+// SetTx set transaction.
+func (d *QuestDao) SetTx(tx *sql.Tx) {
+	d.tx = tx
+}
+
+// ResetTx reset transaction.
+// Call after Commit of Rollback.
+func (d *QuestDao) ResetTx() {
+	d.tx = nil
+}
+
+func (d QuestDao) daoQuery(query string, args ...interface{}) (rows *sql.Rows, err error) {
+	if d.IsTx() {
+		rows, err = d.tx.Query(query, args...)
+	} else {
+		rows, err = d.Query(query, args...)
 	}
-	return sQuest
+	return
+}
+
+func (d QuestDao) daoExec(query string, args ...interface{}) (result sql.Result, err error) {
+	if d.IsTx() {
+		result, err = d.tx.Exec(query, args...)
+	} else {
+		result, err = d.Exec(query, args...)
+	}
+	return
 }
 
 // SelectAll select quest table all recode.
-func (d *QuestDao) SelectAll() ([]*entity.QuestEntity, error) {
-
+func (d QuestDao) SelectAll() ([]*entity.QuestEntity, error) {
 	queryString := d.QueryArgs("quest", "selectAll", nil)
 
 	var entitys []*entity.QuestEntity
-	rows, err := d.Query(queryString)
+	rows, err := d.daoQuery(queryString)
 	if err != nil {
 		return nil, err
 	}
@@ -62,14 +92,13 @@ func (d *QuestDao) SelectAll() ([]*entity.QuestEntity, error) {
 }
 
 // SelectByID select quest table by primaryKey.
-func (d *QuestDao) SelectByID(id int) (*entity.QuestEntity, error) {
-
+func (d QuestDao) SelectByID(id int) (*entity.QuestEntity, error) {
 	args := goma.QueryArgs{
 		"id": id,
 	}
 	queryString := d.QueryArgs("quest", "selectByID", args)
 
-	rows, err := d.Query(queryString)
+	rows, err := d.daoQuery(queryString)
 	if err != nil {
 		return nil, err
 	}
@@ -80,7 +109,7 @@ func (d *QuestDao) SelectByID(id int) (*entity.QuestEntity, error) {
 	}
 
 	var entity entity.QuestEntity
-	if err := d.QueryRow(queryString).Scan(&entity.ID, &entity.Name, &entity.Detail, &entity.CreateAt); err != nil {
+	if err := rows.Scan(&entity.ID, &entity.Name, &entity.Detail, &entity.CreateAt); err != nil {
 		log.Println(err, queryString)
 		return nil, err
 	}
@@ -89,8 +118,7 @@ func (d *QuestDao) SelectByID(id int) (*entity.QuestEntity, error) {
 }
 
 // Insert insert quest table.
-func (d *QuestDao) Insert(entity entity.QuestEntity) (sql.Result, error) {
-
+func (d QuestDao) Insert(entity entity.QuestEntity) (sql.Result, error) {
 	args := goma.QueryArgs{
 		"id":        entity.ID,
 		"name":      entity.Name,
@@ -99,7 +127,7 @@ func (d *QuestDao) Insert(entity entity.QuestEntity) (sql.Result, error) {
 	}
 	queryString := d.QueryArgs("quest", "insert", args)
 
-	result, err := d.Exec(queryString)
+	result, err := d.daoExec(queryString)
 	if err != nil {
 		log.Println(err, queryString)
 	}
@@ -107,8 +135,7 @@ func (d *QuestDao) Insert(entity entity.QuestEntity) (sql.Result, error) {
 }
 
 // Update update quest table.
-func (d *QuestDao) Update(entity entity.QuestEntity) (sql.Result, error) {
-
+func (d QuestDao) Update(entity entity.QuestEntity) (sql.Result, error) {
 	args := goma.QueryArgs{
 		"id":        entity.ID,
 		"name":      entity.Name,
@@ -117,7 +144,7 @@ func (d *QuestDao) Update(entity entity.QuestEntity) (sql.Result, error) {
 	}
 	queryString := d.QueryArgs("quest", "update", args)
 
-	result, err := d.Exec(queryString)
+	result, err := d.daoExec(queryString)
 	if err != nil {
 		log.Println(err, queryString)
 	}
@@ -125,14 +152,13 @@ func (d *QuestDao) Update(entity entity.QuestEntity) (sql.Result, error) {
 }
 
 // Delete delete quest table by primaryKey.
-func (d *QuestDao) Delete(id int) (sql.Result, error) {
-
+func (d QuestDao) Delete(id int) (sql.Result, error) {
 	args := goma.QueryArgs{
 		"id": id,
 	}
 	queryString := d.QueryArgs("quest", "delete", args)
 
-	result, err := d.Exec(queryString)
+	result, err := d.daoExec(queryString)
 	if err != nil {
 		log.Println(err, queryString)
 	}

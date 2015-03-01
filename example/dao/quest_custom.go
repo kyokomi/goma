@@ -8,7 +8,7 @@ import (
 	"github.com/kyokomi/goma/example/entity"
 )
 
-// Update update quest table.
+// UpdateAll update quest table.
 func (d *QuestDao) UpdateAll(entity entity.QuestEntity) (sql.Result, error) {
 
 	args := goma.QueryArgs{

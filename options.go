@@ -3,8 +3,8 @@ package goma
 import (
 	"fmt"
 	"path/filepath"
-	"strings"
 	"reflect"
+	"strings"
 )
 
 // Options is open sql.DB options.
@@ -113,9 +113,9 @@ func (o Options) Tuples() []map[string]interface{} {
 
 		var value interface{}
 		val := v.Field(i)
-		if val.Kind() == reflect.String{
+		if val.Kind() == reflect.String {
 			value = fmt.Sprintf(`"%s"`, val.String())
-		} else if val.Kind() == reflect.Bool{
+		} else if val.Kind() == reflect.Bool {
 			value = val.Bool()
 		} else {
 			value = val.Int()

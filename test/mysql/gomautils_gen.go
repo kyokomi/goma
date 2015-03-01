@@ -22,15 +22,17 @@ type Goma struct {
 // NewGoma is goma.Goma wrapper utils.
 func NewGoma() (Goma, error) {
 	opts := goma.Options{
-		Driver:     "mysql",
-		UserName:   "admin",
-		PassWord:   "password",
-		Host:       "localhost",
-		Port:       3306,
-		DBName:     "goma_test",
-		Debug:      true,
-		SQLRootDir: "sql",
-		DaoRootDir: "dao",
+		Driver:        "mysql",
+		UserName:      "admin",
+		PassWord:      "password",
+		Host:          "localhost",
+		Port:          3306,
+		DBName:        "goma_test",
+		SSLMode:       "disable",
+		Debug:         true,
+		SQLRootDir:    "sql",
+		DaoRootDir:    "dao",
+		EntityRootDir: "entity",
 	}
 
 	currentDir, err := os.Getwd()

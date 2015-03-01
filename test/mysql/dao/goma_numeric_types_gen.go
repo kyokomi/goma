@@ -31,7 +31,7 @@ func GomaNumericTypes(g *goma.Goma) GomaNumericTypesDao {
 }
 
 // IsTx started transaction?
-func (d *GomaNumericTypesDao) IsTx() bool {
+func (d GomaNumericTypesDao) IsTx() bool {
 	return d.tx != nil
 }
 
@@ -46,7 +46,7 @@ func (d *GomaNumericTypesDao) ResetTx() {
 	d.tx = nil
 }
 
-func (d *GomaNumericTypesDao) daoQuery(query string, args ...interface{}) (rows *sql.Rows, err error) {
+func (d GomaNumericTypesDao) daoQuery(query string, args ...interface{}) (rows *sql.Rows, err error) {
 	if d.IsTx() {
 		rows, err = d.tx.Query(query, args...)
 	} else {
@@ -55,7 +55,7 @@ func (d *GomaNumericTypesDao) daoQuery(query string, args ...interface{}) (rows 
 	return
 }
 
-func (d *GomaNumericTypesDao) daoExec(query string, args ...interface{}) (result sql.Result, err error) {
+func (d GomaNumericTypesDao) daoExec(query string, args ...interface{}) (result sql.Result, err error) {
 	if d.IsTx() {
 		result, err = d.tx.Exec(query, args...)
 	} else {
@@ -65,7 +65,7 @@ func (d *GomaNumericTypesDao) daoExec(query string, args ...interface{}) (result
 }
 
 // SelectAll select goma_numeric_types table all recode.
-func (d *GomaNumericTypesDao) SelectAll() ([]*entity.GomaNumericTypesEntity, error) {
+func (d GomaNumericTypesDao) SelectAll() ([]*entity.GomaNumericTypesEntity, error) {
 	queryString := d.QueryArgs("goma_numeric_types", "selectAll", nil)
 
 	var entitys []*entity.GomaNumericTypesEntity
@@ -92,7 +92,7 @@ func (d *GomaNumericTypesDao) SelectAll() ([]*entity.GomaNumericTypesEntity, err
 }
 
 // SelectByID select goma_numeric_types table by primaryKey.
-func (d *GomaNumericTypesDao) SelectByID(id int64) (*entity.GomaNumericTypesEntity, error) {
+func (d GomaNumericTypesDao) SelectByID(id int64) (*entity.GomaNumericTypesEntity, error) {
 	args := goma.QueryArgs{
 		"id": id,
 	}
@@ -118,7 +118,7 @@ func (d *GomaNumericTypesDao) SelectByID(id int64) (*entity.GomaNumericTypesEnti
 }
 
 // Insert insert goma_numeric_types table.
-func (d *GomaNumericTypesDao) Insert(entity entity.GomaNumericTypesEntity) (sql.Result, error) {
+func (d GomaNumericTypesDao) Insert(entity entity.GomaNumericTypesEntity) (sql.Result, error) {
 	args := goma.QueryArgs{
 		"id":                entity.ID,
 		"tinyint_columns":   entity.TinyintColumns,
@@ -143,7 +143,7 @@ func (d *GomaNumericTypesDao) Insert(entity entity.GomaNumericTypesEntity) (sql.
 }
 
 // Update update goma_numeric_types table.
-func (d *GomaNumericTypesDao) Update(entity entity.GomaNumericTypesEntity) (sql.Result, error) {
+func (d GomaNumericTypesDao) Update(entity entity.GomaNumericTypesEntity) (sql.Result, error) {
 	args := goma.QueryArgs{
 		"id":                entity.ID,
 		"tinyint_columns":   entity.TinyintColumns,
@@ -168,7 +168,7 @@ func (d *GomaNumericTypesDao) Update(entity entity.GomaNumericTypesEntity) (sql.
 }
 
 // Delete delete goma_numeric_types table by primaryKey.
-func (d *GomaNumericTypesDao) Delete(id int64) (sql.Result, error) {
+func (d GomaNumericTypesDao) Delete(id int64) (sql.Result, error) {
 	args := goma.QueryArgs{
 		"id": id,
 	}

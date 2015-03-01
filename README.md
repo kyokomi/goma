@@ -60,6 +60,10 @@ driver and dataSource params.
 - `port=3306`: database port
 - `db="test"`: database name
 
+postgres dataSource params.
+
+- `ssl="disable"`: Valid values for sslmode [see](http://godoc.org/github.com/lib/pq#hdr-Connection_String_Parameters)
+
 goma options params.
 
 - `debug=false`: goma debug mode (`true`: log output)
@@ -125,7 +129,7 @@ defer g.Close()
 #### Insert
  
 ```go
-_, err = goma.Quest.Insert(entity.QuestEntity{
+_, err = goma.Quest().Insert(entity.QuestEntity{
     ID:       99,
     Name:     "test",
     Detail:   "test detail",
@@ -139,7 +143,7 @@ if err != nil {
 #### Select
 
 ```go
-questEntity, err := goma.Quest.SelectByID(99); err != nil {
+questEntity, err := goma.Quest().SelectByID(99); err != nil {
     log.Fatalln(err)
 }
 
@@ -149,7 +153,7 @@ fmt.Printf("insert after: %+v\n", questEntity)
 #### Update
 
 ```go
-_, err = goma.Quest.Update(entity.QuestEntity{
+_, err = goma.Quest().Update(entity.QuestEntity{
     ID:       99,
     Name:     "test 2",
     Detail:   "test detail 2",
@@ -163,7 +167,7 @@ if err != nil {
 #### Delete
 
 ```go
-_, err = goma.Quest.Delete(99)
+_, err = goma.Quest().Delete(99)
 if err != nil {
     log.Fatalln(err)
 }
@@ -194,7 +198,7 @@ import (
 )
 
 // Update update quest table.
-func (d *QuestDao) UpdateAll(entity entity.QuestEntity) (sql.Result, error) {
+func (d QuestDao) UpdateAll(entity entity.QuestEntity) (sql.Result, error) {
 
 	args := goma.QueryArgs{
 		"name":      entity.Name,
@@ -214,7 +218,7 @@ func (d *QuestDao) UpdateAll(entity entity.QuestEntity) (sql.Result, error) {
 #### Call
 
 ```go
-_, err = goma.Quest.UpdateAll(entity.QuestEntity{
+_, err = goma.Quest().UpdateAll(entity.QuestEntity{
     Name:     "test 2",
     Detail:   "test detail 2",
     CreateAt: time.Now(),

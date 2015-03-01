@@ -33,15 +33,15 @@ func numericTest(g Goma) {
 	dao := g.GomaNumericTypes()
 
 	_, err := dao.Insert(entity.GomaNumericTypesEntity{
-		ID:               id,
-		BoolColumns:      true,
-		SmallintColumns:  int(123),
-		IntColumns:       int(11111111),
-		IntegerColumns:   int(22222222),
-		SerialColumns:    1234567890,
-		DecimalColumns:   "1234567890",
-		NumericColumns:   "1234567890",
-		FloatColumns:     float64(1.234),
+		ID:              id,
+		BoolColumns:     true,
+		SmallintColumns: int(123),
+		IntColumns:      int(11111111),
+		IntegerColumns:  int(22222222),
+		SerialColumns:   1234567890,
+		DecimalColumns:  "1234567890",
+		NumericColumns:  "1234567890",
+		FloatColumns:    float64(1.234),
 	})
 	if err != nil {
 		log.Fatalln(err)
@@ -73,10 +73,10 @@ func stringTest(g Goma) {
 	dao := g.GomaStringTypes()
 
 	_, err := dao.Insert(entity.GomaStringTypesEntity{
-		ID:                id,
-		TextColumns:       "あいうえおかきくけこ",
-		CharColumns:       "a",
-		VarcharColumns:    "1234567890abcdefghijkelmnopqrstuvwxyz",
+		ID:             id,
+		TextColumns:    "あいうえおかきくけこ",
+		CharColumns:    "a",
+		VarcharColumns: "1234567890abcdefghijkelmnopqrstuvwxyz",
 	})
 	if err != nil {
 		log.Fatalln(err)
@@ -148,10 +148,10 @@ func txTest(g Goma) {
 	dao.SetTx(tx)
 
 	e := entity.GomaStringTypesEntity{
-		ID:                id,
-		TextColumns:       "あいうえおかきくけこ",
-		CharColumns:       "a",
-		VarcharColumns:    "1234567890abcdefghijkelmnopqrstuvwxyz",
+		ID:             id,
+		TextColumns:    "あいうえおかきくけこ",
+		CharColumns:    "a",
+		VarcharColumns: "1234567890abcdefghijkelmnopqrstuvwxyz",
 	}
 
 	_, err = dao.Insert(e)

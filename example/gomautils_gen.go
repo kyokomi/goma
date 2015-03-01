@@ -17,25 +17,22 @@ import (
 // Goma goma.Goma utils.
 type Goma struct {
 	*goma.Goma
-
-	// dao
-	Quest  *dao.QuestDao
-	Sample *dao.SampleDao
 }
 
 // NewGoma is goma.Goma wrapper utils.
 func NewGoma() (Goma, error) {
-
 	opts := goma.Options{
-		Driver:     "mysql",
-		UserName:   "admin",
-		PassWord:   "password",
-		Host:       "localhost",
-		Port:       3306,
-		DBName:     "test",
-		Debug:      true,
-		SQLRootDir: "sql",
-		DaoRootDir: "dao",
+		Driver:        "mysql",
+		UserName:      "admin",
+		PassWord:      "password",
+		Host:          "localhost",
+		Port:          3306,
+		DBName:        "test",
+		SSLMode:       "disable",
+		Debug:         true,
+		SQLRootDir:    "sql",
+		DaoRootDir:    "dao",
+		EntityRootDir: "entity",
 	}
 
 	currentDir, err := os.Getwd()
@@ -51,8 +48,15 @@ func NewGoma() (Goma, error) {
 
 	gm := Goma{}
 	gm.Goma = g
-	gm.Quest = dao.Quest(g)
-	gm.Sample = dao.Sample(g)
-
 	return gm, nil
+}
+
+// Quest is dao.QuestDao helper.
+func (g Goma) Quest() dao.QuestDao {
+	return dao.Quest(g.Goma)
+}
+
+// Sample is dao.SampleDao helper.
+func (g Goma) Sample() dao.SampleDao {
+	return dao.Sample(g.Goma)
 }
