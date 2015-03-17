@@ -5,8 +5,6 @@ package main
 // DO NOT EDIT
 
 import (
-	"os"
-
 	_ "github.com/go-sql-driver/mysql"
 
 	"github.com/kyokomi/goma/example/dao"
@@ -20,27 +18,11 @@ type Goma struct {
 }
 
 // NewGoma is goma.Goma wrapper utils.
-func NewGoma() (Goma, error) {
-	opts := goma.Options{
-		Driver:        "mysql",
-		UserName:      "admin",
-		PassWord:      "password",
-		Host:          "localhost",
-		Port:          3306,
-		DBName:        "test",
-		SSLMode:       "disable",
-		Debug:         true,
-		SQLRootDir:    "sql",
-		DaoRootDir:    "dao",
-		EntityRootDir: "entity",
-	}
-
-	currentDir, err := os.Getwd()
+func NewGoma(configPath string) (Goma, error) {
+	opts, err := goma.NewOptions(configPath)
 	if err != nil {
 		return Goma{}, err
 	}
-	opts.CurrentDir = currentDir
-
 	g, err := goma.NewGoma(opts)
 	if err != nil {
 		return Goma{}, err

@@ -458,27 +458,7 @@ _, _ = fmt.Fprintf(w, "\n\t\n\t\"")
 //line gomautils_template.go.ego:10
 _, _ = fmt.Fprintf(w, "%v",  helperData.DaoImport )
 //line gomautils_template.go.ego:10
-_, _ = fmt.Fprintf(w, "\"\n        \n\t\"github.com/kyokomi/goma\"\n)\n\n// Goma goma.Goma utils.\ntype Goma struct {\n\t*goma.Goma\n}\n\n// NewGoma is goma.Goma wrapper utils.\nfunc NewGoma() (Goma, error) {\n\topts := goma.Options{\n\t    ")
-//line gomautils_template.go.ego:23
- for _, t := range helperData.Options { 
-//line gomautils_template.go.ego:23
- for key, value := range t { 
-//line gomautils_template.go.ego:23
-_, _ = fmt.Fprintf(w, "%v",  key )
-//line gomautils_template.go.ego:23
-_, _ = fmt.Fprintf(w, ": ")
-//line gomautils_template.go.ego:23
-_, _ = fmt.Fprintf(w, "%v",  value )
-//line gomautils_template.go.ego:23
-_, _ = fmt.Fprintf(w, ",")
-//line gomautils_template.go.ego:23
- } 
-//line gomautils_template.go.ego:24
-_, _ = fmt.Fprintf(w, "\n    ")
-//line gomautils_template.go.ego:24
- } 
-//line gomautils_template.go.ego:24
-_, _ = fmt.Fprintf(w, "}\n    \n    g, err := goma.NewGoma(opts)\n    if err != nil {\n        return Goma{}, err\n    }\n\n    gm := Goma{}\n    gm.Goma = g\n\treturn gm, nil\n}\n")
+_, _ = fmt.Fprintf(w, "\"\n        \n\t\"github.com/kyokomi/goma\"\n)\n\n// Goma goma.Goma utils.\ntype Goma struct {\n\t*goma.Goma\n}\n\n// NewGoma is goma.Goma wrapper utils.\nfunc NewGoma(configPath string) (Goma, error) {\n    opts, err := goma.NewOptions(configPath)\n    if err != nil {\n        return Goma{}, err\n    }\n    g, err := goma.NewGoma(opts)\n    if err != nil {\n        return Goma{}, err\n    }\n\n    gm := Goma{}\n    gm.Goma = g\n\treturn gm, nil\n}\n")
 //line gomautils_template.go.ego:35
  for _, daoData := range helperData.DaoList { 
 //line gomautils_template.go.ego:36

@@ -1,7 +1,9 @@
 package goma
 
 import (
+	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"path/filepath"
 	"reflect"
 	"strings"
@@ -10,22 +12,22 @@ import (
 // Options is open sql.DB options.
 type Options struct {
 	// driver and dataSource
-	Driver   string // DriverName
-	UserName string // access user name `admin`
-	PassWord string // access user password `password`
-	Host     string // localhost
-	Port     int    // 3306
-	DBName   string // DataBaseName
+	Driver   string `json:"driver"`   // DriverName
+	UserName string `json:"user"`     // access user name `admin`
+	PassWord string `json:"password"` // access user password `password`
+	Host     string `json:"host"`     // localhost
+	Port     int    `json:"port"`     // 3306
+	DBName   string `json:"db"`       // DataBaseName
 
 	// postgres
-	SSLMode string // disable, verify-full
+	SSLMode string `json:"ssl"` // disable, verify-full
 
 	// goma
-	Debug         bool   // goma debug mode (default false)
-	SQLRootDir    string // goma sql root dir path (default './sql')
-	DaoRootDir    string // goma dao root dir path (default './dao')
-	EntityRootDir string // goma entity root dir path (default './entity')
-	CurrentDir    string // goma currentDir path
+	Debug         bool   `json:"debug"`         // goma debug mode (default false)
+	SQLRootDir    string `json:"sqlRootDir"`    // goma sql root dir path (default './sql')
+	DaoRootDir    string `json:"daoRootDir"`    // goma dao root dir path (default './dao')
+	EntityRootDir string `json:"entityRootDir"` // goma entity root dir path (default './entity')
+	CurrentDir    string `json:"currentDir"`    // goma currentDir path
 }
 
 // SQLRootDirPath result sql dir path.
@@ -53,17 +55,8 @@ func (o Options) EntityPkgName() string {
 	return packageName(o.EntityRootDir)
 }
 
-func importPath(currentDir, pkgName string) string {
-	// /User/xxxxx/src/github.com/yyyyy => github.com/yyyyy
-	srcIdx := strings.Index(currentDir, "src/")
-	// github.com/yyyyy + dao => github.com/yyyyy/dao
-	return filepath.Join(currentDir[srcIdx+len("src/"):], pkgName)
-}
-
-func packageName(pkgRootDir string) string {
-	// ./dao/ => dao
-	pkgName := strings.Replace(pkgRootDir, "./", "", -1)
-	return strings.Replace(pkgName, "/", "", -1)
+func (o Options) ConfigPath() string {
+	return filepath.Join(o.CurrentDir, "config.json")
 }
 
 // Source create driver databaseSource.
@@ -126,4 +119,34 @@ func (o Options) Tuples() []map[string]interface{} {
 	}
 
 	return res
+}
+
+// NewOptions create read file Options.
+func NewOptions(filePath string) (Options, error) {
+	f, err := ioutil.ReadFile(filePath)
+	if err != nil {
+		return Options{}, err
+	}
+
+	var opts Options
+	if strings.HasSuffix(filePath, ".json") {
+		if err := json.Unmarshal(f, &opts); err != nil {
+			return opts, err
+		}
+	}
+
+	return opts, nil
+}
+
+func importPath(currentDir, pkgName string) string {
+	// /User/xxxxx/src/github.com/yyyyy => github.com/yyyyy
+	srcIdx := strings.Index(currentDir, "src/")
+	// github.com/yyyyy + dao => github.com/yyyyy/dao
+	return filepath.Join(currentDir[srcIdx+len("src/"):], pkgName)
+}
+
+func packageName(pkgRootDir string) string {
+	// ./dao/ => dao
+	pkgName := strings.Replace(pkgRootDir, "./", "", -1)
+	return strings.Replace(pkgName, "/", "", -1)
 }
