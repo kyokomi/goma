@@ -18,11 +18,11 @@ type Goma struct {
 }
 
 // NewGoma is goma.Goma wrapper utils.
-func NewGoma() (Goma, error) {
-	opts := goma.Options{
-	    <% for _, t := range helperData.Options { %><% for key, value := range t { %><%= key %>: <%= value %>,<% } %>
-    <% } %>}
-    
+func NewGoma(configPath string) (Goma, error) {
+    opts, err := goma.NewOptions(configPath)
+    if err != nil {
+        return Goma{}, err
+    }
     g, err := goma.NewGoma(opts)
     if err != nil {
         return Goma{}, err

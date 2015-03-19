@@ -44,7 +44,7 @@ import (
 	"fmt"
 )
 
-//go:generate goma -driver=mysql -user=admin -password=password -host=localhost -port=3306 -db=test -debug=true
+//go:generate goma gen --driver=mysql --user=admin --password=password --host=localhost --port=3306 --db=test
 
 func main() {
 	fmt.Println("Hello goma!")
@@ -66,7 +66,6 @@ postgres dataSource params.
 
 goma options params.
 
-- `debug=false`: goma debug mode (`true`: log output)
 - `dao="dao"`: generate dao root dirs
 - `sql="sql"`: generate sql root dir
 - `entity="entity"`: generate entity root dir
@@ -90,6 +89,7 @@ $ go generate
 │   └── xxxxx2_gen.go
 ├── gomautils_gen.go
 ├── main.go
+├── config.json
 └── sql
     ├── xxxxx1
     │   ├── delete.sql
