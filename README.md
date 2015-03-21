@@ -21,6 +21,17 @@ $ go get -u github.com/kyokomi/goma/gen/goma
 
 [GitBook Document](http://kyokomi.gitbooks.io/goma/content/)
 
+### Command
+
+```
+$ goma
+COMMANDS:
+   init-config create example config file
+   gen         generate code by params
+   config      generate code by config
+   help, h	Shows a list of commands or help for one command
+```
+
 ## Support Driver
 
 - mysql ( https://github.com/go-sql-driver/mysql )
