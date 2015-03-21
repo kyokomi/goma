@@ -10,7 +10,7 @@ import (
 
 func main() {
 	app := cli.NewApp()
-	app.Name = "renkin"
+	app.Name = "goma"
 	app.Version = "1.0"
 	app.Usage = ""
 	app.Author = "kyokomi"
@@ -24,6 +24,7 @@ func main() {
 		{
 			Name:   "init-config",
 			Action: initConfigAction,
+			Usage: "create example config file",
 			Flags: []cli.Flag{
 				cli.StringFlag{"out", "", "output dir path", ""},
 			},
@@ -31,6 +32,7 @@ func main() {
 		{
 			Name:   "gen",
 			Action: genAction,
+			Usage: "generate code by params",
 			Flags: []cli.Flag{
 				cli.StringFlag{"driver", "mysql", "sql driver", ""},
 				cli.StringFlag{"user", "admin", "database access user's name", ""},
@@ -49,6 +51,7 @@ func main() {
 		{
 			Name:   "config",
 			Action: configAction,
+			Usage: "generate code by config",
 			Flags: []cli.Flag{
 				cli.StringFlag{"path", "config.json", "config path", ""},
 			},
