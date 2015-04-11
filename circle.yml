@@ -1,9 +1,18 @@
+database:
+  override:
+    - sh test/mysql/ddl/create_table_data.sql
+    - sh test/mysql/ddl/create_table_numeric.sql
+    - sh test/mysql/ddl/create_table_string.sql
+
 dependencies:
   pre:
     - go get -t -d -v ./...
   override:
     - go build -v
-    
+  post:
+    - go generate github.com/kyokomi/goma/gen/goma
+    - go install github.com/kyokomi/goma/gen/goma
+
 test:
   pre:
     - go get github.com/axw/gocov/gocov
@@ -11,6 +20,7 @@ test:
     - mkdir -p $HOME/.go_workspace/src/_/home/ubuntu/
     - ln -s $HOME/$CIRCLE_PROJECT_REPONAME $HOME/.go_workspace/src/_/home/ubuntu/
   override:
-    - go test -v ./ -race
+    - go generate github.com/kyokomi/goma/test/mysql
+    - go test -v ./... -race
   post:
     - goveralls -v -service=circle-ci -repotoken $COVERALLS_GOMA_TOKEN ./
