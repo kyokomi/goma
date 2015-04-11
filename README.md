@@ -14,8 +14,15 @@ I'm making based on [Doma](https://github.com/domaframework/doma);
 ## Install
 
 ```
-$ go get -u github.com/kyokomi/goma/gen/goma
+$ go get gopkg.in/kyokomi/goma.v1/gen/goma
 ```
+
+latest Ver
+
+```
+$ go get github.com.kyokomi/goma/gen/goma
+```
+
 
 ## Usage
 
