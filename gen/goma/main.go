@@ -49,8 +49,8 @@ func main() {
 			},
 		},
 		{
-			Name:   "config",
-			Action: configAction,
+			Name:   "gen-config",
+			Action: genConfigAction,
 			Usage: "generate code by config",
 			Flags: []cli.Flag{
 				cli.StringFlag{"path", "config.json", "config path", ""},
