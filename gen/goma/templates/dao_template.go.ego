@@ -14,6 +14,7 @@ import (
     "github.com/kyokomi/goma"
 )
 
+// <%= daoData.Name %>Queryer is interface
 type <%= daoData.Name %>Queryer interface {
 	Query(query string, args ...interface{}) (*sql.Rows, error)
 	Exec(query string, args ...interface{}) (sql.Result, error)
@@ -45,7 +46,7 @@ func <%= daoData.Table.TitleName %>(db *sql.DB) <%= daoData.Name %> {
 	return tblDao
 }
 
-// <%= daoData.Name %>Tx is generated <%= daoData.Table.Name %> table transaction.
+// Tx<%= daoData.Name %> is generated <%= daoData.Table.Name %> table transaction.
 type Tx<%= daoData.Name %> struct {
 	*sql.Tx
 	TableName string
@@ -72,20 +73,20 @@ func Tx<%= daoData.Table.TitleName %>(tx *sql.Tx) Tx<%= daoData.Name %> {
 }
 
 // SelectAll select <%= daoData.Table.Name %> table all recode.
-func (d <%= daoData.Name %>) SelectAll() ([]*<%= daoData.EntityPkgName %>.<%= daoData.EntityName %>, error) {
-	return <%= daoData.Table.Name %>SelectAll(d)
+func (g <%= daoData.Name %>) SelectAll() ([]*<%= daoData.EntityPkgName %>.<%= daoData.EntityName %>, error) {
+	return _<%= daoData.Table.TitleName %>SelectAll(g)
 }
 
 // SelectAll transaction select <%= daoData.Table.Name %> table all recode.
-func (d Tx<%= daoData.Name %>) SelectAll() ([]*<%= daoData.EntityPkgName %>.<%= daoData.EntityName %>, error) {
-	return <%= daoData.Table.Name %>SelectAll(d)
+func (g Tx<%= daoData.Name %>) SelectAll() ([]*<%= daoData.EntityPkgName %>.<%= daoData.EntityName %>, error) {
+	return _<%= daoData.Table.TitleName %>SelectAll(g)
 }
 
-func <%= daoData.Table.Name %>SelectAll(d <%= daoData.Name %>Queryer) ([]*<%= daoData.EntityPkgName %>.<%= daoData.EntityName %>, error) {
+func _<%= daoData.Table.TitleName %>SelectAll(g <%= daoData.Name %>Queryer) ([]*<%= daoData.EntityPkgName %>.<%= daoData.EntityName %>, error) {
     queryString := queryArgs("<%= daoData.Table.Name %>", "selectAll", nil)
 
 	var es []*<%= daoData.EntityPkgName %>.<%= daoData.EntityName %>
-	rows, err := d.Query(queryString)
+	rows, err := g.Query(queryString)
 	if err != nil {
 		return nil, err
 	}
@@ -107,22 +108,22 @@ func <%= daoData.Table.Name %>SelectAll(d <%= daoData.Name %>Queryer) ([]*<%= da
 }
 
 // SelectByID select <%= daoData.Table.Name %> table by primaryKey.
-func (d <%= daoData.Name %>) SelectByID(<% for idx, column := range daoData.Table.Columns { %><% if !column.IsPrimaryKey { %><% continue %><% } %><% if idx != 0 { %>, <% } %><%= column.Name %> <%= column.TypeName %><% } %>) (*<%= daoData.EntityPkgName %>.<%= daoData.EntityName %>, error) {
-	return <%= daoData.Table.Name %>SelectByID(d, <% for idx, column := range daoData.Table.Columns { %><% if !column.IsPrimaryKey { %><% continue %><% } %><% if idx != 0 { %>, <% } %><%= column.Name %><% } %>)
+func (g <%= daoData.Name %>) SelectByID(<% for idx, column := range daoData.Table.Columns { %><% if !column.IsPrimaryKey { %><% continue %><% } %><% if idx != 0 { %>, <% } %><%= column.Name %> <%= column.TypeName %><% } %>) (*<%= daoData.EntityPkgName %>.<%= daoData.EntityName %>, error) {
+	return _<%= daoData.Table.TitleName %>SelectByID(g, <% for idx, column := range daoData.Table.Columns { %><% if !column.IsPrimaryKey { %><% continue %><% } %><% if idx != 0 { %>, <% } %><%= column.Name %><% } %>)
 }
 
 // SelectByID transaction select <%= daoData.Table.Name %> table by primaryKey.
-func (d Tx<%= daoData.Name %>) SelectByID(<% for idx, column := range daoData.Table.Columns { %><% if !column.IsPrimaryKey { %><% continue %><% } %><% if idx != 0 { %>, <% } %><%= column.Name %> <%= column.TypeName %><% } %>) (*<%= daoData.EntityPkgName %>.<%= daoData.EntityName %>, error) {
-	return <%= daoData.Table.Name %>SelectByID(d, <% for idx, column := range daoData.Table.Columns { %><% if !column.IsPrimaryKey { %><% continue %><% } %><% if idx != 0 { %>, <% } %><%= column.Name %><% } %>)
+func (g Tx<%= daoData.Name %>) SelectByID(<% for idx, column := range daoData.Table.Columns { %><% if !column.IsPrimaryKey { %><% continue %><% } %><% if idx != 0 { %>, <% } %><%= column.Name %> <%= column.TypeName %><% } %>) (*<%= daoData.EntityPkgName %>.<%= daoData.EntityName %>, error) {
+	return _<%= daoData.Table.TitleName %>SelectByID(g, <% for idx, column := range daoData.Table.Columns { %><% if !column.IsPrimaryKey { %><% continue %><% } %><% if idx != 0 { %>, <% } %><%= column.Name %><% } %>)
 }
 
-func <%= daoData.Table.Name %>SelectByID(d <%= daoData.Name %>Queryer, <% for idx, column := range daoData.Table.Columns { %><% if !column.IsPrimaryKey { %><% continue %><% } %><% if idx != 0 { %>, <% } %><%= column.Name %> <%= column.TypeName %><% } %>) (*<%= daoData.EntityPkgName %>.<%= daoData.EntityName %>, error) {
+func _<%= daoData.Table.TitleName %>SelectByID(g <%= daoData.Name %>Queryer, <% for idx, column := range daoData.Table.Columns { %><% if !column.IsPrimaryKey { %><% continue %><% } %><% if idx != 0 { %>, <% } %><%= column.Name %> <%= column.TypeName %><% } %>) (*<%= daoData.EntityPkgName %>.<%= daoData.EntityName %>, error) {
     args := goma.QueryArgs{
     <% for _, column := range daoData.Table.Columns { %><% if !column.IsPrimaryKey { %><% continue %><% } %>    "<%= column.Name %>": <%= column.Name %>,
     <% } %>}
 	queryString := queryArgs("<%= daoData.Table.Name %>", "selectByID", args)
 
-	rows, err := d.Query(queryString)
+	rows, err := g.Query(queryString)
 	if err != nil {
 		return nil, err
 	}
@@ -142,23 +143,23 @@ func <%= daoData.Table.Name %>SelectByID(d <%= daoData.Name %>Queryer, <% for id
 }
 
 // Insert insert <%= daoData.Table.Name %> table.
-func (d <%= daoData.Name %>) Insert(entity <%= daoData.EntityPkgName %>.<%= daoData.EntityName %>) (sql.Result, error) {
-	return <%= daoData.Table.Name %>Insert(d, entity)
+func (g <%= daoData.Name %>) Insert(entity <%= daoData.EntityPkgName %>.<%= daoData.EntityName %>) (sql.Result, error) {
+	return _<%= daoData.Table.TitleName %>Insert(g, entity)
 }
 
 // Insert transaction insert <%= daoData.Table.Name %> table.
-func (d Tx<%= daoData.Name %>) Insert(entity <%= daoData.EntityPkgName %>.<%= daoData.EntityName %>) (sql.Result, error) {
-	return <%= daoData.Table.Name %>Insert(d, entity)
+func (g Tx<%= daoData.Name %>) Insert(entity <%= daoData.EntityPkgName %>.<%= daoData.EntityName %>) (sql.Result, error) {
+	return _<%= daoData.Table.TitleName %>Insert(g, entity)
 }
 
-func <%= daoData.Table.Name %>Insert(d <%= daoData.Name %>Queryer, entity <%= daoData.EntityPkgName %>.<%= daoData.EntityName %>) (sql.Result, error) {
+func _<%= daoData.Table.TitleName %>Insert(g <%= daoData.Name %>Queryer, entity <%= daoData.EntityPkgName %>.<%= daoData.EntityName %>) (sql.Result, error) {
 	args := goma.QueryArgs{
     <% for _, column := range daoData.Table.Columns { %>  "<%= column.Name %>": entity.<%= column.TitleName %>,
     <% } %>
 	}
 	queryString := queryArgs("<%= daoData.Table.Name %>", "insert", args)
 	
-	result, err := d.Exec(queryString)
+	result, err := g.Exec(queryString)
     if err != nil {
         log.Println(err, queryString)
     }
@@ -166,24 +167,24 @@ func <%= daoData.Table.Name %>Insert(d <%= daoData.Name %>Queryer, entity <%= da
 }
 
 // Update update <%= daoData.Table.Name %> table.
-func (d <%= daoData.Name %>) Update(entity <%= daoData.EntityPkgName %>.<%= daoData.EntityName %>) (sql.Result, error) {
-	return <%= daoData.Table.Name %>Update(d, entity)
+func (g <%= daoData.Name %>) Update(entity <%= daoData.EntityPkgName %>.<%= daoData.EntityName %>) (sql.Result, error) {
+	return _<%= daoData.Table.TitleName %>Update(g, entity)
 }
 
 // Update transaction update <%= daoData.Table.Name %> table.
-func (d Tx<%= daoData.Name %>) Update(entity <%= daoData.EntityPkgName %>.<%= daoData.EntityName %>) (sql.Result, error) {
-	return <%= daoData.Table.Name %>Update(d, entity)
+func (g Tx<%= daoData.Name %>) Update(entity <%= daoData.EntityPkgName %>.<%= daoData.EntityName %>) (sql.Result, error) {
+	return _<%= daoData.Table.TitleName %>Update(g, entity)
 }
 
 // Update update <%= daoData.Table.Name %> table.
-func <%= daoData.Table.Name %>Update(d <%= daoData.Name %>Queryer, entity <%= daoData.EntityPkgName %>.<%= daoData.EntityName %>) (sql.Result, error) {
+func _<%= daoData.Table.TitleName %>Update(g <%= daoData.Name %>Queryer, entity <%= daoData.EntityPkgName %>.<%= daoData.EntityName %>) (sql.Result, error) {
 	args := goma.QueryArgs{
 	<% for _, column := range daoData.Table.Columns { %>  "<%= column.Name %>": entity.<%= column.TitleName %>,
     <% } %>
 	}
 	queryString := queryArgs("<%= daoData.Table.Name %>", "update", args)
 
-	result, err := d.Exec(queryString)
+	result, err := g.Exec(queryString)
 	if err != nil {
         log.Println(err, queryString)
     }
@@ -191,23 +192,23 @@ func <%= daoData.Table.Name %>Update(d <%= daoData.Name %>Queryer, entity <%= da
 }
 
 // Delete delete <%= daoData.Table.Name %> table.
-func (d <%= daoData.Name %>) Delete(<% for idx, column := range daoData.Table.Columns { %><% if !column.IsPrimaryKey { %><% continue %><% } %><% if idx != 0 { %>, <% } %><%= column.Name %> <%= column.TypeName %><% } %>) (sql.Result, error) {
-	return <%= daoData.Table.Name %>Delete(d, <% for idx, column := range daoData.Table.Columns { %><% if !column.IsPrimaryKey { %><% continue %><% } %><% if idx != 0 { %>, <% } %><%= column.Name %><% } %>)
+func (g <%= daoData.Name %>) Delete(<% for idx, column := range daoData.Table.Columns { %><% if !column.IsPrimaryKey { %><% continue %><% } %><% if idx != 0 { %>, <% } %><%= column.Name %> <%= column.TypeName %><% } %>) (sql.Result, error) {
+	return _<%= daoData.Table.TitleName %>Delete(d, <% for idx, column := range daoData.Table.Columns { %><% if !column.IsPrimaryKey { %><% continue %><% } %><% if idx != 0 { %>, <% } %><%= column.Name %><% } %>)
 }
 
 // Delete transaction delete <%= daoData.Table.Name %> table.
-func (d Tx<%= daoData.Name %>) Delete(<% for idx, column := range daoData.Table.Columns { %><% if !column.IsPrimaryKey { %><% continue %><% } %><% if idx != 0 { %>, <% } %><%= column.Name %> <%= column.TypeName %><% } %>) (sql.Result, error) {
-	return <%= daoData.Table.Name %>Delete(d, <% for idx, column := range daoData.Table.Columns { %><% if !column.IsPrimaryKey { %><% continue %><% } %><% if idx != 0 { %>, <% } %><%= column.Name %><% } %>)
+func (g Tx<%= daoData.Name %>) Delete(<% for idx, column := range daoData.Table.Columns { %><% if !column.IsPrimaryKey { %><% continue %><% } %><% if idx != 0 { %>, <% } %><%= column.Name %> <%= column.TypeName %><% } %>) (sql.Result, error) {
+	return _<%= daoData.Table.TitleName %>Delete(g, <% for idx, column := range daoData.Table.Columns { %><% if !column.IsPrimaryKey { %><% continue %><% } %><% if idx != 0 { %>, <% } %><%= column.Name %><% } %>)
 }
 
 // Delete delete <%= daoData.Table.Name %> table by primaryKey.
-func <%= daoData.Table.Name %>Delete(d <%= daoData.Name %>Queryer, <% for idx, column := range daoData.Table.Columns { %><% if !column.IsPrimaryKey { %><% continue %><% } %><% if idx != 0 { %>, <% } %><%= column.Name %> <%= column.TypeName %><% } %>) (sql.Result, error) {
+func _<%= daoData.Table.TitleName %>Delete(g <%= daoData.Name %>Queryer, <% for idx, column := range daoData.Table.Columns { %><% if !column.IsPrimaryKey { %><% continue %><% } %><% if idx != 0 { %>, <% } %><%= column.Name %> <%= column.TypeName %><% } %>) (sql.Result, error) {
     args := goma.QueryArgs{
     <% for _, column := range daoData.Table.Columns { %><% if !column.IsPrimaryKey { %><% continue %><% } %>    "<%= column.Name %>": <%= column.Name %>,
     <% } %>}
 	queryString := queryArgs("<%= daoData.Table.Name %>", "delete", args)
 
-    result, err := d.Exec(queryString)
+    result, err := g.Exec(queryString)
 	if err != nil {
         log.Println(err, queryString)
     }

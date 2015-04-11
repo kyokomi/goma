@@ -14,6 +14,7 @@ import (
 	"github.com/kyokomi/goma"
 )
 
+// GomaBinaryTypesDaoQueryer is interface
 type GomaBinaryTypesDaoQueryer interface {
 	Query(query string, args ...interface{}) (*sql.Rows, error)
 	Exec(query string, args ...interface{}) (sql.Result, error)
@@ -45,7 +46,7 @@ func GomaBinaryTypes(db *sql.DB) GomaBinaryTypesDao {
 	return tblDao
 }
 
-// GomaBinaryTypesDaoTx is generated goma_binary_types table transaction.
+// TxGomaBinaryTypesDao is generated goma_binary_types table transaction.
 type TxGomaBinaryTypesDao struct {
 	*sql.Tx
 	TableName string
@@ -72,20 +73,20 @@ func TxGomaBinaryTypes(tx *sql.Tx) TxGomaBinaryTypesDao {
 }
 
 // SelectAll select goma_binary_types table all recode.
-func (d GomaBinaryTypesDao) SelectAll() ([]*entity.GomaBinaryTypesEntity, error) {
-	return goma_binary_typesSelectAll(d)
+func (g GomaBinaryTypesDao) SelectAll() ([]*entity.GomaBinaryTypesEntity, error) {
+	return _GomaBinaryTypesSelectAll(g)
 }
 
 // SelectAll transaction select goma_binary_types table all recode.
-func (d TxGomaBinaryTypesDao) SelectAll() ([]*entity.GomaBinaryTypesEntity, error) {
-	return goma_binary_typesSelectAll(d)
+func (g TxGomaBinaryTypesDao) SelectAll() ([]*entity.GomaBinaryTypesEntity, error) {
+	return _GomaBinaryTypesSelectAll(g)
 }
 
-func goma_binary_typesSelectAll(d GomaBinaryTypesDaoQueryer) ([]*entity.GomaBinaryTypesEntity, error) {
+func _GomaBinaryTypesSelectAll(g GomaBinaryTypesDaoQueryer) ([]*entity.GomaBinaryTypesEntity, error) {
 	queryString := queryArgs("goma_binary_types", "selectAll", nil)
 
 	var es []*entity.GomaBinaryTypesEntity
-	rows, err := d.Query(queryString)
+	rows, err := g.Query(queryString)
 	if err != nil {
 		return nil, err
 	}
@@ -107,22 +108,22 @@ func goma_binary_typesSelectAll(d GomaBinaryTypesDaoQueryer) ([]*entity.GomaBina
 }
 
 // SelectByID select goma_binary_types table by primaryKey.
-func (d GomaBinaryTypesDao) SelectByID(id int64) (*entity.GomaBinaryTypesEntity, error) {
-	return goma_binary_typesSelectByID(d, id)
+func (g GomaBinaryTypesDao) SelectByID(id int64) (*entity.GomaBinaryTypesEntity, error) {
+	return _GomaBinaryTypesSelectByID(g, id)
 }
 
 // SelectByID transaction select goma_binary_types table by primaryKey.
-func (d TxGomaBinaryTypesDao) SelectByID(id int64) (*entity.GomaBinaryTypesEntity, error) {
-	return goma_binary_typesSelectByID(d, id)
+func (g TxGomaBinaryTypesDao) SelectByID(id int64) (*entity.GomaBinaryTypesEntity, error) {
+	return _GomaBinaryTypesSelectByID(g, id)
 }
 
-func goma_binary_typesSelectByID(d GomaBinaryTypesDaoQueryer, id int64) (*entity.GomaBinaryTypesEntity, error) {
+func _GomaBinaryTypesSelectByID(g GomaBinaryTypesDaoQueryer, id int64) (*entity.GomaBinaryTypesEntity, error) {
 	args := goma.QueryArgs{
 		"id": id,
 	}
 	queryString := queryArgs("goma_binary_types", "selectByID", args)
 
-	rows, err := d.Query(queryString)
+	rows, err := g.Query(queryString)
 	if err != nil {
 		return nil, err
 	}
@@ -142,16 +143,16 @@ func goma_binary_typesSelectByID(d GomaBinaryTypesDaoQueryer, id int64) (*entity
 }
 
 // Insert insert goma_binary_types table.
-func (d GomaBinaryTypesDao) Insert(entity entity.GomaBinaryTypesEntity) (sql.Result, error) {
-	return goma_binary_typesInsert(d, entity)
+func (g GomaBinaryTypesDao) Insert(entity entity.GomaBinaryTypesEntity) (sql.Result, error) {
+	return _GomaBinaryTypesInsert(g, entity)
 }
 
 // Insert transaction insert goma_binary_types table.
-func (d TxGomaBinaryTypesDao) Insert(entity entity.GomaBinaryTypesEntity) (sql.Result, error) {
-	return goma_binary_typesInsert(d, entity)
+func (g TxGomaBinaryTypesDao) Insert(entity entity.GomaBinaryTypesEntity) (sql.Result, error) {
+	return _GomaBinaryTypesInsert(g, entity)
 }
 
-func goma_binary_typesInsert(d GomaBinaryTypesDaoQueryer, entity entity.GomaBinaryTypesEntity) (sql.Result, error) {
+func _GomaBinaryTypesInsert(g GomaBinaryTypesDaoQueryer, entity entity.GomaBinaryTypesEntity) (sql.Result, error) {
 	args := goma.QueryArgs{
 		"id":                 entity.ID,
 		"binary_columns":     entity.BinaryColumns,
@@ -163,7 +164,7 @@ func goma_binary_typesInsert(d GomaBinaryTypesDaoQueryer, entity entity.GomaBina
 	}
 	queryString := queryArgs("goma_binary_types", "insert", args)
 
-	result, err := d.Exec(queryString)
+	result, err := g.Exec(queryString)
 	if err != nil {
 		log.Println(err, queryString)
 	}
@@ -171,17 +172,17 @@ func goma_binary_typesInsert(d GomaBinaryTypesDaoQueryer, entity entity.GomaBina
 }
 
 // Update update goma_binary_types table.
-func (d GomaBinaryTypesDao) Update(entity entity.GomaBinaryTypesEntity) (sql.Result, error) {
-	return goma_binary_typesUpdate(d, entity)
+func (g GomaBinaryTypesDao) Update(entity entity.GomaBinaryTypesEntity) (sql.Result, error) {
+	return _GomaBinaryTypesUpdate(g, entity)
 }
 
 // Update transaction update goma_binary_types table.
-func (d TxGomaBinaryTypesDao) Update(entity entity.GomaBinaryTypesEntity) (sql.Result, error) {
-	return goma_binary_typesUpdate(d, entity)
+func (g TxGomaBinaryTypesDao) Update(entity entity.GomaBinaryTypesEntity) (sql.Result, error) {
+	return _GomaBinaryTypesUpdate(g, entity)
 }
 
 // Update update goma_binary_types table.
-func goma_binary_typesUpdate(d GomaBinaryTypesDaoQueryer, entity entity.GomaBinaryTypesEntity) (sql.Result, error) {
+func _GomaBinaryTypesUpdate(g GomaBinaryTypesDaoQueryer, entity entity.GomaBinaryTypesEntity) (sql.Result, error) {
 	args := goma.QueryArgs{
 		"id":                 entity.ID,
 		"binary_columns":     entity.BinaryColumns,
@@ -193,7 +194,7 @@ func goma_binary_typesUpdate(d GomaBinaryTypesDaoQueryer, entity entity.GomaBina
 	}
 	queryString := queryArgs("goma_binary_types", "update", args)
 
-	result, err := d.Exec(queryString)
+	result, err := g.Exec(queryString)
 	if err != nil {
 		log.Println(err, queryString)
 	}
@@ -201,23 +202,23 @@ func goma_binary_typesUpdate(d GomaBinaryTypesDaoQueryer, entity entity.GomaBina
 }
 
 // Delete delete goma_binary_types table.
-func (d GomaBinaryTypesDao) Delete(id int64) (sql.Result, error) {
-	return goma_binary_typesDelete(d, id)
+func (g GomaBinaryTypesDao) Delete(id int64) (sql.Result, error) {
+	return _GomaBinaryTypesDelete(d, id)
 }
 
 // Delete transaction delete goma_binary_types table.
-func (d TxGomaBinaryTypesDao) Delete(id int64) (sql.Result, error) {
-	return goma_binary_typesDelete(d, id)
+func (g TxGomaBinaryTypesDao) Delete(id int64) (sql.Result, error) {
+	return _GomaBinaryTypesDelete(g, id)
 }
 
 // Delete delete goma_binary_types table by primaryKey.
-func goma_binary_typesDelete(d GomaBinaryTypesDaoQueryer, id int64) (sql.Result, error) {
+func _GomaBinaryTypesDelete(g GomaBinaryTypesDaoQueryer, id int64) (sql.Result, error) {
 	args := goma.QueryArgs{
 		"id": id,
 	}
 	queryString := queryArgs("goma_binary_types", "delete", args)
 
-	result, err := d.Exec(queryString)
+	result, err := g.Exec(queryString)
 	if err != nil {
 		log.Println(err, queryString)
 	}

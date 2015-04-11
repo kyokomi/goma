@@ -55,6 +55,7 @@ func (o Options) EntityPkgName() string {
 	return packageName(o.EntityRootDir)
 }
 
+// ConfigPath result config path.
 func (o Options) ConfigPath() string {
 	return filepath.Join(o.CurrentDir, "config.json")
 }

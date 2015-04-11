@@ -49,10 +49,12 @@ type ColumnTemplateData struct {
 	Sample       string
 }
 
+// AssetTemplateData asset data.
 type AssetTemplateData struct {
 	DaoPkgName string
 }
 
+// QueryArgsTemplateData query args data.
 type QueryArgsTemplateData struct {
 	DaoPkgName string
 	SQLRootDir string

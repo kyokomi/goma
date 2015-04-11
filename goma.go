@@ -18,7 +18,7 @@ type Goma struct {
 // QueryArgs sql query args
 type QueryArgs map[string]interface{}
 
-// NewGoma is create goma client.
+// Open is create goma client.
 // - database open
 func Open(configPath string) (*sql.DB, error) {
 	opts, err := NewOptions(configPath)
@@ -28,7 +28,7 @@ func Open(configPath string) (*sql.DB, error) {
 	return OpenOptions(opts)
 }
 
-// NewGomaOptions is create goma client.
+// OpenOptions is create goma client.
 // - database open
 func OpenOptions(options Options) (*sql.DB, error) {
 	return sql.Open(options.Driver, options.Source())
