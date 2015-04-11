@@ -66,7 +66,7 @@ func (d <%= daoData.Name %>) daoExec(query string, args ...interface{}) (result 
 
 // SelectAll select <%= daoData.Table.Name %> table all recode.
 func (d <%= daoData.Name %>) SelectAll() ([]*<%= daoData.EntityPkgName %>.<%= daoData.EntityName %>, error) {
-    queryString := d.QueryArgs("<%= daoData.Table.Name %>", "selectAll", nil)
+    queryString := queryArgs("<%= daoData.Table.Name %>", "selectAll", nil)
 
 	var entitys []*<%= daoData.EntityPkgName %>.<%= daoData.EntityName %>
 	rows, err := d.daoQuery(queryString)
@@ -96,7 +96,7 @@ func (d <%= daoData.Name %>) SelectByID(<% for idx, column := range daoData.Tabl
     args := goma.QueryArgs{
     <% for _, column := range daoData.Table.Columns { %><% if !column.IsPrimaryKey { %><% continue %><% } %>    "<%= column.Name %>": <%= column.Name %>,
     <% } %>}
-	queryString := d.QueryArgs("<%= daoData.Table.Name %>", "selectByID", args)
+	queryString := queryArgs("<%= daoData.Table.Name %>", "selectByID", args)
 
 	rows, err := d.daoQuery(queryString)
 	if err != nil {
@@ -123,7 +123,7 @@ func (d <%= daoData.Name %>) Insert(entity <%= daoData.EntityPkgName %>.<%= daoD
     <% for _, column := range daoData.Table.Columns { %>  "<%= column.Name %>": entity.<%= column.TitleName %>,
     <% } %>
 	}
-	queryString := d.QueryArgs("<%= daoData.Table.Name %>", "insert", args)
+	queryString := queryArgs("<%= daoData.Table.Name %>", "insert", args)
 	
 	result, err := d.daoExec(queryString)
     if err != nil {
@@ -138,7 +138,7 @@ func (d <%= daoData.Name %>) Update(entity <%= daoData.EntityPkgName %>.<%= daoD
 	<% for _, column := range daoData.Table.Columns { %>  "<%= column.Name %>": entity.<%= column.TitleName %>,
     <% } %>
 	}
-	queryString := d.QueryArgs("<%= daoData.Table.Name %>", "update", args)
+	queryString := queryArgs("<%= daoData.Table.Name %>", "update", args)
 
 	result, err := d.daoExec(queryString)
 	if err != nil {
@@ -152,7 +152,7 @@ func (d <%= daoData.Name %>) Delete(<% for idx, column := range daoData.Table.Co
     args := goma.QueryArgs{
     <% for _, column := range daoData.Table.Columns { %><% if !column.IsPrimaryKey { %><% continue %><% } %>    "<%= column.Name %>": <%= column.Name %>,
     <% } %>}
-	queryString := d.QueryArgs("<%= daoData.Table.Name %>", "delete", args)
+	queryString := queryArgs("<%= daoData.Table.Name %>", "delete", args)
 
     result, err := d.daoExec(queryString)
 	if err != nil {

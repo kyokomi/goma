@@ -9,12 +9,14 @@ import (
 	"github.com/kyokomi/goma/test/mysql/entity"
 )
 
-//go:generate goma -driver=mysql -user=admin -password=password -host=localhost -port=3306 -db=goma_test -debug=true
+//go:generate goma --debug gen --driver=mysql --user=admin --password=password --host=localhost --port=3306 --db=goma_test
+
+// MEMO: go-bindata -o dao/asset_gen.go -pkg dao sql/...
 
 func main() {
 	fmt.Println("Hello goma!")
 
-	goma, err := NewGoma()
+	goma, err := NewGoma("config.json")
 	if err != nil {
 		log.Fatalln(err)
 	}

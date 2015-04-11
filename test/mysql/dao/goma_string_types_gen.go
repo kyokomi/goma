@@ -66,7 +66,7 @@ func (d GomaStringTypesDao) daoExec(query string, args ...interface{}) (result s
 
 // SelectAll select goma_string_types table all recode.
 func (d GomaStringTypesDao) SelectAll() ([]*entity.GomaStringTypesEntity, error) {
-	queryString := d.QueryArgs("goma_string_types", "selectAll", nil)
+	queryString := queryArgs("goma_string_types", "selectAll", nil)
 
 	var entitys []*entity.GomaStringTypesEntity
 	rows, err := d.daoQuery(queryString)
@@ -96,7 +96,7 @@ func (d GomaStringTypesDao) SelectByID(id int64) (*entity.GomaStringTypesEntity,
 	args := goma.QueryArgs{
 		"id": id,
 	}
-	queryString := d.QueryArgs("goma_string_types", "selectByID", args)
+	queryString := queryArgs("goma_string_types", "selectByID", args)
 
 	rows, err := d.daoQuery(queryString)
 	if err != nil {
@@ -128,7 +128,7 @@ func (d GomaStringTypesDao) Insert(entity entity.GomaStringTypesEntity) (sql.Res
 		"char_columns":       entity.CharColumns,
 		"varchar_columns":    entity.VarcharColumns,
 	}
-	queryString := d.QueryArgs("goma_string_types", "insert", args)
+	queryString := queryArgs("goma_string_types", "insert", args)
 
 	result, err := d.daoExec(queryString)
 	if err != nil {
@@ -148,7 +148,7 @@ func (d GomaStringTypesDao) Update(entity entity.GomaStringTypesEntity) (sql.Res
 		"char_columns":       entity.CharColumns,
 		"varchar_columns":    entity.VarcharColumns,
 	}
-	queryString := d.QueryArgs("goma_string_types", "update", args)
+	queryString := queryArgs("goma_string_types", "update", args)
 
 	result, err := d.daoExec(queryString)
 	if err != nil {
@@ -162,7 +162,7 @@ func (d GomaStringTypesDao) Delete(id int64) (sql.Result, error) {
 	args := goma.QueryArgs{
 		"id": id,
 	}
-	queryString := d.QueryArgs("goma_string_types", "delete", args)
+	queryString := queryArgs("goma_string_types", "delete", args)
 
 	result, err := d.daoExec(queryString)
 	if err != nil {

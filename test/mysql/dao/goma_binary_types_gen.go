@@ -66,7 +66,7 @@ func (d GomaBinaryTypesDao) daoExec(query string, args ...interface{}) (result s
 
 // SelectAll select goma_binary_types table all recode.
 func (d GomaBinaryTypesDao) SelectAll() ([]*entity.GomaBinaryTypesEntity, error) {
-	queryString := d.QueryArgs("goma_binary_types", "selectAll", nil)
+	queryString := queryArgs("goma_binary_types", "selectAll", nil)
 
 	var entitys []*entity.GomaBinaryTypesEntity
 	rows, err := d.daoQuery(queryString)
@@ -96,7 +96,7 @@ func (d GomaBinaryTypesDao) SelectByID(id int64) (*entity.GomaBinaryTypesEntity,
 	args := goma.QueryArgs{
 		"id": id,
 	}
-	queryString := d.QueryArgs("goma_binary_types", "selectByID", args)
+	queryString := queryArgs("goma_binary_types", "selectByID", args)
 
 	rows, err := d.daoQuery(queryString)
 	if err != nil {
@@ -128,7 +128,7 @@ func (d GomaBinaryTypesDao) Insert(entity entity.GomaBinaryTypesEntity) (sql.Res
 		"longblob_columns":   entity.LongblobColumns,
 		"varbinary_columns":  entity.VarbinaryColumns,
 	}
-	queryString := d.QueryArgs("goma_binary_types", "insert", args)
+	queryString := queryArgs("goma_binary_types", "insert", args)
 
 	result, err := d.daoExec(queryString)
 	if err != nil {
@@ -148,7 +148,7 @@ func (d GomaBinaryTypesDao) Update(entity entity.GomaBinaryTypesEntity) (sql.Res
 		"longblob_columns":   entity.LongblobColumns,
 		"varbinary_columns":  entity.VarbinaryColumns,
 	}
-	queryString := d.QueryArgs("goma_binary_types", "update", args)
+	queryString := queryArgs("goma_binary_types", "update", args)
 
 	result, err := d.daoExec(queryString)
 	if err != nil {
@@ -162,7 +162,7 @@ func (d GomaBinaryTypesDao) Delete(id int64) (sql.Result, error) {
 	args := goma.QueryArgs{
 		"id": id,
 	}
-	queryString := d.QueryArgs("goma_binary_types", "delete", args)
+	queryString := queryArgs("goma_binary_types", "delete", args)
 
 	result, err := d.daoExec(queryString)
 	if err != nil {

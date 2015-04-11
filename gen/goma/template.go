@@ -49,6 +49,31 @@ type ColumnTemplateData struct {
 	Sample       string
 }
 
+type AssetTemplateData struct {
+	DaoPkgName   string
+}
+
+type QueryArgsTemplateData struct {
+	DaoPkgName   string
+	SQLRootDir string
+}
+
+func (d AssetTemplateData) execAssetTemplate(daoRootDir string) error {
+	var buf bytes.Buffer
+	if err := AssetTemplate(&buf, d); err != nil {
+		return err
+	}
+	return formatFileWrite(daoRootDir, "asset_gen.go", buf.Bytes())
+}
+
+func (d QueryArgsTemplateData) execQueryArgsTemplate(daoRootDir string) error {
+	var buf bytes.Buffer
+	if err := QueryArgsTemplate(&buf, d); err != nil {
+		return err
+	}
+	return formatFileWrite(daoRootDir, "queryargs_gen.go", buf.Bytes())
+}
+
 func (d HelperTemplateData) execHelperTemplate(rootDir string) error {
 	var buf bytes.Buffer
 	if err := HelperTemplate(&buf, d); err != nil {

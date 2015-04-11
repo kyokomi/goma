@@ -3,6 +3,16 @@ import (
 "fmt"
 "io"
 )
+//line asset_template.go.ego:1
+func AssetTemplate(w io.Writer, assetData AssetTemplateData) error  {
+//line asset_template.go.ego:1
+_, _ = fmt.Fprintf(w, "package  ")
+//line asset_template.go.ego:1
+_, _ = fmt.Fprintf(w, "%v",  assetData.DaoPkgName )
+//line asset_template.go.ego:2
+_, _ = fmt.Fprintf(w, "\n\n// NOTE: THIS FILE WAS PRODUCED BY THE\n// GOMA CODE GENERATION TOOL (github.com/kyokomi/goma)\n// DO NOT EDIT\n\nimport (\n\t\"io/ioutil\"\n)\n\n// Asset default read file\nfunc Asset(filePath string) ([]byte, error) {\n\treturn ioutil.ReadFile(filePath)\n}\n")
+return nil
+}
 //line dao_template.go.ego:1
 func DaoTemplate(w io.Writer, daoData DaoTemplateData) error  {
 //line dao_template.go.ego:1
@@ -86,7 +96,7 @@ _, _ = fmt.Fprintf(w, ".")
 //line dao_template.go.ego:68
 _, _ = fmt.Fprintf(w, "%v",  daoData.EntityName )
 //line dao_template.go.ego:68
-_, _ = fmt.Fprintf(w, ", error) {\n    queryString := d.QueryArgs(\"")
+_, _ = fmt.Fprintf(w, ", error) {\n    queryString := queryArgs(\"")
 //line dao_template.go.ego:69
 _, _ = fmt.Fprintf(w, "%v",  daoData.Table.Name )
 //line dao_template.go.ego:69
@@ -184,7 +194,7 @@ _, _ = fmt.Fprintf(w, ",\n    ")
 //line dao_template.go.ego:98
  } 
 //line dao_template.go.ego:98
-_, _ = fmt.Fprintf(w, "}\n\tqueryString := d.QueryArgs(\"")
+_, _ = fmt.Fprintf(w, "}\n\tqueryString := queryArgs(\"")
 //line dao_template.go.ego:99
 _, _ = fmt.Fprintf(w, "%v",  daoData.Table.Name )
 //line dao_template.go.ego:99
@@ -244,7 +254,7 @@ _, _ = fmt.Fprintf(w, ",\n    ")
 //line dao_template.go.ego:124
  } 
 //line dao_template.go.ego:125
-_, _ = fmt.Fprintf(w, "\n\t}\n\tqueryString := d.QueryArgs(\"")
+_, _ = fmt.Fprintf(w, "\n\t}\n\tqueryString := queryArgs(\"")
 //line dao_template.go.ego:126
 _, _ = fmt.Fprintf(w, "%v",  daoData.Table.Name )
 //line dao_template.go.ego:126
@@ -280,7 +290,7 @@ _, _ = fmt.Fprintf(w, ",\n    ")
 //line dao_template.go.ego:139
  } 
 //line dao_template.go.ego:140
-_, _ = fmt.Fprintf(w, "\n\t}\n\tqueryString := d.QueryArgs(\"")
+_, _ = fmt.Fprintf(w, "\n\t}\n\tqueryString := queryArgs(\"")
 //line dao_template.go.ego:141
 _, _ = fmt.Fprintf(w, "%v",  daoData.Table.Name )
 //line dao_template.go.ego:141
@@ -338,7 +348,7 @@ _, _ = fmt.Fprintf(w, ",\n    ")
 //line dao_template.go.ego:154
  } 
 //line dao_template.go.ego:154
-_, _ = fmt.Fprintf(w, "}\n\tqueryString := d.QueryArgs(\"")
+_, _ = fmt.Fprintf(w, "}\n\tqueryString := queryArgs(\"")
 //line dao_template.go.ego:155
 _, _ = fmt.Fprintf(w, "%v",  daoData.Table.Name )
 //line dao_template.go.ego:155
@@ -547,6 +557,20 @@ _, _ = fmt.Fprintf(w, "\n")
  } 
 //line insert_template.sql.ego:5
 _, _ = fmt.Fprintf(w, ");\n")
+return nil
+}
+//line queryargs_template.go.ego:1
+func QueryArgsTemplate(w io.Writer, queryArgsData QueryArgsTemplateData) error  {
+//line queryargs_template.go.ego:1
+_, _ = fmt.Fprintf(w, "package  ")
+//line queryargs_template.go.ego:1
+_, _ = fmt.Fprintf(w, "%v",  queryArgsData.DaoPkgName )
+//line queryargs_template.go.ego:2
+_, _ = fmt.Fprintf(w, "\n\n// NOTE: THIS FILE WAS PRODUCED BY THE\n// GOMA CODE GENERATION TOOL (github.com/kyokomi/goma)\n// DO NOT EDIT\n\nimport (\n\t\"path/filepath\"\n\n\t\"github.com/kyokomi/goma\"\n)\n\ntype queryArgSettings struct {\n\trootDir string\n}\n\nvar settings queryArgSettings\n\nfunc (s *queryArgSettings) SetRootDir(rootDir string) {\n\ts.rootDir = rootDir\n}\n\nfunc queryArgs(tableName string, queryName string, args goma.QueryArgs) string {\n\treturn settings.queryArgs(tableName, queryName, args)\n}\n\nfunc (s queryArgSettings) queryArgs(tableName string, queryName string, args goma.QueryArgs) string {\n\tfilePath := createSqlFilePath(s.rootDir, tableName, queryName)\n\treturn goma.GenerateQuery(assetSQL(filePath), args)\n}\n\nfunc assetSQL(filePath string) string {\n\tdata, err := Asset(filePath)\n\tif err != nil {\n\t\t// Asset was not found.\n\t}\n\treturn string(data)\n}\n\nfunc createSqlFilePath(rootDir string, tableName string, queryName string) string {\n\treturn filepath.Join(rootDir, \"")
+//line queryargs_template.go.ego:41
+_, _ = fmt.Fprintf(w, "%v",  queryArgsData.SQLRootDir )
+//line queryargs_template.go.ego:41
+_, _ = fmt.Fprintf(w, "\", tableName, queryName+\".sql\")\n}\n")
 return nil
 }
 //line selectAll_template.sql.ego:1

@@ -66,7 +66,7 @@ func (d GomaDateTypesDao) daoExec(query string, args ...interface{}) (result sql
 
 // SelectAll select goma_date_types table all recode.
 func (d GomaDateTypesDao) SelectAll() ([]*entity.GomaDateTypesEntity, error) {
-	queryString := d.QueryArgs("goma_date_types", "selectAll", nil)
+	queryString := queryArgs("goma_date_types", "selectAll", nil)
 
 	var entitys []*entity.GomaDateTypesEntity
 	rows, err := d.daoQuery(queryString)
@@ -96,7 +96,7 @@ func (d GomaDateTypesDao) SelectByID(id int64) (*entity.GomaDateTypesEntity, err
 	args := goma.QueryArgs{
 		"id": id,
 	}
-	queryString := d.QueryArgs("goma_date_types", "selectByID", args)
+	queryString := queryArgs("goma_date_types", "selectByID", args)
 
 	rows, err := d.daoQuery(queryString)
 	if err != nil {
@@ -125,7 +125,7 @@ func (d GomaDateTypesDao) Insert(entity entity.GomaDateTypesEntity) (sql.Result,
 		"datetime_columns":  entity.DatetimeColumns,
 		"timestamp_columns": entity.TimestampColumns,
 	}
-	queryString := d.QueryArgs("goma_date_types", "insert", args)
+	queryString := queryArgs("goma_date_types", "insert", args)
 
 	result, err := d.daoExec(queryString)
 	if err != nil {
@@ -142,7 +142,7 @@ func (d GomaDateTypesDao) Update(entity entity.GomaDateTypesEntity) (sql.Result,
 		"datetime_columns":  entity.DatetimeColumns,
 		"timestamp_columns": entity.TimestampColumns,
 	}
-	queryString := d.QueryArgs("goma_date_types", "update", args)
+	queryString := queryArgs("goma_date_types", "update", args)
 
 	result, err := d.daoExec(queryString)
 	if err != nil {
@@ -156,7 +156,7 @@ func (d GomaDateTypesDao) Delete(id int64) (sql.Result, error) {
 	args := goma.QueryArgs{
 		"id": id,
 	}
-	queryString := d.QueryArgs("goma_date_types", "delete", args)
+	queryString := queryArgs("goma_date_types", "delete", args)
 
 	result, err := d.daoExec(queryString)
 	if err != nil {
