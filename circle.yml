@@ -1,16 +1,33 @@
+checkout:
+  post:
+    - rm -rf $HOME/.go_workspace/src/github.com/kyokomi/*
+    - mkdir -p $HOME/.go_workspace/src/github.com/kyokomi
+    - ln -snf $HOME/$CIRCLE_PROJECT_REPONAME $HOME/.go_workspace/src/github.com/kyokomi
+
+database:
+  post:
+    - mysql -u root < $HOME/$CIRCLE_PROJECT_REPONAME/test/mysql/ddl/create_database.sql
+    - mysql -u root < $HOME/$CIRCLE_PROJECT_REPONAME/test/mysql/ddl/init_setup.sql
+    - mysql goma_test -u root < $HOME/$CIRCLE_PROJECT_REPONAME/test/mysql/ddl/create_table_data.sql
+    - mysql goma_test -u root < $HOME/$CIRCLE_PROJECT_REPONAME/test/mysql/ddl/create_table_numeric.sql
+    - mysql goma_test -u root < $HOME/$CIRCLE_PROJECT_REPONAME/test/mysql/ddl/create_table_string.sql
+
 dependencies:
   pre:
     - go get -t -d -v ./...
   override:
     - go build -v
-    
+  post:
+    - go get github.com/benbjohnson/ego/cmd/ego
+
 test:
   pre:
     - go get github.com/axw/gocov/gocov
     - go get github.com/mattn/goveralls
-    - mkdir -p $HOME/.go_workspace/src/_/home/ubuntu/
-    - ln -s $HOME/$CIRCLE_PROJECT_REPONAME $HOME/.go_workspace/src/_/home/ubuntu/
   override:
-    - go test -v ./ -race
+    - go test -v ./... -race
   post:
     - goveralls -v -service=circle-ci -repotoken $COVERALLS_GOMA_TOKEN ./
+    - go generate github.com/kyokomi/goma/gen/goma
+    - go install github.com/kyokomi/goma/gen/goma
+    - go generate github.com/kyokomi/goma/test/mysql

@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS goma_numeric_types;
 /* numeric test */
 CREATE TABLE goma_numeric_types (
   id                BIGINT   PRIMARY KEY,

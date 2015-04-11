@@ -1,0 +1,2 @@
+DROP DATABASE IF EXISTS goma_test;
+CREATE DATABASE goma_test;
