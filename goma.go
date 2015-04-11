@@ -43,17 +43,7 @@ func (d *Goma) Close() error {
 	return err
 }
 
-// TODO: Time Deprecated 独自typeをentityパッケージにimportする必要があるため
-//type Time struct {
-//	time.Time
-//}
-//
-//func (t *Time) Scan(v interface{}) (err error) {
-//	t.Time, err = time.Parse("15:04:05", string(v.([]uint8)))
-//	return
-//}
-//var _ sql.Scanner = (*Time)(nil)
-
+// GenerateQuery generate bind args query
 func GenerateQuery(queryString string, args QueryArgs) string {
 	if len(args) <= 0 {
 		return queryString

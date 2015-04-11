@@ -6,12 +6,13 @@ import (
 
 	"time"
 
-	"github.com/kyokomi/goma/test/mysql/entity"
-	"github.com/kyokomi/goma/test/mysql/dao"
-	"github.com/kyokomi/goma"
+	"database/sql"
 
 	_ "github.com/go-sql-driver/mysql"
-	"database/sql"
+
+	"github.com/kyokomi/goma"
+	"github.com/kyokomi/goma/test/mysql/dao"
+	"github.com/kyokomi/goma/test/mysql/entity"
 )
 
 //go:generate goma --debug gen --driver=mysql --user=admin --password=password --host=localhost --port=3306 --db=goma_test
