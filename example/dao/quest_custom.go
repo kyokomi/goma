@@ -9,7 +9,7 @@ import (
 )
 
 // UpdateAll update quest table.
-func (d *QuestDao) UpdateAll(entity entity.QuestEntity) (sql.Result, error) {
+func (d QuestDao) UpdateAll(entity entity.QuestEntity) (sql.Result, error) {
 	args := goma.QueryArgs{
 		"name":      entity.Name,
 		"detail":    entity.Detail,

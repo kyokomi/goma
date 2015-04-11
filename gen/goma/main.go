@@ -24,7 +24,7 @@ func main() {
 		{
 			Name:   "init-config",
 			Action: initConfigAction,
-			Usage: "create example config file",
+			Usage:  "create example config file",
 			Flags: []cli.Flag{
 				cli.StringFlag{"out", "", "output dir path", ""},
 			},
@@ -32,7 +32,7 @@ func main() {
 		{
 			Name:   "gen",
 			Action: genAction,
-			Usage: "generate code by params",
+			Usage:  "generate code by params",
 			Flags: []cli.Flag{
 				cli.StringFlag{"driver", "mysql", "sql driver", ""},
 				cli.StringFlag{"user", "admin", "database access user's name", ""},
@@ -51,7 +51,7 @@ func main() {
 		{
 			Name:   "gen-config",
 			Action: genConfigAction,
-			Usage: "generate code by config",
+			Usage:  "generate code by config",
 			Flags: []cli.Flag{
 				cli.StringFlag{"path", "config.json", "config path", ""},
 			},

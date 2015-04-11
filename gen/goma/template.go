@@ -50,11 +50,11 @@ type ColumnTemplateData struct {
 }
 
 type AssetTemplateData struct {
-	DaoPkgName   string
+	DaoPkgName string
 }
 
 type QueryArgsTemplateData struct {
-	DaoPkgName   string
+	DaoPkgName string
 	SQLRootDir string
 }
 
@@ -75,11 +75,11 @@ func (d QueryArgsTemplateData) execQueryArgsTemplate(daoRootDir string) error {
 }
 
 func (d HelperTemplateData) execHelperTemplate(rootDir string) error {
-//	var buf bytes.Buffer
-//	if err := HelperTemplate(&buf, d); err != nil {
-//		return err
-//	}
-//	return formatFileWrite(rootDir, "gomautils_gen.go", buf.Bytes())
+	//	var buf bytes.Buffer
+	//	if err := HelperTemplate(&buf, d); err != nil {
+	//		return err
+	//	}
+	//	return formatFileWrite(rootDir, "gomautils_gen.go", buf.Bytes())
 	return nil
 }
 

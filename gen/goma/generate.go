@@ -15,9 +15,10 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 	_ "github.com/lib/pq"
 
-	"github.com/kyokomi/goma"
 	"encoding/json"
 	"io/ioutil"
+
+	"github.com/kyokomi/goma"
 )
 
 var sampleDataMap = map[reflect.Type]string{
