@@ -622,7 +622,7 @@ _, _ = fmt.Fprintf(w, ") (sql.Result, error) {\n\treturn _")
 //line dao_template.go.ego:196
 _, _ = fmt.Fprintf(w, "%v",  daoData.Table.TitleName )
 //line dao_template.go.ego:196
-_, _ = fmt.Fprintf(w, "Delete(d, ")
+_, _ = fmt.Fprintf(w, "Delete(g, ")
 //line dao_template.go.ego:196
  for idx, column := range daoData.Table.Columns { 
 //line dao_template.go.ego:196

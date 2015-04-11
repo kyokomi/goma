@@ -193,7 +193,7 @@ func _<%= daoData.Table.TitleName %>Update(g <%= daoData.Name %>Queryer, entity 
 
 // Delete delete <%= daoData.Table.Name %> table.
 func (g <%= daoData.Name %>) Delete(<% for idx, column := range daoData.Table.Columns { %><% if !column.IsPrimaryKey { %><% continue %><% } %><% if idx != 0 { %>, <% } %><%= column.Name %> <%= column.TypeName %><% } %>) (sql.Result, error) {
-	return _<%= daoData.Table.TitleName %>Delete(d, <% for idx, column := range daoData.Table.Columns { %><% if !column.IsPrimaryKey { %><% continue %><% } %><% if idx != 0 { %>, <% } %><%= column.Name %><% } %>)
+	return _<%= daoData.Table.TitleName %>Delete(g, <% for idx, column := range daoData.Table.Columns { %><% if !column.IsPrimaryKey { %><% continue %><% } %><% if idx != 0 { %>, <% } %><%= column.Name %><% } %>)
 }
 
 // Delete transaction delete <%= daoData.Table.Name %> table.

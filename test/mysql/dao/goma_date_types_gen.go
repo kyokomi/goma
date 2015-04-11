@@ -197,7 +197,7 @@ func _GomaDateTypesUpdate(g GomaDateTypesDaoQueryer, entity entity.GomaDateTypes
 
 // Delete delete goma_date_types table.
 func (g GomaDateTypesDao) Delete(id int64) (sql.Result, error) {
-	return _GomaDateTypesDelete(d, id)
+	return _GomaDateTypesDelete(g, id)
 }
 
 // Delete transaction delete goma_date_types table.

@@ -203,7 +203,7 @@ func _GomaBinaryTypesUpdate(g GomaBinaryTypesDaoQueryer, entity entity.GomaBinar
 
 // Delete delete goma_binary_types table.
 func (g GomaBinaryTypesDao) Delete(id int64) (sql.Result, error) {
-	return _GomaBinaryTypesDelete(d, id)
+	return _GomaBinaryTypesDelete(g, id)
 }
 
 // Delete transaction delete goma_binary_types table.

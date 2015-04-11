@@ -213,7 +213,7 @@ func _GomaNumericTypesUpdate(g GomaNumericTypesDaoQueryer, entity entity.GomaNum
 
 // Delete delete goma_numeric_types table.
 func (g GomaNumericTypesDao) Delete(id int64) (sql.Result, error) {
-	return _GomaNumericTypesDelete(d, id)
+	return _GomaNumericTypesDelete(g, id)
 }
 
 // Delete transaction delete goma_numeric_types table.

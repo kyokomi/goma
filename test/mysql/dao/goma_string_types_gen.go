@@ -203,7 +203,7 @@ func _GomaStringTypesUpdate(g GomaStringTypesDaoQueryer, entity entity.GomaStrin
 
 // Delete delete goma_string_types table.
 func (g GomaStringTypesDao) Delete(id int64) (sql.Result, error) {
-	return _GomaStringTypesDelete(d, id)
+	return _GomaStringTypesDelete(g, id)
 }
 
 // Delete transaction delete goma_string_types table.
