@@ -20,21 +20,18 @@ type QueryArgs map[string]interface{}
 
 // NewGoma is create goma client.
 // - database open
-// - query local memory cache
-func NewGoma(options Options) (*Goma, error) {
-	var d Goma
-	d.options = options
-
-	d.debugPrintln(options.Source())
-
-	db, err := sql.Open(options.Driver, options.Source())
+func Open(configPath string) (*sql.DB, error) {
+	opts, err := NewOptions(configPath)
 	if err != nil {
 		return nil, err
 	}
+	return OpenOptions(opts)
+}
 
-	d.DB = db
-
-	return &d, nil
+// NewGomaOptions is create goma client.
+// - database open
+func OpenOptions(options Options) (*sql.DB, error) {
+	return sql.Open(options.Driver, options.Source())
 }
 
 // Close sql.DB close.

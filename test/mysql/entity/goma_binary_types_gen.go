@@ -1,5 +1,7 @@
 package entity
 
+import "database/sql"
+
 // NOTE: THIS FILE WAS PRODUCED BY THE
 // GOMA CODE GENERATION TOOL (github.com/kyokomi/goma)
 // DO NOT EDIT
@@ -13,4 +15,9 @@ type GomaBinaryTypesEntity struct {
 	MediumblobColumns []uint8 //`goma:"MEDIUMBLOB"`
 	LongblobColumns   []uint8 //`goma:"LONGBLOB"`
 	VarbinaryColumns  []uint8 //`goma:"VARBINARY(10)"`
+}
+
+// Scan GomaBinaryTypesEntity all scan
+func (e *GomaBinaryTypesEntity) Scan(rows *sql.Rows) error {
+	return rows.Scan(&e.ID, &e.BinaryColumns, &e.TinyblobColumns, &e.BlobColumns, &e.MediumblobColumns, &e.LongblobColumns, &e.VarbinaryColumns)
 }

@@ -75,11 +75,12 @@ func (d QueryArgsTemplateData) execQueryArgsTemplate(daoRootDir string) error {
 }
 
 func (d HelperTemplateData) execHelperTemplate(rootDir string) error {
-	var buf bytes.Buffer
-	if err := HelperTemplate(&buf, d); err != nil {
-		return err
-	}
-	return formatFileWrite(rootDir, "gomautils_gen.go", buf.Bytes())
+//	var buf bytes.Buffer
+//	if err := HelperTemplate(&buf, d); err != nil {
+//		return err
+//	}
+//	return formatFileWrite(rootDir, "gomautils_gen.go", buf.Bytes())
+	return nil
 }
 
 func (d DaoTemplateData) execDaoTemplate(daoRootDir string) error {

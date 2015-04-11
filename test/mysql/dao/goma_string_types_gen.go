@@ -14,91 +14,115 @@ import (
 	"github.com/kyokomi/goma"
 )
 
+type GomaStringTypesDaoQueryer interface {
+	Query(query string, args ...interface{}) (*sql.Rows, error)
+	Exec(query string, args ...interface{}) (sql.Result, error)
+}
+
 // GomaStringTypesDao is generated goma_string_types table.
 type GomaStringTypesDao struct {
-	*goma.Goma
-	tx        *sql.Tx
+	*sql.DB
 	TableName string
 }
 
+// Query GomaStringTypesDao query
+func (g GomaStringTypesDao) Query(query string, args ...interface{}) (*sql.Rows, error) {
+	return g.DB.Query(query, args...)
+}
+
+// Exec GomaStringTypesDao exec
+func (g GomaStringTypesDao) Exec(query string, args ...interface{}) (sql.Result, error) {
+	return g.DB.Exec(query, args...)
+}
+
+var _ GomaStringTypesDaoQueryer = (*GomaStringTypesDao)(nil)
+
 // GomaStringTypes is GomaStringTypesDao.
-func GomaStringTypes(g *goma.Goma) GomaStringTypesDao {
+func GomaStringTypes(db *sql.DB) GomaStringTypesDao {
 	tblDao := GomaStringTypesDao{}
-	tblDao.Goma = g
-	tblDao.tx = nil
+	tblDao.DB = db
 	tblDao.TableName = "GomaStringTypes"
 	return tblDao
 }
 
-// IsTx started transaction?
-func (d GomaStringTypesDao) IsTx() bool {
-	return d.tx != nil
+// GomaStringTypesDaoTx is generated goma_string_types table transaction.
+type TxGomaStringTypesDao struct {
+	*sql.Tx
+	TableName string
 }
 
-// SetTx set transaction.
-func (d *GomaStringTypesDao) SetTx(tx *sql.Tx) {
-	d.tx = tx
+// Query TxGomaStringTypesDao query
+func (g TxGomaStringTypesDao) Query(query string, args ...interface{}) (*sql.Rows, error) {
+	return g.Tx.Query(query, args...)
 }
 
-// ResetTx reset transaction.
-// Call after Commit of Rollback.
-func (d *GomaStringTypesDao) ResetTx() {
-	d.tx = nil
+// Exec TxGomaStringTypesDao exec
+func (g TxGomaStringTypesDao) Exec(query string, args ...interface{}) (sql.Result, error) {
+	return g.Tx.Exec(query, args...)
 }
 
-func (d GomaStringTypesDao) daoQuery(query string, args ...interface{}) (rows *sql.Rows, err error) {
-	if d.IsTx() {
-		rows, err = d.tx.Query(query, args...)
-	} else {
-		rows, err = d.Query(query, args...)
-	}
-	return
-}
+var _ GomaStringTypesDaoQueryer = (*TxGomaStringTypesDao)(nil)
 
-func (d GomaStringTypesDao) daoExec(query string, args ...interface{}) (result sql.Result, err error) {
-	if d.IsTx() {
-		result, err = d.tx.Exec(query, args...)
-	} else {
-		result, err = d.Exec(query, args...)
-	}
-	return
+// TxGomaStringTypes is GomaStringTypesDao.
+func TxGomaStringTypes(tx *sql.Tx) TxGomaStringTypesDao {
+	tblDao := TxGomaStringTypesDao{}
+	tblDao.Tx = tx
+	tblDao.TableName = "GomaStringTypes"
+	return tblDao
 }
 
 // SelectAll select goma_string_types table all recode.
 func (d GomaStringTypesDao) SelectAll() ([]*entity.GomaStringTypesEntity, error) {
+	return goma_string_typesSelectAll(d)
+}
+
+// SelectAll transaction select goma_string_types table all recode.
+func (d TxGomaStringTypesDao) SelectAll() ([]*entity.GomaStringTypesEntity, error) {
+	return goma_string_typesSelectAll(d)
+}
+
+func goma_string_typesSelectAll(d GomaStringTypesDaoQueryer) ([]*entity.GomaStringTypesEntity, error) {
 	queryString := queryArgs("goma_string_types", "selectAll", nil)
 
-	var entitys []*entity.GomaStringTypesEntity
-	rows, err := d.daoQuery(queryString)
+	var es []*entity.GomaStringTypesEntity
+	rows, err := d.Query(queryString)
 	if err != nil {
 		return nil, err
 	}
 
 	for rows.Next() {
-		var entity entity.GomaStringTypesEntity
-		err = rows.Scan(&entity.ID, &entity.TextColumns, &entity.TinytextColumns, &entity.MediumtextColumns, &entity.LongtextColumns, &entity.CharColumns, &entity.VarcharColumns)
-		if err != nil {
+		var e entity.GomaStringTypesEntity
+		if err := e.Scan(rows); err != nil {
 			break
 		}
 
-		entitys = append(entitys, &entity)
+		es = append(es, &e)
 	}
 	if err != nil {
 		log.Println(err, queryString)
 		return nil, err
 	}
 
-	return entitys, nil
+	return es, nil
 }
 
 // SelectByID select goma_string_types table by primaryKey.
 func (d GomaStringTypesDao) SelectByID(id int64) (*entity.GomaStringTypesEntity, error) {
+	return goma_string_typesSelectByID(d, id)
+}
+
+// SelectByID transaction select goma_string_types table by primaryKey.
+func (d TxGomaStringTypesDao) SelectByID(id int64) (*entity.GomaStringTypesEntity, error) {
+	return goma_string_typesSelectByID(d, id)
+}
+
+func goma_string_typesSelectByID(d GomaStringTypesDaoQueryer, id int64) (*entity.GomaStringTypesEntity, error) {
 	args := goma.QueryArgs{
 		"id": id,
 	}
 	queryString := queryArgs("goma_string_types", "selectByID", args)
 
-	rows, err := d.daoQuery(queryString)
+	rows, err := d.Query(queryString)
 	if err != nil {
 		return nil, err
 	}
@@ -108,17 +132,26 @@ func (d GomaStringTypesDao) SelectByID(id int64) (*entity.GomaStringTypesEntity,
 		return nil, nil
 	}
 
-	var entity entity.GomaStringTypesEntity
-	if err := rows.Scan(&entity.ID, &entity.TextColumns, &entity.TinytextColumns, &entity.MediumtextColumns, &entity.LongtextColumns, &entity.CharColumns, &entity.VarcharColumns); err != nil {
+	var e entity.GomaStringTypesEntity
+	if err := e.Scan(rows); err != nil {
 		log.Println(err, queryString)
 		return nil, err
 	}
 
-	return &entity, nil
+	return &e, nil
 }
 
 // Insert insert goma_string_types table.
 func (d GomaStringTypesDao) Insert(entity entity.GomaStringTypesEntity) (sql.Result, error) {
+	return goma_string_typesInsert(d, entity)
+}
+
+// Insert transaction insert goma_string_types table.
+func (d TxGomaStringTypesDao) Insert(entity entity.GomaStringTypesEntity) (sql.Result, error) {
+	return goma_string_typesInsert(d, entity)
+}
+
+func goma_string_typesInsert(d GomaStringTypesDaoQueryer, entity entity.GomaStringTypesEntity) (sql.Result, error) {
 	args := goma.QueryArgs{
 		"id":                 entity.ID,
 		"text_columns":       entity.TextColumns,
@@ -130,7 +163,7 @@ func (d GomaStringTypesDao) Insert(entity entity.GomaStringTypesEntity) (sql.Res
 	}
 	queryString := queryArgs("goma_string_types", "insert", args)
 
-	result, err := d.daoExec(queryString)
+	result, err := d.Exec(queryString)
 	if err != nil {
 		log.Println(err, queryString)
 	}
@@ -139,6 +172,16 @@ func (d GomaStringTypesDao) Insert(entity entity.GomaStringTypesEntity) (sql.Res
 
 // Update update goma_string_types table.
 func (d GomaStringTypesDao) Update(entity entity.GomaStringTypesEntity) (sql.Result, error) {
+	return goma_string_typesUpdate(d, entity)
+}
+
+// Update transaction update goma_string_types table.
+func (d TxGomaStringTypesDao) Update(entity entity.GomaStringTypesEntity) (sql.Result, error) {
+	return goma_string_typesUpdate(d, entity)
+}
+
+// Update update goma_string_types table.
+func goma_string_typesUpdate(d GomaStringTypesDaoQueryer, entity entity.GomaStringTypesEntity) (sql.Result, error) {
 	args := goma.QueryArgs{
 		"id":                 entity.ID,
 		"text_columns":       entity.TextColumns,
@@ -150,21 +193,31 @@ func (d GomaStringTypesDao) Update(entity entity.GomaStringTypesEntity) (sql.Res
 	}
 	queryString := queryArgs("goma_string_types", "update", args)
 
-	result, err := d.daoExec(queryString)
+	result, err := d.Exec(queryString)
 	if err != nil {
 		log.Println(err, queryString)
 	}
 	return result, err
 }
 
-// Delete delete goma_string_types table by primaryKey.
+// Delete delete goma_string_types table.
 func (d GomaStringTypesDao) Delete(id int64) (sql.Result, error) {
+	return goma_string_typesDelete(d, id)
+}
+
+// Delete transaction delete goma_string_types table.
+func (d TxGomaStringTypesDao) Delete(id int64) (sql.Result, error) {
+	return goma_string_typesDelete(d, id)
+}
+
+// Delete delete goma_string_types table by primaryKey.
+func goma_string_typesDelete(d GomaStringTypesDaoQueryer, id int64) (sql.Result, error) {
 	args := goma.QueryArgs{
 		"id": id,
 	}
 	queryString := queryArgs("goma_string_types", "delete", args)
 
-	result, err := d.daoExec(queryString)
+	result, err := d.Exec(queryString)
 	if err != nil {
 		log.Println(err, queryString)
 	}
