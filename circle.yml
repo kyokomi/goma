@@ -7,7 +7,6 @@ checkout:
 database:
   post:
     - mysql -u root < $HOME/$CIRCLE_PROJECT_REPONAME/test/mysql/ddl/create_database.sql
-    - mysql -u root < $HOME/$CIRCLE_PROJECT_REPONAME/test/mysql/ddl/init_setup.sql
     - mysql goma_test -u root < $HOME/$CIRCLE_PROJECT_REPONAME/test/mysql/ddl/create_table_data.sql
     - mysql goma_test -u root < $HOME/$CIRCLE_PROJECT_REPONAME/test/mysql/ddl/create_table_numeric.sql
     - mysql goma_test -u root < $HOME/$CIRCLE_PROJECT_REPONAME/test/mysql/ddl/create_table_string.sql
@@ -17,8 +16,6 @@ dependencies:
     - go get -t -d -v ./...
   override:
     - go build -v
-  post:
-    - go get github.com/benbjohnson/ego/cmd/ego
 
 test:
   pre:
@@ -28,6 +25,7 @@ test:
     - go test -v ./... -race
   post:
     - goveralls -v -service=circle-ci -repotoken $COVERALLS_GOMA_TOKEN ./
+    - go get github.com/benbjohnson/ego/cmd/ego
     - go generate github.com/kyokomi/goma/gen/goma
     - go install github.com/kyokomi/goma/gen/goma
     - go generate github.com/kyokomi/goma/test/mysql
