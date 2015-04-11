@@ -15,7 +15,7 @@ import (
 	"github.com/kyokomi/goma/test/mysql/entity"
 )
 
-//go:generate goma --debug gen --driver=mysql --user=admin --password=password --host=localhost --port=3306 --db=goma_test
+//go:generate goma --debug gen --driver=mysql --user=root --host=localhost --port=3306 --db=goma_test
 
 // MEMO: go-bindata -o dao/asset_gen.go -pkg dao sql/...
 
