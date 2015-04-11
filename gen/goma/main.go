@@ -11,7 +11,7 @@ import (
 func main() {
 	app := cli.NewApp()
 	app.Name = "goma"
-	app.Version = "1.0"
+	app.Version = "1.1"
 	app.Usage = ""
 	app.Author = "kyokomi"
 	app.Email = "kyoko1220adword@gmail.com"
@@ -49,8 +49,8 @@ func main() {
 			},
 		},
 		{
-			Name:   "config",
-			Action: configAction,
+			Name:   "gen-config",
+			Action: genConfigAction,
 			Usage: "generate code by config",
 			Flags: []cli.Flag{
 				cli.StringFlag{"path", "config.json", "config path", ""},

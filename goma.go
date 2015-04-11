@@ -2,99 +2,36 @@ package goma
 
 import (
 	"database/sql"
-	"log"
 	"regexp"
 	"strconv"
 	"time"
 
-	"io/ioutil"
-
 	"fmt"
-	"path/filepath"
-	"strings"
 )
 
 // Goma is sql.DB access wrapper.
 type Goma struct {
 	*sql.DB
-	options    Options
-	queryCache map[tableName]map[queryName]string
+	options Options
 }
 
 // QueryArgs sql query args
 type QueryArgs map[string]interface{}
 
-type tableName string
-type queryName string
-
 // NewGoma is create goma client.
 // - database open
-// - query local memory cache
-func NewGoma(options Options) (*Goma, error) {
-	var d Goma
-	d.options = options
-
-	d.debugPrintln(options.Source())
-
-	db, err := sql.Open(options.Driver, options.Source())
+func Open(configPath string) (*sql.DB, error) {
+	opts, err := NewOptions(configPath)
 	if err != nil {
 		return nil, err
 	}
-
-	d.DB = db
-	d.cacheQuery()
-
-	return &d, nil
+	return OpenOptions(opts)
 }
 
-func (d *Goma) cacheQuery() error {
-	sqlRootPath := d.options.SQLRootDirPath()
-
-	// sql下のディレクトリをtableNameとする
-	// 各ディレクトリのファイル名 - .sqlをqueryNameとする
-	dirs, err := ioutil.ReadDir(sqlRootPath)
-	if err != nil {
-		return err
-	}
-
-	d.queryCache = make(map[tableName]map[queryName]string, len(dirs))
-	for _, dir := range dirs {
-		if !dir.IsDir() {
-			continue
-		}
-
-		dirPath := filepath.Join(sqlRootPath, dir.Name())
-		fileInfos, err := ioutil.ReadDir(dirPath)
-		if err != nil {
-			log.Println(err)
-			continue
-		}
-
-		tableName := tableName(dir.Name())
-
-		d.queryCache[tableName] = make(map[queryName]string, len(fileInfos))
-
-		for _, fileInfo := range fileInfos {
-			if fileInfo.IsDir() {
-				continue
-			}
-
-			filePath := filepath.Join(sqlRootPath, dir.Name(), fileInfo.Name())
-			f, err := ioutil.ReadFile(filePath)
-			if err != nil {
-				log.Println(err)
-				continue
-			}
-
-			// queryName.sqlのqueryNameを抽出
-			queryName := queryName(strings.Replace(fileInfo.Name(), ".sql", "", -1))
-			d.queryCache[tableName][queryName] = string(f)
-
-			d.debugPrintln("[goma]", "[debug]", "cache ok:", filePath)
-		}
-	}
-
-	return nil
+// NewGomaOptions is create goma client.
+// - database open
+func OpenOptions(options Options) (*sql.DB, error) {
+	return sql.Open(options.Driver, options.Source())
 }
 
 // Close sql.DB close.
@@ -106,28 +43,8 @@ func (d *Goma) Close() error {
 	return err
 }
 
-// QueryArgs create sql query in the local cache.
-func (d *Goma) QueryArgs(tableName tableName, queryName queryName, args QueryArgs) string {
-	cacheQuery := d.queryCache[tableName][queryName]
-	if cacheQuery == "" {
-		// TODO: ないときどうする? 再度読み込み?
-		d.debugPrintln("not cache!")
-	}
-	return queryArgs(cacheQuery, args)
-}
-
-// TODO: Time Deprecated 独自typeをentityパッケージにimportする必要があるため
-//type Time struct {
-//	time.Time
-//}
-//
-//func (t *Time) Scan(v interface{}) (err error) {
-//	t.Time, err = time.Parse("15:04:05", string(v.([]uint8)))
-//	return
-//}
-//var _ sql.Scanner = (*Time)(nil)
-
-func queryArgs(queryString string, args QueryArgs) string {
+// GenerateQuery generate bind args query
+func GenerateQuery(queryString string, args QueryArgs) string {
 	if len(args) <= 0 {
 		return queryString
 	}

@@ -69,29 +69,45 @@ func generate(pkg string, opt goma.Options) {
 
 	// sql, dao generate
 
+	daoRootPath := filepath.Join(opt.CurrentDir, opt.DaoRootDir)
+	entityRootPath := filepath.Join(opt.CurrentDir, opt.EntityRootDir)
+	sqlRootPath := filepath.Join(opt.CurrentDir, opt.SQLRootDir)
+
 	for _, table := range tables {
 		// create templateData
 		data := newTemplateData(table, opt)
 
 		// dao template
-		daoRootPath := filepath.Join(opt.CurrentDir, opt.DaoRootDir)
 		if err := data.execDaoTemplate(daoRootPath); err != nil {
 			log.Fatalln(err)
 		}
 
 		// entity template
-		entityRootPath := filepath.Join(opt.CurrentDir, opt.EntityRootDir)
 		if err := data.execEntityTemplate(entityRootPath); err != nil {
 			log.Fatalln(err)
 		}
 
 		// sql template
-		sqlRootPath := filepath.Join(opt.CurrentDir, opt.SQLRootDir)
 		if err := data.Table.execTableTemplate(sqlRootPath); err != nil {
 			log.Fatalln(err)
 		}
 
 		daoList = append(daoList, data)
+	}
+
+	// asset generate
+	assetData := AssetTemplateData{}
+	assetData.DaoPkgName = opt.DaoPkgName()
+	if err := assetData.execAssetTemplate(daoRootPath); err != nil {
+		log.Fatalln(err)
+	}
+
+	// queryargs generate
+	queryArgsData := QueryArgsTemplateData{}
+	queryArgsData.DaoPkgName = opt.DaoPkgName()
+	queryArgsData.SQLRootDir = opt.SQLRootDir
+	if err := queryArgsData.execQueryArgsTemplate(daoRootPath); err != nil {
+		log.Fatalln(err)
 	}
 
 	// helper generate

@@ -44,6 +44,10 @@ func initConfigAction(c *cli.Context) {
 	}
 }
 
-func configAction(c *cli.Context) {
-	// TODO: config.jsonを読み込んでgenerate呼ぶ
+func genConfigAction(c *cli.Context) {
+	opt, err := goma.NewOptions(c.String("path"))
+	if err != nil {
+		log.Fatalln(err)
+	}
+	generate(c.GlobalString("pkg"), opt)
 }

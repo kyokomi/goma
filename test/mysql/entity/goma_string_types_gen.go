@@ -1,5 +1,7 @@
 package entity
 
+import "database/sql"
+
 // NOTE: THIS FILE WAS PRODUCED BY THE
 // GOMA CODE GENERATION TOOL (github.com/kyokomi/goma)
 // DO NOT EDIT
@@ -13,4 +15,9 @@ type GomaStringTypesEntity struct {
 	LongtextColumns   string //`goma:"LONGTEXT"`
 	CharColumns       string //`goma:"CHAR(8)"`
 	VarcharColumns    string //`goma:"VARCHAR(255)"`
+}
+
+// Scan GomaStringTypesEntity all scan
+func (e *GomaStringTypesEntity) Scan(rows *sql.Rows) error {
+	return rows.Scan(&e.ID, &e.TextColumns, &e.TinytextColumns, &e.MediumtextColumns, &e.LongtextColumns, &e.CharColumns, &e.VarcharColumns)
 }
