@@ -24,11 +24,9 @@ $ go get -u github.com/kyokomi/goma/gen/goma
 ### Command
 
 ```
-$ goma
-COMMANDS:
-   init-config create example config file
-   gen         generate code by params
-   config      generate code by config
+   init-config	create example config file
+   gen		generate code by params
+   gen-config	generate code by config
    help, h	Shows a list of commands or help for one command
 ```
 
