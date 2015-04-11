@@ -1,5 +1,7 @@
 package entity
 
+import "database/sql"
+
 // NOTE: THIS FILE WAS PRODUCED BY THE
 // GOMA CODE GENERATION TOOL (github.com/kyokomi/goma)
 // DO NOT EDIT
@@ -13,4 +15,9 @@ type GomaDateTypesEntity struct {
 	ID               int64     //`goma:"BIGINT:pk"`
 	DateColumns      time.Time //`goma:"DATE"`
 	TimestampColumns time.Time //`goma:"DATETIME"`
+}
+
+// Scan GomaDateTypesEntity all scan
+func (e *GomaDateTypesEntity) Scan(rows *sql.Rows) error {
+	return rows.Scan(&e.ID, &e.DateColumns, &e.TimestampColumns)
 }
