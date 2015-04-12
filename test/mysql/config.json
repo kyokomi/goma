@@ -1,7 +1,7 @@
 {
     "driver": "mysql",
-    "user": "admin",
-    "password": "password",
+    "user": "root",
+    "password": "",
     "host": "localhost",
     "port": 3306,
     "db": "goma_test",
