@@ -22,11 +22,14 @@ test:
   pre:
     - go get github.com/axw/gocov/gocov
     - go get github.com/mattn/goveralls
+    - go get github.com/benbjohnson/ego/cmd/ego
   override:
+    - go generate github.com/kyokomi/goma/gen/goma
+    - go install github.com/kyokomi/goma/gen/goma
+    - go generate github.com/kyokomi/goma/test/mysql:
+        pwd:
+          ../.go_workspace/src/github.com/kyokomi/goma/test/mysql
     - go test -v ./... -race
   post:
     - goveralls -v -service=circle-ci -repotoken $COVERALLS_GOMA_TOKEN ./
-    - go get github.com/benbjohnson/ego/cmd/ego
-    - go generate github.com/kyokomi/goma/gen/goma
-    - go install github.com/kyokomi/goma/gen/goma
-    - go generate github.com/kyokomi/goma/test/mysql
+
