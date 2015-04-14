@@ -1,14 +1,14 @@
 {
     "driver": "postgres",
-    "user": "admin",
-    "password": "password",
+    "user": "postgres",
+    "password": "",
     "host": "localhost",
     "port": 5432,
-    "db": "goma-test",
+    "db": "goma_test",
     "ssl": "disable",
     "debug": true,
     "sqlRootDir": "sql",
     "daoRootDir": "dao",
     "entityRootDir": "entity",
-    "currentDir": "/Users/kyokomi/src/github.com/kyokomi/goma/test/postgres"
+    "currentDir": "/Users/yokomichi/src/github.com/kyokomi/goma/test/postgres"
 }

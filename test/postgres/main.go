@@ -14,7 +14,7 @@ import (
 	"github.com/kyokomi/goma/test/postgres/entity"
 )
 
-//go:generate goma --debug gen --driver=postgres --user=admin --password=password --host=localhost --port=5432 --db=goma-test --ssl=disable
+//go:generate goma --debug gen --driver=postgres --user=postgres --host=localhost --port=5432 --db=goma_test --ssl=disable
 
 func main() {
 	fmt.Println("Hello goma!")
