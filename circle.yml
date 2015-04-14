@@ -11,6 +11,10 @@ database:
     - mysql goma_test -u root < $HOME/$CIRCLE_PROJECT_REPONAME/test/mysql/ddl/create_table_numeric.sql
     - mysql goma_test -u root < $HOME/$CIRCLE_PROJECT_REPONAME/test/mysql/ddl/create_table_string.sql
     - mysql goma_test -u root < $HOME/$CIRCLE_PROJECT_REPONAME/test/mysql/ddl/create_table_binary.sql
+    - psql -U postgres -f $HOME/$CIRCLE_PROJECT_REPONAME/test/postgres/ddl/create_database.sql
+    - psql -d goma_test -U postgres -f $HOME/$CIRCLE_PROJECT_REPONAME/test/postgres/ddl/create_table_numeric.sql
+    - psql -d goma_test -U postgres -f $HOME/$CIRCLE_PROJECT_REPONAME/test/postgres/ddl/create_table_string.sql
+    - psql -d goma_test -U postgres -f $HOME/$CIRCLE_PROJECT_REPONAME/test/postgres/ddl/create_table_date.sql
 
 dependencies:
   pre:
@@ -32,4 +36,7 @@ test:
     - go test -v ./... -race
   post:
     - goveralls -v -service=circle-ci -repotoken $COVERALLS_GOMA_TOKEN ./
+    - go generate github.com/kyokomi/goma/test/postgres:
+        pwd:
+          ../.go_workspace/src/github.com/kyokomi/goma/test/postgres
 
