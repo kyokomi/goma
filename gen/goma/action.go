@@ -24,8 +24,26 @@ func genAction(c *cli.Context) {
 	opt.EntityRootDir = c.String("entity")
 	opt.Debug = c.GlobalBool("debug")
 
-	generate(c.GlobalString("pkg"), opt)
+	generate(c.GlobalString("pkg"), opt, false)
 }
+
+func genSimpleAction(c *cli.Context) {
+	opt := goma.Options{}
+	opt.Driver = c.String("driver")
+	opt.UserName = c.String("user")
+	opt.PassWord = c.String("password")
+	opt.Host = c.String("host")
+	opt.Port = c.Int("port")
+	opt.DBName = c.String("db")
+	opt.SSLMode = c.String("ssl")
+	opt.SQLRootDir = c.String("sql")
+	opt.DaoRootDir = c.String("dao")
+	opt.EntityRootDir = c.String("entity")
+	opt.Debug = c.GlobalBool("debug")
+
+	generate(c.GlobalString("pkg"), opt, true)
+}
+
 
 func initConfigAction(c *cli.Context) {
 	currentDir, err := os.Getwd()
@@ -49,5 +67,5 @@ func genConfigAction(c *cli.Context) {
 	if err != nil {
 		log.Fatalln(err)
 	}
-	generate(c.GlobalString("pkg"), opt)
+	generate(c.GlobalString("pkg"), opt, false)
 }

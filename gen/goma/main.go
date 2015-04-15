@@ -49,6 +49,25 @@ func main() {
 			},
 		},
 		{
+			Name:   "gen-simple",
+			Action: genSimpleAction,
+			Usage:  "generate code by params",
+			Flags: []cli.Flag{
+				cli.StringFlag{"driver", "mysql", "sql driver", ""},
+				cli.StringFlag{"user", "admin", "database access user's name", ""},
+				cli.StringFlag{"password", "", "database access user's password", ""},
+				cli.StringFlag{"host", "localhost", "database host", ""},
+				cli.IntFlag{"port", 3306, "database port", ""},
+				cli.StringFlag{"db", "test", "database name", ""},
+
+				cli.StringFlag{"ssl", "disable", "postgres ssl mode", ""},
+
+				cli.StringFlag{"sql", "sql", "generate sql root dir", ""},
+				cli.StringFlag{"dao", "dao", "generate dao root dir", ""},
+				cli.StringFlag{"entity", "entity", "generate entity root dir", ""},
+			},
+		},
+		{
 			Name:   "gen-config",
 			Action: genConfigAction,
 			Usage:  "generate code by config",

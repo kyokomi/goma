@@ -93,6 +93,14 @@ func (d DaoTemplateData) execDaoTemplate(daoRootDir string) error {
 	return formatFileWrite(daoRootDir, d.Table.Name+"_gen.go", buf.Bytes())
 }
 
+func (d DaoTemplateData) execDaoSimpleTemplate(daoRootDir string) error {
+	var buf bytes.Buffer
+	if err := DaoSimpleTemplate(&buf, d); err != nil {
+		return err
+	}
+	return formatFileWrite(daoRootDir, d.Table.Name+"_gen.go", buf.Bytes())
+}
+
 func (d DaoTemplateData) execEntityTemplate(entityRootDir string) error {
 	var buf bytes.Buffer
 	if err := EntityTemplate(&buf, d); err != nil {

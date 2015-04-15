@@ -36,7 +36,7 @@ var driverImports = map[string]string{
 	"postgres": `_ "github.com/lib/pq"`,
 }
 
-func generate(pkg string, opt goma.Options) {
+func generate(pkg string, opt goma.Options, isSimple bool) {
 	log.SetFlags(log.Llongfile)
 
 	currentDir, err := os.Getwd()
@@ -79,8 +79,14 @@ func generate(pkg string, opt goma.Options) {
 		data := newTemplateData(table, opt)
 
 		// dao template
-		if err := data.execDaoTemplate(daoRootPath); err != nil {
-			log.Fatalln(err)
+		if isSimple {
+			if err := data.execDaoSimpleTemplate(daoRootPath); err != nil {
+				log.Fatalln(err)
+			}
+		} else {
+			if err := data.execDaoTemplate(daoRootPath); err != nil {
+				log.Fatalln(err)
+			}
 		}
 
 		// entity template
@@ -89,26 +95,30 @@ func generate(pkg string, opt goma.Options) {
 		}
 
 		// sql template
-		if err := data.Table.execTableTemplate(sqlRootPath); err != nil {
-			log.Fatalln(err)
+		if !isSimple {
+			if err := data.Table.execTableTemplate(sqlRootPath); err != nil {
+				log.Fatalln(err)
+			}
 		}
 
 		daoList = append(daoList, data)
 	}
 
 	// asset generate
-	assetData := AssetTemplateData{}
-	assetData.DaoPkgName = opt.DaoPkgName()
-	if err := assetData.execAssetTemplate(daoRootPath); err != nil {
-		log.Fatalln(err)
-	}
+	if !isSimple {
+		assetData := AssetTemplateData{}
+		assetData.DaoPkgName = opt.DaoPkgName()
+		if err := assetData.execAssetTemplate(daoRootPath); err != nil {
+			log.Fatalln(err)
+		}
 
-	// queryargs generate
-	queryArgsData := QueryArgsTemplateData{}
-	queryArgsData.DaoPkgName = opt.DaoPkgName()
-	queryArgsData.SQLRootDir = opt.SQLRootDir
-	if err := queryArgsData.execQueryArgsTemplate(daoRootPath); err != nil {
-		log.Fatalln(err)
+		// queryargs generate
+		queryArgsData := QueryArgsTemplateData{}
+		queryArgsData.DaoPkgName = opt.DaoPkgName()
+		queryArgsData.SQLRootDir = opt.SQLRootDir
+		if err := queryArgsData.execQueryArgsTemplate(daoRootPath); err != nil {
+			log.Fatalln(err)
+		}
 	}
 
 	// helper generate
