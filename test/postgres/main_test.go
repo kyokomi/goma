@@ -15,7 +15,7 @@ import (
 	"github.com/kyokomi/goma/test/postgres/entity"
 )
 
-//go:generate goma --debug gen --driver=postgres --user=postgres --host=localhost --port=5432 --db=goma_test --ssl=disable
+const testID = int64(1234567893)
 
 func TestNumeric(t *testing.T) {
 	db, err := goma.Open("config.json")
@@ -24,7 +24,7 @@ func TestNumeric(t *testing.T) {
 	}
 	defer db.Close()
 
-	id := int64(1234567890)
+	id := testID
 
 	// numeric
 	d := dao.GomaNumericTypes(db)
@@ -67,7 +67,7 @@ func TestString(t *testing.T) {
 	}
 	defer db.Close()
 
-	id := int64(1234567890)
+	id := testID
 
 	// string
 	d := dao.GomaStringTypes(db)
@@ -105,7 +105,7 @@ func TestDate(t *testing.T) {
 	}
 	defer db.Close()
 
-	id := int64(1234567890)
+	id := testID
 
 	// date
 	d := dao.GomaDateTypes(db)
@@ -154,7 +154,7 @@ func TestTx(t *testing.T) {
 	}
 	defer db.Close()
 
-	id := int64(1234567890)
+	id := testID
 
 	tx, err := db.Begin()
 	if err != nil {

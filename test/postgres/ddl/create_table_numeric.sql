@@ -7,7 +7,7 @@ CREATE TABLE goma_numeric_types (
   int_columns       INT,
   integer_columns   INTEGER,  
   serial_columns    SERIAL,   
-  decimal_columns   DECIMAL,   
-  numeric_columns   NUMERIC,   
+  decimal_columns   DECIMAL,
+  numeric_columns   NUMERIC,
   float_columns     FLOAT
 );

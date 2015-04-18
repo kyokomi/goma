@@ -13,6 +13,954 @@ _, _ = fmt.Fprintf(w, "%v",  assetData.DaoPkgName )
 _, _ = fmt.Fprintf(w, "\n\n// NOTE: THIS FILE WAS PRODUCED BY THE\n// GOMA CODE GENERATION TOOL (github.com/kyokomi/goma)\n// DO NOT EDIT\n\nimport (\n\t\"io/ioutil\"\n)\n\n// Asset default read file\nfunc Asset(filePath string) ([]byte, error) {\n\treturn ioutil.ReadFile(filePath)\n}\n")
 return nil
 }
+//line dao_simple_template.go.ego:1
+func DaoSimpleTemplate(w io.Writer, daoData DaoTemplateData) error  {
+//line dao_simple_template.go.ego:1
+_, _ = fmt.Fprintf(w, "package  ")
+//line dao_simple_template.go.ego:1
+_, _ = fmt.Fprintf(w, "%v",  daoData.DaoPkgName )
+//line dao_simple_template.go.ego:2
+_, _ = fmt.Fprintf(w, "\n\n// NOTE: THIS FILE WAS PRODUCED BY THE\n// GOMA CODE GENERATION TOOL (github.com/kyokomi/goma)\n// DO NOT EDIT\n\nimport (\n    \"log\"\n    \n    \"database/sql\"\n    \n    \"")
+//line dao_simple_template.go.ego:12
+_, _ = fmt.Fprintf(w, "%v",  daoData.EntityImport )
+//line dao_simple_template.go.ego:12
+_, _ = fmt.Fprintf(w, "\"\n)\n\n// ")
+//line dao_simple_template.go.ego:15
+_, _ = fmt.Fprintf(w, "%v",  daoData.Name )
+//line dao_simple_template.go.ego:15
+_, _ = fmt.Fprintf(w, "Queryer is interface\ntype ")
+//line dao_simple_template.go.ego:16
+_, _ = fmt.Fprintf(w, "%v",  daoData.Name )
+//line dao_simple_template.go.ego:16
+_, _ = fmt.Fprintf(w, "Queryer interface {\n\tQuery(query string, args ...interface{}) (*sql.Rows, error)\n\tExec(query string, args ...interface{}) (sql.Result, error)\n}\n\n// ")
+//line dao_simple_template.go.ego:21
+_, _ = fmt.Fprintf(w, "%v",  daoData.Name )
+//line dao_simple_template.go.ego:21
+_, _ = fmt.Fprintf(w, " is generated ")
+//line dao_simple_template.go.ego:21
+_, _ = fmt.Fprintf(w, "%v",  daoData.Table.Name )
+//line dao_simple_template.go.ego:21
+_, _ = fmt.Fprintf(w, " table.\ntype ")
+//line dao_simple_template.go.ego:22
+_, _ = fmt.Fprintf(w, "%v",  daoData.Name )
+//line dao_simple_template.go.ego:22
+_, _ = fmt.Fprintf(w, " struct {\n\t*sql.DB\n\tTableName string\n}\n\n// Query ")
+//line dao_simple_template.go.ego:27
+_, _ = fmt.Fprintf(w, "%v",  daoData.Name )
+//line dao_simple_template.go.ego:27
+_, _ = fmt.Fprintf(w, " query\nfunc (g ")
+//line dao_simple_template.go.ego:28
+_, _ = fmt.Fprintf(w, "%v",  daoData.Name )
+//line dao_simple_template.go.ego:28
+_, _ = fmt.Fprintf(w, ") Query(query string, args ...interface{}) (*sql.Rows, error) {\n\treturn g.DB.Query(query, args...)\n}\n\n// Exec ")
+//line dao_simple_template.go.ego:32
+_, _ = fmt.Fprintf(w, "%v",  daoData.Name )
+//line dao_simple_template.go.ego:32
+_, _ = fmt.Fprintf(w, " exec\nfunc (g ")
+//line dao_simple_template.go.ego:33
+_, _ = fmt.Fprintf(w, "%v",  daoData.Name )
+//line dao_simple_template.go.ego:33
+_, _ = fmt.Fprintf(w, ") Exec(query string, args ...interface{}) (sql.Result, error) {\n\treturn g.DB.Exec(query, args...)\n}\n\nvar _ ")
+//line dao_simple_template.go.ego:37
+_, _ = fmt.Fprintf(w, "%v",  daoData.Name )
+//line dao_simple_template.go.ego:37
+_, _ = fmt.Fprintf(w, "Queryer = (*")
+//line dao_simple_template.go.ego:37
+_, _ = fmt.Fprintf(w, "%v",  daoData.Name )
+//line dao_simple_template.go.ego:37
+_, _ = fmt.Fprintf(w, ")(nil)\n\n// ")
+//line dao_simple_template.go.ego:39
+_, _ = fmt.Fprintf(w, "%v",  daoData.Table.TitleName )
+//line dao_simple_template.go.ego:39
+_, _ = fmt.Fprintf(w, " is ")
+//line dao_simple_template.go.ego:39
+_, _ = fmt.Fprintf(w, "%v",  daoData.Name )
+//line dao_simple_template.go.ego:39
+_, _ = fmt.Fprintf(w, ".\nfunc ")
+//line dao_simple_template.go.ego:40
+_, _ = fmt.Fprintf(w, "%v",  daoData.Table.TitleName )
+//line dao_simple_template.go.ego:40
+_, _ = fmt.Fprintf(w, "(db *sql.DB) ")
+//line dao_simple_template.go.ego:40
+_, _ = fmt.Fprintf(w, "%v",  daoData.Name )
+//line dao_simple_template.go.ego:40
+_, _ = fmt.Fprintf(w, " {\n    tblDao := ")
+//line dao_simple_template.go.ego:41
+_, _ = fmt.Fprintf(w, "%v",  daoData.Name )
+//line dao_simple_template.go.ego:41
+_, _ = fmt.Fprintf(w, "{}\n    tblDao.DB = db\n    tblDao.TableName = \"")
+//line dao_simple_template.go.ego:43
+_, _ = fmt.Fprintf(w, "%v",  daoData.Table.TitleName )
+//line dao_simple_template.go.ego:43
+_, _ = fmt.Fprintf(w, "\"\n\treturn tblDao\n}\n\n// Tx")
+//line dao_simple_template.go.ego:47
+_, _ = fmt.Fprintf(w, "%v",  daoData.Name )
+//line dao_simple_template.go.ego:47
+_, _ = fmt.Fprintf(w, " is generated ")
+//line dao_simple_template.go.ego:47
+_, _ = fmt.Fprintf(w, "%v",  daoData.Table.Name )
+//line dao_simple_template.go.ego:47
+_, _ = fmt.Fprintf(w, " table transaction.\ntype Tx")
+//line dao_simple_template.go.ego:48
+_, _ = fmt.Fprintf(w, "%v",  daoData.Name )
+//line dao_simple_template.go.ego:48
+_, _ = fmt.Fprintf(w, " struct {\n\t*sql.Tx\n\tTableName string\n}\n\n// Query Tx")
+//line dao_simple_template.go.ego:53
+_, _ = fmt.Fprintf(w, "%v",  daoData.Name )
+//line dao_simple_template.go.ego:53
+_, _ = fmt.Fprintf(w, " query\nfunc (g Tx")
+//line dao_simple_template.go.ego:54
+_, _ = fmt.Fprintf(w, "%v",  daoData.Name )
+//line dao_simple_template.go.ego:54
+_, _ = fmt.Fprintf(w, ") Query(query string, args ...interface{}) (*sql.Rows, error) {\n\treturn g.Tx.Query(query, args...)\n}\n\n// Exec Tx")
+//line dao_simple_template.go.ego:58
+_, _ = fmt.Fprintf(w, "%v",  daoData.Name )
+//line dao_simple_template.go.ego:58
+_, _ = fmt.Fprintf(w, " exec\nfunc (g Tx")
+//line dao_simple_template.go.ego:59
+_, _ = fmt.Fprintf(w, "%v",  daoData.Name )
+//line dao_simple_template.go.ego:59
+_, _ = fmt.Fprintf(w, ") Exec(query string, args ...interface{}) (sql.Result, error) {\n\treturn g.Tx.Exec(query, args...)\n}\n\nvar _ ")
+//line dao_simple_template.go.ego:63
+_, _ = fmt.Fprintf(w, "%v",  daoData.Name )
+//line dao_simple_template.go.ego:63
+_, _ = fmt.Fprintf(w, "Queryer = (*Tx")
+//line dao_simple_template.go.ego:63
+_, _ = fmt.Fprintf(w, "%v",  daoData.Name )
+//line dao_simple_template.go.ego:63
+_, _ = fmt.Fprintf(w, ")(nil)\n\n// Tx")
+//line dao_simple_template.go.ego:65
+_, _ = fmt.Fprintf(w, "%v",  daoData.Table.TitleName )
+//line dao_simple_template.go.ego:65
+_, _ = fmt.Fprintf(w, " is ")
+//line dao_simple_template.go.ego:65
+_, _ = fmt.Fprintf(w, "%v",  daoData.Name )
+//line dao_simple_template.go.ego:65
+_, _ = fmt.Fprintf(w, ".\nfunc Tx")
+//line dao_simple_template.go.ego:66
+_, _ = fmt.Fprintf(w, "%v",  daoData.Table.TitleName )
+//line dao_simple_template.go.ego:66
+_, _ = fmt.Fprintf(w, "(tx *sql.Tx) Tx")
+//line dao_simple_template.go.ego:66
+_, _ = fmt.Fprintf(w, "%v",  daoData.Name )
+//line dao_simple_template.go.ego:66
+_, _ = fmt.Fprintf(w, " {\n    tblDao := Tx")
+//line dao_simple_template.go.ego:67
+_, _ = fmt.Fprintf(w, "%v",  daoData.Name )
+//line dao_simple_template.go.ego:67
+_, _ = fmt.Fprintf(w, "{}\n    tblDao.Tx = tx\n    tblDao.TableName = \"")
+//line dao_simple_template.go.ego:69
+_, _ = fmt.Fprintf(w, "%v",  daoData.Table.TitleName )
+//line dao_simple_template.go.ego:69
+_, _ = fmt.Fprintf(w, "\"\n\treturn tblDao\n}\n\n// SelectAll select ")
+//line dao_simple_template.go.ego:73
+_, _ = fmt.Fprintf(w, "%v",  daoData.Table.Name )
+//line dao_simple_template.go.ego:73
+_, _ = fmt.Fprintf(w, " table all recode.\nfunc (g ")
+//line dao_simple_template.go.ego:74
+_, _ = fmt.Fprintf(w, "%v",  daoData.Name )
+//line dao_simple_template.go.ego:74
+_, _ = fmt.Fprintf(w, ") SelectAll() ([]")
+//line dao_simple_template.go.ego:74
+_, _ = fmt.Fprintf(w, "%v",  daoData.EntityPkgName )
+//line dao_simple_template.go.ego:74
+_, _ = fmt.Fprintf(w, ".")
+//line dao_simple_template.go.ego:74
+_, _ = fmt.Fprintf(w, "%v",  daoData.EntityName )
+//line dao_simple_template.go.ego:74
+_, _ = fmt.Fprintf(w, ", error) {\n\treturn _")
+//line dao_simple_template.go.ego:75
+_, _ = fmt.Fprintf(w, "%v",  daoData.Table.TitleName )
+//line dao_simple_template.go.ego:75
+_, _ = fmt.Fprintf(w, "SelectAll(g)\n}\n\n// SelectAll transaction select ")
+//line dao_simple_template.go.ego:78
+_, _ = fmt.Fprintf(w, "%v",  daoData.Table.Name )
+//line dao_simple_template.go.ego:78
+_, _ = fmt.Fprintf(w, " table all recode.\nfunc (g Tx")
+//line dao_simple_template.go.ego:79
+_, _ = fmt.Fprintf(w, "%v",  daoData.Name )
+//line dao_simple_template.go.ego:79
+_, _ = fmt.Fprintf(w, ") SelectAll() ([]")
+//line dao_simple_template.go.ego:79
+_, _ = fmt.Fprintf(w, "%v",  daoData.EntityPkgName )
+//line dao_simple_template.go.ego:79
+_, _ = fmt.Fprintf(w, ".")
+//line dao_simple_template.go.ego:79
+_, _ = fmt.Fprintf(w, "%v",  daoData.EntityName )
+//line dao_simple_template.go.ego:79
+_, _ = fmt.Fprintf(w, ", error) {\n\treturn _")
+//line dao_simple_template.go.ego:80
+_, _ = fmt.Fprintf(w, "%v",  daoData.Table.TitleName )
+//line dao_simple_template.go.ego:80
+_, _ = fmt.Fprintf(w, "SelectAll(g)\n}\n\nfunc _")
+//line dao_simple_template.go.ego:83
+_, _ = fmt.Fprintf(w, "%v",  daoData.Table.TitleName )
+//line dao_simple_template.go.ego:83
+_, _ = fmt.Fprintf(w, "SelectAll(g ")
+//line dao_simple_template.go.ego:83
+_, _ = fmt.Fprintf(w, "%v",  daoData.Name )
+//line dao_simple_template.go.ego:83
+_, _ = fmt.Fprintf(w, "Queryer) ([]")
+//line dao_simple_template.go.ego:83
+_, _ = fmt.Fprintf(w, "%v",  daoData.EntityPkgName )
+//line dao_simple_template.go.ego:83
+_, _ = fmt.Fprintf(w, ".")
+//line dao_simple_template.go.ego:83
+_, _ = fmt.Fprintf(w, "%v",  daoData.EntityName )
+//line dao_simple_template.go.ego:83
+_, _ = fmt.Fprintf(w, ", error) {\n    queryString := `\nselect\n  ")
+//line dao_simple_template.go.ego:86
+ for idx, column := range daoData.Table.Columns { 
+//line dao_simple_template.go.ego:86
+ if idx != 0 { 
+//line dao_simple_template.go.ego:86
+_, _ = fmt.Fprintf(w, ", ")
+//line dao_simple_template.go.ego:86
+ } 
+//line dao_simple_template.go.ego:86
+_, _ = fmt.Fprintf(w, "%v",  column.Name )
+//line dao_simple_template.go.ego:87
+_, _ = fmt.Fprintf(w, "\n")
+//line dao_simple_template.go.ego:87
+ } 
+//line dao_simple_template.go.ego:87
+_, _ = fmt.Fprintf(w, "FROM\n  ")
+//line dao_simple_template.go.ego:88
+_, _ = fmt.Fprintf(w, "%v",  daoData.Table.Name )
+//line dao_simple_template.go.ego:88
+_, _ = fmt.Fprintf(w, "`\n\n\tvar es []")
+//line dao_simple_template.go.ego:90
+_, _ = fmt.Fprintf(w, "%v",  daoData.EntityPkgName )
+//line dao_simple_template.go.ego:90
+_, _ = fmt.Fprintf(w, ".")
+//line dao_simple_template.go.ego:90
+_, _ = fmt.Fprintf(w, "%v",  daoData.EntityName )
+//line dao_simple_template.go.ego:91
+_, _ = fmt.Fprintf(w, "\n\trows, err := g.Query(queryString)\n\tif err != nil {\n\t\treturn nil, err\n\t}\n\n    if !rows.Next() {\n\t\treturn nil, sql.ErrNoRows\n\t}\n\n\tfor rows.Next() {\n\t\tvar e ")
+//line dao_simple_template.go.ego:101
+_, _ = fmt.Fprintf(w, "%v",  daoData.EntityPkgName )
+//line dao_simple_template.go.ego:101
+_, _ = fmt.Fprintf(w, ".")
+//line dao_simple_template.go.ego:101
+_, _ = fmt.Fprintf(w, "%v",  daoData.EntityName )
+//line dao_simple_template.go.ego:102
+_, _ = fmt.Fprintf(w, "\n\t\tif err := e.Scan(rows); err != nil {\n\t\t\tbreak\n\t\t}\n\n\t\tes = append(es, e)\n\t}\n\tif err != nil {\n\t    log.Println(err, queryString)\n\t\treturn nil, err\n\t}\n\n\treturn es, nil\n}\n\n// SelectByID select ")
+//line dao_simple_template.go.ego:116
+_, _ = fmt.Fprintf(w, "%v",  daoData.Table.Name )
+//line dao_simple_template.go.ego:116
+_, _ = fmt.Fprintf(w, " table by primaryKey.\nfunc (g ")
+//line dao_simple_template.go.ego:117
+_, _ = fmt.Fprintf(w, "%v",  daoData.Name )
+//line dao_simple_template.go.ego:117
+_, _ = fmt.Fprintf(w, ") SelectByID(")
+//line dao_simple_template.go.ego:117
+ for idx, column := range daoData.Table.Columns { 
+//line dao_simple_template.go.ego:117
+ if !column.IsPrimaryKey { 
+//line dao_simple_template.go.ego:117
+ continue 
+//line dao_simple_template.go.ego:117
+ } 
+//line dao_simple_template.go.ego:117
+ if idx != 0 { 
+//line dao_simple_template.go.ego:117
+_, _ = fmt.Fprintf(w, ", ")
+//line dao_simple_template.go.ego:117
+ } 
+//line dao_simple_template.go.ego:117
+_, _ = fmt.Fprintf(w, "%v",  column.Name )
+//line dao_simple_template.go.ego:117
+_, _ = fmt.Fprintf(w, " ")
+//line dao_simple_template.go.ego:117
+_, _ = fmt.Fprintf(w, "%v",  column.TypeName )
+//line dao_simple_template.go.ego:117
+ } 
+//line dao_simple_template.go.ego:117
+_, _ = fmt.Fprintf(w, ") (")
+//line dao_simple_template.go.ego:117
+_, _ = fmt.Fprintf(w, "%v",  daoData.EntityPkgName )
+//line dao_simple_template.go.ego:117
+_, _ = fmt.Fprintf(w, ".")
+//line dao_simple_template.go.ego:117
+_, _ = fmt.Fprintf(w, "%v",  daoData.EntityName )
+//line dao_simple_template.go.ego:117
+_, _ = fmt.Fprintf(w, ", error) {\n\treturn _")
+//line dao_simple_template.go.ego:118
+_, _ = fmt.Fprintf(w, "%v",  daoData.Table.TitleName )
+//line dao_simple_template.go.ego:118
+_, _ = fmt.Fprintf(w, "SelectByID(g, ")
+//line dao_simple_template.go.ego:118
+ for idx, column := range daoData.Table.Columns { 
+//line dao_simple_template.go.ego:118
+ if !column.IsPrimaryKey { 
+//line dao_simple_template.go.ego:118
+ continue 
+//line dao_simple_template.go.ego:118
+ } 
+//line dao_simple_template.go.ego:118
+ if idx != 0 { 
+//line dao_simple_template.go.ego:118
+_, _ = fmt.Fprintf(w, ", ")
+//line dao_simple_template.go.ego:118
+ } 
+//line dao_simple_template.go.ego:118
+_, _ = fmt.Fprintf(w, "%v",  column.Name )
+//line dao_simple_template.go.ego:118
+ } 
+//line dao_simple_template.go.ego:118
+_, _ = fmt.Fprintf(w, ")\n}\n\n// SelectByID transaction select ")
+//line dao_simple_template.go.ego:121
+_, _ = fmt.Fprintf(w, "%v",  daoData.Table.Name )
+//line dao_simple_template.go.ego:121
+_, _ = fmt.Fprintf(w, " table by primaryKey.\nfunc (g Tx")
+//line dao_simple_template.go.ego:122
+_, _ = fmt.Fprintf(w, "%v",  daoData.Name )
+//line dao_simple_template.go.ego:122
+_, _ = fmt.Fprintf(w, ") SelectByID(")
+//line dao_simple_template.go.ego:122
+ for idx, column := range daoData.Table.Columns { 
+//line dao_simple_template.go.ego:122
+ if !column.IsPrimaryKey { 
+//line dao_simple_template.go.ego:122
+ continue 
+//line dao_simple_template.go.ego:122
+ } 
+//line dao_simple_template.go.ego:122
+ if idx != 0 { 
+//line dao_simple_template.go.ego:122
+_, _ = fmt.Fprintf(w, ", ")
+//line dao_simple_template.go.ego:122
+ } 
+//line dao_simple_template.go.ego:122
+_, _ = fmt.Fprintf(w, "%v",  column.Name )
+//line dao_simple_template.go.ego:122
+_, _ = fmt.Fprintf(w, " ")
+//line dao_simple_template.go.ego:122
+_, _ = fmt.Fprintf(w, "%v",  column.TypeName )
+//line dao_simple_template.go.ego:122
+ } 
+//line dao_simple_template.go.ego:122
+_, _ = fmt.Fprintf(w, ") (")
+//line dao_simple_template.go.ego:122
+_, _ = fmt.Fprintf(w, "%v",  daoData.EntityPkgName )
+//line dao_simple_template.go.ego:122
+_, _ = fmt.Fprintf(w, ".")
+//line dao_simple_template.go.ego:122
+_, _ = fmt.Fprintf(w, "%v",  daoData.EntityName )
+//line dao_simple_template.go.ego:122
+_, _ = fmt.Fprintf(w, ", error) {\n\treturn _")
+//line dao_simple_template.go.ego:123
+_, _ = fmt.Fprintf(w, "%v",  daoData.Table.TitleName )
+//line dao_simple_template.go.ego:123
+_, _ = fmt.Fprintf(w, "SelectByID(g, ")
+//line dao_simple_template.go.ego:123
+ for idx, column := range daoData.Table.Columns { 
+//line dao_simple_template.go.ego:123
+ if !column.IsPrimaryKey { 
+//line dao_simple_template.go.ego:123
+ continue 
+//line dao_simple_template.go.ego:123
+ } 
+//line dao_simple_template.go.ego:123
+ if idx != 0 { 
+//line dao_simple_template.go.ego:123
+_, _ = fmt.Fprintf(w, ", ")
+//line dao_simple_template.go.ego:123
+ } 
+//line dao_simple_template.go.ego:123
+_, _ = fmt.Fprintf(w, "%v",  column.Name )
+//line dao_simple_template.go.ego:123
+ } 
+//line dao_simple_template.go.ego:123
+_, _ = fmt.Fprintf(w, ")\n}\n\nfunc _")
+//line dao_simple_template.go.ego:126
+_, _ = fmt.Fprintf(w, "%v",  daoData.Table.TitleName )
+//line dao_simple_template.go.ego:126
+_, _ = fmt.Fprintf(w, "SelectByID(g ")
+//line dao_simple_template.go.ego:126
+_, _ = fmt.Fprintf(w, "%v",  daoData.Name )
+//line dao_simple_template.go.ego:126
+_, _ = fmt.Fprintf(w, "Queryer, ")
+//line dao_simple_template.go.ego:126
+ for idx, column := range daoData.Table.Columns { 
+//line dao_simple_template.go.ego:126
+ if !column.IsPrimaryKey { 
+//line dao_simple_template.go.ego:126
+ continue 
+//line dao_simple_template.go.ego:126
+ } 
+//line dao_simple_template.go.ego:126
+ if idx != 0 { 
+//line dao_simple_template.go.ego:126
+_, _ = fmt.Fprintf(w, ", ")
+//line dao_simple_template.go.ego:126
+ } 
+//line dao_simple_template.go.ego:126
+_, _ = fmt.Fprintf(w, "%v",  column.Name )
+//line dao_simple_template.go.ego:126
+_, _ = fmt.Fprintf(w, " ")
+//line dao_simple_template.go.ego:126
+_, _ = fmt.Fprintf(w, "%v",  column.TypeName )
+//line dao_simple_template.go.ego:126
+ } 
+//line dao_simple_template.go.ego:126
+_, _ = fmt.Fprintf(w, ") (")
+//line dao_simple_template.go.ego:126
+_, _ = fmt.Fprintf(w, "%v",  daoData.EntityPkgName )
+//line dao_simple_template.go.ego:126
+_, _ = fmt.Fprintf(w, ".")
+//line dao_simple_template.go.ego:126
+_, _ = fmt.Fprintf(w, "%v",  daoData.EntityName )
+//line dao_simple_template.go.ego:126
+_, _ = fmt.Fprintf(w, ", error) {\n\tqueryString := `\nselect\n  ")
+//line dao_simple_template.go.ego:129
+ for idx, column := range daoData.Table.Columns { 
+//line dao_simple_template.go.ego:129
+ if idx != 0 { 
+//line dao_simple_template.go.ego:129
+_, _ = fmt.Fprintf(w, ", ")
+//line dao_simple_template.go.ego:129
+ } 
+//line dao_simple_template.go.ego:129
+_, _ = fmt.Fprintf(w, "%v",  column.Name )
+//line dao_simple_template.go.ego:130
+_, _ = fmt.Fprintf(w, "\n")
+//line dao_simple_template.go.ego:130
+ } 
+//line dao_simple_template.go.ego:130
+_, _ = fmt.Fprintf(w, "FROM\n  ")
+//line dao_simple_template.go.ego:131
+_, _ = fmt.Fprintf(w, "%v",  daoData.Table.Name )
+//line dao_simple_template.go.ego:132
+_, _ = fmt.Fprintf(w, "\nWHERE\n")
+//line dao_simple_template.go.ego:133
+ for idx, column := range daoData.Table.Columns { 
+//line dao_simple_template.go.ego:133
+ if !column.IsPrimaryKey { 
+//line dao_simple_template.go.ego:133
+ continue 
+//line dao_simple_template.go.ego:133
+ } 
+//line dao_simple_template.go.ego:133
+ if idx != 0 { 
+//line dao_simple_template.go.ego:133
+_, _ = fmt.Fprintf(w, "and")
+//line dao_simple_template.go.ego:133
+ } 
+//line dao_simple_template.go.ego:133
+_, _ = fmt.Fprintf(w, "  ")
+//line dao_simple_template.go.ego:133
+_, _ = fmt.Fprintf(w, "%v",  column.Name )
+//line dao_simple_template.go.ego:133
+_, _ = fmt.Fprintf(w, " = ")
+//line dao_simple_template.go.ego:133
+_, _ = fmt.Fprintf(w, "%v",  daoData.Placeholder(idx + 1) )
+//line dao_simple_template.go.ego:134
+_, _ = fmt.Fprintf(w, "\n")
+//line dao_simple_template.go.ego:134
+ } 
+//line dao_simple_template.go.ego:134
+_, _ = fmt.Fprintf(w, "`\n\trows, err := g.Query(queryString,\n\t")
+//line dao_simple_template.go.ego:136
+ for _, column := range daoData.Table.Columns { 
+//line dao_simple_template.go.ego:136
+ if !column.IsPrimaryKey { 
+//line dao_simple_template.go.ego:136
+ continue 
+//line dao_simple_template.go.ego:136
+ } 
+//line dao_simple_template.go.ego:136
+_, _ = fmt.Fprintf(w, "%v",  column.Name )
+//line dao_simple_template.go.ego:136
+_, _ = fmt.Fprintf(w, ",\n    ")
+//line dao_simple_template.go.ego:137
+ } 
+//line dao_simple_template.go.ego:137
+_, _ = fmt.Fprintf(w, ")\n\tif err != nil {\n\t\treturn ")
+//line dao_simple_template.go.ego:139
+_, _ = fmt.Fprintf(w, "%v",  daoData.EntityPkgName )
+//line dao_simple_template.go.ego:139
+_, _ = fmt.Fprintf(w, ".")
+//line dao_simple_template.go.ego:139
+_, _ = fmt.Fprintf(w, "%v",  daoData.EntityName )
+//line dao_simple_template.go.ego:139
+_, _ = fmt.Fprintf(w, "{}, err\n\t}\n\tdefer rows.Close()\n\n\tif !rows.Next() {\n\t\treturn ")
+//line dao_simple_template.go.ego:144
+_, _ = fmt.Fprintf(w, "%v",  daoData.EntityPkgName )
+//line dao_simple_template.go.ego:144
+_, _ = fmt.Fprintf(w, ".")
+//line dao_simple_template.go.ego:144
+_, _ = fmt.Fprintf(w, "%v",  daoData.EntityName )
+//line dao_simple_template.go.ego:144
+_, _ = fmt.Fprintf(w, "{}, sql.ErrNoRows\n\t}\n\n\tvar e ")
+//line dao_simple_template.go.ego:147
+_, _ = fmt.Fprintf(w, "%v",  daoData.EntityPkgName )
+//line dao_simple_template.go.ego:147
+_, _ = fmt.Fprintf(w, ".")
+//line dao_simple_template.go.ego:147
+_, _ = fmt.Fprintf(w, "%v",  daoData.EntityName )
+//line dao_simple_template.go.ego:148
+_, _ = fmt.Fprintf(w, "\n\tif err := e.Scan(rows); err != nil {\n\t    log.Println(err, queryString)\n\t\treturn ")
+//line dao_simple_template.go.ego:150
+_, _ = fmt.Fprintf(w, "%v",  daoData.EntityPkgName )
+//line dao_simple_template.go.ego:150
+_, _ = fmt.Fprintf(w, ".")
+//line dao_simple_template.go.ego:150
+_, _ = fmt.Fprintf(w, "%v",  daoData.EntityName )
+//line dao_simple_template.go.ego:150
+_, _ = fmt.Fprintf(w, "{}, err\n\t}\n\t\n\treturn e, nil\n}\n\n// Insert insert ")
+//line dao_simple_template.go.ego:156
+_, _ = fmt.Fprintf(w, "%v",  daoData.Table.Name )
+//line dao_simple_template.go.ego:156
+_, _ = fmt.Fprintf(w, " table.\nfunc (g ")
+//line dao_simple_template.go.ego:157
+_, _ = fmt.Fprintf(w, "%v",  daoData.Name )
+//line dao_simple_template.go.ego:157
+_, _ = fmt.Fprintf(w, ") Insert(entity ")
+//line dao_simple_template.go.ego:157
+_, _ = fmt.Fprintf(w, "%v",  daoData.EntityPkgName )
+//line dao_simple_template.go.ego:157
+_, _ = fmt.Fprintf(w, ".")
+//line dao_simple_template.go.ego:157
+_, _ = fmt.Fprintf(w, "%v",  daoData.EntityName )
+//line dao_simple_template.go.ego:157
+_, _ = fmt.Fprintf(w, ") (sql.Result, error) {\n\treturn _")
+//line dao_simple_template.go.ego:158
+_, _ = fmt.Fprintf(w, "%v",  daoData.Table.TitleName )
+//line dao_simple_template.go.ego:158
+_, _ = fmt.Fprintf(w, "Insert(g, entity)\n}\n\n// Insert transaction insert ")
+//line dao_simple_template.go.ego:161
+_, _ = fmt.Fprintf(w, "%v",  daoData.Table.Name )
+//line dao_simple_template.go.ego:161
+_, _ = fmt.Fprintf(w, " table.\nfunc (g Tx")
+//line dao_simple_template.go.ego:162
+_, _ = fmt.Fprintf(w, "%v",  daoData.Name )
+//line dao_simple_template.go.ego:162
+_, _ = fmt.Fprintf(w, ") Insert(entity ")
+//line dao_simple_template.go.ego:162
+_, _ = fmt.Fprintf(w, "%v",  daoData.EntityPkgName )
+//line dao_simple_template.go.ego:162
+_, _ = fmt.Fprintf(w, ".")
+//line dao_simple_template.go.ego:162
+_, _ = fmt.Fprintf(w, "%v",  daoData.EntityName )
+//line dao_simple_template.go.ego:162
+_, _ = fmt.Fprintf(w, ") (sql.Result, error) {\n\treturn _")
+//line dao_simple_template.go.ego:163
+_, _ = fmt.Fprintf(w, "%v",  daoData.Table.TitleName )
+//line dao_simple_template.go.ego:163
+_, _ = fmt.Fprintf(w, "Insert(g, entity)\n}\n\nfunc _")
+//line dao_simple_template.go.ego:166
+_, _ = fmt.Fprintf(w, "%v",  daoData.Table.TitleName )
+//line dao_simple_template.go.ego:166
+_, _ = fmt.Fprintf(w, "Insert(g ")
+//line dao_simple_template.go.ego:166
+_, _ = fmt.Fprintf(w, "%v",  daoData.Name )
+//line dao_simple_template.go.ego:166
+_, _ = fmt.Fprintf(w, "Queryer, entity ")
+//line dao_simple_template.go.ego:166
+_, _ = fmt.Fprintf(w, "%v",  daoData.EntityPkgName )
+//line dao_simple_template.go.ego:166
+_, _ = fmt.Fprintf(w, ".")
+//line dao_simple_template.go.ego:166
+_, _ = fmt.Fprintf(w, "%v",  daoData.EntityName )
+//line dao_simple_template.go.ego:166
+_, _ = fmt.Fprintf(w, ") (sql.Result, error) {\n\tqueryString := `\ninsert into ")
+//line dao_simple_template.go.ego:168
+_, _ = fmt.Fprintf(w, "%v",  daoData.Table.Name )
+//line dao_simple_template.go.ego:168
+_, _ = fmt.Fprintf(w, "(\n  ")
+//line dao_simple_template.go.ego:169
+ for idx, column := range daoData.Table.Columns { 
+//line dao_simple_template.go.ego:169
+ if idx != 0 { 
+//line dao_simple_template.go.ego:169
+_, _ = fmt.Fprintf(w, ", ")
+//line dao_simple_template.go.ego:169
+ } 
+//line dao_simple_template.go.ego:169
+_, _ = fmt.Fprintf(w, "%v",  column.Name )
+//line dao_simple_template.go.ego:170
+_, _ = fmt.Fprintf(w, "\n")
+//line dao_simple_template.go.ego:170
+ } 
+//line dao_simple_template.go.ego:170
+_, _ = fmt.Fprintf(w, ") values(\n  ")
+//line dao_simple_template.go.ego:171
+ for idx, _ := range daoData.Table.Columns { 
+//line dao_simple_template.go.ego:171
+ if idx != 0 { 
+//line dao_simple_template.go.ego:171
+_, _ = fmt.Fprintf(w, ", ")
+//line dao_simple_template.go.ego:171
+ } 
+//line dao_simple_template.go.ego:171
+_, _ = fmt.Fprintf(w, "%v",  daoData.Placeholder(idx + 1) )
+//line dao_simple_template.go.ego:172
+_, _ = fmt.Fprintf(w, "\n")
+//line dao_simple_template.go.ego:172
+ } 
+//line dao_simple_template.go.ego:172
+_, _ = fmt.Fprintf(w, ");`\n\tresult, err := g.Exec(queryString,\n\t")
+//line dao_simple_template.go.ego:174
+ for _, column := range daoData.Table.Columns { 
+//line dao_simple_template.go.ego:174
+_, _ = fmt.Fprintf(w, "entity.")
+//line dao_simple_template.go.ego:174
+_, _ = fmt.Fprintf(w, "%v",  column.TitleName )
+//line dao_simple_template.go.ego:174
+_, _ = fmt.Fprintf(w, ",\n    ")
+//line dao_simple_template.go.ego:175
+ } 
+//line dao_simple_template.go.ego:175
+_, _ = fmt.Fprintf(w, ")\n    if err != nil {\n        log.Println(err, queryString)\n    }\n    return result, err\n}\n\n// Update update ")
+//line dao_simple_template.go.ego:182
+_, _ = fmt.Fprintf(w, "%v",  daoData.Table.Name )
+//line dao_simple_template.go.ego:182
+_, _ = fmt.Fprintf(w, " table.\nfunc (g ")
+//line dao_simple_template.go.ego:183
+_, _ = fmt.Fprintf(w, "%v",  daoData.Name )
+//line dao_simple_template.go.ego:183
+_, _ = fmt.Fprintf(w, ") Update(entity ")
+//line dao_simple_template.go.ego:183
+_, _ = fmt.Fprintf(w, "%v",  daoData.EntityPkgName )
+//line dao_simple_template.go.ego:183
+_, _ = fmt.Fprintf(w, ".")
+//line dao_simple_template.go.ego:183
+_, _ = fmt.Fprintf(w, "%v",  daoData.EntityName )
+//line dao_simple_template.go.ego:183
+_, _ = fmt.Fprintf(w, ") (sql.Result, error) {\n\treturn _")
+//line dao_simple_template.go.ego:184
+_, _ = fmt.Fprintf(w, "%v",  daoData.Table.TitleName )
+//line dao_simple_template.go.ego:184
+_, _ = fmt.Fprintf(w, "Update(g, entity)\n}\n\n// Update transaction update ")
+//line dao_simple_template.go.ego:187
+_, _ = fmt.Fprintf(w, "%v",  daoData.Table.Name )
+//line dao_simple_template.go.ego:187
+_, _ = fmt.Fprintf(w, " table.\nfunc (g Tx")
+//line dao_simple_template.go.ego:188
+_, _ = fmt.Fprintf(w, "%v",  daoData.Name )
+//line dao_simple_template.go.ego:188
+_, _ = fmt.Fprintf(w, ") Update(entity ")
+//line dao_simple_template.go.ego:188
+_, _ = fmt.Fprintf(w, "%v",  daoData.EntityPkgName )
+//line dao_simple_template.go.ego:188
+_, _ = fmt.Fprintf(w, ".")
+//line dao_simple_template.go.ego:188
+_, _ = fmt.Fprintf(w, "%v",  daoData.EntityName )
+//line dao_simple_template.go.ego:188
+_, _ = fmt.Fprintf(w, ") (sql.Result, error) {\n\treturn _")
+//line dao_simple_template.go.ego:189
+_, _ = fmt.Fprintf(w, "%v",  daoData.Table.TitleName )
+//line dao_simple_template.go.ego:189
+_, _ = fmt.Fprintf(w, "Update(g, entity)\n}\n\n// Update update ")
+//line dao_simple_template.go.ego:192
+_, _ = fmt.Fprintf(w, "%v",  daoData.Table.Name )
+//line dao_simple_template.go.ego:192
+_, _ = fmt.Fprintf(w, " table.\nfunc _")
+//line dao_simple_template.go.ego:193
+_, _ = fmt.Fprintf(w, "%v",  daoData.Table.TitleName )
+//line dao_simple_template.go.ego:193
+_, _ = fmt.Fprintf(w, "Update(g ")
+//line dao_simple_template.go.ego:193
+_, _ = fmt.Fprintf(w, "%v",  daoData.Name )
+//line dao_simple_template.go.ego:193
+_, _ = fmt.Fprintf(w, "Queryer, entity ")
+//line dao_simple_template.go.ego:193
+_, _ = fmt.Fprintf(w, "%v",  daoData.EntityPkgName )
+//line dao_simple_template.go.ego:193
+_, _ = fmt.Fprintf(w, ".")
+//line dao_simple_template.go.ego:193
+_, _ = fmt.Fprintf(w, "%v",  daoData.EntityName )
+//line dao_simple_template.go.ego:193
+_, _ = fmt.Fprintf(w, ") (sql.Result, error) {\n\tqueryString := `\nupdate ")
+//line dao_simple_template.go.ego:195
+_, _ = fmt.Fprintf(w, "%v",  daoData.Table.Name )
+//line dao_simple_template.go.ego:195
+_, _ = fmt.Fprintf(w, " set\n  ")
+//line dao_simple_template.go.ego:196
+ for idx, column := range daoData.Table.Columns { 
+//line dao_simple_template.go.ego:196
+ if idx != 0 { 
+//line dao_simple_template.go.ego:196
+_, _ = fmt.Fprintf(w, ", ")
+//line dao_simple_template.go.ego:196
+ } 
+//line dao_simple_template.go.ego:196
+_, _ = fmt.Fprintf(w, "  ")
+//line dao_simple_template.go.ego:196
+_, _ = fmt.Fprintf(w, "%v",  column.Name )
+//line dao_simple_template.go.ego:196
+_, _ = fmt.Fprintf(w, " = ")
+//line dao_simple_template.go.ego:196
+_, _ = fmt.Fprintf(w, "%v",  daoData.Placeholder(idx + 1) )
+//line dao_simple_template.go.ego:197
+_, _ = fmt.Fprintf(w, "\n")
+//line dao_simple_template.go.ego:197
+ } 
+//line dao_simple_template.go.ego:197
+_, _ = fmt.Fprintf(w, " where\n  ")
+//line dao_simple_template.go.ego:198
+ for idx, column := range daoData.Table.Columns { 
+//line dao_simple_template.go.ego:198
+ if !column.IsPrimaryKey { 
+//line dao_simple_template.go.ego:198
+ continue 
+//line dao_simple_template.go.ego:198
+ } 
+//line dao_simple_template.go.ego:198
+ if idx != 0 { 
+//line dao_simple_template.go.ego:198
+_, _ = fmt.Fprintf(w, "and")
+//line dao_simple_template.go.ego:198
+ } 
+//line dao_simple_template.go.ego:198
+_, _ = fmt.Fprintf(w, "  ")
+//line dao_simple_template.go.ego:198
+_, _ = fmt.Fprintf(w, "%v",  column.Name )
+//line dao_simple_template.go.ego:198
+_, _ = fmt.Fprintf(w, " = ")
+//line dao_simple_template.go.ego:198
+_, _ = fmt.Fprintf(w, "%v",  daoData.Placeholder(idx + 1) )
+//line dao_simple_template.go.ego:199
+_, _ = fmt.Fprintf(w, "\n")
+//line dao_simple_template.go.ego:199
+ } 
+//line dao_simple_template.go.ego:200
+_, _ = fmt.Fprintf(w, "\n`\n\tresult, err := g.Exec(queryString,\n\t")
+//line dao_simple_template.go.ego:202
+ for _, column := range daoData.Table.Columns { 
+//line dao_simple_template.go.ego:202
+_, _ = fmt.Fprintf(w, "entity.")
+//line dao_simple_template.go.ego:202
+_, _ = fmt.Fprintf(w, "%v",  column.TitleName )
+//line dao_simple_template.go.ego:202
+_, _ = fmt.Fprintf(w, ",\n    ")
+//line dao_simple_template.go.ego:203
+ } 
+//line dao_simple_template.go.ego:204
+_, _ = fmt.Fprintf(w, "\n    ")
+//line dao_simple_template.go.ego:204
+ for idx, column := range daoData.Table.Columns { 
+//line dao_simple_template.go.ego:204
+ if !column.IsPrimaryKey { 
+//line dao_simple_template.go.ego:204
+ continue 
+//line dao_simple_template.go.ego:204
+ } 
+//line dao_simple_template.go.ego:204
+ if idx != 0 { 
+//line dao_simple_template.go.ego:204
+_, _ = fmt.Fprintf(w, "and")
+//line dao_simple_template.go.ego:204
+ } 
+//line dao_simple_template.go.ego:204
+_, _ = fmt.Fprintf(w, "entity.")
+//line dao_simple_template.go.ego:204
+_, _ = fmt.Fprintf(w, "%v",  column.TitleName )
+//line dao_simple_template.go.ego:204
+_, _ = fmt.Fprintf(w, ",\n    ")
+//line dao_simple_template.go.ego:205
+ } 
+//line dao_simple_template.go.ego:205
+_, _ = fmt.Fprintf(w, ")\n\tif err != nil {\n        log.Println(err, queryString)\n    }\n    return result, err\n}\n\n// Delete delete ")
+//line dao_simple_template.go.ego:212
+_, _ = fmt.Fprintf(w, "%v",  daoData.Table.Name )
+//line dao_simple_template.go.ego:212
+_, _ = fmt.Fprintf(w, " table.\nfunc (g ")
+//line dao_simple_template.go.ego:213
+_, _ = fmt.Fprintf(w, "%v",  daoData.Name )
+//line dao_simple_template.go.ego:213
+_, _ = fmt.Fprintf(w, ") Delete(")
+//line dao_simple_template.go.ego:213
+ for idx, column := range daoData.Table.Columns { 
+//line dao_simple_template.go.ego:213
+ if !column.IsPrimaryKey { 
+//line dao_simple_template.go.ego:213
+ continue 
+//line dao_simple_template.go.ego:213
+ } 
+//line dao_simple_template.go.ego:213
+ if idx != 0 { 
+//line dao_simple_template.go.ego:213
+_, _ = fmt.Fprintf(w, ", ")
+//line dao_simple_template.go.ego:213
+ } 
+//line dao_simple_template.go.ego:213
+_, _ = fmt.Fprintf(w, "%v",  column.Name )
+//line dao_simple_template.go.ego:213
+_, _ = fmt.Fprintf(w, " ")
+//line dao_simple_template.go.ego:213
+_, _ = fmt.Fprintf(w, "%v",  column.TypeName )
+//line dao_simple_template.go.ego:213
+ } 
+//line dao_simple_template.go.ego:213
+_, _ = fmt.Fprintf(w, ") (sql.Result, error) {\n\treturn _")
+//line dao_simple_template.go.ego:214
+_, _ = fmt.Fprintf(w, "%v",  daoData.Table.TitleName )
+//line dao_simple_template.go.ego:214
+_, _ = fmt.Fprintf(w, "Delete(g, ")
+//line dao_simple_template.go.ego:214
+ for idx, column := range daoData.Table.Columns { 
+//line dao_simple_template.go.ego:214
+ if !column.IsPrimaryKey { 
+//line dao_simple_template.go.ego:214
+ continue 
+//line dao_simple_template.go.ego:214
+ } 
+//line dao_simple_template.go.ego:214
+ if idx != 0 { 
+//line dao_simple_template.go.ego:214
+_, _ = fmt.Fprintf(w, ", ")
+//line dao_simple_template.go.ego:214
+ } 
+//line dao_simple_template.go.ego:214
+_, _ = fmt.Fprintf(w, "%v",  column.Name )
+//line dao_simple_template.go.ego:214
+ } 
+//line dao_simple_template.go.ego:214
+_, _ = fmt.Fprintf(w, ")\n}\n\n// Delete transaction delete ")
+//line dao_simple_template.go.ego:217
+_, _ = fmt.Fprintf(w, "%v",  daoData.Table.Name )
+//line dao_simple_template.go.ego:217
+_, _ = fmt.Fprintf(w, " table.\nfunc (g Tx")
+//line dao_simple_template.go.ego:218
+_, _ = fmt.Fprintf(w, "%v",  daoData.Name )
+//line dao_simple_template.go.ego:218
+_, _ = fmt.Fprintf(w, ") Delete(")
+//line dao_simple_template.go.ego:218
+ for idx, column := range daoData.Table.Columns { 
+//line dao_simple_template.go.ego:218
+ if !column.IsPrimaryKey { 
+//line dao_simple_template.go.ego:218
+ continue 
+//line dao_simple_template.go.ego:218
+ } 
+//line dao_simple_template.go.ego:218
+ if idx != 0 { 
+//line dao_simple_template.go.ego:218
+_, _ = fmt.Fprintf(w, ", ")
+//line dao_simple_template.go.ego:218
+ } 
+//line dao_simple_template.go.ego:218
+_, _ = fmt.Fprintf(w, "%v",  column.Name )
+//line dao_simple_template.go.ego:218
+_, _ = fmt.Fprintf(w, " ")
+//line dao_simple_template.go.ego:218
+_, _ = fmt.Fprintf(w, "%v",  column.TypeName )
+//line dao_simple_template.go.ego:218
+ } 
+//line dao_simple_template.go.ego:218
+_, _ = fmt.Fprintf(w, ") (sql.Result, error) {\n\treturn _")
+//line dao_simple_template.go.ego:219
+_, _ = fmt.Fprintf(w, "%v",  daoData.Table.TitleName )
+//line dao_simple_template.go.ego:219
+_, _ = fmt.Fprintf(w, "Delete(g, ")
+//line dao_simple_template.go.ego:219
+ for idx, column := range daoData.Table.Columns { 
+//line dao_simple_template.go.ego:219
+ if !column.IsPrimaryKey { 
+//line dao_simple_template.go.ego:219
+ continue 
+//line dao_simple_template.go.ego:219
+ } 
+//line dao_simple_template.go.ego:219
+ if idx != 0 { 
+//line dao_simple_template.go.ego:219
+_, _ = fmt.Fprintf(w, ", ")
+//line dao_simple_template.go.ego:219
+ } 
+//line dao_simple_template.go.ego:219
+_, _ = fmt.Fprintf(w, "%v",  column.Name )
+//line dao_simple_template.go.ego:219
+ } 
+//line dao_simple_template.go.ego:219
+_, _ = fmt.Fprintf(w, ")\n}\n\n// Delete delete ")
+//line dao_simple_template.go.ego:222
+_, _ = fmt.Fprintf(w, "%v",  daoData.Table.Name )
+//line dao_simple_template.go.ego:222
+_, _ = fmt.Fprintf(w, " table by primaryKey.\nfunc _")
+//line dao_simple_template.go.ego:223
+_, _ = fmt.Fprintf(w, "%v",  daoData.Table.TitleName )
+//line dao_simple_template.go.ego:223
+_, _ = fmt.Fprintf(w, "Delete(g ")
+//line dao_simple_template.go.ego:223
+_, _ = fmt.Fprintf(w, "%v",  daoData.Name )
+//line dao_simple_template.go.ego:223
+_, _ = fmt.Fprintf(w, "Queryer, ")
+//line dao_simple_template.go.ego:223
+ for idx, column := range daoData.Table.Columns { 
+//line dao_simple_template.go.ego:223
+ if !column.IsPrimaryKey { 
+//line dao_simple_template.go.ego:223
+ continue 
+//line dao_simple_template.go.ego:223
+ } 
+//line dao_simple_template.go.ego:223
+ if idx != 0 { 
+//line dao_simple_template.go.ego:223
+_, _ = fmt.Fprintf(w, ", ")
+//line dao_simple_template.go.ego:223
+ } 
+//line dao_simple_template.go.ego:223
+_, _ = fmt.Fprintf(w, "%v",  column.Name )
+//line dao_simple_template.go.ego:223
+_, _ = fmt.Fprintf(w, " ")
+//line dao_simple_template.go.ego:223
+_, _ = fmt.Fprintf(w, "%v",  column.TypeName )
+//line dao_simple_template.go.ego:223
+ } 
+//line dao_simple_template.go.ego:223
+_, _ = fmt.Fprintf(w, ") (sql.Result, error) {\n\tqueryString := `\ndelete\nfrom\n  ")
+//line dao_simple_template.go.ego:227
+_, _ = fmt.Fprintf(w, "%v",  daoData.Table.Name )
+//line dao_simple_template.go.ego:228
+_, _ = fmt.Fprintf(w, "\nwhere\n")
+//line dao_simple_template.go.ego:229
+ for idx, column := range daoData.Table.Columns { 
+//line dao_simple_template.go.ego:229
+ if !column.IsPrimaryKey { 
+//line dao_simple_template.go.ego:229
+ continue 
+//line dao_simple_template.go.ego:229
+ } 
+//line dao_simple_template.go.ego:229
+ if idx != 0 { 
+//line dao_simple_template.go.ego:229
+_, _ = fmt.Fprintf(w, "and")
+//line dao_simple_template.go.ego:229
+ } 
+//line dao_simple_template.go.ego:229
+_, _ = fmt.Fprintf(w, "  ")
+//line dao_simple_template.go.ego:229
+_, _ = fmt.Fprintf(w, "%v",  column.Name )
+//line dao_simple_template.go.ego:229
+_, _ = fmt.Fprintf(w, " = ")
+//line dao_simple_template.go.ego:229
+_, _ = fmt.Fprintf(w, "%v",  daoData.Placeholder(idx + 1) )
+//line dao_simple_template.go.ego:230
+_, _ = fmt.Fprintf(w, "\n")
+//line dao_simple_template.go.ego:230
+ } 
+//line dao_simple_template.go.ego:231
+_, _ = fmt.Fprintf(w, "\n`\n    result, err := g.Exec(queryString,\n    ")
+//line dao_simple_template.go.ego:233
+ for _, column := range daoData.Table.Columns { 
+//line dao_simple_template.go.ego:233
+ if !column.IsPrimaryKey { 
+//line dao_simple_template.go.ego:233
+ continue 
+//line dao_simple_template.go.ego:233
+ } 
+//line dao_simple_template.go.ego:233
+_, _ = fmt.Fprintf(w, "%v",  column.Name )
+//line dao_simple_template.go.ego:233
+_, _ = fmt.Fprintf(w, ",\n    ")
+//line dao_simple_template.go.ego:234
+ } 
+//line dao_simple_template.go.ego:234
+_, _ = fmt.Fprintf(w, ")\n\tif err != nil {\n        log.Println(err, queryString)\n    }\n    return result, err\n}\n")
+return nil
+}
 //line dao_template.go.ego:1
 func DaoTemplate(w io.Writer, daoData DaoTemplateData) error  {
 //line dao_template.go.ego:1

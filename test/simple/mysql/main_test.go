@@ -12,11 +12,11 @@ import (
 	"testing"
 
 	"github.com/kyokomi/goma"
-	"github.com/kyokomi/goma/test/mysql/dao"
-	"github.com/kyokomi/goma/test/mysql/entity"
+	"github.com/kyokomi/goma/test/simple/mysql/dao"
+	"github.com/kyokomi/goma/test/simple/mysql/entity"
 )
 
-const testID = int64(1234567894)
+const testID = int64(1234567891)
 
 func TestNumeric(t *testing.T) {
 	db, err := goma.Open("config.json")
