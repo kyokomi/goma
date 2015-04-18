@@ -87,7 +87,7 @@ func TestString(t *testing.T) {
 	if e, err := d.SelectByID(id); err != nil {
 		t.Errorf("ERROR: %s", err)
 	} else if !reflect.DeepEqual(e, &insertData) {
-		t.Errorf("ERROR: %+v != %+v", e, &insertData)
+		t.Errorf("ERROR: %+v \n!= \n%+v", e, &insertData)
 	}
 
 	if _, err := d.Delete(id); err != nil {
@@ -113,11 +113,22 @@ func TestDate(t *testing.T) {
 	// date
 	d := dao.GomaDateTypes(db)
 
-	now := time.Now()
+	dateColumnsTime, _ := time.ParseInLocation(
+		"2006-01-02",
+		"2015-04-18",
+		time.FixedZone("", 0),
+	)
+
+	timeStampColumnsTime, _ := time.ParseInLocation(
+		"2006-01-02 15:04:05.999999",
+		"2015-04-18 14:06:33.456791",
+		time.FixedZone("", 0),
+	)
+
 	insertData := entity.GomaDateTypesEntity{
 		ID:               id,
-		DateColumns:      now,
-		TimestampColumns: now,
+		DateColumns:      dateColumnsTime,
+		TimestampColumns: timeStampColumnsTime,
 	}
 
 	if _, err := d.Insert(insertData); err != nil {
@@ -127,7 +138,7 @@ func TestDate(t *testing.T) {
 	if e, err := d.SelectByID(id); err != nil {
 		t.Errorf("ERROR: %s", err)
 	} else if !reflect.DeepEqual(e, &insertData) {
-		t.Errorf("ERROR: %+v != %+v", e, &insertData)
+		t.Errorf("ERROR: \n%+v \n!= \n%+v", e, &insertData)
 	}
 
 	if _, err := d.Delete(id); err != nil {
