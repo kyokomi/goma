@@ -1,5 +1,5 @@
-drop table goma_string_types;
-/* string test */
+DROP TABLE IF EXISTS goma_string_types;
+
 CREATE TABLE goma_string_types (
   id                 BIGINT PRIMARY KEY,
   text_columns       TEXT,
