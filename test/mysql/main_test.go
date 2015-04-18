@@ -16,6 +16,8 @@ import (
 	"github.com/kyokomi/goma/test/mysql/entity"
 )
 
+const testID = int64(1234567894)
+
 func TestNumeric(t *testing.T) {
 	db, err := goma.Open("config.json")
 	if err != nil {
@@ -23,7 +25,7 @@ func TestNumeric(t *testing.T) {
 	}
 	defer db.Close()
 
-	id := int64(1234567890)
+	id := testID
 
 	// numeric
 	d := dao.GomaNumericTypes(db)
@@ -69,7 +71,7 @@ func TestString(t *testing.T) {
 	}
 	defer db.Close()
 
-	id := int64(1234567890)
+	id := testID
 
 	// string
 	d := dao.GomaStringTypes(db)
@@ -110,7 +112,7 @@ func TestDate(t *testing.T) {
 	}
 	defer db.Close()
 
-	id := int64(1234567890)
+	id := testID
 
 	// date
 	d := dao.GomaDateTypes(db)
@@ -149,7 +151,7 @@ func TestBinary(t *testing.T) {
 	}
 	defer db.Close()
 
-	id := int64(1234567890)
+	id := testID
 
 	// date
 	d := dao.GomaBinaryTypes(db)
@@ -192,7 +194,7 @@ func TestTx(t *testing.T) {
 
 	log.SetFlags(log.Llongfile)
 
-	id := int64(1234567890)
+	id := testID
 
 	tx, err := db.Begin()
 	if err != nil {
