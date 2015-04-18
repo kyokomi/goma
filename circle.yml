@@ -33,10 +33,10 @@ test:
     - go generate github.com/kyokomi/goma/test/mysql:
         pwd:
           ../.go_workspace/src/github.com/kyokomi/goma/test/mysql
-    - go test -v ./... -race
-  post:
-    - goveralls -v -service=circle-ci -repotoken $COVERALLS_GOMA_TOKEN ./
     - go generate github.com/kyokomi/goma/test/postgres:
         pwd:
           ../.go_workspace/src/github.com/kyokomi/goma/test/postgres
+    - go test -v ./... -race
+  post:
+    - goveralls -v -service=circle-ci -repotoken $COVERALLS_GOMA_TOKEN ./
 
