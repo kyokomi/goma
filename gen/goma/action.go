@@ -11,39 +11,12 @@ import (
 )
 
 func genAction(c *cli.Context) {
-	opt := goma.Options{}
-	opt.Driver = c.String("driver")
-	opt.UserName = c.String("user")
-	opt.PassWord = c.String("password")
-	opt.Host = c.String("host")
-	opt.Port = c.Int("port")
-	opt.DBName = c.String("db")
-	opt.SSLMode = c.String("ssl")
-	opt.SQLRootDir = c.String("sql")
-	opt.DaoRootDir = c.String("dao")
-	opt.EntityRootDir = c.String("entity")
-	opt.Debug = c.GlobalBool("debug")
-
-	generate(c.GlobalString("pkg"), opt, false)
+	generate(c.GlobalString("pkg"), scanGenFlags(c), false)
 }
 
 func genSimpleAction(c *cli.Context) {
-	opt := goma.Options{}
-	opt.Driver = c.String("driver")
-	opt.UserName = c.String("user")
-	opt.PassWord = c.String("password")
-	opt.Host = c.String("host")
-	opt.Port = c.Int("port")
-	opt.DBName = c.String("db")
-	opt.SSLMode = c.String("ssl")
-	opt.SQLRootDir = c.String("sql")
-	opt.DaoRootDir = c.String("dao")
-	opt.EntityRootDir = c.String("entity")
-	opt.Debug = c.GlobalBool("debug")
-
-	generate(c.GlobalString("pkg"), opt, true)
+	generate(c.GlobalString("pkg"), scanGenFlags(c), true)
 }
-
 
 func initConfigAction(c *cli.Context) {
 	currentDir, err := os.Getwd()
@@ -68,4 +41,20 @@ func genConfigAction(c *cli.Context) {
 		log.Fatalln(err)
 	}
 	generate(c.GlobalString("pkg"), opt, false)
+}
+
+func scanGenFlags(c *cli.Context) goma.Options {
+	opt := goma.Options{}
+	opt.Driver = c.String("driver")
+	opt.UserName = c.String("user")
+	opt.PassWord = c.String("password")
+	opt.Host = c.String("host")
+	opt.Port = c.Int("port")
+	opt.DBName = c.String("db")
+	opt.SSLMode = c.String("ssl")
+	opt.SQLRootDir = c.String("sql")
+	opt.DaoRootDir = c.String("dao")
+	opt.EntityRootDir = c.String("entity")
+	opt.Debug = c.GlobalBool("debug")
+	return opt
 }

@@ -20,6 +20,22 @@ func main() {
 		cli.StringFlag{"file", os.Getenv("GOFILE"), "input file", ""},
 		cli.StringFlag{"pkg", os.Getenv("GOPACKAGE"), "output package", ""},
 	}
+
+	genFlags := []cli.Flag{
+		cli.StringFlag{"driver", "mysql", "sql driver", ""},
+		cli.StringFlag{"user", "admin", "database access user's name", ""},
+		cli.StringFlag{"password", "", "database access user's password", ""},
+		cli.StringFlag{"host", "localhost", "database host", ""},
+		cli.IntFlag{"port", 3306, "database port", ""},
+		cli.StringFlag{"db", "test", "database name", ""},
+
+		cli.StringFlag{"ssl", "disable", "postgres ssl mode", ""},
+
+		cli.StringFlag{"sql", "sql", "generate sql root dir", ""},
+		cli.StringFlag{"dao", "dao", "generate dao root dir", ""},
+		cli.StringFlag{"entity", "entity", "generate entity root dir", ""},
+	}
+
 	app.Commands = []cli.Command{
 		{
 			Name:   "init-config",
@@ -33,39 +49,13 @@ func main() {
 			Name:   "gen",
 			Action: genAction,
 			Usage:  "generate code by params",
-			Flags: []cli.Flag{
-				cli.StringFlag{"driver", "mysql", "sql driver", ""},
-				cli.StringFlag{"user", "admin", "database access user's name", ""},
-				cli.StringFlag{"password", "", "database access user's password", ""},
-				cli.StringFlag{"host", "localhost", "database host", ""},
-				cli.IntFlag{"port", 3306, "database port", ""},
-				cli.StringFlag{"db", "test", "database name", ""},
-
-				cli.StringFlag{"ssl", "disable", "postgres ssl mode", ""},
-
-				cli.StringFlag{"sql", "sql", "generate sql root dir", ""},
-				cli.StringFlag{"dao", "dao", "generate dao root dir", ""},
-				cli.StringFlag{"entity", "entity", "generate entity root dir", ""},
-			},
+			Flags: genFlags,
 		},
 		{
 			Name:   "gen-simple",
 			Action: genSimpleAction,
 			Usage:  "generate simple code by params",
-			Flags: []cli.Flag{
-				cli.StringFlag{"driver", "mysql", "sql driver", ""},
-				cli.StringFlag{"user", "admin", "database access user's name", ""},
-				cli.StringFlag{"password", "", "database access user's password", ""},
-				cli.StringFlag{"host", "localhost", "database host", ""},
-				cli.IntFlag{"port", 3306, "database port", ""},
-				cli.StringFlag{"db", "test", "database name", ""},
-
-				cli.StringFlag{"ssl", "disable", "postgres ssl mode", ""},
-
-				cli.StringFlag{"sql", "sql", "generate sql root dir", ""},
-				cli.StringFlag{"dao", "dao", "generate dao root dir", ""},
-				cli.StringFlag{"entity", "entity", "generate entity root dir", ""},
-			},
+			Flags: genFlags,
 		},
 		{
 			Name:   "gen-config",
