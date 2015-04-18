@@ -73,22 +73,27 @@ func TxGomaStringTypes(tx *sql.Tx) TxGomaStringTypesDao {
 }
 
 // SelectAll select goma_string_types table all recode.
-func (g GomaStringTypesDao) SelectAll() ([]*entity.GomaStringTypesEntity, error) {
+func (g GomaStringTypesDao) SelectAll() ([]entity.GomaStringTypesEntity, error) {
 	return _GomaStringTypesSelectAll(g)
 }
 
 // SelectAll transaction select goma_string_types table all recode.
-func (g TxGomaStringTypesDao) SelectAll() ([]*entity.GomaStringTypesEntity, error) {
+func (g TxGomaStringTypesDao) SelectAll() ([]entity.GomaStringTypesEntity, error) {
 	return _GomaStringTypesSelectAll(g)
 }
 
-func _GomaStringTypesSelectAll(g GomaStringTypesDaoQueryer) ([]*entity.GomaStringTypesEntity, error) {
+func _GomaStringTypesSelectAll(g GomaStringTypesDaoQueryer) ([]entity.GomaStringTypesEntity, error) {
 	queryString := queryArgs("goma_string_types", "selectAll", nil)
 
-	var es []*entity.GomaStringTypesEntity
+	var es []entity.GomaStringTypesEntity
 	rows, err := g.Query(queryString)
 	if err != nil {
 		return nil, err
+	}
+	defer rows.Close()
+
+	if !rows.Next() {
+		return nil, sql.ErrNoRows
 	}
 
 	for rows.Next() {
@@ -97,7 +102,7 @@ func _GomaStringTypesSelectAll(g GomaStringTypesDaoQueryer) ([]*entity.GomaStrin
 			break
 		}
 
-		es = append(es, &e)
+		es = append(es, e)
 	}
 	if err != nil {
 		log.Println(err, queryString)
@@ -108,16 +113,16 @@ func _GomaStringTypesSelectAll(g GomaStringTypesDaoQueryer) ([]*entity.GomaStrin
 }
 
 // SelectByID select goma_string_types table by primaryKey.
-func (g GomaStringTypesDao) SelectByID(id int64) (*entity.GomaStringTypesEntity, error) {
+func (g GomaStringTypesDao) SelectByID(id int64) (entity.GomaStringTypesEntity, error) {
 	return _GomaStringTypesSelectByID(g, id)
 }
 
 // SelectByID transaction select goma_string_types table by primaryKey.
-func (g TxGomaStringTypesDao) SelectByID(id int64) (*entity.GomaStringTypesEntity, error) {
+func (g TxGomaStringTypesDao) SelectByID(id int64) (entity.GomaStringTypesEntity, error) {
 	return _GomaStringTypesSelectByID(g, id)
 }
 
-func _GomaStringTypesSelectByID(g GomaStringTypesDaoQueryer, id int64) (*entity.GomaStringTypesEntity, error) {
+func _GomaStringTypesSelectByID(g GomaStringTypesDaoQueryer, id int64) (entity.GomaStringTypesEntity, error) {
 	args := goma.QueryArgs{
 		"id": id,
 	}
@@ -125,21 +130,21 @@ func _GomaStringTypesSelectByID(g GomaStringTypesDaoQueryer, id int64) (*entity.
 
 	rows, err := g.Query(queryString)
 	if err != nil {
-		return nil, err
+		return entity.GomaStringTypesEntity{}, err
 	}
 	defer rows.Close()
 
 	if !rows.Next() {
-		return nil, nil
+		return entity.GomaStringTypesEntity{}, sql.ErrNoRows
 	}
 
 	var e entity.GomaStringTypesEntity
 	if err := e.Scan(rows); err != nil {
 		log.Println(err, queryString)
-		return nil, err
+		return entity.GomaStringTypesEntity{}, err
 	}
 
-	return &e, nil
+	return e, nil
 }
 
 // Insert insert goma_string_types table.
