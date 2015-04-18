@@ -7,6 +7,7 @@ import (
 
 	_ "github.com/go-sql-driver/mysql"
 
+	"database/sql"
 	"reflect"
 	"testing"
 
@@ -48,17 +49,15 @@ func TestNumeric(t *testing.T) {
 
 	if e, err := d.SelectByID(id); err != nil {
 		t.Errorf("ERROR: %s", err)
-	} else if !reflect.DeepEqual(e, &insertData) {
-		t.Errorf("ERROR: %+v != %+v", e, &insertData)
+	} else if !reflect.DeepEqual(e, insertData) {
+		t.Errorf("ERROR: %+v != %+v", e, insertData)
 	}
 
 	if _, err := d.Delete(id); err != nil {
 		t.Errorf("ERROR: %s", err)
 	}
 
-	if e, err := d.SelectByID(id); err != nil {
-		t.Errorf("ERROR: %s", err)
-	} else if e != nil {
+	if _, err := d.SelectByID(id); err != sql.ErrNoRows {
 		t.Errorf("ERROR: %s", "Deleteしたのにnilじゃない")
 	}
 }
@@ -91,17 +90,15 @@ func TestString(t *testing.T) {
 
 	if e, err := d.SelectByID(id); err != nil {
 		t.Errorf("ERROR: %s", err)
-	} else if !reflect.DeepEqual(e, &insertData) {
-		t.Errorf("ERROR: %+v != %+v", e, &insertData)
+	} else if !reflect.DeepEqual(e, insertData) {
+		t.Errorf("ERROR: %+v != %+v", e, insertData)
 	}
 
 	if _, err := d.Delete(id); err != nil {
 		t.Errorf("ERROR: %s", err)
 	}
 
-	if e, err := d.SelectByID(id); err != nil {
-		t.Errorf("ERROR: %s", err)
-	} else if e != nil {
+	if _, err := d.SelectByID(id); err != sql.ErrNoRows {
 		t.Errorf("ERROR: %s", "Deleteしたのにnilじゃない")
 	}
 }
@@ -132,17 +129,15 @@ func TestDate(t *testing.T) {
 
 	if e, err := d.SelectByID(id); err != nil {
 		t.Errorf("ERROR: %s", err)
-	} else if !reflect.DeepEqual(e, &insertData) {
-		t.Errorf("ERROR: %+v != %+v", e, &insertData)
+	} else if !reflect.DeepEqual(e, insertData) {
+		t.Errorf("ERROR: %+v != %+v", e, insertData)
 	}
 
 	if _, err := d.Delete(id); err != nil {
 		t.Errorf("ERROR: %s", err)
 	}
 
-	if e, err := d.SelectByID(id); err != nil {
-		t.Errorf("ERROR: %s", err)
-	} else if e != nil {
+	if _, err := d.SelectByID(id); err != sql.ErrNoRows {
 		t.Errorf("ERROR: %s", "Deleteしたのにnilじゃない")
 	}
 }
@@ -175,17 +170,15 @@ func TestBinary(t *testing.T) {
 
 	if e, err := d.SelectByID(id); err != nil {
 		t.Errorf("ERROR: %s", err)
-	} else if !reflect.DeepEqual(e, &insertData) {
-		t.Errorf("ERROR: %+v != %+v", e, &insertData)
+	} else if !reflect.DeepEqual(e, insertData) {
+		t.Errorf("ERROR: %+v != %+v", e, insertData)
 	}
 
 	if _, err := d.Delete(id); err != nil {
 		t.Errorf("ERROR: %s", err)
 	}
 
-	if e, err := d.SelectByID(id); err != nil {
-		t.Errorf("ERROR: %s", err)
-	} else if e != nil {
+	if _, err := d.SelectByID(id); err != sql.ErrNoRows {
 		t.Errorf("ERROR: %s", "Deleteしたのにnilじゃない")
 	}
 }
@@ -239,10 +232,8 @@ func TestTx(t *testing.T) {
 	dtx = dao.TxGomaStringTypes(tx)
 
 	// Rollbackでnilのはず
-	if e, err := dtx.SelectByID(id); err != nil {
-		t.Errorf("ERROR: %s", err)
-	} else if e != nil {
-		t.Errorf("ERROR: %s", "Rollbackしたのにnilじゃない")
+	if _, err := dtx.SelectByID(id); err != sql.ErrNoRows {
+		t.Errorf("ERROR: %s", "Deleteしたのにnilじゃない")
 	}
 
 	// Insertする
@@ -259,11 +250,10 @@ func TestTx(t *testing.T) {
 	// commitしたのでtxじゃないdao
 	d := dao.GomaStringTypes(db)
 
-	// Commitしたのでnilじゃない
-	if e, err := d.SelectByID(id); err != nil {
-		t.Errorf("ERROR: %s", err)
-	} else if e == nil {
+	if _, err := d.SelectByID(id); err == sql.ErrNoRows {
 		t.Errorf("ERROR: %s", "Commitしたのにnil")
+	} else if err != nil {
+		t.Errorf("ERROR: %s", err)
 	}
 
 	_, err = d.Delete(id)
@@ -271,9 +261,7 @@ func TestTx(t *testing.T) {
 		t.Errorf("ERROR: %s", err)
 	}
 
-	if e, err := d.SelectByID(id); err != nil {
-		t.Errorf("ERROR: %s", err)
-	} else if e != nil {
+	if _, err := d.SelectByID(id); err != sql.ErrNoRows {
 		t.Errorf("ERROR: %s", "Deleteしたのにnilじゃない")
 	}
 }

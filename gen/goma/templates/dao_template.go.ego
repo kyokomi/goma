@@ -73,22 +73,27 @@ func Tx<%= daoData.Table.TitleName %>(tx *sql.Tx) Tx<%= daoData.Name %> {
 }
 
 // SelectAll select <%= daoData.Table.Name %> table all recode.
-func (g <%= daoData.Name %>) SelectAll() ([]*<%= daoData.EntityPkgName %>.<%= daoData.EntityName %>, error) {
+func (g <%= daoData.Name %>) SelectAll() ([]<%= daoData.EntityPkgName %>.<%= daoData.EntityName %>, error) {
 	return _<%= daoData.Table.TitleName %>SelectAll(g)
 }
 
 // SelectAll transaction select <%= daoData.Table.Name %> table all recode.
-func (g Tx<%= daoData.Name %>) SelectAll() ([]*<%= daoData.EntityPkgName %>.<%= daoData.EntityName %>, error) {
+func (g Tx<%= daoData.Name %>) SelectAll() ([]<%= daoData.EntityPkgName %>.<%= daoData.EntityName %>, error) {
 	return _<%= daoData.Table.TitleName %>SelectAll(g)
 }
 
-func _<%= daoData.Table.TitleName %>SelectAll(g <%= daoData.Name %>Queryer) ([]*<%= daoData.EntityPkgName %>.<%= daoData.EntityName %>, error) {
+func _<%= daoData.Table.TitleName %>SelectAll(g <%= daoData.Name %>Queryer) ([]<%= daoData.EntityPkgName %>.<%= daoData.EntityName %>, error) {
     queryString := queryArgs("<%= daoData.Table.Name %>", "selectAll", nil)
 
-	var es []*<%= daoData.EntityPkgName %>.<%= daoData.EntityName %>
+	var es []<%= daoData.EntityPkgName %>.<%= daoData.EntityName %>
 	rows, err := g.Query(queryString)
 	if err != nil {
 		return nil, err
+	}
+	defer rows.Close()
+
+    if !rows.Next() {
+		return nil, sql.ErrNoRows
 	}
 
 	for rows.Next() {
@@ -97,7 +102,7 @@ func _<%= daoData.Table.TitleName %>SelectAll(g <%= daoData.Name %>Queryer) ([]*
 			break
 		}
 
-		es = append(es, &e)
+		es = append(es, e)
 	}
 	if err != nil {
 	    log.Println(err, queryString)
@@ -108,16 +113,16 @@ func _<%= daoData.Table.TitleName %>SelectAll(g <%= daoData.Name %>Queryer) ([]*
 }
 
 // SelectByID select <%= daoData.Table.Name %> table by primaryKey.
-func (g <%= daoData.Name %>) SelectByID(<% for idx, column := range daoData.Table.Columns { %><% if !column.IsPrimaryKey { %><% continue %><% } %><% if idx != 0 { %>, <% } %><%= column.Name %> <%= column.TypeName %><% } %>) (*<%= daoData.EntityPkgName %>.<%= daoData.EntityName %>, error) {
+func (g <%= daoData.Name %>) SelectByID(<% for idx, column := range daoData.Table.Columns { %><% if !column.IsPrimaryKey { %><% continue %><% } %><% if idx != 0 { %>, <% } %><%= column.Name %> <%= column.TypeName %><% } %>) (<%= daoData.EntityPkgName %>.<%= daoData.EntityName %>, error) {
 	return _<%= daoData.Table.TitleName %>SelectByID(g, <% for idx, column := range daoData.Table.Columns { %><% if !column.IsPrimaryKey { %><% continue %><% } %><% if idx != 0 { %>, <% } %><%= column.Name %><% } %>)
 }
 
 // SelectByID transaction select <%= daoData.Table.Name %> table by primaryKey.
-func (g Tx<%= daoData.Name %>) SelectByID(<% for idx, column := range daoData.Table.Columns { %><% if !column.IsPrimaryKey { %><% continue %><% } %><% if idx != 0 { %>, <% } %><%= column.Name %> <%= column.TypeName %><% } %>) (*<%= daoData.EntityPkgName %>.<%= daoData.EntityName %>, error) {
+func (g Tx<%= daoData.Name %>) SelectByID(<% for idx, column := range daoData.Table.Columns { %><% if !column.IsPrimaryKey { %><% continue %><% } %><% if idx != 0 { %>, <% } %><%= column.Name %> <%= column.TypeName %><% } %>) (<%= daoData.EntityPkgName %>.<%= daoData.EntityName %>, error) {
 	return _<%= daoData.Table.TitleName %>SelectByID(g, <% for idx, column := range daoData.Table.Columns { %><% if !column.IsPrimaryKey { %><% continue %><% } %><% if idx != 0 { %>, <% } %><%= column.Name %><% } %>)
 }
 
-func _<%= daoData.Table.TitleName %>SelectByID(g <%= daoData.Name %>Queryer, <% for idx, column := range daoData.Table.Columns { %><% if !column.IsPrimaryKey { %><% continue %><% } %><% if idx != 0 { %>, <% } %><%= column.Name %> <%= column.TypeName %><% } %>) (*<%= daoData.EntityPkgName %>.<%= daoData.EntityName %>, error) {
+func _<%= daoData.Table.TitleName %>SelectByID(g <%= daoData.Name %>Queryer, <% for idx, column := range daoData.Table.Columns { %><% if !column.IsPrimaryKey { %><% continue %><% } %><% if idx != 0 { %>, <% } %><%= column.Name %> <%= column.TypeName %><% } %>) (<%= daoData.EntityPkgName %>.<%= daoData.EntityName %>, error) {
     args := goma.QueryArgs{
     <% for _, column := range daoData.Table.Columns { %><% if !column.IsPrimaryKey { %><% continue %><% } %>    "<%= column.Name %>": <%= column.Name %>,
     <% } %>}
@@ -125,21 +130,21 @@ func _<%= daoData.Table.TitleName %>SelectByID(g <%= daoData.Name %>Queryer, <% 
 
 	rows, err := g.Query(queryString)
 	if err != nil {
-		return nil, err
+		return <%= daoData.EntityPkgName %>.<%= daoData.EntityName %>{}, err
 	}
 	defer rows.Close()
 
-	if !rows.Next() {
-		return nil, nil
+    if !rows.Next() {
+		return <%= daoData.EntityPkgName %>.<%= daoData.EntityName %>{}, sql.ErrNoRows
 	}
 
 	var e <%= daoData.EntityPkgName %>.<%= daoData.EntityName %>
 	if err := e.Scan(rows); err != nil {
 	    log.Println(err, queryString)
-		return nil, err
+		return <%= daoData.EntityPkgName %>.<%= daoData.EntityName %>{}, err
 	}
 	
-	return &e, nil
+	return e, nil
 }
 
 // Insert insert <%= daoData.Table.Name %> table.
