@@ -14,6 +14,7 @@ import (
 	"github.com/kyokomi/goma"
 )
 
+// GomaDateTypesDaoQueryer is interface
 type GomaDateTypesDaoQueryer interface {
 	Query(query string, args ...interface{}) (*sql.Rows, error)
 	Exec(query string, args ...interface{}) (sql.Result, error)
@@ -45,7 +46,7 @@ func GomaDateTypes(db *sql.DB) GomaDateTypesDao {
 	return tblDao
 }
 
-// GomaDateTypesDaoTx is generated goma_date_types table transaction.
+// TxGomaDateTypesDao is generated goma_date_types table transaction.
 type TxGomaDateTypesDao struct {
 	*sql.Tx
 	TableName string
@@ -72,20 +73,20 @@ func TxGomaDateTypes(tx *sql.Tx) TxGomaDateTypesDao {
 }
 
 // SelectAll select goma_date_types table all recode.
-func (d GomaDateTypesDao) SelectAll() ([]*entity.GomaDateTypesEntity, error) {
-	return goma_date_typesSelectAll(d)
+func (g GomaDateTypesDao) SelectAll() ([]*entity.GomaDateTypesEntity, error) {
+	return _GomaDateTypesSelectAll(g)
 }
 
 // SelectAll transaction select goma_date_types table all recode.
-func (d TxGomaDateTypesDao) SelectAll() ([]*entity.GomaDateTypesEntity, error) {
-	return goma_date_typesSelectAll(d)
+func (g TxGomaDateTypesDao) SelectAll() ([]*entity.GomaDateTypesEntity, error) {
+	return _GomaDateTypesSelectAll(g)
 }
 
-func goma_date_typesSelectAll(d GomaDateTypesDaoQueryer) ([]*entity.GomaDateTypesEntity, error) {
+func _GomaDateTypesSelectAll(g GomaDateTypesDaoQueryer) ([]*entity.GomaDateTypesEntity, error) {
 	queryString := queryArgs("goma_date_types", "selectAll", nil)
 
 	var es []*entity.GomaDateTypesEntity
-	rows, err := d.Query(queryString)
+	rows, err := g.Query(queryString)
 	if err != nil {
 		return nil, err
 	}
@@ -107,22 +108,22 @@ func goma_date_typesSelectAll(d GomaDateTypesDaoQueryer) ([]*entity.GomaDateType
 }
 
 // SelectByID select goma_date_types table by primaryKey.
-func (d GomaDateTypesDao) SelectByID(id int64) (*entity.GomaDateTypesEntity, error) {
-	return goma_date_typesSelectByID(d, id)
+func (g GomaDateTypesDao) SelectByID(id int64) (*entity.GomaDateTypesEntity, error) {
+	return _GomaDateTypesSelectByID(g, id)
 }
 
 // SelectByID transaction select goma_date_types table by primaryKey.
-func (d TxGomaDateTypesDao) SelectByID(id int64) (*entity.GomaDateTypesEntity, error) {
-	return goma_date_typesSelectByID(d, id)
+func (g TxGomaDateTypesDao) SelectByID(id int64) (*entity.GomaDateTypesEntity, error) {
+	return _GomaDateTypesSelectByID(g, id)
 }
 
-func goma_date_typesSelectByID(d GomaDateTypesDaoQueryer, id int64) (*entity.GomaDateTypesEntity, error) {
+func _GomaDateTypesSelectByID(g GomaDateTypesDaoQueryer, id int64) (*entity.GomaDateTypesEntity, error) {
 	args := goma.QueryArgs{
 		"id": id,
 	}
 	queryString := queryArgs("goma_date_types", "selectByID", args)
 
-	rows, err := d.Query(queryString)
+	rows, err := g.Query(queryString)
 	if err != nil {
 		return nil, err
 	}
@@ -142,16 +143,16 @@ func goma_date_typesSelectByID(d GomaDateTypesDaoQueryer, id int64) (*entity.Gom
 }
 
 // Insert insert goma_date_types table.
-func (d GomaDateTypesDao) Insert(entity entity.GomaDateTypesEntity) (sql.Result, error) {
-	return goma_date_typesInsert(d, entity)
+func (g GomaDateTypesDao) Insert(entity entity.GomaDateTypesEntity) (sql.Result, error) {
+	return _GomaDateTypesInsert(g, entity)
 }
 
 // Insert transaction insert goma_date_types table.
-func (d TxGomaDateTypesDao) Insert(entity entity.GomaDateTypesEntity) (sql.Result, error) {
-	return goma_date_typesInsert(d, entity)
+func (g TxGomaDateTypesDao) Insert(entity entity.GomaDateTypesEntity) (sql.Result, error) {
+	return _GomaDateTypesInsert(g, entity)
 }
 
-func goma_date_typesInsert(d GomaDateTypesDaoQueryer, entity entity.GomaDateTypesEntity) (sql.Result, error) {
+func _GomaDateTypesInsert(g GomaDateTypesDaoQueryer, entity entity.GomaDateTypesEntity) (sql.Result, error) {
 	args := goma.QueryArgs{
 		"id":                entity.ID,
 		"date_columns":      entity.DateColumns,
@@ -159,7 +160,7 @@ func goma_date_typesInsert(d GomaDateTypesDaoQueryer, entity entity.GomaDateType
 	}
 	queryString := queryArgs("goma_date_types", "insert", args)
 
-	result, err := d.Exec(queryString)
+	result, err := g.Exec(queryString)
 	if err != nil {
 		log.Println(err, queryString)
 	}
@@ -167,17 +168,17 @@ func goma_date_typesInsert(d GomaDateTypesDaoQueryer, entity entity.GomaDateType
 }
 
 // Update update goma_date_types table.
-func (d GomaDateTypesDao) Update(entity entity.GomaDateTypesEntity) (sql.Result, error) {
-	return goma_date_typesUpdate(d, entity)
+func (g GomaDateTypesDao) Update(entity entity.GomaDateTypesEntity) (sql.Result, error) {
+	return _GomaDateTypesUpdate(g, entity)
 }
 
 // Update transaction update goma_date_types table.
-func (d TxGomaDateTypesDao) Update(entity entity.GomaDateTypesEntity) (sql.Result, error) {
-	return goma_date_typesUpdate(d, entity)
+func (g TxGomaDateTypesDao) Update(entity entity.GomaDateTypesEntity) (sql.Result, error) {
+	return _GomaDateTypesUpdate(g, entity)
 }
 
 // Update update goma_date_types table.
-func goma_date_typesUpdate(d GomaDateTypesDaoQueryer, entity entity.GomaDateTypesEntity) (sql.Result, error) {
+func _GomaDateTypesUpdate(g GomaDateTypesDaoQueryer, entity entity.GomaDateTypesEntity) (sql.Result, error) {
 	args := goma.QueryArgs{
 		"id":                entity.ID,
 		"date_columns":      entity.DateColumns,
@@ -185,7 +186,7 @@ func goma_date_typesUpdate(d GomaDateTypesDaoQueryer, entity entity.GomaDateType
 	}
 	queryString := queryArgs("goma_date_types", "update", args)
 
-	result, err := d.Exec(queryString)
+	result, err := g.Exec(queryString)
 	if err != nil {
 		log.Println(err, queryString)
 	}
@@ -193,23 +194,23 @@ func goma_date_typesUpdate(d GomaDateTypesDaoQueryer, entity entity.GomaDateType
 }
 
 // Delete delete goma_date_types table.
-func (d GomaDateTypesDao) Delete(id int64) (sql.Result, error) {
-	return goma_date_typesDelete(d, id)
+func (g GomaDateTypesDao) Delete(id int64) (sql.Result, error) {
+	return _GomaDateTypesDelete(g, id)
 }
 
 // Delete transaction delete goma_date_types table.
-func (d TxGomaDateTypesDao) Delete(id int64) (sql.Result, error) {
-	return goma_date_typesDelete(d, id)
+func (g TxGomaDateTypesDao) Delete(id int64) (sql.Result, error) {
+	return _GomaDateTypesDelete(g, id)
 }
 
 // Delete delete goma_date_types table by primaryKey.
-func goma_date_typesDelete(d GomaDateTypesDaoQueryer, id int64) (sql.Result, error) {
+func _GomaDateTypesDelete(g GomaDateTypesDaoQueryer, id int64) (sql.Result, error) {
 	args := goma.QueryArgs{
 		"id": id,
 	}
 	queryString := queryArgs("goma_date_types", "delete", args)
 
-	result, err := d.Exec(queryString)
+	result, err := g.Exec(queryString)
 	if err != nil {
 		log.Println(err, queryString)
 	}
