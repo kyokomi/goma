@@ -11,7 +11,7 @@ import (
 func main() {
 	app := cli.NewApp()
 	app.Name = "goma"
-	app.Version = "1.1"
+	app.Version = "1.3"
 	app.Usage = ""
 	app.Author = "kyokomi"
 	app.Email = "kyoko1220adword@gmail.com"
@@ -51,7 +51,7 @@ func main() {
 		{
 			Name:   "gen-simple",
 			Action: genSimpleAction,
-			Usage:  "generate code by params",
+			Usage:  "generate simple code by params",
 			Flags: []cli.Flag{
 				cli.StringFlag{"driver", "mysql", "sql driver", ""},
 				cli.StringFlag{"user", "admin", "database access user's name", ""},

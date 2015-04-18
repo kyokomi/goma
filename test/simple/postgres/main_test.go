@@ -11,8 +11,8 @@ import (
 	"testing"
 
 	"github.com/kyokomi/goma"
-	"github.com/kyokomi/goma/test/postgres/dao"
-	"github.com/kyokomi/goma/test/postgres/entity"
+	"github.com/kyokomi/goma/test/simple/postgres/dao"
+	"github.com/kyokomi/goma/test/simple/postgres/entity"
 )
 
 func TestNumeric(t *testing.T) {
@@ -109,15 +109,15 @@ func TestDate(t *testing.T) {
 	d := dao.GomaDateTypes(db)
 
 	dateColumnsTime, _ := time.ParseInLocation(
-		"2006-01-02",
-		"2015-04-18",
-		time.FixedZone("", 0),
+	"2006-01-02",
+	"2015-04-18",
+	time.FixedZone("", 0),
 	)
 
 	timeStampColumnsTime, _ := time.ParseInLocation(
-		"2006-01-02 15:04:05.999999",
-		"2015-04-18 14:06:33.456791",
-		time.FixedZone("", 0),
+	"2006-01-02 15:04:05.999999",
+	"2015-04-18 14:06:33.456791",
+	time.FixedZone("", 0),
 	)
 
 	insertData := entity.GomaDateTypesEntity{

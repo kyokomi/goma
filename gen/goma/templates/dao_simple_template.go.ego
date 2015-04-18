@@ -93,6 +93,10 @@ select
 		return nil, err
 	}
 
+    if !rows.Next() {
+		return nil, sql.ErrNoRows
+	}
+
 	for rows.Next() {
 		var e <%= daoData.EntityPkgName %>.<%= daoData.EntityName %>
 		if err := e.Scan(rows); err != nil {
@@ -126,7 +130,7 @@ select
 <% } %>FROM
   <%= daoData.Table.Name %>
 WHERE
-<% for idx, column := range daoData.Table.Columns { %><% if !column.IsPrimaryKey { %><% continue %><% } %><% if idx != 0 { %>and<% } %>  <%= column.Name %> = ?
+<% for idx, column := range daoData.Table.Columns { %><% if !column.IsPrimaryKey { %><% continue %><% } %><% if idx != 0 { %>and<% } %>  <%= column.Name %> = <%= daoData.Placeholder(idx + 1) %>
 <% } %>`
 	rows, err := g.Query(queryString,
 	<% for _, column := range daoData.Table.Columns { %><% if !column.IsPrimaryKey { %><% continue %><% } %><%= column.Name %>,
@@ -137,7 +141,7 @@ WHERE
 	defer rows.Close()
 
 	if !rows.Next() {
-		return <%= daoData.EntityPkgName %>.<%= daoData.EntityName %>{}, nil
+		return <%= daoData.EntityPkgName %>.<%= daoData.EntityName %>{}, sql.ErrNoRows
 	}
 
 	var e <%= daoData.EntityPkgName %>.<%= daoData.EntityName %>
@@ -164,7 +168,7 @@ func _<%= daoData.Table.TitleName %>Insert(g <%= daoData.Name %>Queryer, entity 
 insert into <%= daoData.Table.Name %>(
   <% for idx, column := range daoData.Table.Columns { %><% if idx != 0 { %>, <% } %><%= column.Name %>
 <% } %>) values(
-  <% for idx, _ := range daoData.Table.Columns { %><% if idx != 0 { %>, <% } %>?
+  <% for idx, _ := range daoData.Table.Columns { %><% if idx != 0 { %>, <% } %><%= daoData.Placeholder(idx + 1) %>
 <% } %>);`
 	result, err := g.Exec(queryString,
 	<% for _, column := range daoData.Table.Columns { %>entity.<%= column.TitleName %>,
@@ -189,9 +193,9 @@ func (g Tx<%= daoData.Name %>) Update(entity <%= daoData.EntityPkgName %>.<%= da
 func _<%= daoData.Table.TitleName %>Update(g <%= daoData.Name %>Queryer, entity <%= daoData.EntityPkgName %>.<%= daoData.EntityName %>) (sql.Result, error) {
 	queryString := `
 update <%= daoData.Table.Name %> set
-  <% for idx, column := range daoData.Table.Columns { %><% if idx != 0 { %>, <% } %>  <%= column.Name %> = ?
+  <% for idx, column := range daoData.Table.Columns { %><% if idx != 0 { %>, <% } %>  <%= column.Name %> = <%= daoData.Placeholder(idx + 1) %>
 <% } %> where
-  <% for idx, column := range daoData.Table.Columns { %><% if !column.IsPrimaryKey { %><% continue %><% } %><% if idx != 0 { %>and<% } %>  <%= column.Name %> = ?
+  <% for idx, column := range daoData.Table.Columns { %><% if !column.IsPrimaryKey { %><% continue %><% } %><% if idx != 0 { %>and<% } %>  <%= column.Name %> = <%= daoData.Placeholder(idx + 1) %>
 <% } %>
 `
 	result, err := g.Exec(queryString,
@@ -222,7 +226,7 @@ delete
 from
   <%= daoData.Table.Name %>
 where
-<% for idx, column := range daoData.Table.Columns { %><% if !column.IsPrimaryKey { %><% continue %><% } %><% if idx != 0 { %>and<% } %>  <%= column.Name %> = ?
+<% for idx, column := range daoData.Table.Columns { %><% if !column.IsPrimaryKey { %><% continue %><% } %><% if idx != 0 { %>and<% } %>  <%= column.Name %> = <%= daoData.Placeholder(idx + 1) %>
 <% } %>
 `
     result, err := g.Exec(queryString,

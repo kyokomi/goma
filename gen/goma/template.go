@@ -8,6 +8,7 @@ import (
 	"io/ioutil"
 	"os"
 	"path/filepath"
+	"strconv"
 )
 
 // HelperTemplateData helper data.
@@ -16,6 +17,7 @@ type HelperTemplateData struct {
 	DriverImport string
 	DaoImport    string
 	DaoPkgName   string
+	DriverName   string
 	DaoList      []DaoTemplateData
 	Options      []map[string]interface{}
 }
@@ -30,6 +32,14 @@ type DaoTemplateData struct {
 	DaoPkgName    string
 	EntityPkgName string
 	EntityImport  string
+	DriverName    string
+}
+
+func (d DaoTemplateData) Placeholder(num int) string {
+	if d.DriverName == "postgres" {
+		return "$" + strconv.Itoa(num)
+	}
+	return "?"
 }
 
 // TableTemplateData table data.

@@ -62,7 +62,7 @@ func generate(pkg string, opt goma.Options, isSimple bool) {
 	helperData.PkgName = pkg
 	helperData.DriverImport = driverImports[opt.Driver]
 	helperData.Options = opt.Tuples()
-
+	helperData.DriverName = opt.Driver
 	helperData.DaoImport = opt.DaoImportPath()
 	helperData.DaoPkgName = opt.DaoPkgName()
 
@@ -151,6 +151,8 @@ func newTemplateData(table *core.Table, opt goma.Options) DaoTemplateData {
 	data.DaoPkgName = opt.DaoPkgName()
 	data.EntityPkgName = opt.EntityPkgName()
 	data.EntityImport = opt.EntityImportPath()
+	data.DriverName = opt.Driver
+
 	data.Table = TableTemplateData{
 		Name:      table.Name,
 		TitleName: lintName(strings.Title(table.Name)),
