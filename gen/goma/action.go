@@ -43,6 +43,17 @@ func genConfigAction(c *cli.Context) {
 	generate(c.GlobalString("pkg"), opt, false)
 }
 
+func genMiguAction(c *cli.Context) {
+	opt, err := goma.NewOptions(c.String("path"))
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	migration(opt, c.String("models"))
+
+	generate(c.GlobalString("pkg"), opt, true)
+}
+
 func scanGenFlags(c *cli.Context) goma.Options {
 	opt := goma.Options{}
 	opt.Driver = c.String("driver")

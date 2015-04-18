@@ -33,6 +33,7 @@ type DaoTemplateData struct {
 	EntityPkgName string
 	EntityImport  string
 	DriverName    string
+	EntityBlock   string
 }
 
 func (d DaoTemplateData) Placeholder(num int) string {

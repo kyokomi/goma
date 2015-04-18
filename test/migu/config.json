@@ -1,0 +1,14 @@
+{
+    "driver": "mysql",
+    "user": "root",
+    "password": "",
+    "host": "localhost",
+    "port": 3306,
+    "db": "migu_test",
+    "ssl": "disable",
+    "debug": true,
+    "sqlRootDir": "sql",
+    "daoRootDir": "dao",
+    "entityRootDir": "entity",
+    "currentDir": "/Users/kyokomi/src/github.com/kyokomi/goma/test/migu"
+}

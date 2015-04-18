@@ -193,9 +193,9 @@ func newColumns(columns []*core.Column) []ColumnTemplateData {
 
 		typeLength := ""
 		if c.SQLType.DefaultLength > 0 {
-			typeLength = fmt.Sprintf("(%d)", c.SQLType.DefaultLength)
+			typeLength = fmt.Sprintf("size:%d", c.SQLType.DefaultLength)
 		}
-		typeDetail := fmt.Sprintf("`goma:\"%s"+typeLength+primaryKey+"\"`", c.SQLType.Name)
+		typeDetail := fmt.Sprintf("`migu:\""+typeLength+primaryKey+"\"`")
 
 		column := ColumnTemplateData{
 			Name:         c.Name,

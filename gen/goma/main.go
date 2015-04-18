@@ -11,7 +11,7 @@ import (
 func main() {
 	app := cli.NewApp()
 	app.Name = "goma"
-	app.Version = "1.3"
+	app.Version = "2.0"
 	app.Usage = ""
 	app.Author = "kyokomi"
 	app.Email = "kyoko1220adword@gmail.com"
@@ -49,19 +49,28 @@ func main() {
 			Name:   "gen",
 			Action: genAction,
 			Usage:  "generate code by params",
-			Flags: genFlags,
+			Flags:  genFlags,
 		},
 		{
 			Name:   "gen-simple",
 			Action: genSimpleAction,
 			Usage:  "generate simple code by params",
-			Flags: genFlags,
+			Flags:  genFlags,
 		},
 		{
 			Name:   "gen-config",
 			Action: genConfigAction,
 			Usage:  "generate code by config",
 			Flags: []cli.Flag{
+				cli.StringFlag{"path", "config.json", "config path", ""},
+			},
+		},
+		{
+			Name:   "gen-migu",
+			Action: genMiguAction,
+			Usage:  "generate code and migration by config",
+			Flags: []cli.Flag{
+				cli.StringFlag{"models", "models.go", "models struct file path", ""},
 				cli.StringFlag{"path", "config.json", "config path", ""},
 			},
 		},
