@@ -11,14 +11,14 @@ import (
 )
 
 type Quest struct {
-	ID       int64  `migu:"pk"`
+	ID       int64 `migu:"pk"`
+	Title    string
 	Detail   string `migu:"size:512"`
 	CreateAt time.Time
 	UpdateAt time.Time
-	Title    string
 }
 
 // Scan Quest all scan
 func (e *Quest) Scan(rows *sql.Rows) error {
-	return rows.Scan(&e.ID, &e.Detail, &e.CreateAt, &e.UpdateAt, &e.Title)
+	return rows.Scan(&e.ID, &e.Title, &e.Detail, &e.CreateAt, &e.UpdateAt)
 }

@@ -86,9 +86,9 @@ select
   id
 , name
 , email
+, age
 , create_at
 , update_at
-, age
 FROM
   user`
 
@@ -134,9 +134,9 @@ select
   id
 , name
 , email
+, age
 , create_at
 , update_at
-, age
 FROM
   user
 WHERE
@@ -179,9 +179,9 @@ insert into user(
   id
 , name
 , email
+, age
 , create_at
 , update_at
-, age
 ) values(
   ?
 , ?
@@ -194,9 +194,9 @@ insert into user(
 		entity.ID,
 		entity.Name,
 		entity.Email,
+		entity.Age,
 		entity.CreateAt,
 		entity.UpdateAt,
-		entity.Age,
 	)
 	if err != nil {
 		log.Println(err, queryString)
@@ -221,9 +221,9 @@ update user set
     id = ?
 ,   name = ?
 ,   email = ?
+,   age = ?
 ,   create_at = ?
 ,   update_at = ?
-,   age = ?
  where
     id = ?
 
@@ -232,9 +232,9 @@ update user set
 		entity.ID,
 		entity.Name,
 		entity.Email,
+		entity.Age,
 		entity.CreateAt,
 		entity.UpdateAt,
-		entity.Age,
 
 		entity.ID,
 	)

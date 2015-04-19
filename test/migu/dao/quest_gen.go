@@ -84,10 +84,10 @@ func _QuestSelectAll(g QuestDaoQueryer) ([]entity.Quest, error) {
 	queryString := `
 select
   id
+, title
 , detail
 , create_at
 , update_at
-, title
 FROM
   quest`
 
@@ -131,10 +131,10 @@ func _QuestSelectByID(g QuestDaoQueryer, id int64) (entity.Quest, error) {
 	queryString := `
 select
   id
+, title
 , detail
 , create_at
 , update_at
-, title
 FROM
   quest
 WHERE
@@ -175,10 +175,10 @@ func _QuestInsert(g QuestDaoQueryer, entity entity.Quest) (sql.Result, error) {
 	queryString := `
 insert into quest(
   id
+, title
 , detail
 , create_at
 , update_at
-, title
 ) values(
   ?
 , ?
@@ -188,10 +188,10 @@ insert into quest(
 );`
 	result, err := g.Exec(queryString,
 		entity.ID,
+		entity.Title,
 		entity.Detail,
 		entity.CreateAt,
 		entity.UpdateAt,
-		entity.Title,
 	)
 	if err != nil {
 		log.Println(err, queryString)
@@ -214,20 +214,20 @@ func _QuestUpdate(g QuestDaoQueryer, entity entity.Quest) (sql.Result, error) {
 	queryString := `
 update quest set
     id = ?
+,   title = ?
 ,   detail = ?
 ,   create_at = ?
 ,   update_at = ?
-,   title = ?
  where
     id = ?
 
 `
 	result, err := g.Exec(queryString,
 		entity.ID,
+		entity.Title,
 		entity.Detail,
 		entity.CreateAt,
 		entity.UpdateAt,
-		entity.Title,
 
 		entity.ID,
 	)

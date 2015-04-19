@@ -14,12 +14,12 @@ type User struct {
 	ID       int64 `migu:"pk"`
 	Name     string
 	Email    *string
+	Age      int
 	CreateAt time.Time
 	UpdateAt time.Time
-	Age      int
 }
 
 // Scan User all scan
 func (e *User) Scan(rows *sql.Rows) error {
-	return rows.Scan(&e.ID, &e.Name, &e.Email, &e.CreateAt, &e.UpdateAt, &e.Age)
+	return rows.Scan(&e.ID, &e.Name, &e.Email, &e.Age, &e.CreateAt, &e.UpdateAt)
 }
