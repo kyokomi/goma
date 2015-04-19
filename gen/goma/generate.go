@@ -19,6 +19,8 @@ import (
 	"io/ioutil"
 
 	"github.com/kyokomi/goma"
+	"bytes"
+	"github.com/kyokomi/goma/migu"
 )
 
 var sampleDataMap = map[reflect.Type]string{
@@ -51,6 +53,7 @@ func generate(pkg string, opt goma.Options, isSimple bool) {
 		log.Fatalf("%v", err)
 		return
 	}
+	defer orm.Close()
 
 	tables, err := orm.DBMetas()
 	if err != nil {
@@ -88,6 +91,12 @@ func generate(pkg string, opt goma.Options, isSimple bool) {
 				log.Fatalln(err)
 			}
 		}
+
+		var entityBlock bytes.Buffer
+		if err := migu.FprintStruct(&entityBlock, orm.DB().DB, data.Table.TitleName); err != nil {
+			log.Fatalln(err)
+		}
+		data.EntityBlock = entityBlock.String()
 
 		// entity template
 		if err := data.execEntityTemplate(entityRootPath); err != nil {
@@ -147,7 +156,7 @@ func newTemplateData(table *core.Table, opt goma.Options) DaoTemplateData {
 	data := DaoTemplateData{}
 	data.Name = lintName(strings.Title(table.Name) + "Dao")
 	data.MemberName = "s" + lintName(strings.Title(table.Name))
-	data.EntityName = lintName(strings.Title(table.Name) + "Entity")
+	data.EntityName = lintName(strings.Title(table.Name))
 	data.DaoPkgName = opt.DaoPkgName()
 	data.EntityPkgName = opt.EntityPkgName()
 	data.EntityImport = opt.EntityImportPath()

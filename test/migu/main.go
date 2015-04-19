@@ -2,7 +2,7 @@ package main
 
 import "fmt"
 
-//go:generate goma --debug gen-migu --models entity/quest_gen.sql
+//go:generate goma --debug gen-migu
 
 func main() {
 	fmt.Println("Hello!")

@@ -71,27 +71,27 @@ func TxQuest(tx *sql.Tx) TxQuestDao {
 }
 
 // SelectAll select quest table all recode.
-func (g QuestDao) SelectAll() ([]entity.QuestEntity, error) {
+func (g QuestDao) SelectAll() ([]entity.Quest, error) {
 	return _QuestSelectAll(g)
 }
 
 // SelectAll transaction select quest table all recode.
-func (g TxQuestDao) SelectAll() ([]entity.QuestEntity, error) {
+func (g TxQuestDao) SelectAll() ([]entity.Quest, error) {
 	return _QuestSelectAll(g)
 }
 
-func _QuestSelectAll(g QuestDaoQueryer) ([]entity.QuestEntity, error) {
+func _QuestSelectAll(g QuestDaoQueryer) ([]entity.Quest, error) {
 	queryString := `
 select
   id
-, title
 , detail
 , create_at
 , update_at
+, title
 FROM
   quest`
 
-	var es []entity.QuestEntity
+	var es []entity.Quest
 	rows, err := g.Query(queryString)
 	if err != nil {
 		return nil, err
@@ -102,7 +102,7 @@ FROM
 	}
 
 	for rows.Next() {
-		var e entity.QuestEntity
+		var e entity.Quest
 		if err := e.Scan(rows); err != nil {
 			break
 		}
@@ -118,23 +118,23 @@ FROM
 }
 
 // SelectByID select quest table by primaryKey.
-func (g QuestDao) SelectByID(id int64) (entity.QuestEntity, error) {
+func (g QuestDao) SelectByID(id int64) (entity.Quest, error) {
 	return _QuestSelectByID(g, id)
 }
 
 // SelectByID transaction select quest table by primaryKey.
-func (g TxQuestDao) SelectByID(id int64) (entity.QuestEntity, error) {
+func (g TxQuestDao) SelectByID(id int64) (entity.Quest, error) {
 	return _QuestSelectByID(g, id)
 }
 
-func _QuestSelectByID(g QuestDaoQueryer, id int64) (entity.QuestEntity, error) {
+func _QuestSelectByID(g QuestDaoQueryer, id int64) (entity.Quest, error) {
 	queryString := `
 select
   id
-, title
 , detail
 , create_at
 , update_at
+, title
 FROM
   quest
 WHERE
@@ -144,41 +144,41 @@ WHERE
 		id,
 	)
 	if err != nil {
-		return entity.QuestEntity{}, err
+		return entity.Quest{}, err
 	}
 	defer rows.Close()
 
 	if !rows.Next() {
-		return entity.QuestEntity{}, sql.ErrNoRows
+		return entity.Quest{}, sql.ErrNoRows
 	}
 
-	var e entity.QuestEntity
+	var e entity.Quest
 	if err := e.Scan(rows); err != nil {
 		log.Println(err, queryString)
-		return entity.QuestEntity{}, err
+		return entity.Quest{}, err
 	}
 
 	return e, nil
 }
 
 // Insert insert quest table.
-func (g QuestDao) Insert(entity entity.QuestEntity) (sql.Result, error) {
+func (g QuestDao) Insert(entity entity.Quest) (sql.Result, error) {
 	return _QuestInsert(g, entity)
 }
 
 // Insert transaction insert quest table.
-func (g TxQuestDao) Insert(entity entity.QuestEntity) (sql.Result, error) {
+func (g TxQuestDao) Insert(entity entity.Quest) (sql.Result, error) {
 	return _QuestInsert(g, entity)
 }
 
-func _QuestInsert(g QuestDaoQueryer, entity entity.QuestEntity) (sql.Result, error) {
+func _QuestInsert(g QuestDaoQueryer, entity entity.Quest) (sql.Result, error) {
 	queryString := `
 insert into quest(
   id
-, title
 , detail
 , create_at
 , update_at
+, title
 ) values(
   ?
 , ?
@@ -188,10 +188,10 @@ insert into quest(
 );`
 	result, err := g.Exec(queryString,
 		entity.ID,
-		entity.Title,
 		entity.Detail,
 		entity.CreateAt,
 		entity.UpdateAt,
+		entity.Title,
 	)
 	if err != nil {
 		log.Println(err, queryString)
@@ -200,34 +200,34 @@ insert into quest(
 }
 
 // Update update quest table.
-func (g QuestDao) Update(entity entity.QuestEntity) (sql.Result, error) {
+func (g QuestDao) Update(entity entity.Quest) (sql.Result, error) {
 	return _QuestUpdate(g, entity)
 }
 
 // Update transaction update quest table.
-func (g TxQuestDao) Update(entity entity.QuestEntity) (sql.Result, error) {
+func (g TxQuestDao) Update(entity entity.Quest) (sql.Result, error) {
 	return _QuestUpdate(g, entity)
 }
 
 // Update update quest table.
-func _QuestUpdate(g QuestDaoQueryer, entity entity.QuestEntity) (sql.Result, error) {
+func _QuestUpdate(g QuestDaoQueryer, entity entity.Quest) (sql.Result, error) {
 	queryString := `
 update quest set
     id = ?
-,   title = ?
 ,   detail = ?
 ,   create_at = ?
 ,   update_at = ?
+,   title = ?
  where
     id = ?
 
 `
 	result, err := g.Exec(queryString,
 		entity.ID,
-		entity.Title,
 		entity.Detail,
 		entity.CreateAt,
 		entity.UpdateAt,
+		entity.Title,
 
 		entity.ID,
 	)

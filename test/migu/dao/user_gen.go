@@ -71,28 +71,28 @@ func TxUser(tx *sql.Tx) TxUserDao {
 }
 
 // SelectAll select user table all recode.
-func (g UserDao) SelectAll() ([]entity.UserEntity, error) {
+func (g UserDao) SelectAll() ([]entity.User, error) {
 	return _UserSelectAll(g)
 }
 
 // SelectAll transaction select user table all recode.
-func (g TxUserDao) SelectAll() ([]entity.UserEntity, error) {
+func (g TxUserDao) SelectAll() ([]entity.User, error) {
 	return _UserSelectAll(g)
 }
 
-func _UserSelectAll(g UserDaoQueryer) ([]entity.UserEntity, error) {
+func _UserSelectAll(g UserDaoQueryer) ([]entity.User, error) {
 	queryString := `
 select
   id
 , name
 , email
-, age
 , create_at
 , update_at
+, age
 FROM
   user`
 
-	var es []entity.UserEntity
+	var es []entity.User
 	rows, err := g.Query(queryString)
 	if err != nil {
 		return nil, err
@@ -103,7 +103,7 @@ FROM
 	}
 
 	for rows.Next() {
-		var e entity.UserEntity
+		var e entity.User
 		if err := e.Scan(rows); err != nil {
 			break
 		}
@@ -119,24 +119,24 @@ FROM
 }
 
 // SelectByID select user table by primaryKey.
-func (g UserDao) SelectByID(id int64) (entity.UserEntity, error) {
+func (g UserDao) SelectByID(id int64) (entity.User, error) {
 	return _UserSelectByID(g, id)
 }
 
 // SelectByID transaction select user table by primaryKey.
-func (g TxUserDao) SelectByID(id int64) (entity.UserEntity, error) {
+func (g TxUserDao) SelectByID(id int64) (entity.User, error) {
 	return _UserSelectByID(g, id)
 }
 
-func _UserSelectByID(g UserDaoQueryer, id int64) (entity.UserEntity, error) {
+func _UserSelectByID(g UserDaoQueryer, id int64) (entity.User, error) {
 	queryString := `
 select
   id
 , name
 , email
-, age
 , create_at
 , update_at
+, age
 FROM
   user
 WHERE
@@ -146,42 +146,42 @@ WHERE
 		id,
 	)
 	if err != nil {
-		return entity.UserEntity{}, err
+		return entity.User{}, err
 	}
 	defer rows.Close()
 
 	if !rows.Next() {
-		return entity.UserEntity{}, sql.ErrNoRows
+		return entity.User{}, sql.ErrNoRows
 	}
 
-	var e entity.UserEntity
+	var e entity.User
 	if err := e.Scan(rows); err != nil {
 		log.Println(err, queryString)
-		return entity.UserEntity{}, err
+		return entity.User{}, err
 	}
 
 	return e, nil
 }
 
 // Insert insert user table.
-func (g UserDao) Insert(entity entity.UserEntity) (sql.Result, error) {
+func (g UserDao) Insert(entity entity.User) (sql.Result, error) {
 	return _UserInsert(g, entity)
 }
 
 // Insert transaction insert user table.
-func (g TxUserDao) Insert(entity entity.UserEntity) (sql.Result, error) {
+func (g TxUserDao) Insert(entity entity.User) (sql.Result, error) {
 	return _UserInsert(g, entity)
 }
 
-func _UserInsert(g UserDaoQueryer, entity entity.UserEntity) (sql.Result, error) {
+func _UserInsert(g UserDaoQueryer, entity entity.User) (sql.Result, error) {
 	queryString := `
 insert into user(
   id
 , name
 , email
-, age
 , create_at
 , update_at
+, age
 ) values(
   ?
 , ?
@@ -194,9 +194,9 @@ insert into user(
 		entity.ID,
 		entity.Name,
 		entity.Email,
-		entity.Age,
 		entity.CreateAt,
 		entity.UpdateAt,
+		entity.Age,
 	)
 	if err != nil {
 		log.Println(err, queryString)
@@ -205,25 +205,25 @@ insert into user(
 }
 
 // Update update user table.
-func (g UserDao) Update(entity entity.UserEntity) (sql.Result, error) {
+func (g UserDao) Update(entity entity.User) (sql.Result, error) {
 	return _UserUpdate(g, entity)
 }
 
 // Update transaction update user table.
-func (g TxUserDao) Update(entity entity.UserEntity) (sql.Result, error) {
+func (g TxUserDao) Update(entity entity.User) (sql.Result, error) {
 	return _UserUpdate(g, entity)
 }
 
 // Update update user table.
-func _UserUpdate(g UserDaoQueryer, entity entity.UserEntity) (sql.Result, error) {
+func _UserUpdate(g UserDaoQueryer, entity entity.User) (sql.Result, error) {
 	queryString := `
 update user set
     id = ?
 ,   name = ?
 ,   email = ?
-,   age = ?
 ,   create_at = ?
 ,   update_at = ?
+,   age = ?
  where
     id = ?
 
@@ -232,9 +232,9 @@ update user set
 		entity.ID,
 		entity.Name,
 		entity.Email,
-		entity.Age,
 		entity.CreateAt,
 		entity.UpdateAt,
+		entity.Age,
 
 		entity.ID,
 	)

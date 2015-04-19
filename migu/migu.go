@@ -71,12 +71,46 @@ func Sync(db *sql.DB, filename string, src interface{}, dropRun bool) error {
 	return tx.Commit()
 }
 
-// Diff returns SQLs for schema synchronous between database and Go's struct.
+func SyncDir(db *sql.DB, filename string, src interface{}, dropRun bool) error {
+	sqls, err := DiffDir(db, filename, src)
+	if err != nil {
+		return err
+	}
+	tx, err := db.Begin()
+	if err != nil {
+		return err
+	}
+	for _, sql := range sqls {
+		if strings.Contains(sql, "DROP") && !dropRun {
+			fmt.Println("[skip] sql = ", sql)
+			continue
+		}
+		if _, err := tx.Exec(sql); err != nil {
+			tx.Rollback()
+			return err
+		}
+	}
+	return tx.Commit()
+}
+
+func DiffDir(db *sql.DB, dirPath string, src interface{}) ([]string, error) {
+	structASTMap, err := makeDirStructASTMap(dirPath, src)
+	if err != nil {
+		return nil, err
+	}
+	return diff(db, structASTMap, src)
+}
+
 func Diff(db *sql.DB, filename string, src interface{}) ([]string, error) {
 	structASTMap, err := makeStructASTMap(filename, src)
 	if err != nil {
 		return nil, err
 	}
+	return diff(db, structASTMap, src)
+}
+
+// Diff returns SQLs for schema synchronous between database and Go's struct.
+func diff(db *sql.DB, structASTMap map[string]*ast.StructType, src interface{}) ([]string, error) {
 	structMap := map[string][]*field{}
 	for name, structAST := range structASTMap {
 		for _, fld := range structAST.Fields.List {
@@ -198,6 +232,22 @@ func Fprint(output io.Writer, db *sql.DB) error {
 		if err := fprintln(output, s); err != nil {
 			return err
 		}
+	}
+	return nil
+}
+
+func FprintStruct(output io.Writer, db *sql.DB, tableName string) error {
+	tableMap, err := getTableMap(db)
+	if err != nil {
+		return err
+	}
+	fmt.Println(tableName, tableMap[tableName])
+	s, err := structAST(tableName, tableMap[tableName])
+	if err != nil {
+		return err
+	}
+	if err := fprintln(output, s); err != nil {
+		return err
 	}
 	return nil
 }
@@ -335,14 +385,40 @@ func fprintln(output io.Writer, decl ast.Decl) error {
 	return nil
 }
 
+func makeDirStructASTMap(dirPath string, src interface{}) (map[string]*ast.StructType, error) {
+	fset := token.NewFileSet()
+	pkgs, err := parser.ParseDir(fset, dirPath, nil, parser.ParseComments)
+	if err != nil {
+		return nil, err
+	}
+	fmt.Println(dirPath)
+
+	structASTMap := map[string]*ast.StructType{}
+	for _, pkg := range pkgs {
+		for _, f := range pkg.Files {
+			smap := makeASTMap(f)
+			for key, val := range smap {
+				structASTMap[key] = val
+			}
+		}
+	}
+
+	return structASTMap, nil
+}
+
 func makeStructASTMap(filename string, src interface{}) (map[string]*ast.StructType, error) {
 	fset := token.NewFileSet()
 	f, err := parser.ParseFile(fset, filename, src, parser.ParseComments)
 	if err != nil {
 		return nil, err
 	}
-	ast.FileExports(f)
+	structASTMap := makeASTMap(f)
+	return structASTMap, nil
+}
+
+func makeASTMap(f *ast.File) map[string]*ast.StructType {
 	structASTMap := map[string]*ast.StructType{}
+	ast.FileExports(f)
 	ast.Inspect(f, func(n ast.Node) bool {
 		switch x := n.(type) {
 		case *ast.TypeSpec:
@@ -354,7 +430,7 @@ func makeStructASTMap(filename string, src interface{}) (map[string]*ast.StructT
 			return true
 		}
 	})
-	return structASTMap, nil
+	return structASTMap
 }
 
 func detectTypeName(n ast.Node) (string, error) {

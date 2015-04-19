@@ -10,16 +10,15 @@ import (
 	"time"
 )
 
-// QuestEntity is generated quest table.
-type QuestEntity struct {
-	ID       int64     `migu:"size:20:pk"`
-	Title    string    `migu:"size:255"`
-	Detail   string    `migu:"size:512"`
-	CreateAt time.Time `migu:""`
-	UpdateAt time.Time `migu:""`
+type Quest struct {
+	ID       int64  `migu:"pk"`
+	Detail   string `migu:"size:512"`
+	CreateAt time.Time
+	UpdateAt time.Time
+	Title    string
 }
 
-// Scan QuestEntity all scan
-func (e *QuestEntity) Scan(rows *sql.Rows) error {
-	return rows.Scan(&e.ID, &e.Title, &e.Detail, &e.CreateAt, &e.UpdateAt)
+// Scan Quest all scan
+func (e *Quest) Scan(rows *sql.Rows) error {
+	return rows.Scan(&e.ID, &e.Detail, &e.CreateAt, &e.UpdateAt, &e.Title)
 }

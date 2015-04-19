@@ -10,17 +10,16 @@ import (
 	"time"
 )
 
-// UserEntity is generated user table.
-type UserEntity struct {
-	ID       int64     `migu:"size:20:pk"`
-	Name     string    `migu:"size:255"`
-	Email    string    `migu:"size:255"`
-	Age      int       `migu:"size:11"`
-	CreateAt time.Time `migu:""`
-	UpdateAt time.Time `migu:""`
+type User struct {
+	ID       int64 `migu:"pk"`
+	Name     string
+	Email    *string
+	CreateAt time.Time
+	UpdateAt time.Time
+	Age      int
 }
 
-// Scan UserEntity all scan
-func (e *UserEntity) Scan(rows *sql.Rows) error {
-	return rows.Scan(&e.ID, &e.Name, &e.Email, &e.Age, &e.CreateAt, &e.UpdateAt)
+// Scan User all scan
+func (e *User) Scan(rows *sql.Rows) error {
+	return rows.Scan(&e.ID, &e.Name, &e.Email, &e.CreateAt, &e.UpdateAt, &e.Age)
 }
