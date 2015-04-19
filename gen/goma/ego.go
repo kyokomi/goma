@@ -1822,7 +1822,7 @@ _, _ = fmt.Fprintf(w, " ")
 //line entity_template.go.ego:17
 _, _ = fmt.Fprintf(w, "%v",  column.TypeName )
 //line entity_template.go.ego:17
-_, _ = fmt.Fprintf(w, " //")
+_, _ = fmt.Fprintf(w, " ")
 //line entity_template.go.ego:17
 _, _ = fmt.Fprintf(w, "%v",  column.TypeDetail )
 //line entity_template.go.ego:18

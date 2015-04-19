@@ -8,10 +8,10 @@ import "database/sql"
 
 // GomaStringTypesEntity is generated goma_string_types table.
 type GomaStringTypesEntity struct {
-	ID             int64  //`goma:"BIGINT:pk"`
-	TextColumns    string //`goma:"TEXT"`
-	CharColumns    string //`goma:"VARCHAR"`
-	VarcharColumns string //`goma:"VARCHAR"`
+	ID             int64  `goma:"BIGINT:pk"`
+	TextColumns    string `goma:"TEXT"`
+	CharColumns    string `goma:"VARCHAR"`
+	VarcharColumns string `goma:"VARCHAR"`
 }
 
 // Scan GomaStringTypesEntity all scan
