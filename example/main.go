@@ -10,6 +10,7 @@ import (
 	"github.com/kyokomi/goma"
 	"github.com/kyokomi/goma/example/dao"
 	"github.com/kyokomi/goma/example/entity"
+	"database/sql"
 )
 
 //go:generate goma --debug gen --driver=mysql --user=admin --password=password --host=localhost --port=3306 --db=test
@@ -69,7 +70,7 @@ func main() {
 		log.Fatalln(err)
 	}
 
-	if q, err := dao.Quest(db).SelectByID(99); err != nil {
+	if q, err := dao.Quest(db).SelectByID(99); err != sql.ErrNoRows {
 		log.Fatalln(err)
 	} else {
 		fmt.Printf("delete after: %+v\n", q)
