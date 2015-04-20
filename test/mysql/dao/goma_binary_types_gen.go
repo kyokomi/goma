@@ -113,18 +113,18 @@ func _GomaBinaryTypesSelectAll(g GomaBinaryTypesDaoQueryer) ([]entity.GomaBinary
 }
 
 // SelectByID select goma_binary_types table by primaryKey.
-func (g GomaBinaryTypesDao) SelectByID(id int64) (entity.GomaBinaryTypesEntity, error) {
-	return _GomaBinaryTypesSelectByID(g, id)
+func (g GomaBinaryTypesDao) SelectByID(binaryID int64) (entity.GomaBinaryTypesEntity, error) {
+	return _GomaBinaryTypesSelectByID(g, binaryID)
 }
 
 // SelectByID transaction select goma_binary_types table by primaryKey.
-func (g TxGomaBinaryTypesDao) SelectByID(id int64) (entity.GomaBinaryTypesEntity, error) {
-	return _GomaBinaryTypesSelectByID(g, id)
+func (g TxGomaBinaryTypesDao) SelectByID(binaryID int64) (entity.GomaBinaryTypesEntity, error) {
+	return _GomaBinaryTypesSelectByID(g, binaryID)
 }
 
-func _GomaBinaryTypesSelectByID(g GomaBinaryTypesDaoQueryer, id int64) (entity.GomaBinaryTypesEntity, error) {
+func _GomaBinaryTypesSelectByID(g GomaBinaryTypesDaoQueryer, binaryID int64) (entity.GomaBinaryTypesEntity, error) {
 	args := goma.QueryArgs{
-		"id": id,
+		"binary_id": binaryID,
 	}
 	queryString := queryArgs("goma_binary_types", "selectByID", args)
 
@@ -159,7 +159,7 @@ func (g TxGomaBinaryTypesDao) Insert(entity entity.GomaBinaryTypesEntity) (sql.R
 
 func _GomaBinaryTypesInsert(g GomaBinaryTypesDaoQueryer, entity entity.GomaBinaryTypesEntity) (sql.Result, error) {
 	args := goma.QueryArgs{
-		"id":                 entity.ID,
+		"binary_id":          entity.BinaryID,
 		"binary_columns":     entity.BinaryColumns,
 		"tinyblob_columns":   entity.TinyblobColumns,
 		"blob_columns":       entity.BlobColumns,
@@ -189,7 +189,7 @@ func (g TxGomaBinaryTypesDao) Update(entity entity.GomaBinaryTypesEntity) (sql.R
 // Update update goma_binary_types table.
 func _GomaBinaryTypesUpdate(g GomaBinaryTypesDaoQueryer, entity entity.GomaBinaryTypesEntity) (sql.Result, error) {
 	args := goma.QueryArgs{
-		"id":                 entity.ID,
+		"binary_id":          entity.BinaryID,
 		"binary_columns":     entity.BinaryColumns,
 		"tinyblob_columns":   entity.TinyblobColumns,
 		"blob_columns":       entity.BlobColumns,
@@ -207,19 +207,19 @@ func _GomaBinaryTypesUpdate(g GomaBinaryTypesDaoQueryer, entity entity.GomaBinar
 }
 
 // Delete delete goma_binary_types table.
-func (g GomaBinaryTypesDao) Delete(id int64) (sql.Result, error) {
-	return _GomaBinaryTypesDelete(g, id)
+func (g GomaBinaryTypesDao) Delete(binaryID int64) (sql.Result, error) {
+	return _GomaBinaryTypesDelete(g, binaryID)
 }
 
 // Delete transaction delete goma_binary_types table.
-func (g TxGomaBinaryTypesDao) Delete(id int64) (sql.Result, error) {
-	return _GomaBinaryTypesDelete(g, id)
+func (g TxGomaBinaryTypesDao) Delete(binaryID int64) (sql.Result, error) {
+	return _GomaBinaryTypesDelete(g, binaryID)
 }
 
 // Delete delete goma_binary_types table by primaryKey.
-func _GomaBinaryTypesDelete(g GomaBinaryTypesDaoQueryer, id int64) (sql.Result, error) {
+func _GomaBinaryTypesDelete(g GomaBinaryTypesDaoQueryer, binaryID int64) (sql.Result, error) {
 	args := goma.QueryArgs{
-		"id": id,
+		"binary_id": binaryID,
 	}
 	queryString := queryArgs("goma_binary_types", "delete", args)
 

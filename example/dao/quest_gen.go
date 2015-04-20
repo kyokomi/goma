@@ -14,6 +14,7 @@ import (
 	"github.com/kyokomi/goma"
 )
 
+// QuestDaoQueryer is interface
 type QuestDaoQueryer interface {
 	Query(query string, args ...interface{}) (*sql.Rows, error)
 	Exec(query string, args ...interface{}) (sql.Result, error)
@@ -45,7 +46,7 @@ func Quest(db *sql.DB) QuestDao {
 	return tblDao
 }
 
-// QuestDaoTx is generated quest table transaction.
+// TxQuestDao is generated quest table transaction.
 type TxQuestDao struct {
 	*sql.Tx
 	TableName string
@@ -72,22 +73,27 @@ func TxQuest(tx *sql.Tx) TxQuestDao {
 }
 
 // SelectAll select quest table all recode.
-func (d QuestDao) SelectAll() ([]*entity.QuestEntity, error) {
-	return questSelectAll(d)
+func (g QuestDao) SelectAll() ([]entity.QuestEntity, error) {
+	return _QuestSelectAll(g)
 }
 
 // SelectAll transaction select quest table all recode.
-func (d TxQuestDao) SelectAll() ([]*entity.QuestEntity, error) {
-	return questSelectAll(d)
+func (g TxQuestDao) SelectAll() ([]entity.QuestEntity, error) {
+	return _QuestSelectAll(g)
 }
 
-func questSelectAll(d QuestDaoQueryer) ([]*entity.QuestEntity, error) {
+func _QuestSelectAll(g QuestDaoQueryer) ([]entity.QuestEntity, error) {
 	queryString := queryArgs("quest", "selectAll", nil)
 
-	var es []*entity.QuestEntity
-	rows, err := d.Query(queryString)
+	var es []entity.QuestEntity
+	rows, err := g.Query(queryString)
 	if err != nil {
 		return nil, err
+	}
+	defer rows.Close()
+
+	if !rows.Next() {
+		return nil, sql.ErrNoRows
 	}
 
 	for rows.Next() {
@@ -96,7 +102,7 @@ func questSelectAll(d QuestDaoQueryer) ([]*entity.QuestEntity, error) {
 			break
 		}
 
-		es = append(es, &e)
+		es = append(es, e)
 	}
 	if err != nil {
 		log.Println(err, queryString)
@@ -107,51 +113,51 @@ func questSelectAll(d QuestDaoQueryer) ([]*entity.QuestEntity, error) {
 }
 
 // SelectByID select quest table by primaryKey.
-func (d QuestDao) SelectByID(id int) (*entity.QuestEntity, error) {
-	return questSelectByID(d, id)
+func (g QuestDao) SelectByID(id int) (entity.QuestEntity, error) {
+	return _QuestSelectByID(g, id)
 }
 
 // SelectByID transaction select quest table by primaryKey.
-func (d TxQuestDao) SelectByID(id int) (*entity.QuestEntity, error) {
-	return questSelectByID(d, id)
+func (g TxQuestDao) SelectByID(id int) (entity.QuestEntity, error) {
+	return _QuestSelectByID(g, id)
 }
 
-func questSelectByID(d QuestDaoQueryer, id int) (*entity.QuestEntity, error) {
+func _QuestSelectByID(g QuestDaoQueryer, id int) (entity.QuestEntity, error) {
 	args := goma.QueryArgs{
 		"id": id,
 	}
 	queryString := queryArgs("quest", "selectByID", args)
 
-	rows, err := d.Query(queryString)
+	rows, err := g.Query(queryString)
 	if err != nil {
-		return nil, err
+		return entity.QuestEntity{}, err
 	}
 	defer rows.Close()
 
 	if !rows.Next() {
-		return nil, nil
+		return entity.QuestEntity{}, sql.ErrNoRows
 	}
 
 	var e entity.QuestEntity
 	if err := e.Scan(rows); err != nil {
 		log.Println(err, queryString)
-		return nil, err
+		return entity.QuestEntity{}, err
 	}
 
-	return &e, nil
+	return e, nil
 }
 
 // Insert insert quest table.
-func (d QuestDao) Insert(entity entity.QuestEntity) (sql.Result, error) {
-	return questInsert(d, entity)
+func (g QuestDao) Insert(entity entity.QuestEntity) (sql.Result, error) {
+	return _QuestInsert(g, entity)
 }
 
 // Insert transaction insert quest table.
-func (d TxQuestDao) Insert(entity entity.QuestEntity) (sql.Result, error) {
-	return questInsert(d, entity)
+func (g TxQuestDao) Insert(entity entity.QuestEntity) (sql.Result, error) {
+	return _QuestInsert(g, entity)
 }
 
-func questInsert(d QuestDaoQueryer, entity entity.QuestEntity) (sql.Result, error) {
+func _QuestInsert(g QuestDaoQueryer, entity entity.QuestEntity) (sql.Result, error) {
 	args := goma.QueryArgs{
 		"id":        entity.ID,
 		"name":      entity.Name,
@@ -160,7 +166,7 @@ func questInsert(d QuestDaoQueryer, entity entity.QuestEntity) (sql.Result, erro
 	}
 	queryString := queryArgs("quest", "insert", args)
 
-	result, err := d.Exec(queryString)
+	result, err := g.Exec(queryString)
 	if err != nil {
 		log.Println(err, queryString)
 	}
@@ -168,17 +174,17 @@ func questInsert(d QuestDaoQueryer, entity entity.QuestEntity) (sql.Result, erro
 }
 
 // Update update quest table.
-func (d QuestDao) Update(entity entity.QuestEntity) (sql.Result, error) {
-	return questUpdate(d, entity)
+func (g QuestDao) Update(entity entity.QuestEntity) (sql.Result, error) {
+	return _QuestUpdate(g, entity)
 }
 
 // Update transaction update quest table.
-func (d TxQuestDao) Update(entity entity.QuestEntity) (sql.Result, error) {
-	return questUpdate(d, entity)
+func (g TxQuestDao) Update(entity entity.QuestEntity) (sql.Result, error) {
+	return _QuestUpdate(g, entity)
 }
 
 // Update update quest table.
-func questUpdate(d QuestDaoQueryer, entity entity.QuestEntity) (sql.Result, error) {
+func _QuestUpdate(g QuestDaoQueryer, entity entity.QuestEntity) (sql.Result, error) {
 	args := goma.QueryArgs{
 		"id":        entity.ID,
 		"name":      entity.Name,
@@ -187,7 +193,7 @@ func questUpdate(d QuestDaoQueryer, entity entity.QuestEntity) (sql.Result, erro
 	}
 	queryString := queryArgs("quest", "update", args)
 
-	result, err := d.Exec(queryString)
+	result, err := g.Exec(queryString)
 	if err != nil {
 		log.Println(err, queryString)
 	}
@@ -195,23 +201,23 @@ func questUpdate(d QuestDaoQueryer, entity entity.QuestEntity) (sql.Result, erro
 }
 
 // Delete delete quest table.
-func (d QuestDao) Delete(id int) (sql.Result, error) {
-	return questDelete(d, id)
+func (g QuestDao) Delete(id int) (sql.Result, error) {
+	return _QuestDelete(g, id)
 }
 
 // Delete transaction delete quest table.
-func (d TxQuestDao) Delete(id int) (sql.Result, error) {
-	return questDelete(d, id)
+func (g TxQuestDao) Delete(id int) (sql.Result, error) {
+	return _QuestDelete(g, id)
 }
 
 // Delete delete quest table by primaryKey.
-func questDelete(d QuestDaoQueryer, id int) (sql.Result, error) {
+func _QuestDelete(g QuestDaoQueryer, id int) (sql.Result, error) {
 	args := goma.QueryArgs{
 		"id": id,
 	}
 	queryString := queryArgs("quest", "delete", args)
 
-	result, err := d.Exec(queryString)
+	result, err := g.Exec(queryString)
 	if err != nil {
 		log.Println(err, queryString)
 	}

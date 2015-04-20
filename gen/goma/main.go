@@ -49,13 +49,13 @@ func main() {
 			Name:   "gen",
 			Action: genAction,
 			Usage:  "generate code by params",
-			Flags: genFlags,
+			Flags:  genFlags,
 		},
 		{
 			Name:   "gen-simple",
 			Action: genSimpleAction,
 			Usage:  "generate simple code by params",
-			Flags: genFlags,
+			Flags:  genFlags,
 		},
 		{
 			Name:   "gen-config",

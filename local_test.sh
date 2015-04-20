@@ -7,3 +7,5 @@ go generate github.com/kyokomi/goma/test/simple/mysql
 go generate github.com/kyokomi/goma/test/simple/postgres
 go test ./...
 
+golint ./... | grep -v ego
+

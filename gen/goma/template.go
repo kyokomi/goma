@@ -9,6 +9,8 @@ import (
 	"os"
 	"path/filepath"
 	"strconv"
+
+	"github.com/etgryphon/stringUp"
 )
 
 // HelperTemplateData helper data.
@@ -35,6 +37,7 @@ type DaoTemplateData struct {
 	DriverName    string
 }
 
+// Placeholder driver placeholder
 func (d DaoTemplateData) Placeholder(num int) string {
 	if d.DriverName == "postgres" {
 		return "$" + strconv.Itoa(num)
@@ -57,6 +60,11 @@ type ColumnTemplateData struct {
 	TypeDetail   string
 	IsPrimaryKey bool
 	Sample       string
+}
+
+// CamelName convert go lint CamelCase
+func (c ColumnTemplateData) CamelName() string {
+	return lintName(stringUp.CamelCase(c.Name))
 }
 
 // AssetTemplateData asset data.
