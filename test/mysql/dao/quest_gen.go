@@ -9,7 +9,9 @@ import (
 
 	"database/sql"
 
-	"github.com/kyokomi/goma/test/migu/models"
+	"github.com/kyokomi/goma/test/mysql/entity"
+
+	"github.com/kyokomi/goma"
 )
 
 // QuestDaoQueryer is interface
@@ -71,34 +73,27 @@ func TxQuest(tx *sql.Tx) TxQuestDao {
 }
 
 // SelectAll select quest table all recode.
-func (g QuestDao) SelectAll() ([]models.Quest, error) {
+func (g QuestDao) SelectAll() ([]entity.Quest, error) {
 	return _QuestSelectAll(g)
 }
 
 // SelectAll transaction select quest table all recode.
-func (g TxQuestDao) SelectAll() ([]models.Quest, error) {
+func (g TxQuestDao) SelectAll() ([]entity.Quest, error) {
 	return _QuestSelectAll(g)
 }
 
-func _QuestSelectAll(g QuestDaoQueryer) ([]models.Quest, error) {
-	queryString := `
-select
-  id
-, title
-, detail
-, create_at
-, update_at
-FROM
-  quest`
+func _QuestSelectAll(g QuestDaoQueryer) ([]entity.Quest, error) {
+	queryString := queryArgs("quest", "selectAll", nil)
 
-	var es []models.Quest
+	var es []entity.Quest
 	rows, err := g.Query(queryString)
 	if err != nil {
 		return nil, err
 	}
+	defer rows.Close()
 
 	for rows.Next() {
-		var e models.Quest
+		var e entity.Quest
 		if err := e.Scan(rows); err != nil {
 			break
 		}
@@ -114,81 +109,61 @@ FROM
 }
 
 // SelectByID select quest table by primaryKey.
-func (g QuestDao) SelectByID(id int64) (models.Quest, error) {
+func (g QuestDao) SelectByID(id int64) (entity.Quest, error) {
 	return _QuestSelectByID(g, id)
 }
 
 // SelectByID transaction select quest table by primaryKey.
-func (g TxQuestDao) SelectByID(id int64) (models.Quest, error) {
+func (g TxQuestDao) SelectByID(id int64) (entity.Quest, error) {
 	return _QuestSelectByID(g, id)
 }
 
-func _QuestSelectByID(g QuestDaoQueryer, id int64) (models.Quest, error) {
-	queryString := `
-select
-  id
-, title
-, detail
-, create_at
-, update_at
-FROM
-  quest
-WHERE
-  id = ?
-`
-	rows, err := g.Query(queryString,
-		id,
-	)
+func _QuestSelectByID(g QuestDaoQueryer, id int64) (entity.Quest, error) {
+	args := goma.QueryArgs{
+		"id": id,
+	}
+	queryString := queryArgs("quest", "selectByID", args)
+
+	rows, err := g.Query(queryString)
 	if err != nil {
-		return models.Quest{}, err
+		return entity.Quest{}, err
 	}
 	defer rows.Close()
 
 	if !rows.Next() {
-		return models.Quest{}, sql.ErrNoRows
+		return entity.Quest{}, sql.ErrNoRows
 	}
 
-	var e models.Quest
+	var e entity.Quest
 	if err := e.Scan(rows); err != nil {
 		log.Println(err, queryString)
-		return models.Quest{}, err
+		return entity.Quest{}, err
 	}
 
 	return e, nil
 }
 
 // Insert insert quest table.
-func (g QuestDao) Insert(e models.Quest) (sql.Result, error) {
+func (g QuestDao) Insert(e entity.Quest) (sql.Result, error) {
 	return _QuestInsert(g, e)
 }
 
 // Insert transaction insert quest table.
-func (g TxQuestDao) Insert(e models.Quest) (sql.Result, error) {
+func (g TxQuestDao) Insert(e entity.Quest) (sql.Result, error) {
 	return _QuestInsert(g, e)
 }
 
-func _QuestInsert(g QuestDaoQueryer, e models.Quest) (sql.Result, error) {
-	queryString := `
-insert into quest(
-  id
-, title
-, detail
-, create_at
-, update_at
-) values(
-  ?
-, ?
-, ?
-, ?
-, ?
-)`
-	result, err := g.Exec(queryString,
-		e.ID,
-		e.Title,
-		e.Detail,
-		e.CreateAt,
-		e.UpdateAt,
-	)
+func _QuestInsert(g QuestDaoQueryer, e entity.Quest) (sql.Result, error) {
+	args := goma.QueryArgs{
+		"id":        e.ID,
+		"title":     e.Title,
+		"detail":    e.Detail,
+		"create_at": e.CreateAt,
+		"update_at": e.UpdateAt,
+	}
+	queryString := queryArgs("quest", "insert", args)
+
+	result, err := g.Exec(queryString)
 	if err != nil {
 		log.Println(err, queryString)
 	}
@@ -196,37 +171,27 @@ insert into quest(
 }
 
 // Update update quest table.
-func (g QuestDao) Update(e models.Quest) (sql.Result, error) {
+func (g QuestDao) Update(e entity.Quest) (sql.Result, error) {
 	return _QuestUpdate(g, e)
 }
 
 // Update transaction update quest table.
-func (g TxQuestDao) Update(e models.Quest) (sql.Result, error) {
+func (g TxQuestDao) Update(e entity.Quest) (sql.Result, error) {
 	return _QuestUpdate(g, e)
 }
 
 // Update update quest table.
-func _QuestUpdate(g QuestDaoQueryer, e models.Quest) (sql.Result, error) {
-	queryString := `
-update quest set
-    id = ?
-,   title = ?
-,   detail = ?
-,   create_at = ?
-,   update_at = ?
- where
-    id = ?
+func _QuestUpdate(g QuestDaoQueryer, e entity.Quest) (sql.Result, error) {
+	args := goma.QueryArgs{
+		"id":        e.ID,
+		"title":     e.Title,
+		"detail":    e.Detail,
+		"create_at": e.CreateAt,
+		"update_at": e.UpdateAt,
+	}
+	queryString := queryArgs("quest", "update", args)
 
-`
-	result, err := g.Exec(queryString,
-		e.ID,
-		e.Title,
-		e.Detail,
-		e.CreateAt,
-		e.UpdateAt,
-
-		e.ID,
-	)
+	result, err := g.Exec(queryString)
 	if err != nil {
 		log.Println(err, queryString)
 	}
@@ -245,17 +210,12 @@ func (g TxQuestDao) Delete(id int64) (sql.Result, error) {
 
 // Delete delete quest table by primaryKey.
 func _QuestDelete(g QuestDaoQueryer, id int64) (sql.Result, error) {
-	queryString := `
-delete
-from
-  quest
-where
-  id = ?
+	args := goma.QueryArgs{
+		"id": id,
+	}
+	queryString := queryArgs("quest", "delete", args)
 
-`
-	result, err := g.Exec(queryString,
-		id,
-	)
+	result, err := g.Exec(queryString)
 	if err != nil {
 		log.Println(err, queryString)
 	}

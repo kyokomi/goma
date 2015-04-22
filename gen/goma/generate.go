@@ -38,7 +38,7 @@ var driverImports = map[string]string{
 	"postgres": `_ "github.com/lib/pq"`,
 }
 
-func generate(pkg string, opt goma.Options, isSimple bool) {
+func generate(pkg string, opt goma.Options, isSimple bool, isMigu bool) {
 	log.SetFlags(log.Llongfile)
 
 	currentDir, err := os.Getwd()
@@ -81,8 +81,6 @@ func generate(pkg string, opt goma.Options, isSimple bool) {
 		// create templateData
 		data := newTemplateData(table, opt)
 
-		data.Imports = nil // TODO: とりあえず
-
 		// dao template
 		if isSimple {
 			if err := data.execDaoSimpleTemplate(daoRootPath); err != nil {
@@ -94,12 +92,16 @@ func generate(pkg string, opt goma.Options, isSimple bool) {
 			}
 		}
 
-		var entityBlock bytes.Buffer
-		if err := migu.FprintStruct(&entityBlock, orm.DB().DB, data.Table.TitleName); err != nil {
-			log.Fatalln(err)
+		if isMigu {
+			data.Imports = nil // TODO: とりあえず
+
+			var entityBlock bytes.Buffer
+			if err := migu.FprintStruct(&entityBlock, orm.DB().DB, data.Table.TitleName); err != nil {
+				log.Fatalln(err)
+			}
+			data.EntityBlock = entityBlock.String()
+			data.EntityBlock = " " // TODO: とりあえず
 		}
-		data.EntityBlock = entityBlock.String()
-		data.EntityBlock = " " // TODO: とりあえず
 
 		// entity template
 		if err := data.execEntityTemplate(entityRootPath); err != nil {

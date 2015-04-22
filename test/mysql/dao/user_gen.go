@@ -9,7 +9,9 @@ import (
 
 	"database/sql"
 
-	"github.com/kyokomi/goma/test/migu/models"
+	"github.com/kyokomi/goma/test/mysql/entity"
+
+	"github.com/kyokomi/goma"
 )
 
 // UserDaoQueryer is interface
@@ -71,35 +73,27 @@ func TxUser(tx *sql.Tx) TxUserDao {
 }
 
 // SelectAll select user table all recode.
-func (g UserDao) SelectAll() ([]models.User, error) {
+func (g UserDao) SelectAll() ([]entity.User, error) {
 	return _UserSelectAll(g)
 }
 
 // SelectAll transaction select user table all recode.
-func (g TxUserDao) SelectAll() ([]models.User, error) {
+func (g TxUserDao) SelectAll() ([]entity.User, error) {
 	return _UserSelectAll(g)
 }
 
-func _UserSelectAll(g UserDaoQueryer) ([]models.User, error) {
-	queryString := `
-select
-  id
-, name
-, email
-, age
-, create_at
-, update_at
-FROM
-  user`
+func _UserSelectAll(g UserDaoQueryer) ([]entity.User, error) {
+	queryString := queryArgs("user", "selectAll", nil)
 
-	var es []models.User
+	var es []entity.User
 	rows, err := g.Query(queryString)
 	if err != nil {
 		return nil, err
 	}
+	defer rows.Close()
 
 	for rows.Next() {
-		var e models.User
+		var e entity.User
 		if err := e.Scan(rows); err != nil {
 			break
 		}
@@ -115,85 +109,62 @@ FROM
 }
 
 // SelectByID select user table by primaryKey.
-func (g UserDao) SelectByID(id int64) (models.User, error) {
+func (g UserDao) SelectByID(id int64) (entity.User, error) {
 	return _UserSelectByID(g, id)
 }
 
 // SelectByID transaction select user table by primaryKey.
-func (g TxUserDao) SelectByID(id int64) (models.User, error) {
+func (g TxUserDao) SelectByID(id int64) (entity.User, error) {
 	return _UserSelectByID(g, id)
 }
 
-func _UserSelectByID(g UserDaoQueryer, id int64) (models.User, error) {
-	queryString := `
-select
-  id
-, name
-, email
-, age
-, create_at
-, update_at
-FROM
-  user
-WHERE
-  id = ?
-`
-	rows, err := g.Query(queryString,
-		id,
-	)
+func _UserSelectByID(g UserDaoQueryer, id int64) (entity.User, error) {
+	args := goma.QueryArgs{
+		"id": id,
+	}
+	queryString := queryArgs("user", "selectByID", args)
+
+	rows, err := g.Query(queryString)
 	if err != nil {
-		return models.User{}, err
+		return entity.User{}, err
 	}
 	defer rows.Close()
 
 	if !rows.Next() {
-		return models.User{}, sql.ErrNoRows
+		return entity.User{}, sql.ErrNoRows
 	}
 
-	var e models.User
+	var e entity.User
 	if err := e.Scan(rows); err != nil {
 		log.Println(err, queryString)
-		return models.User{}, err
+		return entity.User{}, err
 	}
 
 	return e, nil
 }
 
 // Insert insert user table.
-func (g UserDao) Insert(e models.User) (sql.Result, error) {
+func (g UserDao) Insert(e entity.User) (sql.Result, error) {
 	return _UserInsert(g, e)
 }
 
 // Insert transaction insert user table.
-func (g TxUserDao) Insert(e models.User) (sql.Result, error) {
+func (g TxUserDao) Insert(e entity.User) (sql.Result, error) {
 	return _UserInsert(g, e)
 }
 
-func _UserInsert(g UserDaoQueryer, e models.User) (sql.Result, error) {
-	queryString := `
-insert into user(
-  id
-, name
-, email
-, age
-, create_at
-, update_at
-) values(
-  ?
-, ?
-, ?
-, ?
-, ?
-, ?
-)`
-	result, err := g.Exec(queryString,
-		e.ID,
-		e.Name,
-		e.Email,
-		e.Age,
-		e.CreateAt,
-		e.UpdateAt,
-	)
+func _UserInsert(g UserDaoQueryer, e entity.User) (sql.Result, error) {
+	args := goma.QueryArgs{
+		"id":        e.ID,
+		"name":      e.Name,
+		"email":     e.Email,
+		"age":       e.Age,
+		"create_at": e.CreateAt,
+		"update_at": e.UpdateAt,
+	}
+	queryString := queryArgs("user", "insert", args)
+
+	result, err := g.Exec(queryString)
 	if err != nil {
 		log.Println(err, queryString)
 	}
@@ -201,39 +172,28 @@ insert into user(
 }
 
 // Update update user table.
-func (g UserDao) Update(e models.User) (sql.Result, error) {
+func (g UserDao) Update(e entity.User) (sql.Result, error) {
 	return _UserUpdate(g, e)
 }
 
 // Update transaction update user table.
-func (g TxUserDao) Update(e models.User) (sql.Result, error) {
+func (g TxUserDao) Update(e entity.User) (sql.Result, error) {
 	return _UserUpdate(g, e)
 }
 
 // Update update user table.
-func _UserUpdate(g UserDaoQueryer, e models.User) (sql.Result, error) {
-	queryString := `
-update user set
-    id = ?
-,   name = ?
-,   email = ?
-,   age = ?
-,   create_at = ?
-,   update_at = ?
- where
-    id = ?
+func _UserUpdate(g UserDaoQueryer, e entity.User) (sql.Result, error) {
+	args := goma.QueryArgs{
+		"id":        e.ID,
+		"name":      e.Name,
+		"email":     e.Email,
+		"age":       e.Age,
+		"create_at": e.CreateAt,
+		"update_at": e.UpdateAt,
+	}
+	queryString := queryArgs("user", "update", args)
 
-`
-	result, err := g.Exec(queryString,
-		e.ID,
-		e.Name,
-		e.Email,
-		e.Age,
-		e.CreateAt,
-		e.UpdateAt,
-
-		e.ID,
-	)
+	result, err := g.Exec(queryString)
 	if err != nil {
 		log.Println(err, queryString)
 	}
@@ -252,17 +212,12 @@ func (g TxUserDao) Delete(id int64) (sql.Result, error) {
 
 // Delete delete user table by primaryKey.
 func _UserDelete(g UserDaoQueryer, id int64) (sql.Result, error) {
-	queryString := `
-delete
-from
-  user
-where
-  id = ?
+	args := goma.QueryArgs{
+		"id": id,
+	}
+	queryString := queryArgs("user", "delete", args)
 
-`
-	result, err := g.Exec(queryString,
-		id,
-	)
+	result, err := g.Exec(queryString)
 	if err != nil {
 		log.Println(err, queryString)
 	}

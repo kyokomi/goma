@@ -71,16 +71,16 @@ func TxGomaDateTypes(tx *sql.Tx) TxGomaDateTypesDao {
 }
 
 // SelectAll select goma_date_types table all recode.
-func (g GomaDateTypesDao) SelectAll() ([]entity.GomaDateTypesEntity, error) {
+func (g GomaDateTypesDao) SelectAll() ([]entity.GomaDateTypes, error) {
 	return _GomaDateTypesSelectAll(g)
 }
 
 // SelectAll transaction select goma_date_types table all recode.
-func (g TxGomaDateTypesDao) SelectAll() ([]entity.GomaDateTypesEntity, error) {
+func (g TxGomaDateTypesDao) SelectAll() ([]entity.GomaDateTypes, error) {
 	return _GomaDateTypesSelectAll(g)
 }
 
-func _GomaDateTypesSelectAll(g GomaDateTypesDaoQueryer) ([]entity.GomaDateTypesEntity, error) {
+func _GomaDateTypesSelectAll(g GomaDateTypesDaoQueryer) ([]entity.GomaDateTypes, error) {
 	queryString := `
 select
   id
@@ -90,14 +90,14 @@ select
 FROM
   goma_date_types`
 
-	var es []entity.GomaDateTypesEntity
+	var es []entity.GomaDateTypes
 	rows, err := g.Query(queryString)
 	if err != nil {
 		return nil, err
 	}
 
 	for rows.Next() {
-		var e entity.GomaDateTypesEntity
+		var e entity.GomaDateTypes
 		if err := e.Scan(rows); err != nil {
 			break
 		}
@@ -113,16 +113,16 @@ FROM
 }
 
 // SelectByID select goma_date_types table by primaryKey.
-func (g GomaDateTypesDao) SelectByID(id int64) (entity.GomaDateTypesEntity, error) {
+func (g GomaDateTypesDao) SelectByID(id int64) (entity.GomaDateTypes, error) {
 	return _GomaDateTypesSelectByID(g, id)
 }
 
 // SelectByID transaction select goma_date_types table by primaryKey.
-func (g TxGomaDateTypesDao) SelectByID(id int64) (entity.GomaDateTypesEntity, error) {
+func (g TxGomaDateTypesDao) SelectByID(id int64) (entity.GomaDateTypes, error) {
 	return _GomaDateTypesSelectByID(g, id)
 }
 
-func _GomaDateTypesSelectByID(g GomaDateTypesDaoQueryer, id int64) (entity.GomaDateTypesEntity, error) {
+func _GomaDateTypesSelectByID(g GomaDateTypesDaoQueryer, id int64) (entity.GomaDateTypes, error) {
 	queryString := `
 select
   id
@@ -138,34 +138,34 @@ WHERE
 		id,
 	)
 	if err != nil {
-		return entity.GomaDateTypesEntity{}, err
+		return entity.GomaDateTypes{}, err
 	}
 	defer rows.Close()
 
 	if !rows.Next() {
-		return entity.GomaDateTypesEntity{}, sql.ErrNoRows
+		return entity.GomaDateTypes{}, sql.ErrNoRows
 	}
 
-	var e entity.GomaDateTypesEntity
+	var e entity.GomaDateTypes
 	if err := e.Scan(rows); err != nil {
 		log.Println(err, queryString)
-		return entity.GomaDateTypesEntity{}, err
+		return entity.GomaDateTypes{}, err
 	}
 
 	return e, nil
 }
 
 // Insert insert goma_date_types table.
-func (g GomaDateTypesDao) Insert(e entity.GomaDateTypesEntity) (sql.Result, error) {
+func (g GomaDateTypesDao) Insert(e entity.GomaDateTypes) (sql.Result, error) {
 	return _GomaDateTypesInsert(g, e)
 }
 
 // Insert transaction insert goma_date_types table.
-func (g TxGomaDateTypesDao) Insert(e entity.GomaDateTypesEntity) (sql.Result, error) {
+func (g TxGomaDateTypesDao) Insert(e entity.GomaDateTypes) (sql.Result, error) {
 	return _GomaDateTypesInsert(g, e)
 }
 
-func _GomaDateTypesInsert(g GomaDateTypesDaoQueryer, e entity.GomaDateTypesEntity) (sql.Result, error) {
+func _GomaDateTypesInsert(g GomaDateTypesDaoQueryer, e entity.GomaDateTypes) (sql.Result, error) {
 	queryString := `
 insert into goma_date_types(
   id
@@ -191,17 +191,17 @@ insert into goma_date_types(
 }
 
 // Update update goma_date_types table.
-func (g GomaDateTypesDao) Update(e entity.GomaDateTypesEntity) (sql.Result, error) {
+func (g GomaDateTypesDao) Update(e entity.GomaDateTypes) (sql.Result, error) {
 	return _GomaDateTypesUpdate(g, e)
 }
 
 // Update transaction update goma_date_types table.
-func (g TxGomaDateTypesDao) Update(e entity.GomaDateTypesEntity) (sql.Result, error) {
+func (g TxGomaDateTypesDao) Update(e entity.GomaDateTypes) (sql.Result, error) {
 	return _GomaDateTypesUpdate(g, e)
 }
 
 // Update update goma_date_types table.
-func _GomaDateTypesUpdate(g GomaDateTypesDaoQueryer, e entity.GomaDateTypesEntity) (sql.Result, error) {
+func _GomaDateTypesUpdate(g GomaDateTypesDaoQueryer, e entity.GomaDateTypes) (sql.Result, error) {
 	queryString := `
 update goma_date_types set
     id = ?

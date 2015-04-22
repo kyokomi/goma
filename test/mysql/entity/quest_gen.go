@@ -10,12 +10,13 @@ import (
 	"time"
 )
 
+// Quest is generated quest table.
 type Quest struct {
-	ID       int64 `migu:"pk"`
-	Title    string
-	Detail   string `migu:"size:512"`
-	CreateAt time.Time
-	UpdateAt time.Time
+	ID       int64     `migu:"size:20:pk"`
+	Title    string    `migu:"size:255"`
+	Detail   string    `migu:"size:512"`
+	CreateAt time.Time `migu:""`
+	UpdateAt time.Time `migu:""`
 }
 
 // Scan Quest all scan

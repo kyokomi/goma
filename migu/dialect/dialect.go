@@ -22,6 +22,7 @@ THE SOFTWARE.
 
 package dialect
 
+// Dialect interface Dialect
 type Dialect interface {
 	ColumnType(name string, size uint64, autoIncrement bool) (typ string, null bool)
 	Quote(s string) string

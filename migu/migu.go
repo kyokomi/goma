@@ -71,6 +71,7 @@ func Sync(db *sql.DB, filename string, src interface{}, dropRun bool) error {
 	return tx.Commit()
 }
 
+// SyncDir sync directory
 func SyncDir(db *sql.DB, filename string, src interface{}, dropRun bool) error {
 	sqls, err := DiffDir(db, filename, src)
 	if err != nil {
@@ -93,6 +94,7 @@ func SyncDir(db *sql.DB, filename string, src interface{}, dropRun bool) error {
 	return tx.Commit()
 }
 
+// DiffDir returns SQLs dir for schema synchronous between database and Go's struct.
 func DiffDir(db *sql.DB, dirPath string, src interface{}) ([]string, error) {
 	structASTMap, err := makeDirStructASTMap(dirPath, src)
 	if err != nil {
@@ -101,6 +103,7 @@ func DiffDir(db *sql.DB, dirPath string, src interface{}) ([]string, error) {
 	return diff(db, structASTMap, src)
 }
 
+// Diff returns SQLs for schema synchronous between database and Go's struct.
 func Diff(db *sql.DB, filename string, src interface{}) ([]string, error) {
 	structASTMap, err := makeStructASTMap(filename, src)
 	if err != nil {
@@ -109,7 +112,6 @@ func Diff(db *sql.DB, filename string, src interface{}) ([]string, error) {
 	return diff(db, structASTMap, src)
 }
 
-// Diff returns SQLs for schema synchronous between database and Go's struct.
 func diff(db *sql.DB, structASTMap map[string]*ast.StructType, src interface{}) ([]string, error) {
 	structMap := map[string][]*field{}
 	for name, structAST := range structASTMap {
@@ -236,6 +238,7 @@ func Fprint(output io.Writer, db *sql.DB) error {
 	return nil
 }
 
+// FprintStruct generates one table Go's structs from database schema and writes to output.
 func FprintStruct(output io.Writer, db *sql.DB, tableName string) error {
 	tableMap, err := getTableMap(db)
 	if err != nil {

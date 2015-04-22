@@ -9,7 +9,7 @@ import (
 
 	"database/sql"
 
-	"github.com/kyokomi/goma/test/migu/models"
+	"github.com/kyokomi/goma/test/simple/mysql/entity"
 )
 
 // UserDaoQueryer is interface
@@ -71,16 +71,16 @@ func TxUser(tx *sql.Tx) TxUserDao {
 }
 
 // SelectAll select user table all recode.
-func (g UserDao) SelectAll() ([]models.User, error) {
+func (g UserDao) SelectAll() ([]entity.User, error) {
 	return _UserSelectAll(g)
 }
 
 // SelectAll transaction select user table all recode.
-func (g TxUserDao) SelectAll() ([]models.User, error) {
+func (g TxUserDao) SelectAll() ([]entity.User, error) {
 	return _UserSelectAll(g)
 }
 
-func _UserSelectAll(g UserDaoQueryer) ([]models.User, error) {
+func _UserSelectAll(g UserDaoQueryer) ([]entity.User, error) {
 	queryString := `
 select
   id
@@ -92,14 +92,14 @@ select
 FROM
   user`
 
-	var es []models.User
+	var es []entity.User
 	rows, err := g.Query(queryString)
 	if err != nil {
 		return nil, err
 	}
 
 	for rows.Next() {
-		var e models.User
+		var e entity.User
 		if err := e.Scan(rows); err != nil {
 			break
 		}
@@ -115,16 +115,16 @@ FROM
 }
 
 // SelectByID select user table by primaryKey.
-func (g UserDao) SelectByID(id int64) (models.User, error) {
+func (g UserDao) SelectByID(id int64) (entity.User, error) {
 	return _UserSelectByID(g, id)
 }
 
 // SelectByID transaction select user table by primaryKey.
-func (g TxUserDao) SelectByID(id int64) (models.User, error) {
+func (g TxUserDao) SelectByID(id int64) (entity.User, error) {
 	return _UserSelectByID(g, id)
 }
 
-func _UserSelectByID(g UserDaoQueryer, id int64) (models.User, error) {
+func _UserSelectByID(g UserDaoQueryer, id int64) (entity.User, error) {
 	queryString := `
 select
   id
@@ -142,34 +142,34 @@ WHERE
 		id,
 	)
 	if err != nil {
-		return models.User{}, err
+		return entity.User{}, err
 	}
 	defer rows.Close()
 
 	if !rows.Next() {
-		return models.User{}, sql.ErrNoRows
+		return entity.User{}, sql.ErrNoRows
 	}
 
-	var e models.User
+	var e entity.User
 	if err := e.Scan(rows); err != nil {
 		log.Println(err, queryString)
-		return models.User{}, err
+		return entity.User{}, err
 	}
 
 	return e, nil
 }
 
 // Insert insert user table.
-func (g UserDao) Insert(e models.User) (sql.Result, error) {
+func (g UserDao) Insert(e entity.User) (sql.Result, error) {
 	return _UserInsert(g, e)
 }
 
 // Insert transaction insert user table.
-func (g TxUserDao) Insert(e models.User) (sql.Result, error) {
+func (g TxUserDao) Insert(e entity.User) (sql.Result, error) {
 	return _UserInsert(g, e)
 }
 
-func _UserInsert(g UserDaoQueryer, e models.User) (sql.Result, error) {
+func _UserInsert(g UserDaoQueryer, e entity.User) (sql.Result, error) {
 	queryString := `
 insert into user(
   id
@@ -201,17 +201,17 @@ insert into user(
 }
 
 // Update update user table.
-func (g UserDao) Update(e models.User) (sql.Result, error) {
+func (g UserDao) Update(e entity.User) (sql.Result, error) {
 	return _UserUpdate(g, e)
 }
 
 // Update transaction update user table.
-func (g TxUserDao) Update(e models.User) (sql.Result, error) {
+func (g TxUserDao) Update(e entity.User) (sql.Result, error) {
 	return _UserUpdate(g, e)
 }
 
 // Update update user table.
-func _UserUpdate(g UserDaoQueryer, e models.User) (sql.Result, error) {
+func _UserUpdate(g UserDaoQueryer, e entity.User) (sql.Result, error) {
 	queryString := `
 update user set
     id = ?

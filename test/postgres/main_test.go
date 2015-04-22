@@ -29,7 +29,7 @@ func TestNumeric(t *testing.T) {
 	// numeric
 	d := dao.GomaNumericTypes(db)
 
-	insertData := entity.GomaNumericTypesEntity{
+	insertData := entity.GomaNumericTypes{
 		ID:              id,
 		BoolColumns:     true,
 		SmallintColumns: int(123),
@@ -72,7 +72,7 @@ func TestString(t *testing.T) {
 	// string
 	d := dao.GomaStringTypes(db)
 
-	insertData := entity.GomaStringTypesEntity{
+	insertData := entity.GomaStringTypes{
 		ID:             id,
 		TextColumns:    "あいうえおかきくけこ",
 		CharColumns:    "a       ",
@@ -122,7 +122,7 @@ func TestDate(t *testing.T) {
 		time.FixedZone("", 0),
 	)
 
-	insertData := entity.GomaDateTypesEntity{
+	insertData := entity.GomaDateTypes{
 		ID:               id,
 		DateColumns:      dateColumnsTime,
 		TimestampColumns: timeStampColumnsTime,
@@ -164,7 +164,7 @@ func TestTx(t *testing.T) {
 	// string
 	dtx := dao.TxGomaStringTypes(tx)
 
-	e := entity.GomaStringTypesEntity{
+	e := entity.GomaStringTypes{
 		ID:             id,
 		TextColumns:    "あいうえおかきくけこ",
 		CharColumns:    "a",

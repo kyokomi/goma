@@ -10,15 +10,15 @@ import (
 	"time"
 )
 
-// GomaDateTypesEntity is generated goma_date_types table.
-type GomaDateTypesEntity struct {
-	ID               int64     `goma:"BIGINT(20):pk"`
-	DateColumns      time.Time `goma:"DATE"`
-	DatetimeColumns  time.Time `goma:"DATETIME"`
-	TimestampColumns time.Time `goma:"TIMESTAMP"`
+// GomaDateTypes is generated goma_date_types table.
+type GomaDateTypes struct {
+	ID               int64     `migu:"size:20:pk"`
+	DateColumns      time.Time `migu:""`
+	DatetimeColumns  time.Time `migu:""`
+	TimestampColumns time.Time `migu:""`
 }
 
-// Scan GomaDateTypesEntity all scan
-func (e *GomaDateTypesEntity) Scan(rows *sql.Rows) error {
+// Scan GomaDateTypes all scan
+func (e *GomaDateTypes) Scan(rows *sql.Rows) error {
 	return rows.Scan(&e.ID, &e.DateColumns, &e.DatetimeColumns, &e.TimestampColumns)
 }

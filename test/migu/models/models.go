@@ -1,7 +1,8 @@
-package main
+package models
 
 import "time"
 
+// User user models
 type User struct {
 	ID       int64 `migu:"pk"`
 	Name     string
@@ -11,6 +12,7 @@ type User struct {
 	UpdateAt time.Time
 }
 
+// Quest quest models
 type Quest struct {
 	ID       int64 `migu:"pk"`
 	Title    string

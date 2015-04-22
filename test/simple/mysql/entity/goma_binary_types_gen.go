@@ -6,18 +6,18 @@ import "database/sql"
 // GOMA CODE GENERATION TOOL (github.com/kyokomi/goma)
 // DO NOT EDIT
 
-// GomaBinaryTypesEntity is generated goma_binary_types table.
-type GomaBinaryTypesEntity struct {
-	BinaryID          int64   `goma:"BIGINT(20):pk"`
-	BinaryColumns     []uint8 `goma:"BINARY(3)"`
-	TinyblobColumns   []uint8 `goma:"TINYBLOB"`
-	BlobColumns       []uint8 `goma:"BLOB"`
-	MediumblobColumns []uint8 `goma:"MEDIUMBLOB"`
-	LongblobColumns   []uint8 `goma:"LONGBLOB"`
-	VarbinaryColumns  []uint8 `goma:"VARBINARY(10)"`
+// GomaBinaryTypes is generated goma_binary_types table.
+type GomaBinaryTypes struct {
+	BinaryID          int64   `migu:"size:20:pk"`
+	BinaryColumns     []uint8 `migu:"size:3"`
+	TinyblobColumns   []uint8 `migu:""`
+	BlobColumns       []uint8 `migu:""`
+	MediumblobColumns []uint8 `migu:""`
+	LongblobColumns   []uint8 `migu:""`
+	VarbinaryColumns  []uint8 `migu:"size:10"`
 }
 
-// Scan GomaBinaryTypesEntity all scan
-func (e *GomaBinaryTypesEntity) Scan(rows *sql.Rows) error {
+// Scan GomaBinaryTypes all scan
+func (e *GomaBinaryTypes) Scan(rows *sql.Rows) error {
 	return rows.Scan(&e.BinaryID, &e.BinaryColumns, &e.TinyblobColumns, &e.BlobColumns, &e.MediumblobColumns, &e.LongblobColumns, &e.VarbinaryColumns)
 }

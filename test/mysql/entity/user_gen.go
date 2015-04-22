@@ -10,13 +10,14 @@ import (
 	"time"
 )
 
+// User is generated user table.
 type User struct {
-	ID       int64 `migu:"pk"`
-	Name     string
-	Email    *string
-	Age      int
-	CreateAt time.Time
-	UpdateAt time.Time
+	ID       int64     `migu:"size:20:pk"`
+	Name     string    `migu:"size:255"`
+	Email    string    `migu:"size:255"`
+	Age      int       `migu:"size:11"`
+	CreateAt time.Time `migu:""`
+	UpdateAt time.Time `migu:""`
 }
 
 // Scan User all scan

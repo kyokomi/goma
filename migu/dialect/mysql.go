@@ -27,9 +27,11 @@ import (
 	"strings"
 )
 
+// MySQL mysql dialect
 type MySQL struct {
 }
 
+// ColumnType mysql column types
 func (d *MySQL) ColumnType(name string, size uint64, autoIncrement bool) (typ string, null bool) {
 	switch name {
 	case "string":
@@ -85,14 +87,17 @@ func (d *MySQL) ColumnType(name string, size uint64, autoIncrement bool) (typ st
 	}
 }
 
+// Quote TODO:
 func (d *MySQL) Quote(s string) string {
 	return fmt.Sprintf("`%s`", strings.Replace(s, "`", "``", -1))
 }
 
+// QuoteString TODO:
 func (d *MySQL) QuoteString(s string) string {
 	return fmt.Sprintf("'%s'", strings.Replace(s, "'", "''", -1))
 }
 
+// AutoIncrement TODO:
 func (d *MySQL) AutoIncrement() string {
 	return "AUTO_INCREMENT"
 }
