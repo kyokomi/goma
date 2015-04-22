@@ -42,6 +42,9 @@ test:
     - go generate github.com/kyokomi/goma/test/simple/postgres:
         pwd:
           ../.go_workspace/src/github.com/kyokomi/goma/test/simple/postgres
+    - go generate github.com/kyokomi/goma/test/migu:
+        pwd:
+          ../.go_workspace/src/github.com/kyokomi/goma/test/migu
     - go test -v ./... -race
   post:
     - goveralls -v -service=circle-ci -repotoken $COVERALLS_GOMA_TOKEN ./
