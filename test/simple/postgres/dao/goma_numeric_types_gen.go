@@ -101,10 +101,6 @@ FROM
 		return nil, err
 	}
 
-	if !rows.Next() {
-		return nil, sql.ErrNoRows
-	}
-
 	for rows.Next() {
 		var e entity.GomaNumericTypesEntity
 		if err := e.Scan(rows); err != nil {
@@ -170,16 +166,16 @@ WHERE
 }
 
 // Insert insert goma_numeric_types table.
-func (g GomaNumericTypesDao) Insert(entity entity.GomaNumericTypesEntity) (sql.Result, error) {
-	return _GomaNumericTypesInsert(g, entity)
+func (g GomaNumericTypesDao) Insert(e entity.GomaNumericTypesEntity) (sql.Result, error) {
+	return _GomaNumericTypesInsert(g, e)
 }
 
 // Insert transaction insert goma_numeric_types table.
-func (g TxGomaNumericTypesDao) Insert(entity entity.GomaNumericTypesEntity) (sql.Result, error) {
-	return _GomaNumericTypesInsert(g, entity)
+func (g TxGomaNumericTypesDao) Insert(e entity.GomaNumericTypesEntity) (sql.Result, error) {
+	return _GomaNumericTypesInsert(g, e)
 }
 
-func _GomaNumericTypesInsert(g GomaNumericTypesDaoQueryer, entity entity.GomaNumericTypesEntity) (sql.Result, error) {
+func _GomaNumericTypesInsert(g GomaNumericTypesDaoQueryer, e entity.GomaNumericTypesEntity) (sql.Result, error) {
 	queryString := `
 insert into goma_numeric_types(
   id
@@ -201,17 +197,17 @@ insert into goma_numeric_types(
 , $7
 , $8
 , $9
-);`
+)`
 	result, err := g.Exec(queryString,
-		entity.ID,
-		entity.BoolColumns,
-		entity.SmallintColumns,
-		entity.IntColumns,
-		entity.IntegerColumns,
-		entity.SerialColumns,
-		entity.DecimalColumns,
-		entity.NumericColumns,
-		entity.FloatColumns,
+		e.ID,
+		e.BoolColumns,
+		e.SmallintColumns,
+		e.IntColumns,
+		e.IntegerColumns,
+		e.SerialColumns,
+		e.DecimalColumns,
+		e.NumericColumns,
+		e.FloatColumns,
 	)
 	if err != nil {
 		log.Println(err, queryString)
@@ -220,17 +216,17 @@ insert into goma_numeric_types(
 }
 
 // Update update goma_numeric_types table.
-func (g GomaNumericTypesDao) Update(entity entity.GomaNumericTypesEntity) (sql.Result, error) {
-	return _GomaNumericTypesUpdate(g, entity)
+func (g GomaNumericTypesDao) Update(e entity.GomaNumericTypesEntity) (sql.Result, error) {
+	return _GomaNumericTypesUpdate(g, e)
 }
 
 // Update transaction update goma_numeric_types table.
-func (g TxGomaNumericTypesDao) Update(entity entity.GomaNumericTypesEntity) (sql.Result, error) {
-	return _GomaNumericTypesUpdate(g, entity)
+func (g TxGomaNumericTypesDao) Update(e entity.GomaNumericTypesEntity) (sql.Result, error) {
+	return _GomaNumericTypesUpdate(g, e)
 }
 
 // Update update goma_numeric_types table.
-func _GomaNumericTypesUpdate(g GomaNumericTypesDaoQueryer, entity entity.GomaNumericTypesEntity) (sql.Result, error) {
+func _GomaNumericTypesUpdate(g GomaNumericTypesDaoQueryer, e entity.GomaNumericTypesEntity) (sql.Result, error) {
 	queryString := `
 update goma_numeric_types set
     id = $1
@@ -247,17 +243,17 @@ update goma_numeric_types set
 
 `
 	result, err := g.Exec(queryString,
-		entity.ID,
-		entity.BoolColumns,
-		entity.SmallintColumns,
-		entity.IntColumns,
-		entity.IntegerColumns,
-		entity.SerialColumns,
-		entity.DecimalColumns,
-		entity.NumericColumns,
-		entity.FloatColumns,
+		e.ID,
+		e.BoolColumns,
+		e.SmallintColumns,
+		e.IntColumns,
+		e.IntegerColumns,
+		e.SerialColumns,
+		e.DecimalColumns,
+		e.NumericColumns,
+		e.FloatColumns,
 
-		entity.ID,
+		e.ID,
 	)
 	if err != nil {
 		log.Println(err, queryString)

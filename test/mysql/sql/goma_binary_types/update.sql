@@ -1,5 +1,5 @@
 update goma_binary_types set
-    id = /* id */64
+    binary_id = /* binary_id */64
 ,   binary_columns = /* binary_columns */'abcdefghijk'
 ,   tinyblob_columns = /* tinyblob_columns */'abcdefghijk'
 ,   blob_columns = /* blob_columns */'abcdefghijk'
@@ -7,5 +7,5 @@ update goma_binary_types set
 ,   longblob_columns = /* longblob_columns */'abcdefghijk'
 ,   varbinary_columns = /* varbinary_columns */'abcdefghijk'
  where
-    id = /* id */1
+    binary_id = /* binary_id */1
 

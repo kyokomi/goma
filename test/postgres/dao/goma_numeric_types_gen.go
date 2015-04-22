@@ -92,10 +92,6 @@ func _GomaNumericTypesSelectAll(g GomaNumericTypesDaoQueryer) ([]entity.GomaNume
 	}
 	defer rows.Close()
 
-	if !rows.Next() {
-		return nil, sql.ErrNoRows
-	}
-
 	for rows.Next() {
 		var e entity.GomaNumericTypesEntity
 		if err := e.Scan(rows); err != nil {
@@ -148,26 +144,26 @@ func _GomaNumericTypesSelectByID(g GomaNumericTypesDaoQueryer, id int64) (entity
 }
 
 // Insert insert goma_numeric_types table.
-func (g GomaNumericTypesDao) Insert(entity entity.GomaNumericTypesEntity) (sql.Result, error) {
-	return _GomaNumericTypesInsert(g, entity)
+func (g GomaNumericTypesDao) Insert(e entity.GomaNumericTypesEntity) (sql.Result, error) {
+	return _GomaNumericTypesInsert(g, e)
 }
 
 // Insert transaction insert goma_numeric_types table.
-func (g TxGomaNumericTypesDao) Insert(entity entity.GomaNumericTypesEntity) (sql.Result, error) {
-	return _GomaNumericTypesInsert(g, entity)
+func (g TxGomaNumericTypesDao) Insert(e entity.GomaNumericTypesEntity) (sql.Result, error) {
+	return _GomaNumericTypesInsert(g, e)
 }
 
-func _GomaNumericTypesInsert(g GomaNumericTypesDaoQueryer, entity entity.GomaNumericTypesEntity) (sql.Result, error) {
+func _GomaNumericTypesInsert(g GomaNumericTypesDaoQueryer, e entity.GomaNumericTypesEntity) (sql.Result, error) {
 	args := goma.QueryArgs{
-		"id":               entity.ID,
-		"bool_columns":     entity.BoolColumns,
-		"smallint_columns": entity.SmallintColumns,
-		"int_columns":      entity.IntColumns,
-		"integer_columns":  entity.IntegerColumns,
-		"serial_columns":   entity.SerialColumns,
-		"decimal_columns":  entity.DecimalColumns,
-		"numeric_columns":  entity.NumericColumns,
-		"float_columns":    entity.FloatColumns,
+		"id":               e.ID,
+		"bool_columns":     e.BoolColumns,
+		"smallint_columns": e.SmallintColumns,
+		"int_columns":      e.IntColumns,
+		"integer_columns":  e.IntegerColumns,
+		"serial_columns":   e.SerialColumns,
+		"decimal_columns":  e.DecimalColumns,
+		"numeric_columns":  e.NumericColumns,
+		"float_columns":    e.FloatColumns,
 	}
 	queryString := queryArgs("goma_numeric_types", "insert", args)
 
@@ -179,27 +175,27 @@ func _GomaNumericTypesInsert(g GomaNumericTypesDaoQueryer, entity entity.GomaNum
 }
 
 // Update update goma_numeric_types table.
-func (g GomaNumericTypesDao) Update(entity entity.GomaNumericTypesEntity) (sql.Result, error) {
-	return _GomaNumericTypesUpdate(g, entity)
+func (g GomaNumericTypesDao) Update(e entity.GomaNumericTypesEntity) (sql.Result, error) {
+	return _GomaNumericTypesUpdate(g, e)
 }
 
 // Update transaction update goma_numeric_types table.
-func (g TxGomaNumericTypesDao) Update(entity entity.GomaNumericTypesEntity) (sql.Result, error) {
-	return _GomaNumericTypesUpdate(g, entity)
+func (g TxGomaNumericTypesDao) Update(e entity.GomaNumericTypesEntity) (sql.Result, error) {
+	return _GomaNumericTypesUpdate(g, e)
 }
 
 // Update update goma_numeric_types table.
-func _GomaNumericTypesUpdate(g GomaNumericTypesDaoQueryer, entity entity.GomaNumericTypesEntity) (sql.Result, error) {
+func _GomaNumericTypesUpdate(g GomaNumericTypesDaoQueryer, e entity.GomaNumericTypesEntity) (sql.Result, error) {
 	args := goma.QueryArgs{
-		"id":               entity.ID,
-		"bool_columns":     entity.BoolColumns,
-		"smallint_columns": entity.SmallintColumns,
-		"int_columns":      entity.IntColumns,
-		"integer_columns":  entity.IntegerColumns,
-		"serial_columns":   entity.SerialColumns,
-		"decimal_columns":  entity.DecimalColumns,
-		"numeric_columns":  entity.NumericColumns,
-		"float_columns":    entity.FloatColumns,
+		"id":               e.ID,
+		"bool_columns":     e.BoolColumns,
+		"smallint_columns": e.SmallintColumns,
+		"int_columns":      e.IntColumns,
+		"integer_columns":  e.IntegerColumns,
+		"serial_columns":   e.SerialColumns,
+		"decimal_columns":  e.DecimalColumns,
+		"numeric_columns":  e.NumericColumns,
+		"float_columns":    e.FloatColumns,
 	}
 	queryString := queryArgs("goma_numeric_types", "update", args)
 

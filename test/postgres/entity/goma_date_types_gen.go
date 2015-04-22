@@ -12,9 +12,9 @@ import (
 
 // GomaDateTypesEntity is generated goma_date_types table.
 type GomaDateTypesEntity struct {
-	ID               int64     //`goma:"BIGINT:pk"`
-	DateColumns      time.Time //`goma:"DATE"`
-	TimestampColumns time.Time //`goma:"DATETIME"`
+	ID               int64     `goma:"BIGINT:pk"`
+	DateColumns      time.Time `goma:"DATE"`
+	TimestampColumns time.Time `goma:"DATETIME"`
 }
 
 // Scan GomaDateTypesEntity all scan

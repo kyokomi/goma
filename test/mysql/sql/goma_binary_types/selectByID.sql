@@ -1,5 +1,5 @@
 select
-  id
+  binary_id
 , binary_columns
 , tinyblob_columns
 , blob_columns
@@ -9,5 +9,5 @@ select
 FROM
   goma_binary_types
 WHERE
-  id = /* id */64
+  binary_id = /* binary_id */64
 

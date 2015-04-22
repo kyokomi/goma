@@ -12,9 +12,9 @@ import (
 
 // SampleEntity is generated sample table.
 type SampleEntity struct {
-	ID       int       //`goma:"INT(11):pk"`
-	Name     string    //`goma:"TEXT"`
-	CreateAt time.Time //`goma:"TIMESTAMP"`
+	ID       int       `goma:"INT(11):pk"`
+	Name     string    `goma:"TEXT"`
+	CreateAt time.Time `goma:"TIMESTAMP"`
 }
 
 // Scan SampleEntity all scan

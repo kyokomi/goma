@@ -1,5 +1,5 @@
 select
-  id
+  binary_id
 , binary_columns
 , tinyblob_columns
 , blob_columns

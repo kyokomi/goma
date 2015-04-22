@@ -92,10 +92,6 @@ func _GomaStringTypesSelectAll(g GomaStringTypesDaoQueryer) ([]entity.GomaString
 	}
 	defer rows.Close()
 
-	if !rows.Next() {
-		return nil, sql.ErrNoRows
-	}
-
 	for rows.Next() {
 		var e entity.GomaStringTypesEntity
 		if err := e.Scan(rows); err != nil {
@@ -148,24 +144,24 @@ func _GomaStringTypesSelectByID(g GomaStringTypesDaoQueryer, id int64) (entity.G
 }
 
 // Insert insert goma_string_types table.
-func (g GomaStringTypesDao) Insert(entity entity.GomaStringTypesEntity) (sql.Result, error) {
-	return _GomaStringTypesInsert(g, entity)
+func (g GomaStringTypesDao) Insert(e entity.GomaStringTypesEntity) (sql.Result, error) {
+	return _GomaStringTypesInsert(g, e)
 }
 
 // Insert transaction insert goma_string_types table.
-func (g TxGomaStringTypesDao) Insert(entity entity.GomaStringTypesEntity) (sql.Result, error) {
-	return _GomaStringTypesInsert(g, entity)
+func (g TxGomaStringTypesDao) Insert(e entity.GomaStringTypesEntity) (sql.Result, error) {
+	return _GomaStringTypesInsert(g, e)
 }
 
-func _GomaStringTypesInsert(g GomaStringTypesDaoQueryer, entity entity.GomaStringTypesEntity) (sql.Result, error) {
+func _GomaStringTypesInsert(g GomaStringTypesDaoQueryer, e entity.GomaStringTypesEntity) (sql.Result, error) {
 	args := goma.QueryArgs{
-		"id":                 entity.ID,
-		"text_columns":       entity.TextColumns,
-		"tinytext_columns":   entity.TinytextColumns,
-		"mediumtext_columns": entity.MediumtextColumns,
-		"longtext_columns":   entity.LongtextColumns,
-		"char_columns":       entity.CharColumns,
-		"varchar_columns":    entity.VarcharColumns,
+		"id":                 e.ID,
+		"text_columns":       e.TextColumns,
+		"tinytext_columns":   e.TinytextColumns,
+		"mediumtext_columns": e.MediumtextColumns,
+		"longtext_columns":   e.LongtextColumns,
+		"char_columns":       e.CharColumns,
+		"varchar_columns":    e.VarcharColumns,
 	}
 	queryString := queryArgs("goma_string_types", "insert", args)
 
@@ -177,25 +173,25 @@ func _GomaStringTypesInsert(g GomaStringTypesDaoQueryer, entity entity.GomaStrin
 }
 
 // Update update goma_string_types table.
-func (g GomaStringTypesDao) Update(entity entity.GomaStringTypesEntity) (sql.Result, error) {
-	return _GomaStringTypesUpdate(g, entity)
+func (g GomaStringTypesDao) Update(e entity.GomaStringTypesEntity) (sql.Result, error) {
+	return _GomaStringTypesUpdate(g, e)
 }
 
 // Update transaction update goma_string_types table.
-func (g TxGomaStringTypesDao) Update(entity entity.GomaStringTypesEntity) (sql.Result, error) {
-	return _GomaStringTypesUpdate(g, entity)
+func (g TxGomaStringTypesDao) Update(e entity.GomaStringTypesEntity) (sql.Result, error) {
+	return _GomaStringTypesUpdate(g, e)
 }
 
 // Update update goma_string_types table.
-func _GomaStringTypesUpdate(g GomaStringTypesDaoQueryer, entity entity.GomaStringTypesEntity) (sql.Result, error) {
+func _GomaStringTypesUpdate(g GomaStringTypesDaoQueryer, e entity.GomaStringTypesEntity) (sql.Result, error) {
 	args := goma.QueryArgs{
-		"id":                 entity.ID,
-		"text_columns":       entity.TextColumns,
-		"tinytext_columns":   entity.TinytextColumns,
-		"mediumtext_columns": entity.MediumtextColumns,
-		"longtext_columns":   entity.LongtextColumns,
-		"char_columns":       entity.CharColumns,
-		"varchar_columns":    entity.VarcharColumns,
+		"id":                 e.ID,
+		"text_columns":       e.TextColumns,
+		"tinytext_columns":   e.TinytextColumns,
+		"mediumtext_columns": e.MediumtextColumns,
+		"longtext_columns":   e.LongtextColumns,
+		"char_columns":       e.CharColumns,
+		"varchar_columns":    e.VarcharColumns,
 	}
 	queryString := queryArgs("goma_string_types", "update", args)
 

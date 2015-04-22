@@ -38,7 +38,7 @@ func TestNumeric(t *testing.T) {
 		MediumintColumns: int(256),
 		IntColumns:       int(11111111),
 		IntegerColumns:   int(22222222),
-		SerialColumns:    int64(1234567890),
+		SerialColumns:    int64(testID),
 		DecimalColumns:   "1234567890",
 		NumericColumns:   "1234567890",
 		FloatColumns:     float32(1.234),
@@ -157,7 +157,7 @@ func TestBinary(t *testing.T) {
 	d := dao.GomaBinaryTypes(db)
 
 	insertData := entity.GomaBinaryTypesEntity{
-		ID:                id,
+		BinaryID:          id,
 		BinaryColumns:     []uint8{49, 49, 49},
 		TinyblobColumns:   []uint8{49, 49, 50, 51, 52, 53, 54, 55, 56},
 		BlobColumns:       []uint8{49, 49, 50, 51, 52, 53, 54, 55, 56},
