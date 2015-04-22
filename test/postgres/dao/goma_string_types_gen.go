@@ -92,10 +92,6 @@ func _GomaStringTypesSelectAll(g GomaStringTypesDaoQueryer) ([]entity.GomaString
 	}
 	defer rows.Close()
 
-	if !rows.Next() {
-		return nil, sql.ErrNoRows
-	}
-
 	for rows.Next() {
 		var e entity.GomaStringTypesEntity
 		if err := e.Scan(rows); err != nil {

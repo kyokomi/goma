@@ -96,10 +96,6 @@ FROM
 		return nil, err
 	}
 
-	if !rows.Next() {
-		return nil, sql.ErrNoRows
-	}
-
 	for rows.Next() {
 		var e entity.GomaDateTypesEntity
 		if err := e.Scan(rows); err != nil {
@@ -181,7 +177,7 @@ insert into goma_date_types(
 , ?
 , ?
 , ?
-);`
+)`
 	result, err := g.Exec(queryString,
 		entity.ID,
 		entity.DateColumns,

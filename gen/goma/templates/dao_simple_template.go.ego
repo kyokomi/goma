@@ -93,10 +93,6 @@ select
 		return nil, err
 	}
 
-    if !rows.Next() {
-		return nil, sql.ErrNoRows
-	}
-
 	for rows.Next() {
 		var e <%= daoData.EntityPkgName %>.<%= daoData.EntityName %>
 		if err := e.Scan(rows); err != nil {
@@ -169,7 +165,7 @@ insert into <%= daoData.Table.Name %>(
   <% for idx, column := range daoData.Table.Columns { %><% if idx != 0 { %>, <% } %><%= column.Name %>
 <% } %>) values(
   <% for idx, _ := range daoData.Table.Columns { %><% if idx != 0 { %>, <% } %><%= daoData.Placeholder(idx + 1) %>
-<% } %>);`
+<% } %>)`
 	result, err := g.Exec(queryString,
 	<% for _, column := range daoData.Table.Columns { %>entity.<%= column.TitleName %>,
     <% } %>)
