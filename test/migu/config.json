@@ -4,12 +4,11 @@
     "password": "",
     "host": "localhost",
     "port": 3306,
-    "db": "test",
+    "db": "migu_test",
     "ssl": "disable",
     "isConfig": true,
     "debug": true,
     "sqlRootDir": "sql",
     "daoRootDir": "dao",
-    "currentDir": "/Users/kyokomi/src/github.com/kyokomi/goma/test/migu"
-    "entityRootDir": "models",
+    "entityRootDir": "models"
 }

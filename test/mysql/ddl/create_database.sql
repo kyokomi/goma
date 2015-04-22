@@ -1,2 +1,5 @@
 DROP DATABASE IF EXISTS goma_test;
 CREATE DATABASE goma_test;
+
+DROP DATABASE IF EXISTS migu_test;
+CREATE DATABASE migu_test;
