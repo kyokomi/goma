@@ -156,16 +156,16 @@ WHERE
 }
 
 // Insert insert goma_date_types table.
-func (g GomaDateTypesDao) Insert(entity entity.GomaDateTypesEntity) (sql.Result, error) {
-	return _GomaDateTypesInsert(g, entity)
+func (g GomaDateTypesDao) Insert(e entity.GomaDateTypesEntity) (sql.Result, error) {
+	return _GomaDateTypesInsert(g, e)
 }
 
 // Insert transaction insert goma_date_types table.
-func (g TxGomaDateTypesDao) Insert(entity entity.GomaDateTypesEntity) (sql.Result, error) {
-	return _GomaDateTypesInsert(g, entity)
+func (g TxGomaDateTypesDao) Insert(e entity.GomaDateTypesEntity) (sql.Result, error) {
+	return _GomaDateTypesInsert(g, e)
 }
 
-func _GomaDateTypesInsert(g GomaDateTypesDaoQueryer, entity entity.GomaDateTypesEntity) (sql.Result, error) {
+func _GomaDateTypesInsert(g GomaDateTypesDaoQueryer, e entity.GomaDateTypesEntity) (sql.Result, error) {
 	queryString := `
 insert into goma_date_types(
   id
@@ -179,10 +179,10 @@ insert into goma_date_types(
 , ?
 )`
 	result, err := g.Exec(queryString,
-		entity.ID,
-		entity.DateColumns,
-		entity.DatetimeColumns,
-		entity.TimestampColumns,
+		e.ID,
+		e.DateColumns,
+		e.DatetimeColumns,
+		e.TimestampColumns,
 	)
 	if err != nil {
 		log.Println(err, queryString)
@@ -191,17 +191,17 @@ insert into goma_date_types(
 }
 
 // Update update goma_date_types table.
-func (g GomaDateTypesDao) Update(entity entity.GomaDateTypesEntity) (sql.Result, error) {
-	return _GomaDateTypesUpdate(g, entity)
+func (g GomaDateTypesDao) Update(e entity.GomaDateTypesEntity) (sql.Result, error) {
+	return _GomaDateTypesUpdate(g, e)
 }
 
 // Update transaction update goma_date_types table.
-func (g TxGomaDateTypesDao) Update(entity entity.GomaDateTypesEntity) (sql.Result, error) {
-	return _GomaDateTypesUpdate(g, entity)
+func (g TxGomaDateTypesDao) Update(e entity.GomaDateTypesEntity) (sql.Result, error) {
+	return _GomaDateTypesUpdate(g, e)
 }
 
 // Update update goma_date_types table.
-func _GomaDateTypesUpdate(g GomaDateTypesDaoQueryer, entity entity.GomaDateTypesEntity) (sql.Result, error) {
+func _GomaDateTypesUpdate(g GomaDateTypesDaoQueryer, e entity.GomaDateTypesEntity) (sql.Result, error) {
 	queryString := `
 update goma_date_types set
     id = ?
@@ -213,12 +213,12 @@ update goma_date_types set
 
 `
 	result, err := g.Exec(queryString,
-		entity.ID,
-		entity.DateColumns,
-		entity.DatetimeColumns,
-		entity.TimestampColumns,
+		e.ID,
+		e.DateColumns,
+		e.DatetimeColumns,
+		e.TimestampColumns,
 
-		entity.ID,
+		e.ID,
 	)
 	if err != nil {
 		log.Println(err, queryString)

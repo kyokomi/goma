@@ -35,7 +35,7 @@ func TestNumeric(t *testing.T) {
 		SmallintColumns: int(123),
 		IntColumns:      int(11111111),
 		IntegerColumns:  int(22222222),
-		SerialColumns:   1234567890,
+		SerialColumns:   int(testID),
 		DecimalColumns:  "1234567890",
 		NumericColumns:  "1234567890",
 		FloatColumns:    float64(1.234),

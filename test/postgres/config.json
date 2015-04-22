@@ -10,5 +10,5 @@
     "sqlRootDir": "sql",
     "daoRootDir": "dao",
     "entityRootDir": "entity",
-    "currentDir": "/Users/kyokomi/src/github.com/kyokomi/goma/test/postgres"
+    "currentDir": "/Users/yokomichi/src/github.com/kyokomi/goma/test/postgres"
 }

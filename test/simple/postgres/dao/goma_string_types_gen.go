@@ -156,16 +156,16 @@ WHERE
 }
 
 // Insert insert goma_string_types table.
-func (g GomaStringTypesDao) Insert(entity entity.GomaStringTypesEntity) (sql.Result, error) {
-	return _GomaStringTypesInsert(g, entity)
+func (g GomaStringTypesDao) Insert(e entity.GomaStringTypesEntity) (sql.Result, error) {
+	return _GomaStringTypesInsert(g, e)
 }
 
 // Insert transaction insert goma_string_types table.
-func (g TxGomaStringTypesDao) Insert(entity entity.GomaStringTypesEntity) (sql.Result, error) {
-	return _GomaStringTypesInsert(g, entity)
+func (g TxGomaStringTypesDao) Insert(e entity.GomaStringTypesEntity) (sql.Result, error) {
+	return _GomaStringTypesInsert(g, e)
 }
 
-func _GomaStringTypesInsert(g GomaStringTypesDaoQueryer, entity entity.GomaStringTypesEntity) (sql.Result, error) {
+func _GomaStringTypesInsert(g GomaStringTypesDaoQueryer, e entity.GomaStringTypesEntity) (sql.Result, error) {
 	queryString := `
 insert into goma_string_types(
   id
@@ -179,10 +179,10 @@ insert into goma_string_types(
 , $4
 )`
 	result, err := g.Exec(queryString,
-		entity.ID,
-		entity.TextColumns,
-		entity.CharColumns,
-		entity.VarcharColumns,
+		e.ID,
+		e.TextColumns,
+		e.CharColumns,
+		e.VarcharColumns,
 	)
 	if err != nil {
 		log.Println(err, queryString)
@@ -191,17 +191,17 @@ insert into goma_string_types(
 }
 
 // Update update goma_string_types table.
-func (g GomaStringTypesDao) Update(entity entity.GomaStringTypesEntity) (sql.Result, error) {
-	return _GomaStringTypesUpdate(g, entity)
+func (g GomaStringTypesDao) Update(e entity.GomaStringTypesEntity) (sql.Result, error) {
+	return _GomaStringTypesUpdate(g, e)
 }
 
 // Update transaction update goma_string_types table.
-func (g TxGomaStringTypesDao) Update(entity entity.GomaStringTypesEntity) (sql.Result, error) {
-	return _GomaStringTypesUpdate(g, entity)
+func (g TxGomaStringTypesDao) Update(e entity.GomaStringTypesEntity) (sql.Result, error) {
+	return _GomaStringTypesUpdate(g, e)
 }
 
 // Update update goma_string_types table.
-func _GomaStringTypesUpdate(g GomaStringTypesDaoQueryer, entity entity.GomaStringTypesEntity) (sql.Result, error) {
+func _GomaStringTypesUpdate(g GomaStringTypesDaoQueryer, e entity.GomaStringTypesEntity) (sql.Result, error) {
 	queryString := `
 update goma_string_types set
     id = $1
@@ -213,12 +213,12 @@ update goma_string_types set
 
 `
 	result, err := g.Exec(queryString,
-		entity.ID,
-		entity.TextColumns,
-		entity.CharColumns,
-		entity.VarcharColumns,
+		e.ID,
+		e.TextColumns,
+		e.CharColumns,
+		e.VarcharColumns,
 
-		entity.ID,
+		e.ID,
 	)
 	if err != nil {
 		log.Println(err, queryString)

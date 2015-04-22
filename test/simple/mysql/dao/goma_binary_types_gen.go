@@ -162,16 +162,16 @@ WHERE
 }
 
 // Insert insert goma_binary_types table.
-func (g GomaBinaryTypesDao) Insert(entity entity.GomaBinaryTypesEntity) (sql.Result, error) {
-	return _GomaBinaryTypesInsert(g, entity)
+func (g GomaBinaryTypesDao) Insert(e entity.GomaBinaryTypesEntity) (sql.Result, error) {
+	return _GomaBinaryTypesInsert(g, e)
 }
 
 // Insert transaction insert goma_binary_types table.
-func (g TxGomaBinaryTypesDao) Insert(entity entity.GomaBinaryTypesEntity) (sql.Result, error) {
-	return _GomaBinaryTypesInsert(g, entity)
+func (g TxGomaBinaryTypesDao) Insert(e entity.GomaBinaryTypesEntity) (sql.Result, error) {
+	return _GomaBinaryTypesInsert(g, e)
 }
 
-func _GomaBinaryTypesInsert(g GomaBinaryTypesDaoQueryer, entity entity.GomaBinaryTypesEntity) (sql.Result, error) {
+func _GomaBinaryTypesInsert(g GomaBinaryTypesDaoQueryer, e entity.GomaBinaryTypesEntity) (sql.Result, error) {
 	queryString := `
 insert into goma_binary_types(
   binary_id
@@ -191,13 +191,13 @@ insert into goma_binary_types(
 , ?
 )`
 	result, err := g.Exec(queryString,
-		entity.BinaryID,
-		entity.BinaryColumns,
-		entity.TinyblobColumns,
-		entity.BlobColumns,
-		entity.MediumblobColumns,
-		entity.LongblobColumns,
-		entity.VarbinaryColumns,
+		e.BinaryID,
+		e.BinaryColumns,
+		e.TinyblobColumns,
+		e.BlobColumns,
+		e.MediumblobColumns,
+		e.LongblobColumns,
+		e.VarbinaryColumns,
 	)
 	if err != nil {
 		log.Println(err, queryString)
@@ -206,17 +206,17 @@ insert into goma_binary_types(
 }
 
 // Update update goma_binary_types table.
-func (g GomaBinaryTypesDao) Update(entity entity.GomaBinaryTypesEntity) (sql.Result, error) {
-	return _GomaBinaryTypesUpdate(g, entity)
+func (g GomaBinaryTypesDao) Update(e entity.GomaBinaryTypesEntity) (sql.Result, error) {
+	return _GomaBinaryTypesUpdate(g, e)
 }
 
 // Update transaction update goma_binary_types table.
-func (g TxGomaBinaryTypesDao) Update(entity entity.GomaBinaryTypesEntity) (sql.Result, error) {
-	return _GomaBinaryTypesUpdate(g, entity)
+func (g TxGomaBinaryTypesDao) Update(e entity.GomaBinaryTypesEntity) (sql.Result, error) {
+	return _GomaBinaryTypesUpdate(g, e)
 }
 
 // Update update goma_binary_types table.
-func _GomaBinaryTypesUpdate(g GomaBinaryTypesDaoQueryer, entity entity.GomaBinaryTypesEntity) (sql.Result, error) {
+func _GomaBinaryTypesUpdate(g GomaBinaryTypesDaoQueryer, e entity.GomaBinaryTypesEntity) (sql.Result, error) {
 	queryString := `
 update goma_binary_types set
     binary_id = ?
@@ -231,15 +231,15 @@ update goma_binary_types set
 
 `
 	result, err := g.Exec(queryString,
-		entity.BinaryID,
-		entity.BinaryColumns,
-		entity.TinyblobColumns,
-		entity.BlobColumns,
-		entity.MediumblobColumns,
-		entity.LongblobColumns,
-		entity.VarbinaryColumns,
+		e.BinaryID,
+		e.BinaryColumns,
+		e.TinyblobColumns,
+		e.BlobColumns,
+		e.MediumblobColumns,
+		e.LongblobColumns,
+		e.VarbinaryColumns,
 
-		entity.BinaryID,
+		e.BinaryID,
 	)
 	if err != nil {
 		log.Println(err, queryString)
