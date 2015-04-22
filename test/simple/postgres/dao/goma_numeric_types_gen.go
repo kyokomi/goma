@@ -101,10 +101,6 @@ FROM
 		return nil, err
 	}
 
-	if !rows.Next() {
-		return nil, sql.ErrNoRows
-	}
-
 	for rows.Next() {
 		var e entity.GomaNumericTypesEntity
 		if err := e.Scan(rows); err != nil {
@@ -201,7 +197,7 @@ insert into goma_numeric_types(
 , $7
 , $8
 , $9
-);`
+)`
 	result, err := g.Exec(queryString,
 		entity.ID,
 		entity.BoolColumns,

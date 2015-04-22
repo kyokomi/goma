@@ -99,10 +99,6 @@ FROM
 		return nil, err
 	}
 
-	if !rows.Next() {
-		return nil, sql.ErrNoRows
-	}
-
 	for rows.Next() {
 		var e entity.GomaBinaryTypesEntity
 		if err := e.Scan(rows); err != nil {
@@ -193,7 +189,7 @@ insert into goma_binary_types(
 , ?
 , ?
 , ?
-);`
+)`
 	result, err := g.Exec(queryString,
 		entity.BinaryID,
 		entity.BinaryColumns,

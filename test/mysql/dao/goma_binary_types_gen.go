@@ -92,10 +92,6 @@ func _GomaBinaryTypesSelectAll(g GomaBinaryTypesDaoQueryer) ([]entity.GomaBinary
 	}
 	defer rows.Close()
 
-	if !rows.Next() {
-		return nil, sql.ErrNoRows
-	}
-
 	for rows.Next() {
 		var e entity.GomaBinaryTypesEntity
 		if err := e.Scan(rows); err != nil {
