@@ -8,5 +8,5 @@ import "database/sql"
 
 // Scan User all scan
 func (e *User) Scan(rows *sql.Rows) error {
-	return rows.Scan(&e.ID, &e.Name, &e.Email, &e.Age, &e.CreateAt, &e.UpdateAt)
+	return rows.Scan(&e.ID, &e.CreateAt, &e.Name, &e.Email, &e.Age, &e.UpdateAt)
 }

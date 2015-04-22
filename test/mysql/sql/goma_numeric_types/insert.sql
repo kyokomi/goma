@@ -6,7 +6,7 @@ insert into goma_numeric_types(
 , mediumint_columns
 , int_columns
 , integer_columns
-, serial_columns
+
 , decimal_columns
 , numeric_columns
 , float_columns
@@ -19,7 +19,7 @@ insert into goma_numeric_types(
 , /* mediumint_columns */1
 , /* int_columns */1
 , /* integer_columns */1
-, /* serial_columns */64
+
 , /* decimal_columns */'1111'
 , /* numeric_columns */'1111'
 , /* float_columns */32.1

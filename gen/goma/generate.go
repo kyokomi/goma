@@ -18,8 +18,9 @@ import (
 	"encoding/json"
 	"io/ioutil"
 
-	"github.com/kyokomi/goma"
 	"bytes"
+
+	"github.com/kyokomi/goma"
 	"github.com/kyokomi/goma/migu"
 )
 
@@ -210,15 +211,16 @@ func newColumns(columns []*core.Column) []ColumnTemplateData {
 		if c.SQLType.DefaultLength > 0 {
 			typeLength = fmt.Sprintf("size:%d", c.SQLType.DefaultLength)
 		}
-		typeDetail := fmt.Sprintf("`migu:\""+typeLength+primaryKey+"\"`")
+		typeDetail := fmt.Sprintf("`migu:\"" + typeLength + primaryKey + "\"`")
 
 		column := ColumnTemplateData{
-			Name:         c.Name,
-			TitleName:    lintName(strings.Title(c.Name)),
-			TypeName:     typeName,
-			TypeDetail:   typeDetail,
-			IsPrimaryKey: c.IsPrimaryKey,
-			Sample:       sampleDataMap[typ],
+			Name:            c.Name,
+			TitleName:       lintName(strings.Title(c.Name)),
+			TypeName:        typeName,
+			TypeDetail:      typeDetail,
+			IsPrimaryKey:    c.IsPrimaryKey,
+			Sample:          sampleDataMap[typ],
+			IsAutoIncrement: c.IsAutoIncrement,
 		}
 		results = append(results, column)
 	}

@@ -48,19 +48,20 @@ func (d DaoTemplateData) Placeholder(num int) string {
 
 // TableTemplateData table data.
 type TableTemplateData struct {
-	Name      string
-	TitleName string
-	Columns   []ColumnTemplateData
+	Name       string
+	TitleName  string
+	Columns    []ColumnTemplateData
 }
 
 // ColumnTemplateData column data.
 type ColumnTemplateData struct {
-	Name         string
-	TitleName    string
-	TypeName     string
-	TypeDetail   string
-	IsPrimaryKey bool
-	Sample       string
+	Name            string
+	TitleName       string
+	TypeName        string
+	TypeDetail      string
+	IsPrimaryKey    bool
+	Sample          string
+	IsAutoIncrement bool
 }
 
 // CamelName convert go lint CamelCase

@@ -47,8 +47,11 @@ func TestNumeric(t *testing.T) {
 
 	if e, err := d.SelectByID(id); err != nil {
 		t.Errorf("ERROR: %s", err)
-	} else if !reflect.DeepEqual(e, insertData) {
-		t.Errorf("ERROR: %+v != %+v", e, insertData)
+	} else {
+		insertData.SerialColumns = e.SerialColumns // TODO: AutoIncrement
+		if !reflect.DeepEqual(e, insertData) {
+			t.Errorf("ERROR: %+v != %+v", e, insertData)
+		}
 	}
 
 	if _, err := d.Delete(id); err != nil {

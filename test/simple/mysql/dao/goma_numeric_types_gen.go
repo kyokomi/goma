@@ -191,7 +191,7 @@ insert into goma_numeric_types(
 , mediumint_columns
 , int_columns
 , integer_columns
-, serial_columns
+
 , decimal_columns
 , numeric_columns
 , float_columns
@@ -204,7 +204,7 @@ insert into goma_numeric_types(
 , ?
 , ?
 , ?
-, ?
+
 , ?
 , ?
 , ?
@@ -218,7 +218,7 @@ insert into goma_numeric_types(
 		e.MediumintColumns,
 		e.IntColumns,
 		e.IntegerColumns,
-		e.SerialColumns,
+
 		e.DecimalColumns,
 		e.NumericColumns,
 		e.FloatColumns,

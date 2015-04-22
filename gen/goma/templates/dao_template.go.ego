@@ -155,7 +155,7 @@ func (g Tx<%= daoData.Name %>) Insert(e <%= daoData.EntityPkgName %>.<%= daoData
 
 func _<%= daoData.Table.TitleName %>Insert(g <%= daoData.Name %>Queryer, e <%= daoData.EntityPkgName %>.<%= daoData.EntityName %>) (sql.Result, error) {
 	args := goma.QueryArgs{
-    <% for _, column := range daoData.Table.Columns { %>  "<%= column.Name %>": e.<%= column.TitleName %>,
+    <% for _, column := range daoData.Table.Columns { %><% if !column.IsAutoIncrement { %> "<%= column.Name %>": e.<%= column.TitleName %>,<% } %>
     <% } %>
 	}
 	queryString := queryArgs("<%= daoData.Table.Name %>", "insert", args)
