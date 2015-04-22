@@ -93,10 +93,6 @@ select
 		return nil, err
 	}
 
-    if !rows.Next() {
-		return nil, sql.ErrNoRows
-	}
-
 	for rows.Next() {
 		var e <%= daoData.EntityPkgName %>.<%= daoData.EntityName %>
 		if err := e.Scan(rows); err != nil {
@@ -160,7 +156,7 @@ func (g <%= daoData.Name %>) Insert(e <%= daoData.EntityPkgName %>.<%= daoData.E
 
 // Insert transaction insert <%= daoData.Table.Name %> table.
 func (g Tx<%= daoData.Name %>) Insert(e <%= daoData.EntityPkgName %>.<%= daoData.EntityName %>) (sql.Result, error) {
-	return _<%= daoData.Table.TitleName %>Insert(g, )
+	return _<%= daoData.Table.TitleName %>Insert(g, e)
 }
 
 func _<%= daoData.Table.TitleName %>Insert(g <%= daoData.Name %>Queryer, e <%= daoData.EntityPkgName %>.<%= daoData.EntityName %>) (sql.Result, error) {
@@ -169,7 +165,7 @@ insert into <%= daoData.Table.Name %>(
   <% for idx, column := range daoData.Table.Columns { %><% if idx != 0 { %>, <% } %><%= column.Name %>
 <% } %>) values(
   <% for idx, _ := range daoData.Table.Columns { %><% if idx != 0 { %>, <% } %><%= daoData.Placeholder(idx + 1) %>
-<% } %>);`
+<% } %>)`
 	result, err := g.Exec(queryString,
 	<% for _, column := range daoData.Table.Columns { %>e.<%= column.TitleName %>,
     <% } %>)
