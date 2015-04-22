@@ -516,7 +516,7 @@ _, _ = fmt.Fprintf(w, " table.\nfunc (g ")
 //line dao_simple_template.go.ego:157
 _, _ = fmt.Fprintf(w, "%v",  daoData.Name )
 //line dao_simple_template.go.ego:157
-_, _ = fmt.Fprintf(w, ") Insert(entity ")
+_, _ = fmt.Fprintf(w, ") Insert(e ")
 //line dao_simple_template.go.ego:157
 _, _ = fmt.Fprintf(w, "%v",  daoData.EntityPkgName )
 //line dao_simple_template.go.ego:157
@@ -528,7 +528,7 @@ _, _ = fmt.Fprintf(w, ") (sql.Result, error) {\n\treturn _")
 //line dao_simple_template.go.ego:158
 _, _ = fmt.Fprintf(w, "%v",  daoData.Table.TitleName )
 //line dao_simple_template.go.ego:158
-_, _ = fmt.Fprintf(w, "Insert(g, entity)\n}\n\n// Insert transaction insert ")
+_, _ = fmt.Fprintf(w, "Insert(g, e)\n}\n\n// Insert transaction insert ")
 //line dao_simple_template.go.ego:161
 _, _ = fmt.Fprintf(w, "%v",  daoData.Table.Name )
 //line dao_simple_template.go.ego:161
@@ -536,7 +536,7 @@ _, _ = fmt.Fprintf(w, " table.\nfunc (g Tx")
 //line dao_simple_template.go.ego:162
 _, _ = fmt.Fprintf(w, "%v",  daoData.Name )
 //line dao_simple_template.go.ego:162
-_, _ = fmt.Fprintf(w, ") Insert(entity ")
+_, _ = fmt.Fprintf(w, ") Insert(e ")
 //line dao_simple_template.go.ego:162
 _, _ = fmt.Fprintf(w, "%v",  daoData.EntityPkgName )
 //line dao_simple_template.go.ego:162
@@ -548,7 +548,7 @@ _, _ = fmt.Fprintf(w, ") (sql.Result, error) {\n\treturn _")
 //line dao_simple_template.go.ego:163
 _, _ = fmt.Fprintf(w, "%v",  daoData.Table.TitleName )
 //line dao_simple_template.go.ego:163
-_, _ = fmt.Fprintf(w, "Insert(g, entity)\n}\n\nfunc _")
+_, _ = fmt.Fprintf(w, "Insert(g, )\n}\n\nfunc _")
 //line dao_simple_template.go.ego:166
 _, _ = fmt.Fprintf(w, "%v",  daoData.Table.TitleName )
 //line dao_simple_template.go.ego:166
@@ -556,7 +556,7 @@ _, _ = fmt.Fprintf(w, "Insert(g ")
 //line dao_simple_template.go.ego:166
 _, _ = fmt.Fprintf(w, "%v",  daoData.Name )
 //line dao_simple_template.go.ego:166
-_, _ = fmt.Fprintf(w, "Queryer, entity ")
+_, _ = fmt.Fprintf(w, "Queryer, e ")
 //line dao_simple_template.go.ego:166
 _, _ = fmt.Fprintf(w, "%v",  daoData.EntityPkgName )
 //line dao_simple_template.go.ego:166
@@ -604,7 +604,7 @@ _, _ = fmt.Fprintf(w, ");`\n\tresult, err := g.Exec(queryString,\n\t")
 //line dao_simple_template.go.ego:174
  for _, column := range daoData.Table.Columns { 
 //line dao_simple_template.go.ego:174
-_, _ = fmt.Fprintf(w, "entity.")
+_, _ = fmt.Fprintf(w, "e.")
 //line dao_simple_template.go.ego:174
 _, _ = fmt.Fprintf(w, "%v",  column.TitleName )
 //line dao_simple_template.go.ego:174
@@ -620,7 +620,7 @@ _, _ = fmt.Fprintf(w, " table.\nfunc (g ")
 //line dao_simple_template.go.ego:183
 _, _ = fmt.Fprintf(w, "%v",  daoData.Name )
 //line dao_simple_template.go.ego:183
-_, _ = fmt.Fprintf(w, ") Update(entity ")
+_, _ = fmt.Fprintf(w, ") Update(e ")
 //line dao_simple_template.go.ego:183
 _, _ = fmt.Fprintf(w, "%v",  daoData.EntityPkgName )
 //line dao_simple_template.go.ego:183
@@ -632,7 +632,7 @@ _, _ = fmt.Fprintf(w, ") (sql.Result, error) {\n\treturn _")
 //line dao_simple_template.go.ego:184
 _, _ = fmt.Fprintf(w, "%v",  daoData.Table.TitleName )
 //line dao_simple_template.go.ego:184
-_, _ = fmt.Fprintf(w, "Update(g, entity)\n}\n\n// Update transaction update ")
+_, _ = fmt.Fprintf(w, "Update(g, e)\n}\n\n// Update transaction update ")
 //line dao_simple_template.go.ego:187
 _, _ = fmt.Fprintf(w, "%v",  daoData.Table.Name )
 //line dao_simple_template.go.ego:187
@@ -640,7 +640,7 @@ _, _ = fmt.Fprintf(w, " table.\nfunc (g Tx")
 //line dao_simple_template.go.ego:188
 _, _ = fmt.Fprintf(w, "%v",  daoData.Name )
 //line dao_simple_template.go.ego:188
-_, _ = fmt.Fprintf(w, ") Update(entity ")
+_, _ = fmt.Fprintf(w, ") Update(e ")
 //line dao_simple_template.go.ego:188
 _, _ = fmt.Fprintf(w, "%v",  daoData.EntityPkgName )
 //line dao_simple_template.go.ego:188
@@ -652,7 +652,7 @@ _, _ = fmt.Fprintf(w, ") (sql.Result, error) {\n\treturn _")
 //line dao_simple_template.go.ego:189
 _, _ = fmt.Fprintf(w, "%v",  daoData.Table.TitleName )
 //line dao_simple_template.go.ego:189
-_, _ = fmt.Fprintf(w, "Update(g, entity)\n}\n\n// Update update ")
+_, _ = fmt.Fprintf(w, "Update(g, e)\n}\n\n// Update update ")
 //line dao_simple_template.go.ego:192
 _, _ = fmt.Fprintf(w, "%v",  daoData.Table.Name )
 //line dao_simple_template.go.ego:192
@@ -664,7 +664,7 @@ _, _ = fmt.Fprintf(w, "Update(g ")
 //line dao_simple_template.go.ego:193
 _, _ = fmt.Fprintf(w, "%v",  daoData.Name )
 //line dao_simple_template.go.ego:193
-_, _ = fmt.Fprintf(w, "Queryer, entity ")
+_, _ = fmt.Fprintf(w, "Queryer, e ")
 //line dao_simple_template.go.ego:193
 _, _ = fmt.Fprintf(w, "%v",  daoData.EntityPkgName )
 //line dao_simple_template.go.ego:193
@@ -730,7 +730,7 @@ _, _ = fmt.Fprintf(w, "\n`\n\tresult, err := g.Exec(queryString,\n\t")
 //line dao_simple_template.go.ego:202
  for _, column := range daoData.Table.Columns { 
 //line dao_simple_template.go.ego:202
-_, _ = fmt.Fprintf(w, "entity.")
+_, _ = fmt.Fprintf(w, "e.")
 //line dao_simple_template.go.ego:202
 _, _ = fmt.Fprintf(w, "%v",  column.TitleName )
 //line dao_simple_template.go.ego:202
@@ -754,7 +754,7 @@ _, _ = fmt.Fprintf(w, "and")
 //line dao_simple_template.go.ego:204
  } 
 //line dao_simple_template.go.ego:204
-_, _ = fmt.Fprintf(w, "entity.")
+_, _ = fmt.Fprintf(w, "e.")
 //line dao_simple_template.go.ego:204
 _, _ = fmt.Fprintf(w, "%v",  column.TitleName )
 //line dao_simple_template.go.ego:204

@@ -34,7 +34,16 @@ func main() {
 		cli.StringFlag{"sql", "sql", "generate sql root dir", ""},
 		cli.StringFlag{"dao", "dao", "generate dao root dir", ""},
 		cli.StringFlag{"entity", "entity", "generate entity root dir", ""},
+		cli.BoolFlag{"config", "generate config", ""},
 	}
+
+	miguGenFlags := make([]cli.Flag, len(genFlags))
+	for idx, c := range genFlags {
+		miguGenFlags[idx] = c
+	}
+	miguGenFlags = append(miguGenFlags,
+		cli.StringFlag{"models", "models.go", "models struct file path", ""},
+	)
 
 	app.Commands = []cli.Command{
 		{
@@ -69,10 +78,7 @@ func main() {
 			Name:   "gen-migu",
 			Action: genMiguAction,
 			Usage:  "generate code and migration by config",
-			Flags: []cli.Flag{
-				cli.StringFlag{"models", "models.go", "models struct file path", ""},
-				cli.StringFlag{"path", "config.json", "config path", ""},
-			},
+			Flags:  miguGenFlags,
 		},
 	}
 	app.Run(os.Args)

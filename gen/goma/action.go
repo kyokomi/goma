@@ -44,10 +44,7 @@ func genConfigAction(c *cli.Context) {
 }
 
 func genMiguAction(c *cli.Context) {
-	opt, err := goma.NewOptions(c.String("path"))
-	if err != nil {
-		log.Fatalln(err)
-	}
+	opt := scanGenFlags(c)
 
 	migration(opt, c.String("models"))
 
@@ -66,6 +63,7 @@ func scanGenFlags(c *cli.Context) goma.Options {
 	opt.SQLRootDir = c.String("sql")
 	opt.DaoRootDir = c.String("dao")
 	opt.EntityRootDir = c.String("entity")
+	opt.IsConfig = c.Bool("config")
 	opt.Debug = c.GlobalBool("debug")
 	return opt
 }

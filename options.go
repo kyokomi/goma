@@ -23,6 +23,7 @@ type Options struct {
 	SSLMode string `json:"ssl"` // disable, verify-full
 
 	// goma
+	IsConfig      bool   `json:"isConfig"`      // goma config generate
 	Debug         bool   `json:"debug"`         // goma debug mode (default false)
 	SQLRootDir    string `json:"sqlRootDir"`    // goma sql root dir path (default './sql')
 	DaoRootDir    string `json:"daoRootDir"`    // goma dao root dir path (default './dao')

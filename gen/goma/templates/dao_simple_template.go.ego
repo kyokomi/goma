@@ -154,16 +154,16 @@ WHERE
 }
 
 // Insert insert <%= daoData.Table.Name %> table.
-func (g <%= daoData.Name %>) Insert(entity <%= daoData.EntityPkgName %>.<%= daoData.EntityName %>) (sql.Result, error) {
-	return _<%= daoData.Table.TitleName %>Insert(g, entity)
+func (g <%= daoData.Name %>) Insert(e <%= daoData.EntityPkgName %>.<%= daoData.EntityName %>) (sql.Result, error) {
+	return _<%= daoData.Table.TitleName %>Insert(g, e)
 }
 
 // Insert transaction insert <%= daoData.Table.Name %> table.
-func (g Tx<%= daoData.Name %>) Insert(entity <%= daoData.EntityPkgName %>.<%= daoData.EntityName %>) (sql.Result, error) {
-	return _<%= daoData.Table.TitleName %>Insert(g, entity)
+func (g Tx<%= daoData.Name %>) Insert(e <%= daoData.EntityPkgName %>.<%= daoData.EntityName %>) (sql.Result, error) {
+	return _<%= daoData.Table.TitleName %>Insert(g, )
 }
 
-func _<%= daoData.Table.TitleName %>Insert(g <%= daoData.Name %>Queryer, entity <%= daoData.EntityPkgName %>.<%= daoData.EntityName %>) (sql.Result, error) {
+func _<%= daoData.Table.TitleName %>Insert(g <%= daoData.Name %>Queryer, e <%= daoData.EntityPkgName %>.<%= daoData.EntityName %>) (sql.Result, error) {
 	queryString := `
 insert into <%= daoData.Table.Name %>(
   <% for idx, column := range daoData.Table.Columns { %><% if idx != 0 { %>, <% } %><%= column.Name %>
@@ -171,7 +171,7 @@ insert into <%= daoData.Table.Name %>(
   <% for idx, _ := range daoData.Table.Columns { %><% if idx != 0 { %>, <% } %><%= daoData.Placeholder(idx + 1) %>
 <% } %>);`
 	result, err := g.Exec(queryString,
-	<% for _, column := range daoData.Table.Columns { %>entity.<%= column.TitleName %>,
+	<% for _, column := range daoData.Table.Columns { %>e.<%= column.TitleName %>,
     <% } %>)
     if err != nil {
         log.Println(err, queryString)
@@ -180,17 +180,17 @@ insert into <%= daoData.Table.Name %>(
 }
 
 // Update update <%= daoData.Table.Name %> table.
-func (g <%= daoData.Name %>) Update(entity <%= daoData.EntityPkgName %>.<%= daoData.EntityName %>) (sql.Result, error) {
-	return _<%= daoData.Table.TitleName %>Update(g, entity)
+func (g <%= daoData.Name %>) Update(e <%= daoData.EntityPkgName %>.<%= daoData.EntityName %>) (sql.Result, error) {
+	return _<%= daoData.Table.TitleName %>Update(g, e)
 }
 
 // Update transaction update <%= daoData.Table.Name %> table.
-func (g Tx<%= daoData.Name %>) Update(entity <%= daoData.EntityPkgName %>.<%= daoData.EntityName %>) (sql.Result, error) {
-	return _<%= daoData.Table.TitleName %>Update(g, entity)
+func (g Tx<%= daoData.Name %>) Update(e <%= daoData.EntityPkgName %>.<%= daoData.EntityName %>) (sql.Result, error) {
+	return _<%= daoData.Table.TitleName %>Update(g, e)
 }
 
 // Update update <%= daoData.Table.Name %> table.
-func _<%= daoData.Table.TitleName %>Update(g <%= daoData.Name %>Queryer, entity <%= daoData.EntityPkgName %>.<%= daoData.EntityName %>) (sql.Result, error) {
+func _<%= daoData.Table.TitleName %>Update(g <%= daoData.Name %>Queryer, e <%= daoData.EntityPkgName %>.<%= daoData.EntityName %>) (sql.Result, error) {
 	queryString := `
 update <%= daoData.Table.Name %> set
   <% for idx, column := range daoData.Table.Columns { %><% if idx != 0 { %>, <% } %>  <%= column.Name %> = <%= daoData.Placeholder(idx + 1) %>
@@ -199,9 +199,9 @@ update <%= daoData.Table.Name %> set
 <% } %>
 `
 	result, err := g.Exec(queryString,
-	<% for _, column := range daoData.Table.Columns { %>entity.<%= column.TitleName %>,
+	<% for _, column := range daoData.Table.Columns { %>e.<%= column.TitleName %>,
     <% } %>
-    <% for idx, column := range daoData.Table.Columns { %><% if !column.IsPrimaryKey { %><% continue %><% } %><% if idx != 0 { %>and<% } %>entity.<%= column.TitleName %>,
+    <% for idx, column := range daoData.Table.Columns { %><% if !column.IsPrimaryKey { %><% continue %><% } %><% if idx != 0 { %>and<% } %>e.<%= column.TitleName %>,
     <% } %>)
 	if err != nil {
         log.Println(err, queryString)

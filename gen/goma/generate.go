@@ -81,6 +81,8 @@ func generate(pkg string, opt goma.Options, isSimple bool) {
 		// create templateData
 		data := newTemplateData(table, opt)
 
+		data.Imports = nil // TODO: とりあえず
+
 		// dao template
 		if isSimple {
 			if err := data.execDaoSimpleTemplate(daoRootPath); err != nil {
@@ -97,6 +99,7 @@ func generate(pkg string, opt goma.Options, isSimple bool) {
 			log.Fatalln(err)
 		}
 		data.EntityBlock = entityBlock.String()
+		data.EntityBlock = " " // TODO: とりあえず
 
 		// entity template
 		if err := data.execEntityTemplate(entityRootPath); err != nil {
@@ -139,13 +142,14 @@ func generate(pkg string, opt goma.Options, isSimple bool) {
 	}
 
 	// config generate
-
-	data, err := json.MarshalIndent(opt, "", "    ")
-	if err != nil {
-		log.Fatalln(err)
-	}
-	if err := ioutil.WriteFile(opt.ConfigPath(), data, 0644); err != nil {
-		log.Fatalln(err)
+	if opt.IsConfig {
+		data, err := json.MarshalIndent(opt, "", "    ")
+		if err != nil {
+			log.Fatalln(err)
+		}
+		if err := ioutil.WriteFile(opt.ConfigPath(), data, 0644); err != nil {
+			log.Fatalln(err)
+		}
 	}
 }
 
