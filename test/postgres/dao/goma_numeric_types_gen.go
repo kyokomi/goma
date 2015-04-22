@@ -160,10 +160,10 @@ func _GomaNumericTypesInsert(g GomaNumericTypesDaoQueryer, e entity.GomaNumericT
 		"smallint_columns": e.SmallintColumns,
 		"int_columns":      e.IntColumns,
 		"integer_columns":  e.IntegerColumns,
-		"serial_columns":   e.SerialColumns,
-		"decimal_columns":  e.DecimalColumns,
-		"numeric_columns":  e.NumericColumns,
-		"float_columns":    e.FloatColumns,
+
+		"decimal_columns": e.DecimalColumns,
+		"numeric_columns": e.NumericColumns,
+		"float_columns":   e.FloatColumns,
 	}
 	queryString := queryArgs("goma_numeric_types", "insert", args)
 

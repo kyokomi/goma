@@ -570,15 +570,27 @@ _, _ = fmt.Fprintf(w, "%v",  daoData.Table.Name )
 //line dao_simple_template.go.ego:164
 _, _ = fmt.Fprintf(w, "(\n  ")
 //line dao_simple_template.go.ego:165
- for idx, column := range daoData.Table.Columns { 
+ var isComma bool 
 //line dao_simple_template.go.ego:165
- if idx != 0 { 
+ isComma = false 
+//line dao_simple_template.go.ego:165
+ for _, column := range daoData.Table.Columns { 
+//line dao_simple_template.go.ego:165
+ if !column.IsAutoIncrement { 
+//line dao_simple_template.go.ego:165
+ if !isComma { 
+//line dao_simple_template.go.ego:165
+ isComma = true 
+//line dao_simple_template.go.ego:165
+ } else { 
 //line dao_simple_template.go.ego:165
 _, _ = fmt.Fprintf(w, ", ")
 //line dao_simple_template.go.ego:165
  } 
 //line dao_simple_template.go.ego:165
 _, _ = fmt.Fprintf(w, "%v",  column.Name )
+//line dao_simple_template.go.ego:165
+ } 
 //line dao_simple_template.go.ego:166
 _, _ = fmt.Fprintf(w, "\n")
 //line dao_simple_template.go.ego:166
@@ -586,15 +598,29 @@ _, _ = fmt.Fprintf(w, "\n")
 //line dao_simple_template.go.ego:166
 _, _ = fmt.Fprintf(w, ") values(\n  ")
 //line dao_simple_template.go.ego:167
- for idx, _ := range daoData.Table.Columns { 
+ idx := 0 
 //line dao_simple_template.go.ego:167
- if idx != 0 { 
+ isComma = false 
+//line dao_simple_template.go.ego:167
+ for _, column := range daoData.Table.Columns { 
+//line dao_simple_template.go.ego:167
+ if !column.IsAutoIncrement { 
+//line dao_simple_template.go.ego:167
+ if !isComma { 
+//line dao_simple_template.go.ego:167
+ isComma = true 
+//line dao_simple_template.go.ego:167
+ } else { 
 //line dao_simple_template.go.ego:167
 _, _ = fmt.Fprintf(w, ", ")
 //line dao_simple_template.go.ego:167
  } 
 //line dao_simple_template.go.ego:167
 _, _ = fmt.Fprintf(w, "%v",  daoData.Placeholder(idx + 1) )
+//line dao_simple_template.go.ego:167
+  idx++ 
+//line dao_simple_template.go.ego:167
+ } 
 //line dao_simple_template.go.ego:168
 _, _ = fmt.Fprintf(w, "\n")
 //line dao_simple_template.go.ego:168
@@ -604,11 +630,17 @@ _, _ = fmt.Fprintf(w, ")`\n\tresult, err := g.Exec(queryString,\n\t")
 //line dao_simple_template.go.ego:170
  for _, column := range daoData.Table.Columns { 
 //line dao_simple_template.go.ego:170
+ if !column.IsAutoIncrement { 
+//line dao_simple_template.go.ego:170
 _, _ = fmt.Fprintf(w, "e.")
 //line dao_simple_template.go.ego:170
 _, _ = fmt.Fprintf(w, "%v",  column.TitleName )
 //line dao_simple_template.go.ego:170
-_, _ = fmt.Fprintf(w, ",\n    ")
+_, _ = fmt.Fprintf(w, ",")
+//line dao_simple_template.go.ego:170
+ } 
+//line dao_simple_template.go.ego:171
+_, _ = fmt.Fprintf(w, "\n    ")
 //line dao_simple_template.go.ego:171
  } 
 //line dao_simple_template.go.ego:171
@@ -1462,7 +1494,9 @@ _, _ = fmt.Fprintf(w, ") (sql.Result, error) {\n\targs := goma.QueryArgs{\n    "
 //line dao_template.go.ego:158
  for _, column := range daoData.Table.Columns { 
 //line dao_template.go.ego:158
-_, _ = fmt.Fprintf(w, "  \"")
+ if !column.IsAutoIncrement { 
+//line dao_template.go.ego:158
+_, _ = fmt.Fprintf(w, " \"")
 //line dao_template.go.ego:158
 _, _ = fmt.Fprintf(w, "%v",  column.Name )
 //line dao_template.go.ego:158
@@ -1470,7 +1504,11 @@ _, _ = fmt.Fprintf(w, "\": e.")
 //line dao_template.go.ego:158
 _, _ = fmt.Fprintf(w, "%v",  column.TitleName )
 //line dao_template.go.ego:158
-_, _ = fmt.Fprintf(w, ",\n    ")
+_, _ = fmt.Fprintf(w, ",")
+//line dao_template.go.ego:158
+ } 
+//line dao_template.go.ego:159
+_, _ = fmt.Fprintf(w, "\n    ")
 //line dao_template.go.ego:159
  } 
 //line dao_template.go.ego:160
@@ -1940,15 +1978,27 @@ _, _ = fmt.Fprintf(w, "%v",  tableData.Name )
 //line insert_template.sql.ego:1
 _, _ = fmt.Fprintf(w, "(\n  ")
 //line insert_template.sql.ego:2
- for idx, column := range tableData.Columns { 
+ var isComma bool 
 //line insert_template.sql.ego:2
- if idx != 0 { 
+ isComma = false 
+//line insert_template.sql.ego:2
+ for _, column := range tableData.Columns { 
+//line insert_template.sql.ego:2
+ if !column.IsAutoIncrement { 
+//line insert_template.sql.ego:2
+ if !isComma { 
+//line insert_template.sql.ego:2
+ isComma = true 
+//line insert_template.sql.ego:2
+ } else { 
 //line insert_template.sql.ego:2
 _, _ = fmt.Fprintf(w, ", ")
 //line insert_template.sql.ego:2
  } 
 //line insert_template.sql.ego:2
 _, _ = fmt.Fprintf(w, "%v",  column.Name )
+//line insert_template.sql.ego:2
+ } 
 //line insert_template.sql.ego:3
 _, _ = fmt.Fprintf(w, "\n")
 //line insert_template.sql.ego:3
@@ -1956,9 +2006,17 @@ _, _ = fmt.Fprintf(w, "\n")
 //line insert_template.sql.ego:3
 _, _ = fmt.Fprintf(w, ") values(\n  ")
 //line insert_template.sql.ego:4
- for idx, column := range tableData.Columns { 
+ isComma = false 
 //line insert_template.sql.ego:4
- if idx != 0 { 
+ for _, column := range tableData.Columns { 
+//line insert_template.sql.ego:4
+ if !column.IsAutoIncrement { 
+//line insert_template.sql.ego:4
+ if !isComma { 
+//line insert_template.sql.ego:4
+ isComma = true 
+//line insert_template.sql.ego:4
+ } else { 
 //line insert_template.sql.ego:4
 _, _ = fmt.Fprintf(w, ", ")
 //line insert_template.sql.ego:4
@@ -1971,6 +2029,8 @@ _, _ = fmt.Fprintf(w, "%v",  column.Name )
 _, _ = fmt.Fprintf(w, " */")
 //line insert_template.sql.ego:4
 _, _ = fmt.Fprintf(w, "%v",  column.Sample )
+//line insert_template.sql.ego:4
+ } 
 //line insert_template.sql.ego:5
 _, _ = fmt.Fprintf(w, "\n")
 //line insert_template.sql.ego:5

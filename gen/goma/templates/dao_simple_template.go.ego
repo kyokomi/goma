@@ -162,12 +162,12 @@ func (g Tx<%= daoData.Name %>) Insert(e <%= daoData.EntityPkgName %>.<%= daoData
 func _<%= daoData.Table.TitleName %>Insert(g <%= daoData.Name %>Queryer, e <%= daoData.EntityPkgName %>.<%= daoData.EntityName %>) (sql.Result, error) {
 	queryString := `
 insert into <%= daoData.Table.Name %>(
-  <% for idx, column := range daoData.Table.Columns { %><% if idx != 0 { %>, <% } %><%= column.Name %>
+  <% var isComma bool %><% isComma = false %><% for _, column := range daoData.Table.Columns { %><% if !column.IsAutoIncrement { %><% if !isComma { %><% isComma = true %><% } else { %>, <% } %><%= column.Name %><% } %>
 <% } %>) values(
-  <% for idx, _ := range daoData.Table.Columns { %><% if idx != 0 { %>, <% } %><%= daoData.Placeholder(idx + 1) %>
+  <% idx := 0 %><% isComma = false %><% for _, column := range daoData.Table.Columns { %><% if !column.IsAutoIncrement { %><% if !isComma { %><% isComma = true %><% } else { %>, <% } %><%= daoData.Placeholder(idx + 1) %><%  idx++ %><% } %>
 <% } %>)`
 	result, err := g.Exec(queryString,
-	<% for _, column := range daoData.Table.Columns { %>e.<%= column.TitleName %>,
+	<% for _, column := range daoData.Table.Columns { %><% if !column.IsAutoIncrement { %>e.<%= column.TitleName %>,<% } %>
     <% } %>)
     if err != nil {
         log.Println(err, queryString)

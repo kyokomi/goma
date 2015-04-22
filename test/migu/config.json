@@ -10,5 +10,6 @@
     "debug": true,
     "sqlRootDir": "sql",
     "daoRootDir": "dao",
-    "entityRootDir": "models"
+    "entityRootDir": "models",
+    "currentDir": "/Users/yokomichi/src/github.com/kyokomi/goma/test/migu"
 }

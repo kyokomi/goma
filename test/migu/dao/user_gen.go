@@ -84,10 +84,10 @@ func _UserSelectAll(g UserDaoQueryer) ([]models.User, error) {
 	queryString := `
 select
   id
+, create_at
 , name
 , email
 , age
-, create_at
 , update_at
 FROM
   user`
@@ -128,10 +128,10 @@ func _UserSelectByID(g UserDaoQueryer, id int64) (models.User, error) {
 	queryString := `
 select
   id
+, create_at
 , name
 , email
 , age
-, create_at
 , update_at
 FROM
   user
@@ -173,10 +173,10 @@ func _UserInsert(g UserDaoQueryer, e models.User) (sql.Result, error) {
 	queryString := `
 insert into user(
   id
+, create_at
 , name
 , email
 , age
-, create_at
 , update_at
 ) values(
   ?
@@ -188,10 +188,10 @@ insert into user(
 )`
 	result, err := g.Exec(queryString,
 		e.ID,
+		e.CreateAt,
 		e.Name,
 		e.Email,
 		e.Age,
-		e.CreateAt,
 		e.UpdateAt,
 	)
 	if err != nil {
@@ -215,10 +215,10 @@ func _UserUpdate(g UserDaoQueryer, e models.User) (sql.Result, error) {
 	queryString := `
 update user set
     id = ?
+,   create_at = ?
 ,   name = ?
 ,   email = ?
 ,   age = ?
-,   create_at = ?
 ,   update_at = ?
  where
     id = ?
@@ -226,10 +226,10 @@ update user set
 `
 	result, err := g.Exec(queryString,
 		e.ID,
+		e.CreateAt,
 		e.Name,
 		e.Email,
 		e.Age,
-		e.CreateAt,
 		e.UpdateAt,
 
 		e.ID,

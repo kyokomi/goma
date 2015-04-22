@@ -183,7 +183,7 @@ insert into goma_numeric_types(
 , smallint_columns
 , int_columns
 , integer_columns
-, serial_columns
+
 , decimal_columns
 , numeric_columns
 , float_columns
@@ -193,10 +193,10 @@ insert into goma_numeric_types(
 , $3
 , $4
 , $5
+
 , $6
 , $7
 , $8
-, $9
 )`
 	result, err := g.Exec(queryString,
 		e.ID,
@@ -204,7 +204,7 @@ insert into goma_numeric_types(
 		e.SmallintColumns,
 		e.IntColumns,
 		e.IntegerColumns,
-		e.SerialColumns,
+
 		e.DecimalColumns,
 		e.NumericColumns,
 		e.FloatColumns,
