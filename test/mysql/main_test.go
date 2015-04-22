@@ -30,7 +30,7 @@ func TestNumeric(t *testing.T) {
 	// numeric
 	d := dao.GomaNumericTypes(db)
 
-	insertData := entity.GomaNumericTypesEntity{
+	insertData := entity.GomaNumericTypes{
 		ID:               id,
 		TinyintColumns:   int(8),
 		BoolColumns:      int(1),
@@ -76,7 +76,7 @@ func TestString(t *testing.T) {
 	// string
 	d := dao.GomaStringTypes(db)
 
-	insertData := entity.GomaStringTypesEntity{
+	insertData := entity.GomaStringTypes{
 		ID:                id,
 		TextColumns:       "あいうえおかきくけこ",
 		TinytextColumns:   "abc",
@@ -118,7 +118,7 @@ func TestDate(t *testing.T) {
 	d := dao.GomaDateTypes(db)
 
 	now := time.Now()
-	insertData := entity.GomaDateTypesEntity{
+	insertData := entity.GomaDateTypes{
 		ID:               id,
 		DateColumns:      time.Date(now.Year(), now.Month(), now.Day(), 0, 0, 0, 0, now.Location()),
 		DatetimeColumns:  time.Date(now.Year(), now.Month(), now.Day(), now.Hour(), now.Minute(), now.Second(), 0, now.Location()),
@@ -156,7 +156,7 @@ func TestBinary(t *testing.T) {
 	// date
 	d := dao.GomaBinaryTypes(db)
 
-	insertData := entity.GomaBinaryTypesEntity{
+	insertData := entity.GomaBinaryTypes{
 		BinaryID:          id,
 		BinaryColumns:     []uint8{49, 49, 49},
 		TinyblobColumns:   []uint8{49, 49, 50, 51, 52, 53, 54, 55, 56},
@@ -204,7 +204,7 @@ func TestTx(t *testing.T) {
 	// string
 	dtx := dao.TxGomaStringTypes(tx)
 
-	e := entity.GomaStringTypesEntity{
+	e := entity.GomaStringTypes{
 		ID:                id,
 		TextColumns:       "あいうえおかきくけこ",
 		TinytextColumns:   "abc",

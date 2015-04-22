@@ -35,6 +35,7 @@ type DaoTemplateData struct {
 	EntityPkgName string
 	EntityImport  string
 	DriverName    string
+	EntityBlock   string
 }
 
 // Placeholder driver placeholder

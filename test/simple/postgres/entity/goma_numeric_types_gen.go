@@ -6,20 +6,20 @@ import "database/sql"
 // GOMA CODE GENERATION TOOL (github.com/kyokomi/goma)
 // DO NOT EDIT
 
-// GomaNumericTypesEntity is generated goma_numeric_types table.
-type GomaNumericTypesEntity struct {
-	ID              int64   `goma:"BIGINT:pk"`
-	BoolColumns     bool    `goma:"BOOL"`
-	SmallintColumns int     `goma:"SMALLINT"`
-	IntColumns      int     `goma:"INTEGER"`
-	IntegerColumns  int     `goma:"INTEGER"`
-	SerialColumns   int     `goma:"INTEGER"`
-	DecimalColumns  string  `goma:"NUMERIC"`
-	NumericColumns  string  `goma:"NUMERIC"`
-	FloatColumns    float64 `goma:"DOUBLE"`
+// GomaNumericTypes is generated goma_numeric_types table.
+type GomaNumericTypes struct {
+	ID              int64   `migu:":pk"`
+	BoolColumns     bool    `migu:""`
+	SmallintColumns int     `migu:""`
+	IntColumns      int     `migu:""`
+	IntegerColumns  int     `migu:""`
+	SerialColumns   int     `migu:""`
+	DecimalColumns  string  `migu:""`
+	NumericColumns  string  `migu:""`
+	FloatColumns    float64 `migu:""`
 }
 
-// Scan GomaNumericTypesEntity all scan
-func (e *GomaNumericTypesEntity) Scan(rows *sql.Rows) error {
+// Scan GomaNumericTypes all scan
+func (e *GomaNumericTypes) Scan(rows *sql.Rows) error {
 	return rows.Scan(&e.ID, &e.BoolColumns, &e.SmallintColumns, &e.IntColumns, &e.IntegerColumns, &e.SerialColumns, &e.DecimalColumns, &e.NumericColumns, &e.FloatColumns)
 }

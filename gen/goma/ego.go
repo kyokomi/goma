@@ -1800,60 +1800,76 @@ _, _ = fmt.Fprintf(w, "\n)")
 //line entity_template.go.ego:13
  } 
 //line entity_template.go.ego:14
-_, _ = fmt.Fprintf(w, "\n    \n// ")
+_, _ = fmt.Fprintf(w, "\n\n")
 //line entity_template.go.ego:15
+ if daoData.EntityBlock == "" { 
+//line entity_template.go.ego:16
+_, _ = fmt.Fprintf(w, "\n// ")
+//line entity_template.go.ego:16
 _, _ = fmt.Fprintf(w, "%v",  daoData.EntityName )
-//line entity_template.go.ego:15
+//line entity_template.go.ego:16
 _, _ = fmt.Fprintf(w, " is generated ")
-//line entity_template.go.ego:15
+//line entity_template.go.ego:16
 _, _ = fmt.Fprintf(w, "%v",  daoData.Table.Name )
-//line entity_template.go.ego:15
+//line entity_template.go.ego:16
 _, _ = fmt.Fprintf(w, " table.\ntype ")
-//line entity_template.go.ego:16
+//line entity_template.go.ego:17
 _, _ = fmt.Fprintf(w, "%v",  daoData.EntityName )
-//line entity_template.go.ego:16
+//line entity_template.go.ego:17
 _, _ = fmt.Fprintf(w, " struct {\n")
-//line entity_template.go.ego:17
+//line entity_template.go.ego:18
  for _, column := range daoData.Table.Columns { 
-//line entity_template.go.ego:17
+//line entity_template.go.ego:18
 _, _ = fmt.Fprintf(w, "%v",  column.TitleName )
-//line entity_template.go.ego:17
+//line entity_template.go.ego:18
 _, _ = fmt.Fprintf(w, " ")
-//line entity_template.go.ego:17
+//line entity_template.go.ego:18
 _, _ = fmt.Fprintf(w, "%v",  column.TypeName )
-//line entity_template.go.ego:17
+//line entity_template.go.ego:18
 _, _ = fmt.Fprintf(w, " ")
-//line entity_template.go.ego:17
+//line entity_template.go.ego:18
 _, _ = fmt.Fprintf(w, "%v",  column.TypeDetail )
-//line entity_template.go.ego:18
+//line entity_template.go.ego:19
 _, _ = fmt.Fprintf(w, "\n")
-//line entity_template.go.ego:18
+//line entity_template.go.ego:19
  } 
-//line entity_template.go.ego:18
-_, _ = fmt.Fprintf(w, "}\n\n// Scan ")
+//line entity_template.go.ego:19
+_, _ = fmt.Fprintf(w, "}\n")
 //line entity_template.go.ego:20
+ } else { 
+//line entity_template.go.ego:21
+_, _ = fmt.Fprintf(w, "\n")
+//line entity_template.go.ego:21
+_, _ = fmt.Fprintf(w, "%v",  daoData.EntityBlock )
+//line entity_template.go.ego:22
+_, _ = fmt.Fprintf(w, "\n")
+//line entity_template.go.ego:22
+ } 
+//line entity_template.go.ego:23
+_, _ = fmt.Fprintf(w, "\n\n// Scan ")
+//line entity_template.go.ego:24
 _, _ = fmt.Fprintf(w, "%v",  daoData.EntityName )
-//line entity_template.go.ego:20
+//line entity_template.go.ego:24
 _, _ = fmt.Fprintf(w, " all scan\nfunc (e *")
-//line entity_template.go.ego:21
+//line entity_template.go.ego:25
 _, _ = fmt.Fprintf(w, "%v",  daoData.EntityName )
-//line entity_template.go.ego:21
+//line entity_template.go.ego:25
 _, _ = fmt.Fprintf(w, ") Scan(rows *sql.Rows) error {\n\treturn rows.Scan(")
-//line entity_template.go.ego:22
+//line entity_template.go.ego:26
  for idx, column := range daoData.Table.Columns { 
-//line entity_template.go.ego:22
+//line entity_template.go.ego:26
  if idx != 0 { 
-//line entity_template.go.ego:22
+//line entity_template.go.ego:26
 _, _ = fmt.Fprintf(w, ", ")
-//line entity_template.go.ego:22
+//line entity_template.go.ego:26
  } 
-//line entity_template.go.ego:22
+//line entity_template.go.ego:26
 _, _ = fmt.Fprintf(w, "&e.")
-//line entity_template.go.ego:22
+//line entity_template.go.ego:26
 _, _ = fmt.Fprintf(w, "%v",  column.TitleName )
-//line entity_template.go.ego:22
+//line entity_template.go.ego:26
  } 
-//line entity_template.go.ego:22
+//line entity_template.go.ego:26
 _, _ = fmt.Fprintf(w, ")\n}\n")
 return nil
 }

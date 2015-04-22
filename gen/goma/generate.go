@@ -19,6 +19,8 @@ import (
 	"io/ioutil"
 
 	"github.com/kyokomi/goma"
+	"bytes"
+	"github.com/kyokomi/goma/migu"
 )
 
 var sampleDataMap = map[reflect.Type]string{
@@ -36,7 +38,7 @@ var driverImports = map[string]string{
 	"postgres": `_ "github.com/lib/pq"`,
 }
 
-func generate(pkg string, opt goma.Options, isSimple bool) {
+func generate(pkg string, opt goma.Options, isSimple bool, isMigu bool) {
 	log.SetFlags(log.Llongfile)
 
 	currentDir, err := os.Getwd()
@@ -51,6 +53,7 @@ func generate(pkg string, opt goma.Options, isSimple bool) {
 		log.Fatalf("%v", err)
 		return
 	}
+	defer orm.Close()
 
 	tables, err := orm.DBMetas()
 	if err != nil {
@@ -87,6 +90,17 @@ func generate(pkg string, opt goma.Options, isSimple bool) {
 			if err := data.execDaoTemplate(daoRootPath); err != nil {
 				log.Fatalln(err)
 			}
+		}
+
+		if isMigu {
+			data.Imports = nil // TODO: とりあえず
+
+			var entityBlock bytes.Buffer
+			if err := migu.FprintStruct(&entityBlock, orm.DB().DB, data.Table.TitleName); err != nil {
+				log.Fatalln(err)
+			}
+			data.EntityBlock = entityBlock.String()
+			data.EntityBlock = " " // TODO: とりあえず
 		}
 
 		// entity template
@@ -130,13 +144,14 @@ func generate(pkg string, opt goma.Options, isSimple bool) {
 	}
 
 	// config generate
-
-	data, err := json.MarshalIndent(opt, "", "    ")
-	if err != nil {
-		log.Fatalln(err)
-	}
-	if err := ioutil.WriteFile(opt.ConfigPath(), data, 0644); err != nil {
-		log.Fatalln(err)
+	if opt.IsConfig {
+		data, err := json.MarshalIndent(opt, "", "    ")
+		if err != nil {
+			log.Fatalln(err)
+		}
+		if err := ioutil.WriteFile(opt.ConfigPath(), data, 0644); err != nil {
+			log.Fatalln(err)
+		}
 	}
 }
 
@@ -147,7 +162,7 @@ func newTemplateData(table *core.Table, opt goma.Options) DaoTemplateData {
 	data := DaoTemplateData{}
 	data.Name = lintName(strings.Title(table.Name) + "Dao")
 	data.MemberName = "s" + lintName(strings.Title(table.Name))
-	data.EntityName = lintName(strings.Title(table.Name) + "Entity")
+	data.EntityName = lintName(strings.Title(table.Name))
 	data.DaoPkgName = opt.DaoPkgName()
 	data.EntityPkgName = opt.EntityPkgName()
 	data.EntityImport = opt.EntityImportPath()
@@ -193,9 +208,9 @@ func newColumns(columns []*core.Column) []ColumnTemplateData {
 
 		typeLength := ""
 		if c.SQLType.DefaultLength > 0 {
-			typeLength = fmt.Sprintf("(%d)", c.SQLType.DefaultLength)
+			typeLength = fmt.Sprintf("size:%d", c.SQLType.DefaultLength)
 		}
-		typeDetail := fmt.Sprintf("`goma:\"%s"+typeLength+primaryKey+"\"`", c.SQLType.Name)
+		typeDetail := fmt.Sprintf("`migu:\""+typeLength+primaryKey+"\"`")
 
 		column := ColumnTemplateData{
 			Name:         c.Name,

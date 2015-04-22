@@ -11,11 +11,15 @@ import "database/sql"
 	    "<%= importName %>"
     <% } %>
 )<% } %>
-    
+
+<% if daoData.EntityBlock == "" { %>
 // <%= daoData.EntityName %> is generated <%= daoData.Table.Name %> table.
 type <%= daoData.EntityName %> struct {
 <% for _, column := range daoData.Table.Columns { %><%= column.TitleName %> <%= column.TypeName %> <%= column.TypeDetail %>
 <% } %>}
+<% } else { %>
+<%= daoData.EntityBlock %>
+<% } %>
 
 // Scan <%= daoData.EntityName %> all scan
 func (e *<%= daoData.EntityName %>) Scan(rows *sql.Rows) error {
