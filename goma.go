@@ -57,7 +57,11 @@ func GenerateQuery(queryString string, args QueryArgs) string {
 		case int:
 			replaceWord = strconv.Itoa(val.(int))
 		case bool:
-			replaceWord = strconv.FormatBool(val.(bool))
+			if val.(bool) {
+				replaceWord = "1"
+			} else {
+				replaceWord = "0"
+			}
 		case float32:
 			replaceWord = strconv.FormatFloat(float64(val.(float32)), 'f', 3, 32)
 		case float64:

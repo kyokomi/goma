@@ -25,6 +25,7 @@ import (
 )
 
 var sampleDataMap = map[reflect.Type]string{
+	reflect.TypeOf(bool(false)):    "1",
 	reflect.TypeOf(int(1)):         "1",
 	reflect.TypeOf(float32(32.1)):  "32.1",
 	reflect.TypeOf(float64(64.1)):  "64.1",
@@ -191,8 +192,7 @@ func newImports(columns []*core.Column) set {
 func newColumns(columns []*core.Column) []ColumnTemplateData {
 	var results []ColumnTemplateData
 	for _, c := range columns {
-
-		typ := core.SQLType2Type(c.SQLType)
+		typ := gomaSQLType2Type(c.SQLType)
 		typeName := typ.Name()
 		if typ.PkgPath() != "" {
 			typeName = typ.PkgPath() + "." + typ.Name()
@@ -211,7 +211,7 @@ func newColumns(columns []*core.Column) []ColumnTemplateData {
 		if c.SQLType.DefaultLength > 0 {
 			typeLength = fmt.Sprintf("size:%d", c.SQLType.DefaultLength)
 		}
-		typeDetail := fmt.Sprintf("`migu:\"" + typeLength + primaryKey + "\"`")
+		typeDetail := fmt.Sprintf("`goma:\"" + typeLength + primaryKey + "\"`")
 
 		column := ColumnTemplateData{
 			Name:            c.Name,
@@ -225,4 +225,14 @@ func newColumns(columns []*core.Column) []ColumnTemplateData {
 		results = append(results, column)
 	}
 	return results
+}
+
+func gomaSQLType2Type(st core.SQLType) reflect.Type {
+	name := strings.ToUpper(st.Name)
+	switch {
+	case name == core.TinyInt && st.DefaultLength == 1:
+		return reflect.TypeOf(true)
+	default:
+		return core.SQLType2Type(st)
+	}
 }
