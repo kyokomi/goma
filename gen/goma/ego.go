@@ -2046,10 +2046,26 @@ _, _ = fmt.Fprintf(w, "package  ")
 //line queryargs_template.go.ego:1
 _, _ = fmt.Fprintf(w, "%v",  queryArgsData.DaoPkgName )
 //line queryargs_template.go.ego:2
-_, _ = fmt.Fprintf(w, "\n\n// NOTE: THIS FILE WAS PRODUCED BY THE\n// GOMA CODE GENERATION TOOL (github.com/kyokomi/goma)\n// DO NOT EDIT\n\nimport (\n\t\"path/filepath\"\n\n\t\"github.com/kyokomi/goma\"\n)\n\ntype queryArgSettings struct {\n\trootDir string\n}\n\nvar settings queryArgSettings\n\nfunc (s *queryArgSettings) SetRootDir(rootDir string) {\n\ts.rootDir = rootDir\n}\n\nfunc queryArgs(tableName string, queryName string, args goma.QueryArgs) string {\n\treturn settings.queryArgs(tableName, queryName, args)\n}\n\nfunc (s queryArgSettings) queryArgs(tableName string, queryName string, args goma.QueryArgs) string {\n\tfilePath := createSqlFilePath(s.rootDir, tableName, queryName)\n\treturn goma.GenerateQuery(assetSQL(filePath), args)\n}\n\nfunc assetSQL(filePath string) string {\n\tdata, err := Asset(filePath)\n\tif err != nil {\n\t\t// Asset was not found.\n\t}\n\treturn string(data)\n}\n\nfunc createSqlFilePath(rootDir string, tableName string, queryName string) string {\n\treturn filepath.Join(rootDir, \"")
-//line queryargs_template.go.ego:41
+_, _ = fmt.Fprintf(w, "\n\n// NOTE: THIS FILE WAS PRODUCED BY THE\n// GOMA CODE GENERATION TOOL (github.com/kyokomi/goma)\n// DO NOT EDIT\n\nimport (\n\t\"path/filepath\"\n\n\t\"github.com/kyokomi/goma\"\n)\n\ntype queryArgSettings struct {\n\trootDir string\n}\n\nvar settings queryArgSettings\n\nfunc (s *queryArgSettings) SetRootDir(rootDir string) {\n\ts.rootDir = rootDir\n}\n\nfunc queryArgs(tableName string, queryName string, args goma.QueryArgs) string {\n\treturn settings.queryArgs(tableName, queryName, args)\n}\n\nfunc (s queryArgSettings) queryArgs(tableName string, queryName string, args goma.QueryArgs) string {\n\tfilePath := createSqlFilePath(s.rootDir, tableName, queryName)\n\t")
+//line queryargs_template.go.ego:29
+ if queryArgsData.DriverName == "mysql" { 
+//line queryargs_template.go.ego:29
+_, _ = fmt.Fprintf(w, "return goma.MySQLGenerateQuery(assetSQL(filePath), args)\n\t")
+//line queryargs_template.go.ego:30
+ } else if queryArgsData.DriverName == "postgres" { 
+//line queryargs_template.go.ego:30
+_, _ = fmt.Fprintf(w, "return goma.PostgresGenerateQuery(assetSQL(filePath), args)\n\t")
+//line queryargs_template.go.ego:31
+ } else { 
+//line queryargs_template.go.ego:31
+_, _ = fmt.Fprintf(w, "return \"error\"\n")
+//line queryargs_template.go.ego:32
+ } 
+//line queryargs_template.go.ego:32
+_, _ = fmt.Fprintf(w, "}\n\nfunc assetSQL(filePath string) string {\n\tdata, err := Asset(filePath)\n\tif err != nil {\n\t\t// Asset was not found.\n\t}\n\treturn string(data)\n}\n\nfunc createSqlFilePath(rootDir string, tableName string, queryName string) string {\n\treturn filepath.Join(rootDir, \"")
+//line queryargs_template.go.ego:43
 _, _ = fmt.Fprintf(w, "%v",  queryArgsData.SQLRootDir )
-//line queryargs_template.go.ego:41
+//line queryargs_template.go.ego:43
 _, _ = fmt.Fprintf(w, "\", tableName, queryName+\".sql\")\n}\n")
 return nil
 }

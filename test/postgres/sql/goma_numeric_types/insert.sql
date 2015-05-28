@@ -10,7 +10,7 @@ insert into goma_numeric_types(
 , float_columns
 ) values(
   /* id */64
-, /* bool_columns */
+, /* bool_columns */1
 , /* smallint_columns */1
 , /* int_columns */1
 , /* integer_columns */1

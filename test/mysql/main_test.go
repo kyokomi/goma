@@ -33,7 +33,7 @@ func TestNumeric(t *testing.T) {
 	insertData := entity.GomaNumericTypes{
 		ID:               id,
 		TinyintColumns:   int(8),
-		BoolColumns:      int(1),
+		BoolColumns:      false,
 		SmallintColumns:  int(123),
 		MediumintColumns: int(256),
 		IntColumns:       int(11111111),

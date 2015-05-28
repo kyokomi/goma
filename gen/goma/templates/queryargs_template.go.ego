@@ -26,8 +26,10 @@ func queryArgs(tableName string, queryName string, args goma.QueryArgs) string {
 
 func (s queryArgSettings) queryArgs(tableName string, queryName string, args goma.QueryArgs) string {
 	filePath := createSqlFilePath(s.rootDir, tableName, queryName)
-	return goma.GenerateQuery(assetSQL(filePath), args)
-}
+	<% if queryArgsData.DriverName == "mysql" { %>return goma.MySQLGenerateQuery(assetSQL(filePath), args)
+	<% } else if queryArgsData.DriverName == "postgres" { %>return goma.PostgresGenerateQuery(assetSQL(filePath), args)
+	<% } else { %>return "error"
+<% } %>}
 
 func assetSQL(filePath string) string {
 	data, err := Asset(filePath)

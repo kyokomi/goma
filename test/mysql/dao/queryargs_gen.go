@@ -26,7 +26,7 @@ func queryArgs(tableName string, queryName string, args goma.QueryArgs) string {
 
 func (s queryArgSettings) queryArgs(tableName string, queryName string, args goma.QueryArgs) string {
 	filePath := createSqlFilePath(s.rootDir, tableName, queryName)
-	return goma.GenerateQuery(assetSQL(filePath), args)
+	return goma.MySQLGenerateQuery(assetSQL(filePath), args)
 }
 
 func assetSQL(filePath string) string {

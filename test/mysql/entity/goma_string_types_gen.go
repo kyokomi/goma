@@ -8,13 +8,13 @@ import "database/sql"
 
 // GomaStringTypes is generated goma_string_types table.
 type GomaStringTypes struct {
-	ID                int64  `migu:"size:20:pk"`
-	TextColumns       string `migu:""`
-	TinytextColumns   string `migu:""`
-	MediumtextColumns string `migu:""`
-	LongtextColumns   string `migu:""`
-	CharColumns       string `migu:"size:8"`
-	VarcharColumns    string `migu:"size:255"`
+	ID                int64  `goma:"size:20:pk"`
+	TextColumns       string `goma:""`
+	TinytextColumns   string `goma:""`
+	MediumtextColumns string `goma:""`
+	LongtextColumns   string `goma:""`
+	CharColumns       string `goma:"size:8"`
+	VarcharColumns    string `goma:"size:255"`
 }
 
 // Scan GomaStringTypes all scan
