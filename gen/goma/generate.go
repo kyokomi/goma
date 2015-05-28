@@ -214,7 +214,14 @@ func newColumns(columns []*core.Column) []ColumnTemplateData {
 			enumData := EnumTemplateData{}
 			enumData.TypeName = strings.Title(lintName(stringUp.CamelCase(c.Name)))
 			enums := []EnumData{}
-			for o, _ := range c.EnumOptions {
+
+			// sort
+			opts := make([]string, 3)
+			for o, idx := range c.EnumOptions {
+				opts[idx] = o
+			}
+
+			for _, o := range opts {
 				e := EnumData{}
 				e.Name = enumData.TypeName + strings.Title(lintName(strings.ToLower(o)))
 				e.Value = o
