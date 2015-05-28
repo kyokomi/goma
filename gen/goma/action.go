@@ -11,11 +11,11 @@ import (
 )
 
 func genAction(c *cli.Context) {
-	generate(c.GlobalString("pkg"), scanGenFlags(c), false, false)
+	generate(c.GlobalString("pkg"), scanGenFlags(c), false)
 }
 
 func genSimpleAction(c *cli.Context) {
-	generate(c.GlobalString("pkg"), scanGenFlags(c), true, false)
+	generate(c.GlobalString("pkg"), scanGenFlags(c), true)
 }
 
 func initConfigAction(c *cli.Context) {
@@ -40,15 +40,7 @@ func genConfigAction(c *cli.Context) {
 	if err != nil {
 		log.Fatalln(err)
 	}
-	generate(c.GlobalString("pkg"), opt, false, false)
-}
-
-func genMiguAction(c *cli.Context) {
-	opt := scanGenFlags(c)
-
-	migration(opt, c.String("models"))
-
-	generate(c.GlobalString("pkg"), opt, true, true)
+	generate(c.GlobalString("pkg"), opt, false)
 }
 
 func scanGenFlags(c *cli.Context) goma.Options {

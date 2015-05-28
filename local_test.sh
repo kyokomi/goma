@@ -6,7 +6,6 @@ go generate github.com/kyokomi/goma/test/mysql
 go generate github.com/kyokomi/goma/test/postgres
 go generate github.com/kyokomi/goma/test/simple/mysql
 go generate github.com/kyokomi/goma/test/simple/postgres
-go generate github.com/kyokomi/goma/test/migu
 go test ./test/...
 
 golint ./test/... | grep -v ego

@@ -74,12 +74,6 @@ func main() {
 				cli.StringFlag{"path", "config.json", "config path", ""},
 			},
 		},
-		{
-			Name:   "gen-migu",
-			Action: genMiguAction,
-			Usage:  "generate code and migration by config",
-			Flags:  miguGenFlags,
-		},
 	}
 	app.Run(os.Args)
 }
