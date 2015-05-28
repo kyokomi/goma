@@ -1,7 +1,9 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"log"
 	"os"
 	"path/filepath"
@@ -15,13 +17,7 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 	_ "github.com/lib/pq"
 
-	"encoding/json"
-	"io/ioutil"
-
-	"bytes"
-
 	"github.com/kyokomi/goma"
-	"github.com/kyokomi/goma/migu"
 )
 
 var sampleDataMap = map[reflect.Type]string{
@@ -40,7 +36,7 @@ var driverImports = map[string]string{
 	"postgres": `_ "github.com/lib/pq"`,
 }
 
-func generate(pkg string, opt goma.Options, isSimple bool, isMigu bool) {
+func generate(pkg string, opt goma.Options, isSimple bool) {
 	log.SetFlags(log.Llongfile)
 
 	currentDir, err := os.Getwd()
@@ -92,17 +88,6 @@ func generate(pkg string, opt goma.Options, isSimple bool, isMigu bool) {
 			if err := data.execDaoTemplate(daoRootPath); err != nil {
 				log.Fatalln(err)
 			}
-		}
-
-		if isMigu {
-			data.Imports = nil // TODO: とりあえず
-
-			var entityBlock bytes.Buffer
-			if err := migu.FprintStruct(&entityBlock, orm.DB().DB, data.Table.TitleName); err != nil {
-				log.Fatalln(err)
-			}
-			data.EntityBlock = entityBlock.String()
-			data.EntityBlock = " " // TODO: とりあえず
 		}
 
 		// entity template
