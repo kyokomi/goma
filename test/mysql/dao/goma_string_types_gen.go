@@ -162,6 +162,7 @@ func _GomaStringTypesInsert(g GomaStringTypesDaoQueryer, e entity.GomaStringType
 		"longtext_columns":   e.LongtextColumns,
 		"char_columns":       e.CharColumns,
 		"varchar_columns":    e.VarcharColumns,
+		"enum_columns":       e.EnumColumns,
 	}
 	queryString := queryArgs("goma_string_types", "insert", args)
 
@@ -192,6 +193,7 @@ func _GomaStringTypesUpdate(g GomaStringTypesDaoQueryer, e entity.GomaStringType
 		"longtext_columns":   e.LongtextColumns,
 		"char_columns":       e.CharColumns,
 		"varchar_columns":    e.VarcharColumns,
+		"enum_columns":       e.EnumColumns,
 	}
 	queryString := queryArgs("goma_string_types", "update", args)
 

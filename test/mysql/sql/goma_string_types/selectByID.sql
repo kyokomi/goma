@@ -6,6 +6,7 @@ select
 , longtext_columns
 , char_columns
 , varchar_columns
+, enum_columns
 FROM
   goma_string_types
 WHERE

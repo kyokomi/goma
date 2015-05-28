@@ -46,6 +46,15 @@ func (d DaoTemplateData) Placeholder(num int) string {
 	return "?"
 }
 
+func (d DaoTemplateData) IsDriverPkg() bool {
+	for _, c := range d.Table.Columns {
+		if c.EnumData.TypeName != "" {
+			return true
+		}
+	}
+	return false
+}
+
 // TableTemplateData table data.
 type TableTemplateData struct {
 	Name      string
@@ -62,6 +71,7 @@ type ColumnTemplateData struct {
 	IsPrimaryKey    bool
 	Sample          string
 	IsAutoIncrement bool
+	EnumData        EnumTemplateData // enumカラムのみ
 }
 
 // CamelName convert go lint CamelCase
@@ -79,6 +89,18 @@ type QueryArgsTemplateData struct {
 	DaoPkgName string
 	SQLRootDir string
 	DriverName string
+}
+
+// EnumData enumを構成する1要素
+type EnumData struct {
+	Name  string // HogeDataType
+	Value string // HOGE
+}
+
+// EnumTemplateData enumのTypeとenumの要素
+type EnumTemplateData struct {
+	TypeName string     // DataType
+	Enums    []EnumData // const () の中身
 }
 
 func (d AssetTemplateData) execAssetTemplate(daoRootDir string) error {

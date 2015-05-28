@@ -85,8 +85,9 @@ func TestString(t *testing.T) {
 		TinytextColumns:   "abc",
 		MediumtextColumns: "abcdefg",
 		LongtextColumns:   "鉄1234567890abcdefghijkelmnopqrstuvwxyz1234567890abcdefghijkelmnopqrstuvwxyz柱",
-		CharColumns:       "a",
+		CharColumns:       "a       ",
 		VarcharColumns:    "1234567890abcdefghijkelmnopqrstuvwxyz",
+		EnumColumns:       entity.EnumColumnsClose,
 	}
 
 	if _, err := d.Insert(insertData); err != nil {
@@ -96,7 +97,7 @@ func TestString(t *testing.T) {
 	if e, err := d.SelectByID(id); err != nil {
 		t.Errorf("ERROR: %s", err)
 	} else if !reflect.DeepEqual(e, insertData) {
-		t.Errorf("ERROR: %+v != %+v", e, insertData)
+		t.Errorf("ERROR: \n%+v\n%+v", e, insertData)
 	}
 
 	if _, err := d.Delete(id); err != nil {
@@ -215,6 +216,7 @@ func TestTx(t *testing.T) {
 		LongtextColumns:   "鉄1234567890abcdefghijkelmnopqrstuvwxyz1234567890abcdefghijkelmnopqrstuvwxyz柱",
 		CharColumns:       "a",
 		VarcharColumns:    "1234567890abcdefghijkelmnopqrstuvwxyz",
+		EnumColumns:       entity.EnumColumnsOpen,
 	}
 
 	_, err = dtx.Insert(e)

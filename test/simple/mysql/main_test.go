@@ -85,8 +85,9 @@ func TestString(t *testing.T) {
 		TinytextColumns:   "abc",
 		MediumtextColumns: "abcdefg",
 		LongtextColumns:   "鉄1234567890abcdefghijkelmnopqrstuvwxyz1234567890abcdefghijkelmnopqrstuvwxyz柱",
-		CharColumns:       "a",
+		CharColumns:       "a       ",
 		VarcharColumns:    "1234567890abcdefghijkelmnopqrstuvwxyz",
+		EnumColumns:       entity.EnumColumnsOpen,
 	}
 
 	if _, err := d.Insert(insertData); err != nil {
@@ -213,8 +214,9 @@ func TestTx(t *testing.T) {
 		TinytextColumns:   "abc",
 		MediumtextColumns: "abcdefg",
 		LongtextColumns:   "鉄1234567890abcdefghijkelmnopqrstuvwxyz1234567890abcdefghijkelmnopqrstuvwxyz柱",
-		CharColumns:       "a",
+		CharColumns:       "a       ",
 		VarcharColumns:    "1234567890abcdefghijkelmnopqrstuvwxyz",
+		EnumColumns:       entity.EnumColumnsClose,
 	}
 
 	_, err = dtx.Insert(e)

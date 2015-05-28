@@ -1,6 +1,8 @@
 <%!func EntityTemplate(w io.Writer, daoData DaoTemplateData) error %>package <%= daoData.EntityPkgName %>
 
-import "database/sql"
+import (
+	"database/sql"
+	<% if daoData.IsDriverPkg() { %>"database/sql/driver"<% } %>)
 
 // NOTE: THIS FILE WAS PRODUCED BY THE
 // GOMA CODE GENERATION TOOL (github.com/kyokomi/goma)
@@ -25,3 +27,29 @@ type <%= daoData.EntityName %> struct {
 func (e *<%= daoData.EntityName %>) Scan(rows *sql.Rows) error {
 	return rows.Scan(<% for idx, column := range daoData.Table.Columns { %><% if idx != 0 { %>, <% } %>&e.<%= column.TitleName %><% } %>)
 }
+
+<% for _, column := range daoData.Table.Columns { %>
+	<% if column.EnumData.TypeName != "" { %>
+		// <%= column.EnumData.TypeName %> <%= column.EnumData.TypeName %> column type
+		type <%= column.EnumData.TypeName %> string
+
+		// <%= column.EnumData.TypeName %>
+		const (<% for _, e := range column.EnumData.Enums { %><%= e.Name %> <%= column.EnumData.TypeName %> = "<%= e.Value %>"
+		<% } %>)
+
+		// Scan database/sql Scanner
+		func (e *<%= column.EnumData.TypeName %>) Scan(v interface{}) error {
+        	*e = <%= column.EnumData.TypeName %>(v.([]byte))
+        	return nil
+        }
+
+        var _ sql.Scanner = (*<%= column.EnumData.TypeName %>)(nil)
+
+        // Value database/sql/driver Valuer
+        func (e <%= column.EnumData.TypeName %>) Value() (driver.Value, error) {
+        	return string(e), nil
+        }
+
+        var _ driver.Valuer = (*<%= column.EnumData.TypeName %>)(nil)
+	<% } %>
+<% } %>

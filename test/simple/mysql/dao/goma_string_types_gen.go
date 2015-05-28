@@ -90,6 +90,7 @@ select
 , longtext_columns
 , char_columns
 , varchar_columns
+, enum_columns
 FROM
   goma_string_types`
 
@@ -135,6 +136,7 @@ select
 , longtext_columns
 , char_columns
 , varchar_columns
+, enum_columns
 FROM
   goma_string_types
 WHERE
@@ -181,8 +183,10 @@ insert into goma_string_types(
 , longtext_columns
 , char_columns
 , varchar_columns
+, enum_columns
 ) values(
   ?
+, ?
 , ?
 , ?
 , ?
@@ -198,6 +202,7 @@ insert into goma_string_types(
 		e.LongtextColumns,
 		e.CharColumns,
 		e.VarcharColumns,
+		e.EnumColumns,
 	)
 	if err != nil {
 		log.Println(err, queryString)
@@ -226,6 +231,7 @@ update goma_string_types set
 ,   longtext_columns = ?
 ,   char_columns = ?
 ,   varchar_columns = ?
+,   enum_columns = ?
  where
     id = ?
 
@@ -238,6 +244,7 @@ update goma_string_types set
 		e.LongtextColumns,
 		e.CharColumns,
 		e.VarcharColumns,
+		e.EnumColumns,
 
 		e.ID,
 	)
