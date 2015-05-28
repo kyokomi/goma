@@ -18,6 +18,7 @@ import (
 	_ "github.com/lib/pq"
 
 	"github.com/kyokomi/goma"
+	"github.com/etgryphon/stringUp"
 )
 
 var sampleDataMap = map[reflect.Type]string{
@@ -208,6 +209,30 @@ func newColumns(columns []*core.Column) []ColumnTemplateData {
 			Sample:          sampleDataMap[typ],
 			IsAutoIncrement: c.IsAutoIncrement,
 		}
+
+		if c.SQLType.Name == core.Enum {
+			enumData := EnumTemplateData{}
+			enumData.TypeName = strings.Title(lintName(stringUp.CamelCase(c.Name)))
+			enums := []EnumData{}
+
+			// sort
+			opts := make([]string, 3)
+			for o, idx := range c.EnumOptions {
+				opts[idx] = o
+			}
+
+			for _, o := range opts {
+				e := EnumData{}
+				e.Name = enumData.TypeName + strings.Title(lintName(strings.ToLower(o)))
+				e.Value = o
+				enums = append(enums, e)
+			}
+			enumData.Enums = enums
+
+			column.TypeName = enumData.TypeName
+			column.EnumData = enumData
+		}
+
 		results = append(results, column)
 	}
 	return results

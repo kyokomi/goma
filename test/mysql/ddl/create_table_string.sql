@@ -7,5 +7,6 @@ CREATE TABLE goma_string_types (
   mediumtext_columns MEDIUMTEXT,
   longtext_columns   LONGTEXT,
   char_columns       CHAR(8),
-  varchar_columns    VARCHAR(255)
+  varchar_columns    VARCHAR(255),
+  enum_columns       ENUM('OPEN','CLOSE','FOREVER')
 );

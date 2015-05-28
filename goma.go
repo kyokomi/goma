@@ -6,6 +6,7 @@ import (
 	"regexp"
 	"strconv"
 	"time"
+	"reflect"
 )
 
 // Goma is sql.DB access wrapper.
@@ -53,6 +54,11 @@ func MySQLGenerateQuery(queryString string, args QueryArgs) string {
 
 		replaceWord := ""
 		switch val.(type) {
+		default:
+			switch reflect.TypeOf(val).Kind() {
+			case reflect.String:
+				replaceWord = "'" + reflect.ValueOf(val).String() + "'"
+			}
 		case int:
 			replaceWord = strconv.Itoa(val.(int))
 		case bool:

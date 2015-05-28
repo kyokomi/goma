@@ -1,6 +1,8 @@
 package entity
 
-import "database/sql"
+import (
+	"database/sql"
+)
 
 // NOTE: THIS FILE WAS PRODUCED BY THE
 // GOMA CODE GENERATION TOOL (github.com/kyokomi/goma)

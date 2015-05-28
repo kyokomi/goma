@@ -6,6 +6,7 @@ update goma_string_types set
 ,   longtext_columns = /* longtext_columns */'1111'
 ,   char_columns = /* char_columns */'1111'
 ,   varchar_columns = /* varchar_columns */'1111'
+,   enum_columns = /* enum_columns */'1111'
  where
     id = /* id */1
 

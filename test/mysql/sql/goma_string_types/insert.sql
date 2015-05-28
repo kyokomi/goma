@@ -6,6 +6,7 @@ insert into goma_string_types(
 , longtext_columns
 , char_columns
 , varchar_columns
+, enum_columns
 ) values(
   /* id */64
 , /* text_columns */'1111'
@@ -14,4 +15,5 @@ insert into goma_string_types(
 , /* longtext_columns */'1111'
 , /* char_columns */'1111'
 , /* varchar_columns */'1111'
+, /* enum_columns */'1111'
 );
