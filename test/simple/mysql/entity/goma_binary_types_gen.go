@@ -8,13 +8,13 @@ import "database/sql"
 
 // GomaBinaryTypes is generated goma_binary_types table.
 type GomaBinaryTypes struct {
-	BinaryID          int64   `migu:"size:20:pk"`
-	BinaryColumns     []uint8 `migu:"size:3"`
-	TinyblobColumns   []uint8 `migu:""`
-	BlobColumns       []uint8 `migu:""`
-	MediumblobColumns []uint8 `migu:""`
-	LongblobColumns   []uint8 `migu:""`
-	VarbinaryColumns  []uint8 `migu:"size:10"`
+	BinaryID          int64   `goma:"size:20:pk"`
+	BinaryColumns     []uint8 `goma:"size:3"`
+	TinyblobColumns   []uint8 `goma:""`
+	BlobColumns       []uint8 `goma:""`
+	MediumblobColumns []uint8 `goma:""`
+	LongblobColumns   []uint8 `goma:""`
+	VarbinaryColumns  []uint8 `goma:"size:10"`
 }
 
 // Scan GomaBinaryTypes all scan

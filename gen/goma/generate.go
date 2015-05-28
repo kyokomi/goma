@@ -132,6 +132,7 @@ func generate(pkg string, opt goma.Options, isSimple bool, isMigu bool) {
 		queryArgsData := QueryArgsTemplateData{}
 		queryArgsData.DaoPkgName = opt.DaoPkgName()
 		queryArgsData.SQLRootDir = opt.SQLRootDir
+		queryArgsData.DriverName = opt.Driver
 		if err := queryArgsData.execQueryArgsTemplate(daoRootPath); err != nil {
 			log.Fatalln(err)
 		}

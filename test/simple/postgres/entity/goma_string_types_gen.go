@@ -8,10 +8,10 @@ import "database/sql"
 
 // GomaStringTypes is generated goma_string_types table.
 type GomaStringTypes struct {
-	ID             int64  `migu:":pk"`
-	TextColumns    string `migu:""`
-	CharColumns    string `migu:""`
-	VarcharColumns string `migu:""`
+	ID             int64  `goma:":pk"`
+	TextColumns    string `goma:""`
+	CharColumns    string `goma:""`
+	VarcharColumns string `goma:""`
 }
 
 // Scan GomaStringTypes all scan

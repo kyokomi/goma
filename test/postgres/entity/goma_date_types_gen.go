@@ -12,9 +12,9 @@ import (
 
 // GomaDateTypes is generated goma_date_types table.
 type GomaDateTypes struct {
-	ID               int64     `migu:":pk"`
-	DateColumns      time.Time `migu:""`
-	TimestampColumns time.Time `migu:""`
+	ID               int64     `goma:":pk"`
+	DateColumns      time.Time `goma:""`
+	TimestampColumns time.Time `goma:""`
 }
 
 // Scan GomaDateTypes all scan

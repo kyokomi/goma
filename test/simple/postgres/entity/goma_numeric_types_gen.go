@@ -8,15 +8,15 @@ import "database/sql"
 
 // GomaNumericTypes is generated goma_numeric_types table.
 type GomaNumericTypes struct {
-	ID              int64   `migu:":pk"`
-	BoolColumns     bool    `migu:""`
-	SmallintColumns int     `migu:""`
-	IntColumns      int     `migu:""`
-	IntegerColumns  int     `migu:""`
-	SerialColumns   int     `migu:""`
-	DecimalColumns  string  `migu:""`
-	NumericColumns  string  `migu:""`
-	FloatColumns    float64 `migu:""`
+	ID              int64   `goma:":pk"`
+	BoolColumns     bool    `goma:""`
+	SmallintColumns int     `goma:""`
+	IntColumns      int     `goma:""`
+	IntegerColumns  int     `goma:""`
+	SerialColumns   int     `goma:""`
+	DecimalColumns  string  `goma:""`
+	NumericColumns  string  `goma:""`
+	FloatColumns    float64 `goma:""`
 }
 
 // Scan GomaNumericTypes all scan

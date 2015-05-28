@@ -48,9 +48,9 @@ func (d DaoTemplateData) Placeholder(num int) string {
 
 // TableTemplateData table data.
 type TableTemplateData struct {
-	Name       string
-	TitleName  string
-	Columns    []ColumnTemplateData
+	Name      string
+	TitleName string
+	Columns   []ColumnTemplateData
 }
 
 // ColumnTemplateData column data.
@@ -78,6 +78,7 @@ type AssetTemplateData struct {
 type QueryArgsTemplateData struct {
 	DaoPkgName string
 	SQLRootDir string
+	DriverName string
 }
 
 func (d AssetTemplateData) execAssetTemplate(daoRootDir string) error {

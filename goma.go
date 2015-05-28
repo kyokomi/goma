@@ -2,11 +2,10 @@ package goma
 
 import (
 	"database/sql"
+	"fmt"
 	"regexp"
 	"strconv"
 	"time"
-
-	"fmt"
 )
 
 // Goma is sql.DB access wrapper.
@@ -44,7 +43,7 @@ func (d *Goma) Close() error {
 }
 
 // GenerateQuery generate bind args query
-func GenerateQuery(queryString string, args QueryArgs) string {
+func MySQLGenerateQuery(queryString string, args QueryArgs) string {
 	if len(args) <= 0 {
 		return queryString
 	}
@@ -62,6 +61,48 @@ func GenerateQuery(queryString string, args QueryArgs) string {
 			} else {
 				replaceWord = "0"
 			}
+		case float32:
+			replaceWord = strconv.FormatFloat(float64(val.(float32)), 'f', 3, 32)
+		case float64:
+			replaceWord = strconv.FormatFloat(val.(float64), 'f', 3, 64)
+		case int64:
+			replaceWord = strconv.FormatInt(val.(int64), 10)
+		case string:
+			replaceWord = "'" + val.(string) + "'"
+		case []uint8:
+			replaceWord = "'" + string(val.([]uint8)) + "'"
+			//		case Time:
+			//			replaceWord = "'" + val.(Time).Time.Format("15:04:05") + "'"
+			//		case Date:
+			//			replaceWord = "'" + time.Time(val.(Date)).Format("2006-01-02") + "'"
+			//		case Timestamp:
+			//			replaceWord = "'" + time.Time(val.(Timestamp)).Format("2006-01-02 15:04:05.999999999") + "'"
+			//		case mysql.NullTime:
+			//			replaceWord = "'" + val.(mysql.NullTime).Time.Format("2006-01-02 15:04:05.999999999") + "'"
+		case time.Time:
+			replaceWord = "'" + val.(time.Time).Format("2006-01-02 15:04:05.999999999") + "'"
+		}
+		queryString = re.ReplaceAllString(queryString, replaceWord)
+	}
+
+	return queryString
+}
+
+// GenerateQuery generate bind args query
+func PostgresGenerateQuery(queryString string, args QueryArgs) string {
+	if len(args) <= 0 {
+		return queryString
+	}
+
+	for key, val := range args {
+		re := regexp.MustCompile(`\/\* ` + key + ` \*\/.*`)
+
+		replaceWord := ""
+		switch val.(type) {
+		case int:
+			replaceWord = strconv.Itoa(val.(int))
+		case bool:
+			replaceWord = strconv.FormatBool(val.(bool))
 		case float32:
 			replaceWord = strconv.FormatFloat(float64(val.(float32)), 'f', 3, 32)
 		case float64:
