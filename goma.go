@@ -43,7 +43,7 @@ func (d *Goma) Close() error {
 	return err
 }
 
-// GenerateQuery generate bind args query
+// MySQLGenerateQuery generate bind args query
 func MySQLGenerateQuery(queryString string, args QueryArgs) string {
 	if len(args) <= 0 {
 		return queryString
@@ -94,7 +94,7 @@ func MySQLGenerateQuery(queryString string, args QueryArgs) string {
 	return queryString
 }
 
-// GenerateQuery generate bind args query
+// PostgresGenerateQuery generate bind args query
 func PostgresGenerateQuery(queryString string, args QueryArgs) string {
 	if len(args) <= 0 {
 		return queryString

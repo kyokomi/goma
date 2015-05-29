@@ -216,7 +216,7 @@ func newColumns(columns []*core.Column) []ColumnTemplateData {
 			enums := []EnumData{}
 
 			// sort
-			opts := make([]string, 3)
+			opts := make([]string, len(c.EnumOptions))
 			for o, idx := range c.EnumOptions {
 				opts[idx] = o
 			}
