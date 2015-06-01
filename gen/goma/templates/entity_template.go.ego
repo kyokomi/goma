@@ -2,17 +2,16 @@
 
 import (
 	"database/sql"
-	<% if daoData.IsDriverPkg() { %>"database/sql/driver"<% } %>)
+	<% if daoData.IsDriverPkg() { %>"database/sql/driver"<% } %>
+	<% if len(daoData.Imports) > 0 { %>
+    	<% for _, importName := range daoData.Imports { %>
+    	    "<%= importName %>"
+        <% } %>
+	<% } %>)
 
 // NOTE: THIS FILE WAS PRODUCED BY THE
 // GOMA CODE GENERATION TOOL (github.com/kyokomi/goma)
 // DO NOT EDIT
-
-<% if len(daoData.Imports) > 0 { %>import (
-	<% for _, importName := range daoData.Imports { %>
-	    "<%= importName %>"
-    <% } %>
-)<% } %>
 
 <% if daoData.EntityBlock == "" { %>
 // <%= daoData.EntityName %> is generated <%= daoData.Table.Name %> table.

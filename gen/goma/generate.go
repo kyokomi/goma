@@ -113,6 +113,9 @@ func generate(pkg string, opt goma.Options, isSimple bool) {
 		if err := assetData.execAssetTemplate(daoRootPath); err != nil {
 			log.Fatalln(err)
 		}
+		if err := assetData.execAssetFileTemplate(daoRootPath); err != nil {
+			log.Fatalln(err)
+		}
 
 		// queryargs generate
 		queryArgsData := QueryArgsTemplateData{}

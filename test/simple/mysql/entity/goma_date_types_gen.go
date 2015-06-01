@@ -2,15 +2,13 @@ package entity
 
 import (
 	"database/sql"
+
+	"time"
 )
 
 // NOTE: THIS FILE WAS PRODUCED BY THE
 // GOMA CODE GENERATION TOOL (github.com/kyokomi/goma)
 // DO NOT EDIT
-
-import (
-	"time"
-)
 
 // GomaDateTypes is generated goma_date_types table.
 type GomaDateTypes struct {

@@ -111,6 +111,14 @@ func (d AssetTemplateData) execAssetTemplate(daoRootDir string) error {
 	return formatFileWrite(daoRootDir, "asset_gen.go", buf.Bytes())
 }
 
+func (d AssetTemplateData) execAssetFileTemplate(daoRootDir string) error {
+	var buf bytes.Buffer
+	if err := AssetFileTemplate(&buf, d); err != nil {
+		return err
+	}
+	return formatFileWrite(daoRootDir, "asset_file_gen.go", buf.Bytes())
+}
+
 func (d QueryArgsTemplateData) execQueryArgsTemplate(daoRootDir string) error {
 	var buf bytes.Buffer
 	if err := QueryArgsTemplate(&buf, d); err != nil {

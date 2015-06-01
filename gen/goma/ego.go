@@ -3,6 +3,16 @@ import (
 "fmt"
 "io"
 )
+//line asset_file_template.go.ego:1
+func AssetFileTemplate(w io.Writer, assetData AssetTemplateData) error  {
+//line asset_file_template.go.ego:1
+_, _ = fmt.Fprintf(w, "package  ")
+//line asset_file_template.go.ego:1
+_, _ = fmt.Fprintf(w, "%v",  assetData.DaoPkgName )
+//line asset_file_template.go.ego:2
+_, _ = fmt.Fprintf(w, "\n\n// NOTE: THIS FILE WAS PRODUCED BY THE\n// GOMA CODE GENERATION TOOL (github.com/kyokomi/goma)\n// DO NOT EDIT\n\nimport (\n\t\"io/ioutil\"\n)\n\nfunc init() {\n\tsettings.sqlFile = true\n}\n\n// AssetFile default read file\nfunc AssetFile(filePath string) ([]byte, error) {\n\treturn ioutil.ReadFile(filePath)\n}\n")
+return nil
+}
 //line asset_template.go.ego:1
 func AssetTemplate(w io.Writer, assetData AssetTemplateData) error  {
 //line asset_template.go.ego:1
@@ -1825,165 +1835,165 @@ _, _ = fmt.Fprintf(w, "\n\nimport (\n\t\"database/sql\"\n\t")
 _, _ = fmt.Fprintf(w, "\"database/sql/driver\"")
 //line entity_template.go.ego:5
  } 
-//line entity_template.go.ego:5
-_, _ = fmt.Fprintf(w, ")\n\n// NOTE: THIS FILE WAS PRODUCED BY THE\n// GOMA CODE GENERATION TOOL (github.com/kyokomi/goma)\n// DO NOT EDIT\n\n")
-//line entity_template.go.ego:11
- if len(daoData.Imports) > 0 { 
-//line entity_template.go.ego:11
-_, _ = fmt.Fprintf(w, "import (\n\t")
-//line entity_template.go.ego:12
- for _, importName := range daoData.Imports { 
-//line entity_template.go.ego:13
-_, _ = fmt.Fprintf(w, "\n\t    \"")
-//line entity_template.go.ego:13
-_, _ = fmt.Fprintf(w, "%v",  importName )
-//line entity_template.go.ego:13
-_, _ = fmt.Fprintf(w, "\"\n    ")
-//line entity_template.go.ego:14
- } 
-//line entity_template.go.ego:15
-_, _ = fmt.Fprintf(w, "\n)")
-//line entity_template.go.ego:15
- } 
-//line entity_template.go.ego:16
-_, _ = fmt.Fprintf(w, "\n\n")
-//line entity_template.go.ego:17
- if daoData.EntityBlock == "" { 
-//line entity_template.go.ego:18
-_, _ = fmt.Fprintf(w, "\n// ")
-//line entity_template.go.ego:18
-_, _ = fmt.Fprintf(w, "%v",  daoData.EntityName )
-//line entity_template.go.ego:18
-_, _ = fmt.Fprintf(w, " is generated ")
-//line entity_template.go.ego:18
-_, _ = fmt.Fprintf(w, "%v",  daoData.Table.Name )
-//line entity_template.go.ego:18
-_, _ = fmt.Fprintf(w, " table.\ntype ")
-//line entity_template.go.ego:19
-_, _ = fmt.Fprintf(w, "%v",  daoData.EntityName )
-//line entity_template.go.ego:19
-_, _ = fmt.Fprintf(w, " struct {\n")
-//line entity_template.go.ego:20
- for _, column := range daoData.Table.Columns { 
-//line entity_template.go.ego:20
-_, _ = fmt.Fprintf(w, "%v",  column.TitleName )
-//line entity_template.go.ego:20
-_, _ = fmt.Fprintf(w, " ")
-//line entity_template.go.ego:20
-_, _ = fmt.Fprintf(w, "%v",  column.TypeName )
-//line entity_template.go.ego:20
-_, _ = fmt.Fprintf(w, " ")
-//line entity_template.go.ego:20
-_, _ = fmt.Fprintf(w, "%v",  column.TypeDetail )
-//line entity_template.go.ego:21
-_, _ = fmt.Fprintf(w, "\n")
-//line entity_template.go.ego:21
- } 
-//line entity_template.go.ego:21
-_, _ = fmt.Fprintf(w, "}\n")
-//line entity_template.go.ego:22
- } else { 
-//line entity_template.go.ego:23
-_, _ = fmt.Fprintf(w, "\n")
-//line entity_template.go.ego:23
-_, _ = fmt.Fprintf(w, "%v",  daoData.EntityBlock )
-//line entity_template.go.ego:24
-_, _ = fmt.Fprintf(w, "\n")
-//line entity_template.go.ego:24
- } 
-//line entity_template.go.ego:25
-_, _ = fmt.Fprintf(w, "\n\n// Scan ")
-//line entity_template.go.ego:26
-_, _ = fmt.Fprintf(w, "%v",  daoData.EntityName )
-//line entity_template.go.ego:26
-_, _ = fmt.Fprintf(w, " all scan\nfunc (e *")
-//line entity_template.go.ego:27
-_, _ = fmt.Fprintf(w, "%v",  daoData.EntityName )
-//line entity_template.go.ego:27
-_, _ = fmt.Fprintf(w, ") Scan(rows *sql.Rows) error {\n\treturn rows.Scan(")
-//line entity_template.go.ego:28
- for idx, column := range daoData.Table.Columns { 
-//line entity_template.go.ego:28
- if idx != 0 { 
-//line entity_template.go.ego:28
-_, _ = fmt.Fprintf(w, ", ")
-//line entity_template.go.ego:28
- } 
-//line entity_template.go.ego:28
-_, _ = fmt.Fprintf(w, "&e.")
-//line entity_template.go.ego:28
-_, _ = fmt.Fprintf(w, "%v",  column.TitleName )
-//line entity_template.go.ego:28
- } 
-//line entity_template.go.ego:28
-_, _ = fmt.Fprintf(w, ")\n}\n\n")
-//line entity_template.go.ego:31
- for _, column := range daoData.Table.Columns { 
-//line entity_template.go.ego:32
+//line entity_template.go.ego:6
 _, _ = fmt.Fprintf(w, "\n\t")
-//line entity_template.go.ego:32
- if column.EnumData.TypeName != "" { 
-//line entity_template.go.ego:33
-_, _ = fmt.Fprintf(w, "\n\t\t// ")
-//line entity_template.go.ego:33
-_, _ = fmt.Fprintf(w, "%v",  column.EnumData.TypeName )
-//line entity_template.go.ego:33
+//line entity_template.go.ego:6
+ if len(daoData.Imports) > 0 { 
+//line entity_template.go.ego:7
+_, _ = fmt.Fprintf(w, "\n    \t")
+//line entity_template.go.ego:7
+ for _, importName := range daoData.Imports { 
+//line entity_template.go.ego:8
+_, _ = fmt.Fprintf(w, "\n    \t    \"")
+//line entity_template.go.ego:8
+_, _ = fmt.Fprintf(w, "%v",  importName )
+//line entity_template.go.ego:8
+_, _ = fmt.Fprintf(w, "\"\n        ")
+//line entity_template.go.ego:9
+ } 
+//line entity_template.go.ego:10
+_, _ = fmt.Fprintf(w, "\n\t")
+//line entity_template.go.ego:10
+ } 
+//line entity_template.go.ego:10
+_, _ = fmt.Fprintf(w, ")\n\n// NOTE: THIS FILE WAS PRODUCED BY THE\n// GOMA CODE GENERATION TOOL (github.com/kyokomi/goma)\n// DO NOT EDIT\n\n")
+//line entity_template.go.ego:16
+ if daoData.EntityBlock == "" { 
+//line entity_template.go.ego:17
+_, _ = fmt.Fprintf(w, "\n// ")
+//line entity_template.go.ego:17
+_, _ = fmt.Fprintf(w, "%v",  daoData.EntityName )
+//line entity_template.go.ego:17
+_, _ = fmt.Fprintf(w, " is generated ")
+//line entity_template.go.ego:17
+_, _ = fmt.Fprintf(w, "%v",  daoData.Table.Name )
+//line entity_template.go.ego:17
+_, _ = fmt.Fprintf(w, " table.\ntype ")
+//line entity_template.go.ego:18
+_, _ = fmt.Fprintf(w, "%v",  daoData.EntityName )
+//line entity_template.go.ego:18
+_, _ = fmt.Fprintf(w, " struct {\n")
+//line entity_template.go.ego:19
+ for _, column := range daoData.Table.Columns { 
+//line entity_template.go.ego:19
+_, _ = fmt.Fprintf(w, "%v",  column.TitleName )
+//line entity_template.go.ego:19
 _, _ = fmt.Fprintf(w, " ")
-//line entity_template.go.ego:33
+//line entity_template.go.ego:19
+_, _ = fmt.Fprintf(w, "%v",  column.TypeName )
+//line entity_template.go.ego:19
+_, _ = fmt.Fprintf(w, " ")
+//line entity_template.go.ego:19
+_, _ = fmt.Fprintf(w, "%v",  column.TypeDetail )
+//line entity_template.go.ego:20
+_, _ = fmt.Fprintf(w, "\n")
+//line entity_template.go.ego:20
+ } 
+//line entity_template.go.ego:20
+_, _ = fmt.Fprintf(w, "}\n")
+//line entity_template.go.ego:21
+ } else { 
+//line entity_template.go.ego:22
+_, _ = fmt.Fprintf(w, "\n")
+//line entity_template.go.ego:22
+_, _ = fmt.Fprintf(w, "%v",  daoData.EntityBlock )
+//line entity_template.go.ego:23
+_, _ = fmt.Fprintf(w, "\n")
+//line entity_template.go.ego:23
+ } 
+//line entity_template.go.ego:24
+_, _ = fmt.Fprintf(w, "\n\n// Scan ")
+//line entity_template.go.ego:25
+_, _ = fmt.Fprintf(w, "%v",  daoData.EntityName )
+//line entity_template.go.ego:25
+_, _ = fmt.Fprintf(w, " all scan\nfunc (e *")
+//line entity_template.go.ego:26
+_, _ = fmt.Fprintf(w, "%v",  daoData.EntityName )
+//line entity_template.go.ego:26
+_, _ = fmt.Fprintf(w, ") Scan(rows *sql.Rows) error {\n\treturn rows.Scan(")
+//line entity_template.go.ego:27
+ for idx, column := range daoData.Table.Columns { 
+//line entity_template.go.ego:27
+ if idx != 0 { 
+//line entity_template.go.ego:27
+_, _ = fmt.Fprintf(w, ", ")
+//line entity_template.go.ego:27
+ } 
+//line entity_template.go.ego:27
+_, _ = fmt.Fprintf(w, "&e.")
+//line entity_template.go.ego:27
+_, _ = fmt.Fprintf(w, "%v",  column.TitleName )
+//line entity_template.go.ego:27
+ } 
+//line entity_template.go.ego:27
+_, _ = fmt.Fprintf(w, ")\n}\n\n")
+//line entity_template.go.ego:30
+ for _, column := range daoData.Table.Columns { 
+//line entity_template.go.ego:31
+_, _ = fmt.Fprintf(w, "\n\t")
+//line entity_template.go.ego:31
+ if column.EnumData.TypeName != "" { 
+//line entity_template.go.ego:32
+_, _ = fmt.Fprintf(w, "\n\t\t// ")
+//line entity_template.go.ego:32
 _, _ = fmt.Fprintf(w, "%v",  column.EnumData.TypeName )
-//line entity_template.go.ego:33
+//line entity_template.go.ego:32
+_, _ = fmt.Fprintf(w, " ")
+//line entity_template.go.ego:32
+_, _ = fmt.Fprintf(w, "%v",  column.EnumData.TypeName )
+//line entity_template.go.ego:32
 _, _ = fmt.Fprintf(w, " column type\n\t\ttype ")
-//line entity_template.go.ego:34
+//line entity_template.go.ego:33
 _, _ = fmt.Fprintf(w, "%v",  column.EnumData.TypeName )
-//line entity_template.go.ego:34
+//line entity_template.go.ego:33
 _, _ = fmt.Fprintf(w, " string\n\n\t\t// ")
+//line entity_template.go.ego:35
+_, _ = fmt.Fprintf(w, "%v",  column.EnumData.TypeName )
+//line entity_template.go.ego:36
+_, _ = fmt.Fprintf(w, "\n\t\tconst (")
+//line entity_template.go.ego:36
+ for _, e := range column.EnumData.Enums { 
+//line entity_template.go.ego:36
+_, _ = fmt.Fprintf(w, "%v",  e.Name )
+//line entity_template.go.ego:36
+_, _ = fmt.Fprintf(w, " ")
 //line entity_template.go.ego:36
 _, _ = fmt.Fprintf(w, "%v",  column.EnumData.TypeName )
-//line entity_template.go.ego:37
-_, _ = fmt.Fprintf(w, "\n\t\tconst (")
-//line entity_template.go.ego:37
- for _, e := range column.EnumData.Enums { 
-//line entity_template.go.ego:37
-_, _ = fmt.Fprintf(w, "%v",  e.Name )
-//line entity_template.go.ego:37
-_, _ = fmt.Fprintf(w, " ")
-//line entity_template.go.ego:37
-_, _ = fmt.Fprintf(w, "%v",  column.EnumData.TypeName )
-//line entity_template.go.ego:37
+//line entity_template.go.ego:36
 _, _ = fmt.Fprintf(w, " = \"")
-//line entity_template.go.ego:37
+//line entity_template.go.ego:36
 _, _ = fmt.Fprintf(w, "%v",  e.Value )
-//line entity_template.go.ego:37
+//line entity_template.go.ego:36
 _, _ = fmt.Fprintf(w, "\"\n\t\t")
-//line entity_template.go.ego:38
+//line entity_template.go.ego:37
  } 
-//line entity_template.go.ego:38
+//line entity_template.go.ego:37
 _, _ = fmt.Fprintf(w, ")\n\n\t\t// Scan database/sql Scanner\n\t\tfunc (e *")
-//line entity_template.go.ego:41
+//line entity_template.go.ego:40
 _, _ = fmt.Fprintf(w, "%v",  column.EnumData.TypeName )
-//line entity_template.go.ego:41
+//line entity_template.go.ego:40
 _, _ = fmt.Fprintf(w, ") Scan(v interface{}) error {\n        \t*e = ")
-//line entity_template.go.ego:42
+//line entity_template.go.ego:41
 _, _ = fmt.Fprintf(w, "%v",  column.EnumData.TypeName )
-//line entity_template.go.ego:42
+//line entity_template.go.ego:41
 _, _ = fmt.Fprintf(w, "(v.([]byte))\n        \treturn nil\n        }\n\n        var _ sql.Scanner = (*")
-//line entity_template.go.ego:46
+//line entity_template.go.ego:45
 _, _ = fmt.Fprintf(w, "%v",  column.EnumData.TypeName )
-//line entity_template.go.ego:46
+//line entity_template.go.ego:45
 _, _ = fmt.Fprintf(w, ")(nil)\n\n        // Value database/sql/driver Valuer\n        func (e ")
-//line entity_template.go.ego:49
+//line entity_template.go.ego:48
 _, _ = fmt.Fprintf(w, "%v",  column.EnumData.TypeName )
-//line entity_template.go.ego:49
+//line entity_template.go.ego:48
 _, _ = fmt.Fprintf(w, ") Value() (driver.Value, error) {\n        \treturn string(e), nil\n        }\n\n        var _ driver.Valuer = (*")
-//line entity_template.go.ego:53
+//line entity_template.go.ego:52
 _, _ = fmt.Fprintf(w, "%v",  column.EnumData.TypeName )
-//line entity_template.go.ego:53
+//line entity_template.go.ego:52
 _, _ = fmt.Fprintf(w, ")(nil)\n\t")
-//line entity_template.go.ego:54
+//line entity_template.go.ego:53
  } 
-//line entity_template.go.ego:55
+//line entity_template.go.ego:54
 _, _ = fmt.Fprintf(w, "\n")
-//line entity_template.go.ego:55
+//line entity_template.go.ego:54
  } 
 return nil
 }
@@ -2122,26 +2132,26 @@ _, _ = fmt.Fprintf(w, "package  ")
 //line queryargs_template.go.ego:1
 _, _ = fmt.Fprintf(w, "%v",  queryArgsData.DaoPkgName )
 //line queryargs_template.go.ego:2
-_, _ = fmt.Fprintf(w, "\n\n// NOTE: THIS FILE WAS PRODUCED BY THE\n// GOMA CODE GENERATION TOOL (github.com/kyokomi/goma)\n// DO NOT EDIT\n\nimport (\n\t\"path/filepath\"\n\n\t\"github.com/kyokomi/goma\"\n)\n\ntype queryArgSettings struct {\n\trootDir string\n}\n\nvar settings queryArgSettings\n\nfunc (s *queryArgSettings) SetRootDir(rootDir string) {\n\ts.rootDir = rootDir\n}\n\nfunc queryArgs(tableName string, queryName string, args goma.QueryArgs) string {\n\treturn settings.queryArgs(tableName, queryName, args)\n}\n\nfunc (s queryArgSettings) queryArgs(tableName string, queryName string, args goma.QueryArgs) string {\n\tfilePath := createSqlFilePath(s.rootDir, tableName, queryName)\n\t")
-//line queryargs_template.go.ego:29
+_, _ = fmt.Fprintf(w, "\n\n// NOTE: THIS FILE WAS PRODUCED BY THE\n// GOMA CODE GENERATION TOOL (github.com/kyokomi/goma)\n// DO NOT EDIT\n\nimport (\n\t\"path/filepath\"\n\n\t\"github.com/kyokomi/goma\"\n)\n\ntype queryArgSettings struct {\n\trootDir string\n\tsqlFile bool\n}\n\nvar settings queryArgSettings\n\n// SetupQueryArgs setup query file path\nfunc SetupQueryArgs(rootDir string, sqlFile bool) {\n\tsettings.rootDir = rootDir\n\tsettings.sqlFile = sqlFile\n}\n\nfunc queryArgs(tableName string, queryName string, args goma.QueryArgs) string {\n\treturn settings.queryArgs(tableName, queryName, args)\n}\n\nfunc (s queryArgSettings) queryArgs(tableName string, queryName string, args goma.QueryArgs) string {\n\tfilePath := createSqlFilePath(s.rootDir, tableName, queryName)\n\t")
+//line queryargs_template.go.ego:32
  if queryArgsData.DriverName == "mysql" { 
-//line queryargs_template.go.ego:29
+//line queryargs_template.go.ego:32
 _, _ = fmt.Fprintf(w, "return goma.MySQLGenerateQuery(assetSQL(filePath), args)\n\t")
-//line queryargs_template.go.ego:30
+//line queryargs_template.go.ego:33
  } else if queryArgsData.DriverName == "postgres" { 
-//line queryargs_template.go.ego:30
+//line queryargs_template.go.ego:33
 _, _ = fmt.Fprintf(w, "return goma.PostgresGenerateQuery(assetSQL(filePath), args)\n\t")
-//line queryargs_template.go.ego:31
+//line queryargs_template.go.ego:34
  } else { 
-//line queryargs_template.go.ego:31
+//line queryargs_template.go.ego:34
 _, _ = fmt.Fprintf(w, "return \"error\"\n")
-//line queryargs_template.go.ego:32
+//line queryargs_template.go.ego:35
  } 
-//line queryargs_template.go.ego:32
-_, _ = fmt.Fprintf(w, "}\n\nfunc assetSQL(filePath string) string {\n\tdata, err := Asset(filePath)\n\tif err != nil {\n\t\t// Asset was not found.\n\t}\n\treturn string(data)\n}\n\nfunc createSqlFilePath(rootDir string, tableName string, queryName string) string {\n\treturn filepath.Join(rootDir, \"")
-//line queryargs_template.go.ego:43
+//line queryargs_template.go.ego:35
+_, _ = fmt.Fprintf(w, "}\n\nfunc assetSQL(filePath string) string {\n\tvar data []byte\n\tvar err error\n\tif settings.sqlFile {\n\t\tdata, err = AssetFile(filePath)\n\t} else {\n\t\tdata, err = Asset(filePath)\n\t}\n\tif err != nil {\n\t\t// Asset was not found.\n\t}\n\treturn string(data)\n}\n\nfunc createSqlFilePath(rootDir string, tableName string, queryName string) string {\n\treturn filepath.Join(rootDir, \"")
+//line queryargs_template.go.ego:52
 _, _ = fmt.Fprintf(w, "%v",  queryArgsData.SQLRootDir )
-//line queryargs_template.go.ego:43
+//line queryargs_template.go.ego:52
 _, _ = fmt.Fprintf(w, "\", tableName, queryName+\".sql\")\n}\n")
 return nil
 }
