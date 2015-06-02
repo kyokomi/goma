@@ -10,7 +10,7 @@ _, _ = fmt.Fprintf(w, "package  ")
 //line asset_file_template.go.ego:1
 _, _ = fmt.Fprintf(w, "%v",  assetData.DaoPkgName )
 //line asset_file_template.go.ego:2
-_, _ = fmt.Fprintf(w, "\n\n// NOTE: THIS FILE WAS PRODUCED BY THE\n// GOMA CODE GENERATION TOOL (github.com/kyokomi/goma)\n// DO NOT EDIT\n\nimport (\n\t\"io/ioutil\"\n)\n\nfunc init() {\n\tsettings.sqlFile = true\n}\n\n// AssetFile default read file\nfunc AssetFile(filePath string) ([]byte, error) {\n\treturn ioutil.ReadFile(filePath)\n}\n")
+_, _ = fmt.Fprintf(w, "\n\n// NOTE: THIS FILE WAS PRODUCED BY THE\n// GOMA CODE GENERATION TOOL (github.com/kyokomi/goma)\n// DO NOT EDIT\n\nimport (\n\t\"io/ioutil\"\n)\n\n// AssetFile default read file\nfunc AssetFile(filePath string) ([]byte, error) {\n\treturn ioutil.ReadFile(filePath)\n}\n")
 return nil
 }
 //line asset_template.go.ego:1
@@ -20,7 +20,7 @@ _, _ = fmt.Fprintf(w, "package  ")
 //line asset_template.go.ego:1
 _, _ = fmt.Fprintf(w, "%v",  assetData.DaoPkgName )
 //line asset_template.go.ego:2
-_, _ = fmt.Fprintf(w, "\n\n// NOTE: THIS FILE WAS PRODUCED BY THE\n// GOMA CODE GENERATION TOOL (github.com/kyokomi/goma)\n// DO NOT EDIT\n\nimport (\n\t\"io/ioutil\"\n)\n\n// Asset default read file\nfunc Asset(filePath string) ([]byte, error) {\n\treturn ioutil.ReadFile(filePath)\n}\n")
+_, _ = fmt.Fprintf(w, "\n\n// NOTE: THIS FILE WAS PRODUCED BY THE\n// GOMA CODE GENERATION TOOL (github.com/kyokomi/goma)\n// DO NOT EDIT\n\nimport (\n\t\"io/ioutil\"\n)\n\nfunc init() {\n\tsettings.sqlFile = true\n}\n\n// Asset default read file\nfunc Asset(filePath string) ([]byte, error) {\n\treturn ioutil.ReadFile(filePath)\n}\n")
 return nil
 }
 //line dao_simple_template.go.ego:1
