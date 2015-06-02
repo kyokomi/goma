@@ -16,4 +16,4 @@ insert into goma_string_types(
 , /* char_columns */'1111'
 , /* varchar_columns */'1111'
 , /* enum_columns */'1111'
-);
+)

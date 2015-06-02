@@ -24,4 +24,4 @@ insert into goma_numeric_types(
 , /* numeric_columns */'1111'
 , /* float_columns */32.1
 , /* double_columns */64.1
-);
+)

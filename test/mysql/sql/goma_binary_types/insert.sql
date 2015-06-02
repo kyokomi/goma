@@ -14,4 +14,4 @@ insert into goma_binary_types(
 , /* mediumblob_columns */'abcdefghijk'
 , /* longblob_columns */'abcdefghijk'
 , /* varbinary_columns */'abcdefghijk'
-);
+)
