@@ -2122,7 +2122,7 @@ _, _ = fmt.Fprintf(w, "\n")
 //line insert_template.sql.ego:5
  } 
 //line insert_template.sql.ego:5
-_, _ = fmt.Fprintf(w, ");\n")
+_, _ = fmt.Fprintf(w, ")\n")
 return nil
 }
 //line queryargs_template.go.ego:1
