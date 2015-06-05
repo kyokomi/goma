@@ -9,6 +9,15 @@ import (
 	"reflect"
 )
 
+var (
+	gomaTimeLayout = "2006-01-02 15:04:05.999999999"
+)
+
+// ParseTime will configure goma to convert dates of the given layout
+func ParseTime(layout string) {
+	gomaTimeLayout = layout
+}
+
 // Goma is sql.DB access wrapper.
 type Goma struct {
 	*sql.DB
@@ -63,9 +72,9 @@ func MySQLGenerateQuery(queryString string, args QueryArgs) string {
 			replaceWord = strconv.Itoa(val.(int))
 		case bool:
 			if val.(bool) {
-				replaceWord = "1"
+				replaceWord = "true"
 			} else {
-				replaceWord = "0"
+				replaceWord = "false"
 			}
 		case float32:
 			replaceWord = strconv.FormatFloat(float64(val.(float32)), 'f', 3, 32)
@@ -86,7 +95,7 @@ func MySQLGenerateQuery(queryString string, args QueryArgs) string {
 			//		case mysql.NullTime:
 			//			replaceWord = "'" + val.(mysql.NullTime).Time.Format("2006-01-02 15:04:05.999999999") + "'"
 		case time.Time:
-			replaceWord = "'" + val.(time.Time).Format("2006-01-02 15:04:05.999999999") + "'"
+			replaceWord = "'" + val.(time.Time).Format(gomaTimeLayout) + "'"
 		}
 		queryString = re.ReplaceAllString(queryString, replaceWord)
 	}
@@ -128,7 +137,7 @@ func PostgresGenerateQuery(queryString string, args QueryArgs) string {
 			//		case mysql.NullTime:
 			//			replaceWord = "'" + val.(mysql.NullTime).Time.Format("2006-01-02 15:04:05.999999999") + "'"
 		case time.Time:
-			replaceWord = "'" + val.(time.Time).Format("2006-01-02 15:04:05.999999999") + "'"
+			replaceWord = "'" + val.(time.Time).Format(gomaTimeLayout) + "'"
 		}
 		queryString = re.ReplaceAllString(queryString, replaceWord)
 	}
