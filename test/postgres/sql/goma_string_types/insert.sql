@@ -8,4 +8,4 @@ insert into goma_string_types(
 , /* text_columns */'1111'
 , /* char_columns */'1111'
 , /* varchar_columns */'1111'
-);
+)

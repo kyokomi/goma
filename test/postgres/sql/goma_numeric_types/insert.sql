@@ -18,4 +18,4 @@ insert into goma_numeric_types(
 , /* decimal_columns */'1111'
 , /* numeric_columns */'1111'
 , /* float_columns */64.1
-);
+)

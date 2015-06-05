@@ -23,6 +23,11 @@ func SetupQueryArgs(rootDir string, sqlFile bool) {
 	settings.sqlFile = sqlFile
 }
 
+// GenerateQuery exported queryArgs
+func GenerateQuery(tableName string, queryName string, args goma.QueryArgs) string {
+	return queryArgs(tableName, queryName, args)
+}
+
 func queryArgs(tableName string, queryName string, args goma.QueryArgs) string {
 	return settings.queryArgs(tableName, queryName, args)
 }
