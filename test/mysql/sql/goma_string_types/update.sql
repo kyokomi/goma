@@ -8,5 +8,5 @@ update goma_string_types set
 ,   varchar_columns = /* varchar_columns */'1111'
 ,   enum_columns = /* enum_columns */'1111'
  where
-    id = /* id */1
+    id = /* id */64
 

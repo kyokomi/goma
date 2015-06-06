@@ -16,7 +16,7 @@ import (
 <% if daoData.EntityBlock == "" { %>
 // <%= daoData.EntityName %> is generated <%= daoData.Table.Name %> table.
 type <%= daoData.EntityName %> struct {
-<% for _, column := range daoData.Table.Columns { %><%= column.TitleName %> <%= column.TypeName %> <%= column.TypeDetail %>
+<% for _, column := range daoData.Table.Columns { %><%= column.TitleName %> <%= column.TypeName %> <%== column.TypeDetail %>
 <% } %>}
 <% } else { %>
 <%= daoData.EntityBlock %>

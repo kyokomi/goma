@@ -14,6 +14,13 @@ import (
 	"github.com/kyokomi/goma"
 )
 
+var tableGomaDateTypes = "GomaDateTypes"
+var columnsGomaDateTypes = []string{
+	"id",
+	"date_columns",
+	"timestamp_columns",
+}
+
 // GomaDateTypesDaoQueryer is interface
 type GomaDateTypesDaoQueryer interface {
 	Query(query string, args ...interface{}) (*sql.Rows, error)
@@ -24,6 +31,7 @@ type GomaDateTypesDaoQueryer interface {
 type GomaDateTypesDao struct {
 	*sql.DB
 	TableName string
+	Columns   []string
 }
 
 // Query GomaDateTypesDao query
@@ -42,7 +50,8 @@ var _ GomaDateTypesDaoQueryer = (*GomaDateTypesDao)(nil)
 func GomaDateTypes(db *sql.DB) GomaDateTypesDao {
 	tblDao := GomaDateTypesDao{}
 	tblDao.DB = db
-	tblDao.TableName = "GomaDateTypes"
+	tblDao.TableName = tableGomaDateTypes
+	tblDao.Columns = columnsGomaDateTypes
 	return tblDao
 }
 
@@ -50,6 +59,7 @@ func GomaDateTypes(db *sql.DB) GomaDateTypesDao {
 type TxGomaDateTypesDao struct {
 	*sql.Tx
 	TableName string
+	Columns   []string
 }
 
 // Query TxGomaDateTypesDao query
@@ -68,7 +78,8 @@ var _ GomaDateTypesDaoQueryer = (*TxGomaDateTypesDao)(nil)
 func TxGomaDateTypes(tx *sql.Tx) TxGomaDateTypesDao {
 	tblDao := TxGomaDateTypesDao{}
 	tblDao.Tx = tx
-	tblDao.TableName = "GomaDateTypes"
+	tblDao.TableName = tableGomaDateTypes
+	tblDao.Columns = columnsGomaDateTypes
 	return tblDao
 }
 

@@ -9,5 +9,5 @@ update goma_numeric_types set
 ,   numeric_columns = /* numeric_columns */'1111'
 ,   float_columns = /* float_columns */64.1
  where
-    id = /* id */1
+    id = /* id */64
 

@@ -14,6 +14,19 @@ import (
 	"github.com/kyokomi/goma"
 )
 
+var tableGomaNumericTypes = "GomaNumericTypes"
+var columnsGomaNumericTypes = []string{
+	"id",
+	"bool_columns",
+	"smallint_columns",
+	"int_columns",
+	"integer_columns",
+	"serial_columns",
+	"decimal_columns",
+	"numeric_columns",
+	"float_columns",
+}
+
 // GomaNumericTypesDaoQueryer is interface
 type GomaNumericTypesDaoQueryer interface {
 	Query(query string, args ...interface{}) (*sql.Rows, error)
@@ -24,6 +37,7 @@ type GomaNumericTypesDaoQueryer interface {
 type GomaNumericTypesDao struct {
 	*sql.DB
 	TableName string
+	Columns   []string
 }
 
 // Query GomaNumericTypesDao query
@@ -42,7 +56,8 @@ var _ GomaNumericTypesDaoQueryer = (*GomaNumericTypesDao)(nil)
 func GomaNumericTypes(db *sql.DB) GomaNumericTypesDao {
 	tblDao := GomaNumericTypesDao{}
 	tblDao.DB = db
-	tblDao.TableName = "GomaNumericTypes"
+	tblDao.TableName = tableGomaNumericTypes
+	tblDao.Columns = columnsGomaNumericTypes
 	return tblDao
 }
 
@@ -50,6 +65,7 @@ func GomaNumericTypes(db *sql.DB) GomaNumericTypesDao {
 type TxGomaNumericTypesDao struct {
 	*sql.Tx
 	TableName string
+	Columns   []string
 }
 
 // Query TxGomaNumericTypesDao query
@@ -68,7 +84,8 @@ var _ GomaNumericTypesDaoQueryer = (*TxGomaNumericTypesDao)(nil)
 func TxGomaNumericTypes(tx *sql.Tx) TxGomaNumericTypesDao {
 	tblDao := TxGomaNumericTypesDao{}
 	tblDao.Tx = tx
-	tblDao.TableName = "GomaNumericTypes"
+	tblDao.TableName = tableGomaNumericTypes
+	tblDao.Columns = columnsGomaNumericTypes
 	return tblDao
 }
 
