@@ -14,6 +14,18 @@ import (
 	"github.com/kyokomi/goma"
 )
 
+var tableGomaStringTypes = "GomaStringTypes"
+var columnsGomaStringTypes = []string{
+	"id",
+	"text_columns",
+	"tinytext_columns",
+	"mediumtext_columns",
+	"longtext_columns",
+	"char_columns",
+	"varchar_columns",
+	"enum_columns",
+}
+
 // GomaStringTypesDaoQueryer is interface
 type GomaStringTypesDaoQueryer interface {
 	Query(query string, args ...interface{}) (*sql.Rows, error)
@@ -24,6 +36,7 @@ type GomaStringTypesDaoQueryer interface {
 type GomaStringTypesDao struct {
 	*sql.DB
 	TableName string
+	Columns   []string
 }
 
 // Query GomaStringTypesDao query
@@ -42,7 +55,8 @@ var _ GomaStringTypesDaoQueryer = (*GomaStringTypesDao)(nil)
 func GomaStringTypes(db *sql.DB) GomaStringTypesDao {
 	tblDao := GomaStringTypesDao{}
 	tblDao.DB = db
-	tblDao.TableName = "GomaStringTypes"
+	tblDao.TableName = tableGomaStringTypes
+	tblDao.Columns = columnsGomaStringTypes
 	return tblDao
 }
 
@@ -50,6 +64,7 @@ func GomaStringTypes(db *sql.DB) GomaStringTypesDao {
 type TxGomaStringTypesDao struct {
 	*sql.Tx
 	TableName string
+	Columns   []string
 }
 
 // Query TxGomaStringTypesDao query
@@ -68,7 +83,8 @@ var _ GomaStringTypesDaoQueryer = (*TxGomaStringTypesDao)(nil)
 func TxGomaStringTypes(tx *sql.Tx) TxGomaStringTypesDao {
 	tblDao := TxGomaStringTypesDao{}
 	tblDao.Tx = tx
-	tblDao.TableName = "GomaStringTypes"
+	tblDao.TableName = tableGomaStringTypes
+	tblDao.Columns = columnsGomaStringTypes
 	return tblDao
 }
 

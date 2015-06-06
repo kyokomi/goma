@@ -14,6 +14,12 @@ import (
     "github.com/kyokomi/goma"
 )
 
+var table<%= daoData.Table.TitleName %> = "<%= daoData.Table.TitleName %>"
+var columns<%= daoData.Table.TitleName %> = []string{
+<% for _, column := range daoData.Table.Columns { %>"<%= column.Name %>",
+<% } %>
+}
+
 // <%= daoData.Name %>Queryer is interface
 type <%= daoData.Name %>Queryer interface {
 	Query(query string, args ...interface{}) (*sql.Rows, error)
@@ -24,6 +30,7 @@ type <%= daoData.Name %>Queryer interface {
 type <%= daoData.Name %> struct {
 	*sql.DB
 	TableName string
+	Columns []string
 }
 
 // Query <%= daoData.Name %> query
@@ -42,7 +49,8 @@ var _ <%= daoData.Name %>Queryer = (*<%= daoData.Name %>)(nil)
 func <%= daoData.Table.TitleName %>(db *sql.DB) <%= daoData.Name %> {
     tblDao := <%= daoData.Name %>{}
     tblDao.DB = db
-    tblDao.TableName = "<%= daoData.Table.TitleName %>"
+    tblDao.TableName = table<%= daoData.Table.TitleName %>
+	tblDao.Columns = columns<%= daoData.Table.TitleName %>
 	return tblDao
 }
 
@@ -50,6 +58,7 @@ func <%= daoData.Table.TitleName %>(db *sql.DB) <%= daoData.Name %> {
 type Tx<%= daoData.Name %> struct {
 	*sql.Tx
 	TableName string
+	Columns []string
 }
 
 // Query Tx<%= daoData.Name %> query
@@ -68,7 +77,8 @@ var _ <%= daoData.Name %>Queryer = (*Tx<%= daoData.Name %>)(nil)
 func Tx<%= daoData.Table.TitleName %>(tx *sql.Tx) Tx<%= daoData.Name %> {
     tblDao := Tx<%= daoData.Name %>{}
     tblDao.Tx = tx
-    tblDao.TableName = "<%= daoData.Table.TitleName %>"
+	tblDao.TableName = table<%= daoData.Table.TitleName %>
+	tblDao.Columns = columns<%= daoData.Table.TitleName %>
 	return tblDao
 }
 

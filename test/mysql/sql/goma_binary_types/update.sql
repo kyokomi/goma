@@ -7,5 +7,5 @@ update goma_binary_types set
 ,   longblob_columns = /* longblob_columns */'abcdefghijk'
 ,   varbinary_columns = /* varbinary_columns */'abcdefghijk'
  where
-    binary_id = /* binary_id */1
+    binary_id = /* binary_id */64
 

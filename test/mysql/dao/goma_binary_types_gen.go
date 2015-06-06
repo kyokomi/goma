@@ -14,6 +14,17 @@ import (
 	"github.com/kyokomi/goma"
 )
 
+var tableGomaBinaryTypes = "GomaBinaryTypes"
+var columnsGomaBinaryTypes = []string{
+	"binary_id",
+	"binary_columns",
+	"tinyblob_columns",
+	"blob_columns",
+	"mediumblob_columns",
+	"longblob_columns",
+	"varbinary_columns",
+}
+
 // GomaBinaryTypesDaoQueryer is interface
 type GomaBinaryTypesDaoQueryer interface {
 	Query(query string, args ...interface{}) (*sql.Rows, error)
@@ -24,6 +35,7 @@ type GomaBinaryTypesDaoQueryer interface {
 type GomaBinaryTypesDao struct {
 	*sql.DB
 	TableName string
+	Columns   []string
 }
 
 // Query GomaBinaryTypesDao query
@@ -42,7 +54,8 @@ var _ GomaBinaryTypesDaoQueryer = (*GomaBinaryTypesDao)(nil)
 func GomaBinaryTypes(db *sql.DB) GomaBinaryTypesDao {
 	tblDao := GomaBinaryTypesDao{}
 	tblDao.DB = db
-	tblDao.TableName = "GomaBinaryTypes"
+	tblDao.TableName = tableGomaBinaryTypes
+	tblDao.Columns = columnsGomaBinaryTypes
 	return tblDao
 }
 
@@ -50,6 +63,7 @@ func GomaBinaryTypes(db *sql.DB) GomaBinaryTypesDao {
 type TxGomaBinaryTypesDao struct {
 	*sql.Tx
 	TableName string
+	Columns   []string
 }
 
 // Query TxGomaBinaryTypesDao query
@@ -68,7 +82,8 @@ var _ GomaBinaryTypesDaoQueryer = (*TxGomaBinaryTypesDao)(nil)
 func TxGomaBinaryTypes(tx *sql.Tx) TxGomaBinaryTypesDao {
 	tblDao := TxGomaBinaryTypesDao{}
 	tblDao.Tx = tx
-	tblDao.TableName = "GomaBinaryTypes"
+	tblDao.TableName = tableGomaBinaryTypes
+	tblDao.Columns = columnsGomaBinaryTypes
 	return tblDao
 }
 

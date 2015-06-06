@@ -12,5 +12,5 @@ update goma_numeric_types set
 ,   float_columns = /* float_columns */32.1
 ,   double_columns = /* double_columns */64.1
  where
-    id = /* id */1
+    id = /* id */64
 

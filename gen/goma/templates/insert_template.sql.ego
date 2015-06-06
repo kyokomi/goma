@@ -1,5 +1,5 @@
 <%!func InsertTemplate(w io.Writer, tableData TableTemplateData) error %>insert into <%= tableData.Name %>(
   <% var isComma bool %><% isComma = false %><% for _, column := range tableData.Columns { %><% if !column.IsAutoIncrement { %><% if !isComma { %><% isComma = true %><% } else { %>, <% } %><%= column.Name %><% } %>
 <% } %>) values(
-  <% isComma = false %><% for _, column := range tableData.Columns { %><% if !column.IsAutoIncrement { %><% if !isComma { %><% isComma = true %><% } else { %>, <% } %>/* <%= column.Name %> */<%= column.Sample %><% } %>
+  <% isComma = false %><% for _, column := range tableData.Columns { %><% if !column.IsAutoIncrement { %><% if !isComma { %><% isComma = true %><% } else { %>, <% } %>/* <%= column.Name %> */<%== column.Sample %><% } %>
 <% } %>)
