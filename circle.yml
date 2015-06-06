@@ -45,6 +45,4 @@ test:
     - go test -v ./test/... -race
     - go test -v ./gen/... -race
     - go test -v . -race
-  post:
-    - goveralls -v -service=circle-ci -repotoken $COVERALLS_GOMA_TOKEN ./
 
