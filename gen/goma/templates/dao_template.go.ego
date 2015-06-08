@@ -14,10 +14,20 @@ import (
     "github.com/kyokomi/goma"
 )
 
-var table<%= daoData.Table.TitleName %> = "<%= daoData.Table.TitleName %>"
+var table<%= daoData.Table.TitleName %> = "<%= daoData.Table.Name %>"
 var columns<%= daoData.Table.TitleName %> = []string{
 <% for _, column := range daoData.Table.Columns { %>"<%= column.Name %>",
 <% } %>
+}
+
+// <%= daoData.Table.TitleName %>TableName <%= daoData.Table.Name %> table name
+func <%= daoData.Table.TitleName %>TableName() string {
+	return table<%= daoData.Table.TitleName %>
+}
+
+// <%= daoData.Table.TitleName %>TableColumns <%= daoData.Table.Name %> table columns
+func <%= daoData.Table.TitleName %>TableColumns() []string {
+	return columns<%= daoData.Table.TitleName %>
 }
 
 // <%= daoData.Name %>Queryer is interface

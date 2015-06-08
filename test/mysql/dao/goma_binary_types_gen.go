@@ -14,7 +14,7 @@ import (
 	"github.com/kyokomi/goma"
 )
 
-var tableGomaBinaryTypes = "GomaBinaryTypes"
+var tableGomaBinaryTypes = "goma_binary_types"
 var columnsGomaBinaryTypes = []string{
 	"binary_id",
 	"binary_columns",
@@ -23,6 +23,16 @@ var columnsGomaBinaryTypes = []string{
 	"mediumblob_columns",
 	"longblob_columns",
 	"varbinary_columns",
+}
+
+// GomaBinaryTypesTableName goma_binary_types table name
+func GomaBinaryTypesTableName() string {
+	return tableGomaBinaryTypes
+}
+
+// GomaBinaryTypesTableColumns goma_binary_types table columns
+func GomaBinaryTypesTableColumns() []string {
+	return columnsGomaBinaryTypes
 }
 
 // GomaBinaryTypesDaoQueryer is interface

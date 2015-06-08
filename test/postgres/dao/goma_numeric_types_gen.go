@@ -14,7 +14,7 @@ import (
 	"github.com/kyokomi/goma"
 )
 
-var tableGomaNumericTypes = "GomaNumericTypes"
+var tableGomaNumericTypes = "goma_numeric_types"
 var columnsGomaNumericTypes = []string{
 	"id",
 	"bool_columns",
@@ -25,6 +25,16 @@ var columnsGomaNumericTypes = []string{
 	"decimal_columns",
 	"numeric_columns",
 	"float_columns",
+}
+
+// GomaNumericTypesTableName goma_numeric_types table name
+func GomaNumericTypesTableName() string {
+	return tableGomaNumericTypes
+}
+
+// GomaNumericTypesTableColumns goma_numeric_types table columns
+func GomaNumericTypesTableColumns() []string {
+	return columnsGomaNumericTypes
 }
 
 // GomaNumericTypesDaoQueryer is interface

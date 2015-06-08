@@ -14,11 +14,21 @@ import (
 	"github.com/kyokomi/goma"
 )
 
-var tableGomaDateTypes = "GomaDateTypes"
+var tableGomaDateTypes = "goma_date_types"
 var columnsGomaDateTypes = []string{
 	"id",
 	"date_columns",
 	"timestamp_columns",
+}
+
+// GomaDateTypesTableName goma_date_types table name
+func GomaDateTypesTableName() string {
+	return tableGomaDateTypes
+}
+
+// GomaDateTypesTableColumns goma_date_types table columns
+func GomaDateTypesTableColumns() []string {
+	return columnsGomaDateTypes
 }
 
 // GomaDateTypesDaoQueryer is interface

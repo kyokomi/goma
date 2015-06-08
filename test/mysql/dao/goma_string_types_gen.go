@@ -14,7 +14,7 @@ import (
 	"github.com/kyokomi/goma"
 )
 
-var tableGomaStringTypes = "GomaStringTypes"
+var tableGomaStringTypes = "goma_string_types"
 var columnsGomaStringTypes = []string{
 	"id",
 	"text_columns",
@@ -24,6 +24,16 @@ var columnsGomaStringTypes = []string{
 	"char_columns",
 	"varchar_columns",
 	"enum_columns",
+}
+
+// GomaStringTypesTableName goma_string_types table name
+func GomaStringTypesTableName() string {
+	return tableGomaStringTypes
+}
+
+// GomaStringTypesTableColumns goma_string_types table columns
+func GomaStringTypesTableColumns() []string {
+	return columnsGomaStringTypes
 }
 
 // GomaStringTypesDaoQueryer is interface
