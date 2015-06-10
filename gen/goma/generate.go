@@ -17,8 +17,8 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 	_ "github.com/lib/pq"
 
-	"github.com/kyokomi/goma"
 	"github.com/etgryphon/stringUp"
+	"github.com/kyokomi/goma"
 )
 
 var sampleDataMap = map[reflect.Type]string{
@@ -114,14 +114,6 @@ func generate(pkg string, opt goma.Options) {
 	queryArgsData.SQLRootDir = opt.SQLRootDir
 	queryArgsData.DriverName = opt.Driver
 	if err := queryArgsData.execQueryArgsTemplate(daoRootPath); err != nil {
-		log.Fatalln(err)
-	}
-
-	// helper generate
-
-	helperData.DaoList = daoList
-
-	if err := helperData.execHelperTemplate(currentDir); err != nil {
 		log.Fatalln(err)
 	}
 

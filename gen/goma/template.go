@@ -127,26 +127,9 @@ func (d QueryArgsTemplateData) execQueryArgsTemplate(daoRootDir string) error {
 	return formatFileWrite(daoRootDir, "queryargs_gen.go", buf.Bytes())
 }
 
-func (d HelperTemplateData) execHelperTemplate(rootDir string) error {
-	//	var buf bytes.Buffer
-	//	if err := HelperTemplate(&buf, d); err != nil {
-	//		return err
-	//	}
-	//	return formatFileWrite(rootDir, "gomautils_gen.go", buf.Bytes())
-	return nil
-}
-
 func (d DaoTemplateData) execDaoTemplate(daoRootDir string) error {
 	var buf bytes.Buffer
 	if err := DaoTemplate(&buf, d); err != nil {
-		return err
-	}
-	return formatFileWrite(daoRootDir, d.Table.Name+"_gen.go", buf.Bytes())
-}
-
-func (d DaoTemplateData) execDaoSimpleTemplate(daoRootDir string) error {
-	var buf bytes.Buffer
-	if err := DaoSimpleTemplate(&buf, d); err != nil {
 		return err
 	}
 	return formatFileWrite(daoRootDir, d.Table.Name+"_gen.go", buf.Bytes())
