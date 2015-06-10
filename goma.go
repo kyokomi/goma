@@ -99,7 +99,6 @@ func MySQLGenerateQuery(queryString string, args QueryArgs) string {
 			//		case mysql.NullTime:
 			//			replaceWord = "'" + val.(mysql.NullTime).Time.Format("2006-01-02 15:04:05.999999999") + "'"
 		case time.Time:
-			fmt.Println(val)
 			if v.IsZero() {
 				replaceWord = "'0000-00-00'"
 			} else {
