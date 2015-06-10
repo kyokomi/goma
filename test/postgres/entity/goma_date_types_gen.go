@@ -13,11 +13,12 @@ import (
 // GomaDateTypes is generated goma_date_types table.
 type GomaDateTypes struct {
 	ID               int64     `goma:":pk"`
-	DateColumns      time.Time `goma:""`
 	TimestampColumns time.Time `goma:""`
 }
 
 // Scan GomaDateTypes all scan
 func (e *GomaDateTypes) Scan(rows *sql.Rows) error {
-	return rows.Scan(&e.ID, &e.DateColumns, &e.TimestampColumns)
+	err := rows.Scan(&e.ID, &e.TimestampColumns)
+	e.TimestampColumns = e.TimestampColumns.In(time.Local)
+	return err
 }

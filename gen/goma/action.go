@@ -51,6 +51,7 @@ func scanGenFlags(c *cli.Context) goma.Options {
 	opt.Host = c.String("host")
 	opt.Port = c.Int("port")
 	opt.DBName = c.String("db")
+	opt.Location = c.String("location")
 	opt.SSLMode = c.String("ssl")
 	opt.SQLRootDir = c.String("sql")
 	opt.DaoRootDir = c.String("dao")

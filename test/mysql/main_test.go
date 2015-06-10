@@ -124,7 +124,6 @@ func TestDate(t *testing.T) {
 	now := time.Now()
 	insertData := entity.GomaDateTypes{
 		ID:               id,
-		DateColumns:      time.Date(now.Year(), now.Month(), now.Day(), 0, 0, 0, 0, now.Location()),
 		DatetimeColumns:  time.Date(now.Year(), now.Month(), now.Day(), now.Hour(), now.Minute(), now.Second(), 0, now.Location()),
 		TimestampColumns: time.Date(now.Year(), now.Month(), now.Day(), now.Hour(), now.Minute(), now.Second(), 0, now.Location()),
 	}

@@ -3,19 +3,23 @@ package goma
 import (
 	"database/sql"
 	"fmt"
+	"reflect"
 	"regexp"
 	"strconv"
 	"time"
-	"reflect"
+)
+
+const (
+	timeFormat = "2006-01-02 15:04:05.999999"
 )
 
 var (
-	gomaTimeLayout = "2006-01-02 15:04:05.999999999"
+	gomaParseTime = time.UTC
 )
 
-// ParseTime will configure goma to convert dates of the given layout
-func ParseTime(layout string) {
-	gomaTimeLayout = layout
+// ParseTime will configure goma to convert dates of the given location
+func ParseTime(location *time.Location) {
+	gomaParseTime = location
 }
 
 // Goma is sql.DB access wrapper.
@@ -62,14 +66,14 @@ func MySQLGenerateQuery(queryString string, args QueryArgs) string {
 		re := regexp.MustCompile(`\/\* ` + key + ` \*\/.*`)
 
 		replaceWord := ""
-		switch val.(type) {
+		switch v := val.(type) {
 		default:
 			switch reflect.TypeOf(val).Kind() {
 			case reflect.String:
-				replaceWord = "'" + reflect.ValueOf(val).String() + "'"
+				replaceWord = "'" + reflect.ValueOf(v).String() + "'"
 			}
 		case int:
-			replaceWord = strconv.Itoa(val.(int))
+			replaceWord = strconv.Itoa(v)
 		case bool:
 			if val.(bool) {
 				replaceWord = "true"
@@ -77,15 +81,15 @@ func MySQLGenerateQuery(queryString string, args QueryArgs) string {
 				replaceWord = "false"
 			}
 		case float32:
-			replaceWord = strconv.FormatFloat(float64(val.(float32)), 'f', 3, 32)
+			replaceWord = strconv.FormatFloat(float64(v), 'f', 3, 32)
 		case float64:
-			replaceWord = strconv.FormatFloat(val.(float64), 'f', 3, 64)
+			replaceWord = strconv.FormatFloat(v, 'f', 3, 64)
 		case int64:
-			replaceWord = strconv.FormatInt(val.(int64), 10)
+			replaceWord = strconv.FormatInt(v, 10)
 		case string:
-			replaceWord = "'" + val.(string) + "'"
+			replaceWord = "'" + v + "'"
 		case []uint8:
-			replaceWord = "'" + string(val.([]uint8)) + "'"
+			replaceWord = "'" + string(v) + "'"
 			//		case Time:
 			//			replaceWord = "'" + val.(Time).Time.Format("15:04:05") + "'"
 			//		case Date:
@@ -95,7 +99,12 @@ func MySQLGenerateQuery(queryString string, args QueryArgs) string {
 			//		case mysql.NullTime:
 			//			replaceWord = "'" + val.(mysql.NullTime).Time.Format("2006-01-02 15:04:05.999999999") + "'"
 		case time.Time:
-			replaceWord = "'" + val.(time.Time).Format(gomaTimeLayout) + "'"
+			fmt.Println(val)
+			if v.IsZero() {
+				replaceWord = "'0000-00-00'"
+			} else {
+				replaceWord = "'" + v.In(gomaParseTime).Format(timeFormat) + "'"
+			}
 		}
 		queryString = re.ReplaceAllString(queryString, replaceWord)
 	}
@@ -113,21 +122,21 @@ func PostgresGenerateQuery(queryString string, args QueryArgs) string {
 		re := regexp.MustCompile(`\/\* ` + key + ` \*\/.*`)
 
 		replaceWord := ""
-		switch val.(type) {
+		switch v := val.(type) {
 		case int:
-			replaceWord = strconv.Itoa(val.(int))
+			replaceWord = strconv.Itoa(v)
 		case bool:
-			replaceWord = strconv.FormatBool(val.(bool))
+			replaceWord = strconv.FormatBool(v)
 		case float32:
-			replaceWord = strconv.FormatFloat(float64(val.(float32)), 'f', 3, 32)
+			replaceWord = strconv.FormatFloat(float64(v), 'f', 3, 32)
 		case float64:
-			replaceWord = strconv.FormatFloat(val.(float64), 'f', 3, 64)
+			replaceWord = strconv.FormatFloat(v, 'f', 3, 64)
 		case int64:
-			replaceWord = strconv.FormatInt(val.(int64), 10)
+			replaceWord = strconv.FormatInt(v, 10)
 		case string:
-			replaceWord = "'" + val.(string) + "'"
+			replaceWord = "'" + v + "'"
 		case []uint8:
-			replaceWord = "'" + string(val.([]uint8)) + "'"
+			replaceWord = "'" + string(v) + "'"
 			//		case Time:
 			//			replaceWord = "'" + val.(Time).Time.Format("15:04:05") + "'"
 			//		case Date:
@@ -137,7 +146,11 @@ func PostgresGenerateQuery(queryString string, args QueryArgs) string {
 			//		case mysql.NullTime:
 			//			replaceWord = "'" + val.(mysql.NullTime).Time.Format("2006-01-02 15:04:05.999999999") + "'"
 		case time.Time:
-			replaceWord = "'" + val.(time.Time).Format(gomaTimeLayout) + "'"
+			if v.IsZero() {
+				replaceWord = "'0000-00-00'"
+			} else {
+				replaceWord = "'" + v.In(gomaParseTime).Format(timeFormat) + "'"
+			}
 		}
 		queryString = re.ReplaceAllString(queryString, replaceWord)
 	}

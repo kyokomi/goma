@@ -23,7 +23,8 @@ type GomaStringTypes struct {
 
 // Scan GomaStringTypes all scan
 func (e *GomaStringTypes) Scan(rows *sql.Rows) error {
-	return rows.Scan(&e.ID, &e.TextColumns, &e.TinytextColumns, &e.MediumtextColumns, &e.LongtextColumns, &e.CharColumns, &e.VarcharColumns, &e.EnumColumns)
+	err := rows.Scan(&e.ID, &e.TextColumns, &e.TinytextColumns, &e.MediumtextColumns, &e.LongtextColumns, &e.CharColumns, &e.VarcharColumns, &e.EnumColumns)
+	return err
 }
 
 // EnumColumns EnumColumns column type

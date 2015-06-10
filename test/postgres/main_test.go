@@ -113,21 +113,14 @@ func TestDate(t *testing.T) {
 	// date
 	d := dao.GomaDateTypes(db)
 
-	dateColumnsTime, _ := time.ParseInLocation(
-		"2006-01-02",
-		"2015-04-18",
-		time.FixedZone("", 0),
-	)
-
 	timeStampColumnsTime, _ := time.ParseInLocation(
 		"2006-01-02 15:04:05.999999",
 		"2015-04-18 14:06:33.456791",
-		time.FixedZone("", 0),
+		time.Local,
 	)
 
 	insertData := entity.GomaDateTypes{
 		ID:               id,
-		DateColumns:      dateColumnsTime,
 		TimestampColumns: timeStampColumnsTime,
 	}
 

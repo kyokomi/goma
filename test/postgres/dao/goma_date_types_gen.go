@@ -17,7 +17,6 @@ import (
 var tableGomaDateTypes = "goma_date_types"
 var columnsGomaDateTypes = []string{
 	"id",
-	"date_columns",
 	"timestamp_columns",
 }
 
@@ -177,7 +176,6 @@ func (g TxGomaDateTypesDao) Insert(e entity.GomaDateTypes) (sql.Result, error) {
 func _GomaDateTypesInsert(g GomaDateTypesDaoQueryer, e entity.GomaDateTypes) (sql.Result, error) {
 	args := goma.QueryArgs{
 		"id":                e.ID,
-		"date_columns":      e.DateColumns,
 		"timestamp_columns": e.TimestampColumns,
 	}
 	queryString := queryArgs("goma_date_types", "insert", args)
@@ -203,7 +201,6 @@ func (g TxGomaDateTypesDao) Update(e entity.GomaDateTypes) (sql.Result, error) {
 func _GomaDateTypesUpdate(g GomaDateTypesDaoQueryer, e entity.GomaDateTypes) (sql.Result, error) {
 	args := goma.QueryArgs{
 		"id":                e.ID,
-		"date_columns":      e.DateColumns,
 		"timestamp_columns": e.TimestampColumns,
 	}
 	queryString := queryArgs("goma_date_types", "update", args)

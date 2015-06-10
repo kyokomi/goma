@@ -18,6 +18,7 @@ type Options struct {
 	Host     string `json:"host"`     // localhost
 	Port     int    `json:"port"`     // 3306
 	DBName   string `json:"db"`       // DataBaseName
+	Location string `json:"location"` // Location name
 
 	// postgres
 	SSLMode string `json:"ssl"` // disable, verify-full
@@ -76,7 +77,7 @@ func (o Options) Source() string {
 			o.Port,
 			o.DBName,
 			true,
-			"Local",
+			o.Location,
 		)
 	case "postgres":
 		source = fmt.Sprintf("user=%s password=%s host=%s port=%d dbname=%s sslmode=%s",

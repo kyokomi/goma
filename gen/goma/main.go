@@ -28,6 +28,7 @@ func main() {
 		cli.StringFlag{"host", "localhost", "database host", ""},
 		cli.IntFlag{"port", 3306, "database port", ""},
 		cli.StringFlag{"db", "test", "database name", ""},
+		cli.StringFlag{"location", "UTC", "database location name", ""},
 
 		cli.StringFlag{"ssl", "disable", "postgres ssl mode", ""},
 
@@ -58,12 +59,6 @@ func main() {
 			Name:   "gen",
 			Action: genAction,
 			Usage:  "generate code by params",
-			Flags:  genFlags,
-		},
-		{
-			Name:   "gen-simple",
-			Action: genSimpleAction,
-			Usage:  "generate simple code by params",
 			Flags:  genFlags,
 		},
 		{

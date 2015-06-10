@@ -5,10 +5,12 @@
     "host": "localhost",
     "port": 5432,
     "db": "goma_test",
+    "location": "UTC",
     "ssl": "disable",
+    "isConfig": true,
     "debug": true,
     "sqlRootDir": "sql",
     "daoRootDir": "dao",
     "entityRootDir": "entity",
-    "currentDir": "/Users/yokomichi/src/github.com/kyokomi/goma/test/postgres"
+    "currentDir": "/Users/kyokomi/src/github.com/kyokomi/goma/test/postgres"
 }
