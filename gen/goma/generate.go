@@ -174,6 +174,11 @@ func newColumns(columns []*core.Column) []ColumnTemplateData {
 			typeName = typ.String()
 		}
 
+		// NULL許可ならポインタにする
+		if c.Nullable {
+			typeName = "*" + typeName
+		}
+
 		primaryKey := ""
 		if c.IsPrimaryKey {
 			primaryKey = ":pk"

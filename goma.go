@@ -100,7 +100,7 @@ func MySQLGenerateQuery(queryString string, args QueryArgs) string {
 			//			replaceWord = "'" + val.(mysql.NullTime).Time.Format("2006-01-02 15:04:05.999999999") + "'"
 		case time.Time:
 			if v.IsZero() {
-				replaceWord = "'0000-00-00'"
+				replaceWord = "NULL"
 			} else {
 				replaceWord = "'" + v.In(gomaParseTime).Format(timeFormat) + "'"
 			}
@@ -146,7 +146,7 @@ func PostgresGenerateQuery(queryString string, args QueryArgs) string {
 			//			replaceWord = "'" + val.(mysql.NullTime).Time.Format("2006-01-02 15:04:05.999999999") + "'"
 		case time.Time:
 			if v.IsZero() {
-				replaceWord = "'0000-00-00'"
+				replaceWord = "NULL"
 			} else {
 				replaceWord = "'" + v.In(gomaParseTime).Format(timeFormat) + "'"
 			}
