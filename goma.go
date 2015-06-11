@@ -100,6 +100,12 @@ func MySQLGenerateQuery(queryString string, args QueryArgs) string {
 			//			replaceWord = "'" + val.(mysql.NullTime).Time.Format("2006-01-02 15:04:05.999999999") + "'"
 		case time.Time:
 			if v.IsZero() {
+				replaceWord = "'0000-00-00 00:00:00'"
+			} else {
+				replaceWord = "'" + v.In(gomaParseTime).Format(timeFormat) + "'"
+			}
+		case *time.Time:
+			if v == nil || v.IsZero() {
 				replaceWord = "NULL"
 			} else {
 				replaceWord = "'" + v.In(gomaParseTime).Format(timeFormat) + "'"
@@ -136,21 +142,28 @@ func PostgresGenerateQuery(queryString string, args QueryArgs) string {
 			replaceWord = "'" + v + "'"
 		case []uint8:
 			replaceWord = "'" + string(v) + "'"
-			//		case Time:
-			//			replaceWord = "'" + val.(Time).Time.Format("15:04:05") + "'"
-			//		case Date:
-			//			replaceWord = "'" + time.Time(val.(Date)).Format("2006-01-02") + "'"
-			//		case Timestamp:
-			//			replaceWord = "'" + time.Time(val.(Timestamp)).Format("2006-01-02 15:04:05.999999999") + "'"
-			//		case mysql.NullTime:
-			//			replaceWord = "'" + val.(mysql.NullTime).Time.Format("2006-01-02 15:04:05.999999999") + "'"
+		//		case Time:
+		//			replaceWord = "'" + val.(Time).Time.Format("15:04:05") + "'"
+		//		case Date:
+		//			replaceWord = "'" + time.Time(val.(Date)).Format("2006-01-02") + "'"
+		//		case Timestamp:
+		//			replaceWord = "'" + time.Time(val.(Timestamp)).Format("2006-01-02 15:04:05.999999999") + "'"
+		//		case mysql.NullTime:
+		//			replaceWord = "'" + val.(mysql.NullTime).Time.Format("2006-01-02 15:04:05.999999999") + "'"
 		case time.Time:
 			if v.IsZero() {
+				replaceWord = "'0000-00-00 00:00:00'"
+			} else {
+				replaceWord = "'" + v.In(gomaParseTime).Format(timeFormat) + "'"
+			}
+		case *time.Time:
+			if v == nil || v.IsZero() {
 				replaceWord = "NULL"
 			} else {
 				replaceWord = "'" + v.In(gomaParseTime).Format(timeFormat) + "'"
 			}
 		}
+
 		queryString = re.ReplaceAllString(queryString, replaceWord)
 	}
 
