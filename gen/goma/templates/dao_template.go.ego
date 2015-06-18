@@ -10,8 +10,6 @@ import (
     "database/sql"
     
     "<%= daoData.EntityImport %>"
-    
-    "github.com/kyokomi/goma"
 )
 
 var table<%= daoData.Table.TitleName %> = "<%= daoData.Table.Name %>"
@@ -103,10 +101,13 @@ func (g Tx<%= daoData.Name %>) SelectAll() ([]<%= daoData.EntityPkgName %>.<%= d
 }
 
 func _<%= daoData.Table.TitleName %>SelectAll(g <%= daoData.Name %>Queryer) ([]<%= daoData.EntityPkgName %>.<%= daoData.EntityName %>, error) {
-    queryString := queryArgs("<%= daoData.Table.Name %>", "selectAll", nil)
+	queryString, args, err := queryArgs("<%= daoData.Table.Name %>", "selectAll", nil)
+	if err != nil {
+		return nil, err
+	}
 
 	var es []<%= daoData.EntityPkgName %>.<%= daoData.EntityName %>
-	rows, err := g.Query(queryString)
+	rows, err := g.Query(queryString, args...)
 	if err != nil {
 		return nil, err
 	}
@@ -139,12 +140,15 @@ func (g Tx<%= daoData.Name %>) SelectByID(<% for idx, column := range daoData.Ta
 }
 
 func _<%= daoData.Table.TitleName %>SelectByID(g <%= daoData.Name %>Queryer, <% for idx, column := range daoData.Table.Columns { %><% if !column.IsPrimaryKey { %><% continue %><% } %><% if idx != 0 { %>, <% } %><%= column.CamelName() %> <%= column.TypeName %><% } %>) (<%= daoData.EntityPkgName %>.<%= daoData.EntityName %>, error) {
-    args := goma.QueryArgs{
+    argsMap := map[string]interface{}{
     <% for _, column := range daoData.Table.Columns { %><% if !column.IsPrimaryKey { %><% continue %><% } %>    "<%= column.Name %>": <%= column.CamelName() %>,
     <% } %>}
-	queryString := queryArgs("<%= daoData.Table.Name %>", "selectByID", args)
+    queryString, args, err := queryArgs("<%= daoData.Table.Name %>", "selectByID", argsMap)
+	if err != nil {
+		return <%= daoData.EntityPkgName %>.<%= daoData.EntityName %>{}, err
+	}
 
-	rows, err := g.Query(queryString)
+	rows, err := g.Query(queryString, args...)
 	if err != nil {
 		return <%= daoData.EntityPkgName %>.<%= daoData.EntityName %>{}, err
 	}
@@ -174,13 +178,16 @@ func (g Tx<%= daoData.Name %>) Insert(e <%= daoData.EntityPkgName %>.<%= daoData
 }
 
 func _<%= daoData.Table.TitleName %>Insert(g <%= daoData.Name %>Queryer, e <%= daoData.EntityPkgName %>.<%= daoData.EntityName %>) (sql.Result, error) {
-	args := goma.QueryArgs{
+	argsMap := map[string]interface{}{
     <% for _, column := range daoData.Table.Columns { %><% if !column.IsAutoIncrement { %> "<%= column.Name %>": e.<%= column.TitleName %>,<% } %>
     <% } %>
 	}
-	queryString := queryArgs("<%= daoData.Table.Name %>", "insert", args)
-	
-	result, err := g.Exec(queryString)
+	queryString, args, err := queryArgs("<%= daoData.Table.Name %>", "insert", argsMap)
+	if err != nil {
+		return nil, err
+	}
+
+	result, err := g.Exec(queryString, args...)
     if err != nil {
         log.Println(err, queryString)
     }
@@ -199,13 +206,16 @@ func (g Tx<%= daoData.Name %>) Update(e <%= daoData.EntityPkgName %>.<%= daoData
 
 // Update update <%= daoData.Table.Name %> table.
 func _<%= daoData.Table.TitleName %>Update(g <%= daoData.Name %>Queryer, e <%= daoData.EntityPkgName %>.<%= daoData.EntityName %>) (sql.Result, error) {
-	args := goma.QueryArgs{
+	argsMap := map[string]interface{}{
 	<% for _, column := range daoData.Table.Columns { %>  "<%= column.Name %>": e.<%= column.TitleName %>,
     <% } %>
 	}
-	queryString := queryArgs("<%= daoData.Table.Name %>", "update", args)
+	queryString, args, err := queryArgs("<%= daoData.Table.Name %>", "update", argsMap)
+	if err != nil {
+		return nil, err
+	}
 
-	result, err := g.Exec(queryString)
+	result, err := g.Exec(queryString, args...)
 	if err != nil {
         log.Println(err, queryString)
     }
@@ -224,12 +234,15 @@ func (g Tx<%= daoData.Name %>) Delete(<% for idx, column := range daoData.Table.
 
 // Delete delete <%= daoData.Table.Name %> table by primaryKey.
 func _<%= daoData.Table.TitleName %>Delete(g <%= daoData.Name %>Queryer, <% for idx, column := range daoData.Table.Columns { %><% if !column.IsPrimaryKey { %><% continue %><% } %><% if idx != 0 { %>, <% } %><%= column.CamelName() %> <%= column.TypeName %><% } %>) (sql.Result, error) {
-    args := goma.QueryArgs{
+    argsMap := map[string]interface{}{
     <% for _, column := range daoData.Table.Columns { %><% if !column.IsPrimaryKey { %><% continue %><% } %>    "<%= column.Name %>": <%= column.CamelName() %>,
     <% } %>}
-	queryString := queryArgs("<%= daoData.Table.Name %>", "delete", args)
+    queryString, args, err := queryArgs("<%= daoData.Table.Name %>", "delete", argsMap)
+	if err != nil {
+		return nil, err
+	}
 
-    result, err := g.Exec(queryString)
+    result, err := g.Exec(queryString, args...)
 	if err != nil {
         log.Println(err, queryString)
     }

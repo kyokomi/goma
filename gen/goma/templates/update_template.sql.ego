@@ -1,5 +1,5 @@
 <%!func UpdateTemplate(w io.Writer, tableData TableTemplateData) error %>update <%= tableData.Name %> set
-  <% for idx, column := range tableData.Columns { %><% if idx != 0 { %>, <% } %>  <%= column.Name %> = /* <%= column.Name %> */<%== column.Sample %>
+  <% for idx, column := range tableData.Columns { %><% if idx != 0 { %>, <% } %>  <%= column.Name %> = :<%= column.Name %>
 <% } %> where
-  <% for idx, column := range tableData.Columns { %><% if !column.IsPrimaryKey { %><% continue %><% } %><% if idx != 0 { %>and<% } %>  <%= column.Name %> = /* <%= column.Name %> */<%== column.Sample %>
+  <% for idx, column := range tableData.Columns { %><% if !column.IsPrimaryKey { %><% continue %><% } %><% if idx != 0 { %>and<% } %>  <%= column.Name %> = :<%= column.Name %>
 <% } %>

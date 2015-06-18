@@ -10,5 +10,5 @@ select
 FROM
   goma_string_types
 WHERE
-  id = /* id */64
+  id = :id
 

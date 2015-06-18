@@ -2,5 +2,5 @@ delete
 from
   goma_date_types
 where
-  id = /* id */1
+  id = :id
 

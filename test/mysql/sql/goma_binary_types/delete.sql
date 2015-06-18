@@ -2,5 +2,5 @@ delete
 from
   goma_binary_types
 where
-  binary_id = /* binary_id */1
+  binary_id = :binary_id
 

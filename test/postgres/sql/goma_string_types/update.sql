@@ -1,8 +1,8 @@
 update goma_string_types set
-    id = /* id */64
-,   text_columns = /* text_columns */'1111'
-,   char_columns = /* char_columns */'1111'
-,   varchar_columns = /* varchar_columns */'1111'
+    id = :id
+,   text_columns = :text_columns
+,   char_columns = :char_columns
+,   varchar_columns = :varchar_columns
  where
-    id = /* id */64
+    id = :id
 

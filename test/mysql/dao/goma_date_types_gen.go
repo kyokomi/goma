@@ -10,8 +10,6 @@ import (
 	"database/sql"
 
 	"github.com/kyokomi/goma/test/mysql/entity"
-
-	"github.com/kyokomi/goma"
 )
 
 var tableGomaDateTypes = "goma_date_types"
@@ -104,10 +102,13 @@ func (g TxGomaDateTypesDao) SelectAll() ([]entity.GomaDateTypes, error) {
 }
 
 func _GomaDateTypesSelectAll(g GomaDateTypesDaoQueryer) ([]entity.GomaDateTypes, error) {
-	queryString := queryArgs("goma_date_types", "selectAll", nil)
+	queryString, args, err := queryArgs("goma_date_types", "selectAll", nil)
+	if err != nil {
+		return nil, err
+	}
 
 	var es []entity.GomaDateTypes
-	rows, err := g.Query(queryString)
+	rows, err := g.Query(queryString, args...)
 	if err != nil {
 		return nil, err
 	}
@@ -140,12 +141,15 @@ func (g TxGomaDateTypesDao) SelectByID(id int64) (entity.GomaDateTypes, error) {
 }
 
 func _GomaDateTypesSelectByID(g GomaDateTypesDaoQueryer, id int64) (entity.GomaDateTypes, error) {
-	args := goma.QueryArgs{
+	argsMap := map[string]interface{}{
 		"id": id,
 	}
-	queryString := queryArgs("goma_date_types", "selectByID", args)
+	queryString, args, err := queryArgs("goma_date_types", "selectByID", argsMap)
+	if err != nil {
+		return entity.GomaDateTypes{}, err
+	}
 
-	rows, err := g.Query(queryString)
+	rows, err := g.Query(queryString, args...)
 	if err != nil {
 		return entity.GomaDateTypes{}, err
 	}
@@ -175,14 +179,17 @@ func (g TxGomaDateTypesDao) Insert(e entity.GomaDateTypes) (sql.Result, error) {
 }
 
 func _GomaDateTypesInsert(g GomaDateTypesDaoQueryer, e entity.GomaDateTypes) (sql.Result, error) {
-	args := goma.QueryArgs{
+	argsMap := map[string]interface{}{
 		"id":                e.ID,
 		"datetime_columns":  e.DatetimeColumns,
 		"timestamp_columns": e.TimestampColumns,
 	}
-	queryString := queryArgs("goma_date_types", "insert", args)
+	queryString, args, err := queryArgs("goma_date_types", "insert", argsMap)
+	if err != nil {
+		return nil, err
+	}
 
-	result, err := g.Exec(queryString)
+	result, err := g.Exec(queryString, args...)
 	if err != nil {
 		log.Println(err, queryString)
 	}
@@ -201,14 +208,17 @@ func (g TxGomaDateTypesDao) Update(e entity.GomaDateTypes) (sql.Result, error) {
 
 // Update update goma_date_types table.
 func _GomaDateTypesUpdate(g GomaDateTypesDaoQueryer, e entity.GomaDateTypes) (sql.Result, error) {
-	args := goma.QueryArgs{
+	argsMap := map[string]interface{}{
 		"id":                e.ID,
 		"datetime_columns":  e.DatetimeColumns,
 		"timestamp_columns": e.TimestampColumns,
 	}
-	queryString := queryArgs("goma_date_types", "update", args)
+	queryString, args, err := queryArgs("goma_date_types", "update", argsMap)
+	if err != nil {
+		return nil, err
+	}
 
-	result, err := g.Exec(queryString)
+	result, err := g.Exec(queryString, args...)
 	if err != nil {
 		log.Println(err, queryString)
 	}
@@ -227,12 +237,15 @@ func (g TxGomaDateTypesDao) Delete(id int64) (sql.Result, error) {
 
 // Delete delete goma_date_types table by primaryKey.
 func _GomaDateTypesDelete(g GomaDateTypesDaoQueryer, id int64) (sql.Result, error) {
-	args := goma.QueryArgs{
+	argsMap := map[string]interface{}{
 		"id": id,
 	}
-	queryString := queryArgs("goma_date_types", "delete", args)
+	queryString, args, err := queryArgs("goma_date_types", "delete", argsMap)
+	if err != nil {
+		return nil, err
+	}
 
-	result, err := g.Exec(queryString)
+	result, err := g.Exec(queryString, args...)
 	if err != nil {
 		log.Println(err, queryString)
 	}

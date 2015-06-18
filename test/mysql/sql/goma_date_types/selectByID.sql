@@ -5,5 +5,5 @@ select
 FROM
   goma_date_types
 WHERE
-  id = /* id */64
+  id = :id
 

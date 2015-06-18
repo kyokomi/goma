@@ -10,8 +10,6 @@ import (
 	"database/sql"
 
 	"github.com/kyokomi/goma/test/postgres/entity"
-
-	"github.com/kyokomi/goma"
 )
 
 var tableGomaStringTypes = "goma_string_types"
@@ -105,10 +103,13 @@ func (g TxGomaStringTypesDao) SelectAll() ([]entity.GomaStringTypes, error) {
 }
 
 func _GomaStringTypesSelectAll(g GomaStringTypesDaoQueryer) ([]entity.GomaStringTypes, error) {
-	queryString := queryArgs("goma_string_types", "selectAll", nil)
+	queryString, args, err := queryArgs("goma_string_types", "selectAll", nil)
+	if err != nil {
+		return nil, err
+	}
 
 	var es []entity.GomaStringTypes
-	rows, err := g.Query(queryString)
+	rows, err := g.Query(queryString, args...)
 	if err != nil {
 		return nil, err
 	}
@@ -141,12 +142,15 @@ func (g TxGomaStringTypesDao) SelectByID(id int64) (entity.GomaStringTypes, erro
 }
 
 func _GomaStringTypesSelectByID(g GomaStringTypesDaoQueryer, id int64) (entity.GomaStringTypes, error) {
-	args := goma.QueryArgs{
+	argsMap := map[string]interface{}{
 		"id": id,
 	}
-	queryString := queryArgs("goma_string_types", "selectByID", args)
+	queryString, args, err := queryArgs("goma_string_types", "selectByID", argsMap)
+	if err != nil {
+		return entity.GomaStringTypes{}, err
+	}
 
-	rows, err := g.Query(queryString)
+	rows, err := g.Query(queryString, args...)
 	if err != nil {
 		return entity.GomaStringTypes{}, err
 	}
@@ -176,15 +180,18 @@ func (g TxGomaStringTypesDao) Insert(e entity.GomaStringTypes) (sql.Result, erro
 }
 
 func _GomaStringTypesInsert(g GomaStringTypesDaoQueryer, e entity.GomaStringTypes) (sql.Result, error) {
-	args := goma.QueryArgs{
+	argsMap := map[string]interface{}{
 		"id":              e.ID,
 		"text_columns":    e.TextColumns,
 		"char_columns":    e.CharColumns,
 		"varchar_columns": e.VarcharColumns,
 	}
-	queryString := queryArgs("goma_string_types", "insert", args)
+	queryString, args, err := queryArgs("goma_string_types", "insert", argsMap)
+	if err != nil {
+		return nil, err
+	}
 
-	result, err := g.Exec(queryString)
+	result, err := g.Exec(queryString, args...)
 	if err != nil {
 		log.Println(err, queryString)
 	}
@@ -203,15 +210,18 @@ func (g TxGomaStringTypesDao) Update(e entity.GomaStringTypes) (sql.Result, erro
 
 // Update update goma_string_types table.
 func _GomaStringTypesUpdate(g GomaStringTypesDaoQueryer, e entity.GomaStringTypes) (sql.Result, error) {
-	args := goma.QueryArgs{
+	argsMap := map[string]interface{}{
 		"id":              e.ID,
 		"text_columns":    e.TextColumns,
 		"char_columns":    e.CharColumns,
 		"varchar_columns": e.VarcharColumns,
 	}
-	queryString := queryArgs("goma_string_types", "update", args)
+	queryString, args, err := queryArgs("goma_string_types", "update", argsMap)
+	if err != nil {
+		return nil, err
+	}
 
-	result, err := g.Exec(queryString)
+	result, err := g.Exec(queryString, args...)
 	if err != nil {
 		log.Println(err, queryString)
 	}
@@ -230,12 +240,15 @@ func (g TxGomaStringTypesDao) Delete(id int64) (sql.Result, error) {
 
 // Delete delete goma_string_types table by primaryKey.
 func _GomaStringTypesDelete(g GomaStringTypesDaoQueryer, id int64) (sql.Result, error) {
-	args := goma.QueryArgs{
+	argsMap := map[string]interface{}{
 		"id": id,
 	}
-	queryString := queryArgs("goma_string_types", "delete", args)
+	queryString, args, err := queryArgs("goma_string_types", "delete", argsMap)
+	if err != nil {
+		return nil, err
+	}
 
-	result, err := g.Exec(queryString)
+	result, err := g.Exec(queryString, args...)
 	if err != nil {
 		log.Println(err, queryString)
 	}

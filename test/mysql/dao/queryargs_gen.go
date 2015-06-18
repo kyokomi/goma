@@ -24,15 +24,15 @@ func SetupQueryArgs(rootDir string, sqlFile bool) {
 }
 
 // GenerateQuery exported queryArgs
-func GenerateQuery(tableName string, queryName string, args goma.QueryArgs) string {
+func GenerateQuery(tableName string, queryName string, args map[string]interface{}) (string, []interface{}, error) {
 	return queryArgs(tableName, queryName, args)
 }
 
-func queryArgs(tableName string, queryName string, args goma.QueryArgs) string {
+func queryArgs(tableName string, queryName string, args map[string]interface{}) (string, []interface{}, error) {
 	return settings.queryArgs(tableName, queryName, args)
 }
 
-func (s queryArgSettings) queryArgs(tableName string, queryName string, args goma.QueryArgs) string {
+func (s queryArgSettings) queryArgs(tableName string, queryName string, args map[string]interface{}) (string, []interface{}, error) {
 	filePath := createSqlFilePath(s.rootDir, tableName, queryName)
 	return goma.MySQLGenerateQuery(assetSQL(filePath), args)
 }

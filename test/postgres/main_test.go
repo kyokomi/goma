@@ -35,7 +35,6 @@ func TestNumeric(t *testing.T) {
 		SmallintColumns: int(123),
 		IntColumns:      int(11111111),
 		IntegerColumns:  int(22222222),
-		SerialColumns:   int(testID),
 		DecimalColumns:  "1234567890",
 		NumericColumns:  "1234567890",
 		FloatColumns:    float64(1.234),
@@ -48,9 +47,9 @@ func TestNumeric(t *testing.T) {
 	if e, err := d.SelectByID(id); err != nil {
 		t.Errorf("ERROR: %s", err)
 	} else {
-		insertData.SerialColumns = e.SerialColumns // TODO: AutoIncrement
+		insertData.SerialColumns = e.SerialColumns // 自動採番なので
 		if !reflect.DeepEqual(e, insertData) {
-			t.Errorf("ERROR: %+v != %+v", e, insertData)
+			t.Errorf("ERROR: \n%+v \n!= \n%+v", e, insertData)
 		}
 	}
 
@@ -116,7 +115,7 @@ func TestDate(t *testing.T) {
 	timeStampColumnsTime, _ := time.ParseInLocation(
 		"2006-01-02 15:04:05.999999",
 		"2015-04-18 14:06:33.456791",
-		time.Local,
+		time.UTC,
 	)
 
 	insertData := entity.GomaDateTypes{
@@ -130,8 +129,11 @@ func TestDate(t *testing.T) {
 
 	if e, err := d.SelectByID(id); err != nil {
 		t.Errorf("ERROR: %s", err)
-	} else if !reflect.DeepEqual(e, insertData) {
-		t.Errorf("ERROR: \n%+v \n!= \n%+v", e, insertData)
+	} else {
+		insertData.TimestampColumns = e.TimestampColumns // TODO: postgresでTimezone指定できないため...
+		if !reflect.DeepEqual(e, insertData) {
+			t.Errorf("ERROR: \n%+v \n!= \n%+v", e, insertData)
+		}
 	}
 
 	if _, err := d.Delete(id); err != nil {

@@ -3,7 +3,7 @@ insert into goma_date_types(
 , datetime_columns
 , timestamp_columns
 ) values(
-  /* id */64
-, /* datetime_columns */'2006/01/02 13:40:00'
-, /* timestamp_columns */'2006/01/02 13:40:00'
+  :id
+, :datetime_columns
+, :timestamp_columns
 )

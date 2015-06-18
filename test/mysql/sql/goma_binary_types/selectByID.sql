@@ -9,5 +9,5 @@ select
 FROM
   goma_binary_types
 WHERE
-  binary_id = /* binary_id */64
+  binary_id = :binary_id
 

@@ -1,12 +1,12 @@
 update goma_string_types set
-    id = /* id */64
-,   text_columns = /* text_columns */'1111'
-,   tinytext_columns = /* tinytext_columns */'1111'
-,   mediumtext_columns = /* mediumtext_columns */'1111'
-,   longtext_columns = /* longtext_columns */'1111'
-,   char_columns = /* char_columns */'1111'
-,   varchar_columns = /* varchar_columns */'1111'
-,   enum_columns = /* enum_columns */'1111'
+    id = :id
+,   text_columns = :text_columns
+,   tinytext_columns = :tinytext_columns
+,   mediumtext_columns = :mediumtext_columns
+,   longtext_columns = :longtext_columns
+,   char_columns = :char_columns
+,   varchar_columns = :varchar_columns
+,   enum_columns = :enum_columns
  where
-    id = /* id */64
+    id = :id
 

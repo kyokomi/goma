@@ -10,8 +10,6 @@ import (
 	"database/sql"
 
 	"github.com/kyokomi/goma/test/mysql/entity"
-
-	"github.com/kyokomi/goma"
 )
 
 var tableGomaBinaryTypes = "goma_binary_types"
@@ -108,10 +106,13 @@ func (g TxGomaBinaryTypesDao) SelectAll() ([]entity.GomaBinaryTypes, error) {
 }
 
 func _GomaBinaryTypesSelectAll(g GomaBinaryTypesDaoQueryer) ([]entity.GomaBinaryTypes, error) {
-	queryString := queryArgs("goma_binary_types", "selectAll", nil)
+	queryString, args, err := queryArgs("goma_binary_types", "selectAll", nil)
+	if err != nil {
+		return nil, err
+	}
 
 	var es []entity.GomaBinaryTypes
-	rows, err := g.Query(queryString)
+	rows, err := g.Query(queryString, args...)
 	if err != nil {
 		return nil, err
 	}
@@ -144,12 +145,15 @@ func (g TxGomaBinaryTypesDao) SelectByID(binaryID int64) (entity.GomaBinaryTypes
 }
 
 func _GomaBinaryTypesSelectByID(g GomaBinaryTypesDaoQueryer, binaryID int64) (entity.GomaBinaryTypes, error) {
-	args := goma.QueryArgs{
+	argsMap := map[string]interface{}{
 		"binary_id": binaryID,
 	}
-	queryString := queryArgs("goma_binary_types", "selectByID", args)
+	queryString, args, err := queryArgs("goma_binary_types", "selectByID", argsMap)
+	if err != nil {
+		return entity.GomaBinaryTypes{}, err
+	}
 
-	rows, err := g.Query(queryString)
+	rows, err := g.Query(queryString, args...)
 	if err != nil {
 		return entity.GomaBinaryTypes{}, err
 	}
@@ -179,7 +183,7 @@ func (g TxGomaBinaryTypesDao) Insert(e entity.GomaBinaryTypes) (sql.Result, erro
 }
 
 func _GomaBinaryTypesInsert(g GomaBinaryTypesDaoQueryer, e entity.GomaBinaryTypes) (sql.Result, error) {
-	args := goma.QueryArgs{
+	argsMap := map[string]interface{}{
 		"binary_id":          e.BinaryID,
 		"binary_columns":     e.BinaryColumns,
 		"tinyblob_columns":   e.TinyblobColumns,
@@ -188,9 +192,12 @@ func _GomaBinaryTypesInsert(g GomaBinaryTypesDaoQueryer, e entity.GomaBinaryType
 		"longblob_columns":   e.LongblobColumns,
 		"varbinary_columns":  e.VarbinaryColumns,
 	}
-	queryString := queryArgs("goma_binary_types", "insert", args)
+	queryString, args, err := queryArgs("goma_binary_types", "insert", argsMap)
+	if err != nil {
+		return nil, err
+	}
 
-	result, err := g.Exec(queryString)
+	result, err := g.Exec(queryString, args...)
 	if err != nil {
 		log.Println(err, queryString)
 	}
@@ -209,7 +216,7 @@ func (g TxGomaBinaryTypesDao) Update(e entity.GomaBinaryTypes) (sql.Result, erro
 
 // Update update goma_binary_types table.
 func _GomaBinaryTypesUpdate(g GomaBinaryTypesDaoQueryer, e entity.GomaBinaryTypes) (sql.Result, error) {
-	args := goma.QueryArgs{
+	argsMap := map[string]interface{}{
 		"binary_id":          e.BinaryID,
 		"binary_columns":     e.BinaryColumns,
 		"tinyblob_columns":   e.TinyblobColumns,
@@ -218,9 +225,12 @@ func _GomaBinaryTypesUpdate(g GomaBinaryTypesDaoQueryer, e entity.GomaBinaryType
 		"longblob_columns":   e.LongblobColumns,
 		"varbinary_columns":  e.VarbinaryColumns,
 	}
-	queryString := queryArgs("goma_binary_types", "update", args)
+	queryString, args, err := queryArgs("goma_binary_types", "update", argsMap)
+	if err != nil {
+		return nil, err
+	}
 
-	result, err := g.Exec(queryString)
+	result, err := g.Exec(queryString, args...)
 	if err != nil {
 		log.Println(err, queryString)
 	}
@@ -239,12 +249,15 @@ func (g TxGomaBinaryTypesDao) Delete(binaryID int64) (sql.Result, error) {
 
 // Delete delete goma_binary_types table by primaryKey.
 func _GomaBinaryTypesDelete(g GomaBinaryTypesDaoQueryer, binaryID int64) (sql.Result, error) {
-	args := goma.QueryArgs{
+	argsMap := map[string]interface{}{
 		"binary_id": binaryID,
 	}
-	queryString := queryArgs("goma_binary_types", "delete", args)
+	queryString, args, err := queryArgs("goma_binary_types", "delete", argsMap)
+	if err != nil {
+		return nil, err
+	}
 
-	result, err := g.Exec(queryString)
+	result, err := g.Exec(queryString, args...)
 	if err != nil {
 		log.Println(err, queryString)
 	}
