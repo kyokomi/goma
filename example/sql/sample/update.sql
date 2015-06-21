@@ -1,7 +1,7 @@
 update sample set
-    id = /* id */1
-,   name = /* name */'1111'
-,   create_at = /* create_at */'2006/01/02 13:40:00'
+    id = :id
+,   name = :name
+,   create_at = :create_at
  where
-    id = /* id */1
+    id = :id
 

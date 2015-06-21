@@ -4,8 +4,8 @@ insert into quest(
 , detail
 , create_at
 ) values(
-  /* id */1
-, /* name */'1111'
-, /* detail */'1111'
-, /* create_at */'2006/01/02 13:40:00'
-);
+  :id
+, :name
+, :detail
+, :create_at
+)

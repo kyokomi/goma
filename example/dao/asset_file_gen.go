@@ -8,11 +8,7 @@ import (
 	"io/ioutil"
 )
 
-func init() {
-	settings.sqlFile = true
-}
-
-// Asset default read file
-func Asset(filePath string) ([]byte, error) {
+// AssetFile default read file
+func AssetFile(filePath string) ([]byte, error) {
 	return ioutil.ReadFile(filePath)
 }

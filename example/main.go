@@ -13,10 +13,11 @@ import (
 	"database/sql"
 )
 
-//go:generate goma --debug gen --driver=mysql --user=admin --password=password --host=localhost --port=3306 --db=test
+//go:generate goma --debug gen --driver=mysql --user=admin --password=password --host=localhost --port=3306 --db=test --config
 // MEMO: go:generate go-bindata -o dao/asset_gen.go -pkg dao sql/...
 
 func main() {
+	log.SetFlags(log.Llongfile)
 	fmt.Println("Hello goma!")
 
 	db, err := goma.Open("config.json")
@@ -33,11 +34,13 @@ func main() {
 
 	now := time.Now()
 
-	_, err = dao.Quest(db).Insert(entity.QuestEntity{
+	name := "test"
+	detail := "test detail"
+	_, err = dao.Quest(db).Insert(entity.Quest{
 		ID:       99,
-		Name:     "test",
-		Detail:   "test detail",
-		CreateAt: now,
+		Name:     &name,
+		Detail:   &detail,
+		CreateAt: &now,
 	})
 	if err != nil {
 		log.Fatalln(err)
@@ -49,11 +52,13 @@ func main() {
 		fmt.Printf("insert after: %+v\n", q)
 	}
 
-	_, err = dao.Quest(db).Update(entity.QuestEntity{
+	name = "test 2"
+	detail = "test detail 2"
+	_, err = dao.Quest(db).Update(entity.Quest{
 		ID:       99,
-		Name:     "test 2",
-		Detail:   "test detail 2",
-		CreateAt: now,
+		Name:     &name,
+		Detail:   &detail,
+		CreateAt: &now,
 	})
 	if err != nil {
 		log.Fatalln(err)
@@ -74,5 +79,11 @@ func main() {
 		log.Fatalln(err)
 	} else {
 		fmt.Printf("delete after: %+v\n", q)
+	}
+
+	if q, err := dao.Quest(db).SelectLimit(100); err != nil {
+		log.Fatalln(err)
+	} else {
+		fmt.Printf("SelectLimit: %+v\n", q)
 	}
 }

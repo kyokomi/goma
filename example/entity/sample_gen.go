@@ -1,23 +1,25 @@
 package entity
 
-import "database/sql"
+import (
+	"database/sql"
+
+	"time"
+)
 
 // NOTE: THIS FILE WAS PRODUCED BY THE
 // GOMA CODE GENERATION TOOL (github.com/kyokomi/goma)
 // DO NOT EDIT
 
-import (
-	"time"
-)
-
-// SampleEntity is generated sample table.
-type SampleEntity struct {
-	ID       int       `goma:"INT(11):pk"`
-	Name     string    `goma:"TEXT"`
-	CreateAt time.Time `goma:"TIMESTAMP"`
+// Sample is generated sample table.
+type Sample struct {
+	ID       int       `goma:"size:11:pk"`
+	Name     *string   `goma:""`
+	CreateAt time.Time `goma:""`
 }
 
-// Scan SampleEntity all scan
-func (e *SampleEntity) Scan(rows *sql.Rows) error {
-	return rows.Scan(&e.ID, &e.Name, &e.CreateAt)
+// Scan Sample all scan
+func (e *Sample) Scan(rows *sql.Rows) error {
+	err := rows.Scan(&e.ID, &e.Name, &e.CreateAt)
+	e.CreateAt = e.CreateAt.In(time.Local)
+	return err
 }

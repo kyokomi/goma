@@ -5,6 +5,4 @@ select
 , create_at
 FROM
   quest
-WHERE
-  id = :id
-
+LIMIT :limit

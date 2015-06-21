@@ -1,24 +1,25 @@
 package entity
 
-import "database/sql"
+import (
+	"database/sql"
+
+	"time"
+)
 
 // NOTE: THIS FILE WAS PRODUCED BY THE
 // GOMA CODE GENERATION TOOL (github.com/kyokomi/goma)
 // DO NOT EDIT
 
-import (
-	"time"
-)
-
-// QuestEntity is generated quest table.
-type QuestEntity struct {
-	ID       int       `goma:"INT(11):pk"`
-	Name     string    `goma:"TEXT"`
-	Detail   string    `goma:"TEXT"`
-	CreateAt time.Time `goma:"DATETIME"`
+// Quest is generated quest table.
+type Quest struct {
+	ID       int        `db:"id"        goma:"size:11:pk"`
+	Name     *string    `db:"name"      goma:""`
+	Detail   *string    `db:"detail"    goma:""`
+	CreateAt *time.Time `db:"create_at" goma:""`
 }
 
-// Scan QuestEntity all scan
-func (e *QuestEntity) Scan(rows *sql.Rows) error {
-	return rows.Scan(&e.ID, &e.Name, &e.Detail, &e.CreateAt)
+// Scan Quest all scan
+func (e *Quest) Scan(rows *sql.Rows) error {
+	err := rows.Scan(&e.ID, &e.Name, &e.Detail, &e.CreateAt)
+	return err
 }

@@ -5,5 +5,5 @@ select
 FROM
   sample
 WHERE
-  id = /* id */1
+  id = :id
 

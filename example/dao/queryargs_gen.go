@@ -12,25 +12,39 @@ import (
 
 type queryArgSettings struct {
 	rootDir string
+	sqlFile bool
 }
 
 var settings queryArgSettings
 
-func (s *queryArgSettings) SetRootDir(rootDir string) {
-	s.rootDir = rootDir
+// SetupQueryArgs setup query file path
+func SetupQueryArgs(rootDir string, sqlFile bool) {
+	settings.rootDir = rootDir
+	settings.sqlFile = sqlFile
 }
 
-func queryArgs(tableName string, queryName string, args goma.QueryArgs) string {
+// GenerateQuery exported queryArgs
+func GenerateQuery(tableName string, queryName string, args map[string]interface{}) (string, []interface{}, error) {
+	return queryArgs(tableName, queryName, args)
+}
+
+func queryArgs(tableName string, queryName string, args map[string]interface{}) (string, []interface{}, error) {
 	return settings.queryArgs(tableName, queryName, args)
 }
 
-func (s queryArgSettings) queryArgs(tableName string, queryName string, args goma.QueryArgs) string {
+func (s queryArgSettings) queryArgs(tableName string, queryName string, args map[string]interface{}) (string, []interface{}, error) {
 	filePath := createSqlFilePath(s.rootDir, tableName, queryName)
-	return goma.GenerateQuery(assetSQL(filePath), args)
+	return goma.MySQLGenerateQuery(assetSQL(filePath), args)
 }
 
 func assetSQL(filePath string) string {
-	data, err := Asset(filePath)
+	var data []byte
+	var err error
+	if settings.sqlFile {
+		data, err = AssetFile(filePath)
+	} else {
+		data, err = Asset(filePath)
+	}
 	if err != nil {
 		// Asset was not found.
 	}
