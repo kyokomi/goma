@@ -40,6 +40,12 @@ func TestNumeric(t *testing.T) {
 		FloatColumns:    float64(1.234),
 	}
 
+	if es, err := d.SelectAll(); err != nil {
+		t.Errorf("ERROR: %s", err)
+	} else if len(es) != 0 {
+		t.Errorf("ERROR: len %d", len(es))
+	}
+
 	if _, err := d.Insert(insertData); err != nil {
 		t.Errorf("ERROR: %s", err)
 	}
@@ -79,6 +85,12 @@ func TestString(t *testing.T) {
 		TextColumns:    "あいうえおかきくけこ",
 		CharColumns:    "a       ",
 		VarcharColumns: "1234567890abcdefghijkelmnopqrstuvwxyz",
+	}
+
+	if es, err := d.SelectAll(); err != nil {
+		t.Errorf("ERROR: %s", err)
+	} else if len(es) != 0 {
+		t.Errorf("ERROR: len %d", len(es))
 	}
 
 	if _, err := d.Insert(insertData); err != nil {
@@ -121,6 +133,12 @@ func TestDate(t *testing.T) {
 	insertData := entity.GomaDateTypes{
 		ID:               id,
 		TimestampColumns: timeStampColumnsTime,
+	}
+
+	if es, err := d.SelectAll(); err != nil {
+		t.Errorf("ERROR: %s", err)
+	} else if len(es) != 0 {
+		t.Errorf("ERROR: len %d", len(es))
 	}
 
 	if _, err := d.Insert(insertData); err != nil {

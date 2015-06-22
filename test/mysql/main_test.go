@@ -45,6 +45,12 @@ func TestNumeric(t *testing.T) {
 		DoubleColumns:    float64(1000.234),
 	}
 
+	if es, err := d.SelectAll(); err != nil {
+		t.Errorf("ERROR: %s", err)
+	} else if len(es) != 0 {
+		t.Errorf("ERROR: len %d", len(es))
+	}
+
 	if _, err := d.Insert(insertData); err != nil {
 		t.Errorf("ERROR: %s", err)
 	}
@@ -90,6 +96,12 @@ func TestString(t *testing.T) {
 		EnumColumns:       entity.EnumColumnsClose,
 	}
 
+	if es, err := d.SelectAll(); err != nil {
+		t.Errorf("ERROR: %s", err)
+	} else if len(es) != 0 {
+		t.Errorf("ERROR: len %d", len(es))
+	}
+
 	if _, err := d.Insert(insertData); err != nil {
 		t.Errorf("ERROR: %s", err)
 	}
@@ -126,6 +138,12 @@ func TestDate(t *testing.T) {
 		ID:               id,
 		DatetimeColumns:  time.Date(now.Year(), now.Month(), now.Day(), now.Hour(), now.Minute(), now.Second(), 0, now.Location()),
 		TimestampColumns: time.Date(now.Year(), now.Month(), now.Day(), now.Hour(), now.Minute(), now.Second(), 0, now.Location()),
+	}
+
+	if es, err := d.SelectAll(); err != nil {
+		t.Errorf("ERROR: %s", err)
+	} else if len(es) != 0 {
+		t.Errorf("ERROR: len %d", len(es))
 	}
 
 	if _, err := d.Insert(insertData); err != nil {
@@ -167,6 +185,12 @@ func TestBinary(t *testing.T) {
 		MediumblobColumns: []uint8{49, 49, 50, 51, 52, 53, 54, 55, 56},
 		LongblobColumns:   []uint8{110, 111, 112, 113, 114, 115, 116, 117, 118},
 		VarbinaryColumns:  []uint8{49, 49, 50, 51, 52, 53, 54, 55, 56},
+	}
+
+	if es, err := d.SelectAll(); err != nil {
+		t.Errorf("ERROR: %s", err)
+	} else if len(es) != 0 {
+		t.Errorf("ERROR: len %d", len(es))
 	}
 
 	if _, err := d.Insert(insertData); err != nil {
