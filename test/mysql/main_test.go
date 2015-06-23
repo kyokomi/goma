@@ -182,7 +182,7 @@ func TestDate(t *testing.T) {
 		t.Errorf("ERROR: %+v != %+v", e, insertData)
 	}
 
-	insertData.TimestampColumns = time.Now()
+	insertData.TimestampColumns = time.Now().Add(1 * time.Second)
 	if result, err := d.Update(insertData); err != nil {
 		t.Errorf("ERROR: %s", err)
 	} else {
