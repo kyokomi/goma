@@ -59,6 +59,19 @@ func TestNumeric(t *testing.T) {
 		}
 	}
 
+	insertData.IntColumns = 111
+	if result, err := d.Update(insertData); err != nil {
+		t.Errorf("ERROR: %s", err)
+	} else {
+		rows, err := result.RowsAffected()
+		if err != nil {
+			t.Errorf("ERROR: %s", err)
+		}
+		if rows != 1 {
+			t.Errorf("ERROR: update len 1 != %d", rows)
+		}
+	}
+
 	if _, err := d.Delete(id); err != nil {
 		t.Errorf("ERROR: %s", err)
 	}
@@ -101,6 +114,19 @@ func TestString(t *testing.T) {
 		t.Errorf("ERROR: %s", err)
 	} else if !reflect.DeepEqual(e, insertData) {
 		t.Errorf("ERROR: %+v \n!= \n%+v", e, insertData)
+	}
+
+	insertData.TextColumns = "test"
+	if result, err := d.Update(insertData); err != nil {
+		t.Errorf("ERROR: %s", err)
+	} else {
+		rows, err := result.RowsAffected()
+		if err != nil {
+			t.Errorf("ERROR: %s", err)
+		}
+		if rows != 1 {
+			t.Errorf("ERROR: update len 1 != %d", rows)
+		}
 	}
 
 	if _, err := d.Delete(id); err != nil {
@@ -151,6 +177,20 @@ func TestDate(t *testing.T) {
 		insertData.TimestampColumns = e.TimestampColumns // TODO: postgresでTimezone指定できないため...
 		if !reflect.DeepEqual(e, insertData) {
 			t.Errorf("ERROR: \n%+v \n!= \n%+v", e, insertData)
+		}
+	}
+
+	now := time.Now()
+	insertData.TimestampColumns = now
+	if result, err := d.Update(insertData); err != nil {
+		t.Errorf("ERROR: %s", err)
+	} else {
+		rows, err := result.RowsAffected()
+		if err != nil {
+			t.Errorf("ERROR: %s", err)
+		}
+		if rows != 1 {
+			t.Errorf("ERROR: update len 1 != %d", rows)
 		}
 	}
 

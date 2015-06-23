@@ -64,6 +64,19 @@ func TestNumeric(t *testing.T) {
 		}
 	}
 
+	insertData.IntColumns = 111111
+	if result, err := d.Update(insertData); err != nil {
+		t.Errorf("ERROR: %s", err)
+	} else {
+		rows, err := result.RowsAffected()
+		if err != nil {
+			t.Errorf("ERROR: %s", err)
+		}
+		if rows != 1 {
+			t.Errorf("ERROR: update len 1 != %d", rows)
+		}
+	}
+
 	if _, err := d.Delete(id); err != nil {
 		t.Errorf("ERROR: %s", err)
 	}
@@ -112,6 +125,19 @@ func TestString(t *testing.T) {
 		t.Errorf("ERROR: \n%+v\n%+v", e, insertData)
 	}
 
+	insertData.TextColumns = "hogehoge"
+	if result, err := d.Update(insertData); err != nil {
+		t.Errorf("ERROR: %s", err)
+	} else {
+		rows, err := result.RowsAffected()
+		if err != nil {
+			t.Errorf("ERROR: %s", err)
+		}
+		if rows != 1 {
+			t.Errorf("ERROR: update len 1 != %d", rows)
+		}
+	}
+
 	if _, err := d.Delete(id); err != nil {
 		t.Errorf("ERROR: %s", err)
 	}
@@ -154,6 +180,19 @@ func TestDate(t *testing.T) {
 		t.Errorf("ERROR: %s", err)
 	} else if !reflect.DeepEqual(e, insertData) {
 		t.Errorf("ERROR: %+v != %+v", e, insertData)
+	}
+
+	insertData.TimestampColumns = time.Now()
+	if result, err := d.Update(insertData); err != nil {
+		t.Errorf("ERROR: %s", err)
+	} else {
+		rows, err := result.RowsAffected()
+		if err != nil {
+			t.Errorf("ERROR: %s", err)
+		}
+		if rows != 1 {
+			t.Errorf("ERROR: update len 1 != %d", rows)
+		}
 	}
 
 	if _, err := d.Delete(id); err != nil {
@@ -201,6 +240,19 @@ func TestBinary(t *testing.T) {
 		t.Errorf("ERROR: %s", err)
 	} else if !reflect.DeepEqual(e, insertData) {
 		t.Errorf("ERROR: %+v != %+v", e, insertData)
+	}
+
+	insertData.BinaryColumns = []uint8{50, 50, 50}
+	if result, err := d.Update(insertData); err != nil {
+		t.Errorf("ERROR: %s", err)
+	} else {
+		rows, err := result.RowsAffected()
+		if err != nil {
+			t.Errorf("ERROR: %s", err)
+		}
+		if rows != 1 {
+			t.Errorf("ERROR: update len 1 != %d", rows)
+		}
 	}
 
 	if _, err := d.Delete(id); err != nil {
