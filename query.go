@@ -1,10 +1,6 @@
 package goma
 
-import (
-	"fmt"
-
-	"github.com/jmoiron/sqlx"
-)
+import "github.com/jmoiron/sqlx"
 
 func GenerateQuery(queryString string, argsMap map[string]interface{}) (string, []interface{}, error) {
 	if len(argsMap) <= 0 {
@@ -22,10 +18,4 @@ func MySQLGenerateQuery(queryString string, argsMap map[string]interface{}) (str
 func PostgresGenerateQuery(queryString string, argsMap map[string]interface{}) (string, []interface{}, error) {
 	query, args, err := GenerateQuery(queryString, argsMap)
 	return sqlx.Rebind(sqlx.DOLLAR, query), args, err
-}
-
-func (d *Goma) debugPrintln(v ...interface{}) {
-	if d.options.Debug {
-		fmt.Println(v...)
-	}
 }
