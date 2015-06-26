@@ -1022,94 +1022,118 @@ _, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  column.TitleName )))
 //line templates/entity_template.go.ego:27
  } 
 //line templates/entity_template.go.ego:27
-_, _ = fmt.Fprint(w, ")")
-//line templates/entity_template.go.ego:27
+_, _ = fmt.Fprint(w, ")\n\t")
+//line templates/entity_template.go.ego:28
  for _, column := range daoData.Table.Columns { 
-//line templates/entity_template.go.ego:27
- if column.TypeName == "time.Time" { 
-//line templates/entity_template.go.ego:28
-_, _ = fmt.Fprint(w, "\n\te.")
-//line templates/entity_template.go.ego:28
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  column.TitleName )))
-//line templates/entity_template.go.ego:28
-_, _ = fmt.Fprint(w, " = e.")
-//line templates/entity_template.go.ego:28
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  column.TitleName )))
-//line templates/entity_template.go.ego:28
-_, _ = fmt.Fprint(w, ".In(time.Local)")
-//line templates/entity_template.go.ego:28
- } 
-//line templates/entity_template.go.ego:28
- } 
 //line templates/entity_template.go.ego:29
-_, _ = fmt.Fprint(w, "\n\treturn err\n}\n\n")
+_, _ = fmt.Fprint(w, "\n\t\t")
+//line templates/entity_template.go.ego:29
+ if column.TypeName == "time.Time" { 
+//line templates/entity_template.go.ego:30
+_, _ = fmt.Fprint(w, "\n\t\t\te.")
+//line templates/entity_template.go.ego:30
+_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  column.TitleName )))
+//line templates/entity_template.go.ego:30
+_, _ = fmt.Fprint(w, " = e.")
+//line templates/entity_template.go.ego:30
+_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  column.TitleName )))
+//line templates/entity_template.go.ego:30
+_, _ = fmt.Fprint(w, ".In(time.Local)\n\t\t")
+//line templates/entity_template.go.ego:31
+ } else if column.TypeName == "*time.Time" { 
 //line templates/entity_template.go.ego:32
- for _, column := range daoData.Table.Columns { 
+_, _ = fmt.Fprint(w, "\n\t\t\t_")
+//line templates/entity_template.go.ego:32
+_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  column.TitleName )))
+//line templates/entity_template.go.ego:32
+_, _ = fmt.Fprint(w, " := e.")
+//line templates/entity_template.go.ego:32
+_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  column.TitleName )))
+//line templates/entity_template.go.ego:32
+_, _ = fmt.Fprint(w, ".In(time.Local)\n\t\t\te.")
 //line templates/entity_template.go.ego:33
+_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  column.TitleName )))
+//line templates/entity_template.go.ego:33
+_, _ = fmt.Fprint(w, " = &_")
+//line templates/entity_template.go.ego:33
+_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  column.TitleName )))
+//line templates/entity_template.go.ego:34
+_, _ = fmt.Fprint(w, "\n\t\t")
+//line templates/entity_template.go.ego:34
+ } 
+//line templates/entity_template.go.ego:35
 _, _ = fmt.Fprint(w, "\n\t")
-//line templates/entity_template.go.ego:33
+//line templates/entity_template.go.ego:35
+ } 
+//line templates/entity_template.go.ego:36
+_, _ = fmt.Fprint(w, "\n\treturn err\n}\n\n")
+//line templates/entity_template.go.ego:39
+ for _, column := range daoData.Table.Columns { 
+//line templates/entity_template.go.ego:40
+_, _ = fmt.Fprint(w, "\n\t")
+//line templates/entity_template.go.ego:40
  if column.EnumData.TypeName != "" { 
-//line templates/entity_template.go.ego:34
+//line templates/entity_template.go.ego:41
 _, _ = fmt.Fprint(w, "\n\t\t// ")
-//line templates/entity_template.go.ego:34
+//line templates/entity_template.go.ego:41
 _, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  column.EnumData.TypeName )))
-//line templates/entity_template.go.ego:34
+//line templates/entity_template.go.ego:41
 _, _ = fmt.Fprint(w, " ")
-//line templates/entity_template.go.ego:34
+//line templates/entity_template.go.ego:41
 _, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  column.EnumData.TypeName )))
-//line templates/entity_template.go.ego:34
+//line templates/entity_template.go.ego:41
 _, _ = fmt.Fprint(w, " column type\n\t\ttype ")
-//line templates/entity_template.go.ego:35
+//line templates/entity_template.go.ego:42
 _, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  column.EnumData.TypeName )))
-//line templates/entity_template.go.ego:35
+//line templates/entity_template.go.ego:42
 _, _ = fmt.Fprint(w, " string\n\n\t\t// ")
-//line templates/entity_template.go.ego:37
+//line templates/entity_template.go.ego:44
 _, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  column.EnumData.TypeName )))
-//line templates/entity_template.go.ego:38
+//line templates/entity_template.go.ego:45
 _, _ = fmt.Fprint(w, "\n\t\tconst (")
-//line templates/entity_template.go.ego:38
+//line templates/entity_template.go.ego:45
  for _, e := range column.EnumData.Enums { 
-//line templates/entity_template.go.ego:38
+//line templates/entity_template.go.ego:45
 _, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  e.Name )))
-//line templates/entity_template.go.ego:38
+//line templates/entity_template.go.ego:45
 _, _ = fmt.Fprint(w, " ")
-//line templates/entity_template.go.ego:38
+//line templates/entity_template.go.ego:45
 _, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  column.EnumData.TypeName )))
-//line templates/entity_template.go.ego:38
+//line templates/entity_template.go.ego:45
 _, _ = fmt.Fprint(w, " = \"")
-//line templates/entity_template.go.ego:38
+//line templates/entity_template.go.ego:45
 _, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  e.Value )))
-//line templates/entity_template.go.ego:38
+//line templates/entity_template.go.ego:45
 _, _ = fmt.Fprint(w, "\"\n\t\t")
-//line templates/entity_template.go.ego:39
+//line templates/entity_template.go.ego:46
  } 
-//line templates/entity_template.go.ego:39
+//line templates/entity_template.go.ego:46
 _, _ = fmt.Fprint(w, ")\n\n\t\t// Scan database/sql Scanner\n\t\tfunc (e *")
-//line templates/entity_template.go.ego:42
+//line templates/entity_template.go.ego:49
 _, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  column.EnumData.TypeName )))
-//line templates/entity_template.go.ego:42
+//line templates/entity_template.go.ego:49
 _, _ = fmt.Fprint(w, ") Scan(v interface{}) error {\n        \t*e = ")
-//line templates/entity_template.go.ego:43
+//line templates/entity_template.go.ego:50
 _, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  column.EnumData.TypeName )))
-//line templates/entity_template.go.ego:43
+//line templates/entity_template.go.ego:50
 _, _ = fmt.Fprint(w, "(v.([]byte))\n        \treturn nil\n        }\n\n        var _ sql.Scanner = (*")
-//line templates/entity_template.go.ego:47
+//line templates/entity_template.go.ego:54
 _, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  column.EnumData.TypeName )))
-//line templates/entity_template.go.ego:47
+//line templates/entity_template.go.ego:54
 _, _ = fmt.Fprint(w, ")(nil)\n\n        // Value database/sql/driver Valuer\n        func (e ")
-//line templates/entity_template.go.ego:50
+//line templates/entity_template.go.ego:57
 _, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  column.EnumData.TypeName )))
-//line templates/entity_template.go.ego:50
+//line templates/entity_template.go.ego:57
 _, _ = fmt.Fprint(w, ") Value() (driver.Value, error) {\n        \treturn string(e), nil\n        }\n\n        var _ driver.Valuer = (*")
-//line templates/entity_template.go.ego:54
+//line templates/entity_template.go.ego:61
 _, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  column.EnumData.TypeName )))
-//line templates/entity_template.go.ego:54
+//line templates/entity_template.go.ego:61
 _, _ = fmt.Fprint(w, ")(nil)\n\t")
-//line templates/entity_template.go.ego:55
+//line templates/entity_template.go.ego:62
  } 
-//line templates/entity_template.go.ego:56
+//line templates/entity_template.go.ego:63
 _, _ = fmt.Fprint(w, "\n")
-//line templates/entity_template.go.ego:56
+//line templates/entity_template.go.ego:63
  } 
 return nil
 }

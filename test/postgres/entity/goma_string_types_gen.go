@@ -19,5 +19,6 @@ type GomaStringTypes struct {
 // Scan GomaStringTypes all scan
 func (e *GomaStringTypes) Scan(rows *sql.Rows) error {
 	err := rows.Scan(&e.ID, &e.TextColumns, &e.CharColumns, &e.VarcharColumns)
+
 	return err
 }

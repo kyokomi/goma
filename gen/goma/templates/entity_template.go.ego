@@ -24,8 +24,15 @@ type <%= daoData.EntityName %> struct {
 
 // Scan <%= daoData.EntityName %> all scan
 func (e *<%= daoData.EntityName %>) Scan(rows *sql.Rows) error {
-	err := rows.Scan(<% for idx, column := range daoData.Table.Columns { %><% if idx != 0 { %>, <% } %>&e.<%= column.TitleName %><% } %>)<% for _, column := range daoData.Table.Columns { %><% if column.TypeName == "time.Time" { %>
-	e.<%= column.TitleName %> = e.<%= column.TitleName %>.In(time.Local)<% } %><% } %>
+	err := rows.Scan(<% for idx, column := range daoData.Table.Columns { %><% if idx != 0 { %>, <% } %>&e.<%= column.TitleName %><% } %>)
+	<% for _, column := range daoData.Table.Columns { %>
+		<% if column.TypeName == "time.Time" { %>
+			e.<%= column.TitleName %> = e.<%= column.TitleName %>.In(time.Local)
+		<% } else if column.TypeName == "*time.Time" { %>
+			_<%= column.TitleName %> := e.<%= column.TitleName %>.In(time.Local)
+			e.<%= column.TitleName %> = &_<%= column.TitleName %>
+		<% } %>
+	<% } %>
 	return err
 }
 

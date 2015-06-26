@@ -22,5 +22,6 @@ type GomaBinaryTypes struct {
 // Scan GomaBinaryTypes all scan
 func (e *GomaBinaryTypes) Scan(rows *sql.Rows) error {
 	err := rows.Scan(&e.BinaryID, &e.BinaryColumns, &e.TinyblobColumns, &e.BlobColumns, &e.MediumblobColumns, &e.LongblobColumns, &e.VarbinaryColumns)
+
 	return err
 }

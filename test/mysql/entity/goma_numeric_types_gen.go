@@ -27,5 +27,6 @@ type GomaNumericTypes struct {
 // Scan GomaNumericTypes all scan
 func (e *GomaNumericTypes) Scan(rows *sql.Rows) error {
 	err := rows.Scan(&e.ID, &e.TinyintColumns, &e.BoolColumns, &e.SmallintColumns, &e.MediumintColumns, &e.IntColumns, &e.IntegerColumns, &e.SerialColumns, &e.DecimalColumns, &e.NumericColumns, &e.FloatColumns, &e.DoubleColumns)
+
 	return err
 }

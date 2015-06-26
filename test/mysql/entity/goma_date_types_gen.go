@@ -20,7 +20,10 @@ type GomaDateTypes struct {
 // Scan GomaDateTypes all scan
 func (e *GomaDateTypes) Scan(rows *sql.Rows) error {
 	err := rows.Scan(&e.ID, &e.DatetimeColumns, &e.TimestampColumns)
+
 	e.DatetimeColumns = e.DatetimeColumns.In(time.Local)
+
 	e.TimestampColumns = e.TimestampColumns.In(time.Local)
+
 	return err
 }
