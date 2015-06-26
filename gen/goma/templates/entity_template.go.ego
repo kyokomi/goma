@@ -29,8 +29,10 @@ func (e *<%= daoData.EntityName %>) Scan(rows *sql.Rows) error {
 		<% if column.TypeName == "time.Time" { %>
 			e.<%= column.TitleName %> = e.<%= column.TitleName %>.In(time.Local)
 		<% } else if column.TypeName == "*time.Time" { %>
-			_<%= column.TitleName %> := e.<%= column.TitleName %>.In(time.Local)
-			e.<%= column.TitleName %> = &_<%= column.TitleName %>
+			if e.<%= column.TitleName %> != nil {
+				_<%= column.TitleName %> := e.<%= column.TitleName %>.In(time.Local)
+				e.<%= column.TitleName %> = &_<%= column.TitleName %>
+			}
 		<% } %>
 	<% } %>
 	return err
