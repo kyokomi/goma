@@ -17,6 +17,7 @@ var columnsGomaDateTypes = []string{
 	"id",
 	"datetime_columns",
 	"timestamp_columns",
+	"nil_datetime_columns",
 }
 
 // GomaDateTypesTableName goma_date_types table name
@@ -180,9 +181,10 @@ func (g TxGomaDateTypesDao) Insert(e entity.GomaDateTypes) (sql.Result, error) {
 
 func _GomaDateTypesInsert(g GomaDateTypesDaoQueryer, e entity.GomaDateTypes) (sql.Result, error) {
 	argsMap := map[string]interface{}{
-		"id":                e.ID,
-		"datetime_columns":  e.DatetimeColumns,
-		"timestamp_columns": e.TimestampColumns,
+		"id":                   e.ID,
+		"datetime_columns":     e.DatetimeColumns,
+		"timestamp_columns":    e.TimestampColumns,
+		"nil_datetime_columns": e.NilDatetimeColumns,
 	}
 	queryString, args, err := queryArgs("goma_date_types", "insert", argsMap)
 	if err != nil {
@@ -209,9 +211,10 @@ func (g TxGomaDateTypesDao) Update(e entity.GomaDateTypes) (sql.Result, error) {
 // Update update goma_date_types table.
 func _GomaDateTypesUpdate(g GomaDateTypesDaoQueryer, e entity.GomaDateTypes) (sql.Result, error) {
 	argsMap := map[string]interface{}{
-		"id":                e.ID,
-		"datetime_columns":  e.DatetimeColumns,
-		"timestamp_columns": e.TimestampColumns,
+		"id":                   e.ID,
+		"datetime_columns":     e.DatetimeColumns,
+		"timestamp_columns":    e.TimestampColumns,
+		"nil_datetime_columns": e.NilDatetimeColumns,
 	}
 	queryString, args, err := queryArgs("goma_date_types", "update", argsMap)
 	if err != nil {

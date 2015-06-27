@@ -190,7 +190,7 @@ func TestDate(t *testing.T) {
 	if e, err := d.SelectByID(id); err != nil {
 		t.Errorf("ERROR: %s", err)
 	} else if !reflect.DeepEqual(e, insertData) {
-		t.Errorf("ERROR: %+v != %+v", e, insertData)
+		t.Errorf("ERROR: \n%+v \n!= \n%+v", e, insertData)
 	}
 
 	insertData.TimestampColumns = time.Now().Add(1 * time.Second)
