@@ -46,8 +46,13 @@ func TestNumeric(t *testing.T) {
 		t.Errorf("ERROR: len %d", len(es))
 	}
 
-	if _, err := d.Insert(insertData); err != nil {
-		t.Errorf("ERROR: %s", err)
+	// 10件登録
+	copyInsertData := insertData
+	for i := 0; i < 10; i++ {
+		copyInsertData.ID = copyInsertData.ID + int64(i * 10000)
+		if _, err := d.Insert(copyInsertData); err != nil {
+			t.Errorf("ERROR: %s", err)
+		}
 	}
 
 	if e, err := d.SelectByID(id); err != nil {
@@ -77,7 +82,12 @@ func TestNumeric(t *testing.T) {
 	}
 
 	if _, err := d.SelectByID(id); err != sql.ErrNoRows {
-		t.Errorf("ERROR: %s", "Deleteしたのにnilじゃない")
+		t.Errorf("ERROR: %s %s", "Deleteしたのにnilじゃない", err)
+	}
+
+	// deleteAll custom query
+	if _, err := gomaNumericTypesDeleteAll(d); err != nil {
+		t.Errorf("ERROR: %s", "custom query DeleteAll", err)
 	}
 }
 
