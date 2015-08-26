@@ -9,6 +9,7 @@ import (
 	"os"
 	"path/filepath"
 	"strconv"
+	"strings"
 
 	"github.com/etgryphon/stringUp"
 )
@@ -67,11 +68,24 @@ type ColumnTemplateData struct {
 	Name            string
 	TitleName       string
 	TypeName        string
+	TypePkgName     string
+	TypePointer     bool
 	TypeDetail      string
 	IsPrimaryKey    bool
 	Sample          string
 	IsAutoIncrement bool
 	EnumData        EnumTemplateData // enumカラムのみ
+}
+
+func (c ColumnTemplateData) TypeFullName(pkgName string) string {
+	typeName := c.TypeName
+	if len(c.TypePkgName) > 0 && pkgName != c.TypePkgName {
+		typeName = strings.Join([]string{c.TypePkgName, c.TypeName}, ".")
+	}
+	if c.TypePointer {
+		typeName = "*" + typeName
+	}
+	return typeName
 }
 
 // CamelName convert go lint CamelCase

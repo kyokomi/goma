@@ -16,7 +16,7 @@ import (
 <% if daoData.EntityBlock == "" { %>
 // <%= daoData.EntityName %> is generated <%= daoData.Table.Name %> table.
 type <%= daoData.EntityName %> struct {
-<% for _, column := range daoData.Table.Columns { %><%= column.TitleName %> <%= column.TypeName %> <%== column.TypeDetail %>
+<% for _, column := range daoData.Table.Columns { %><%= column.TitleName %> <%= column.TypeFullName(daoData.EntityPkgName) %> <%== column.TypeDetail %>
 <% } %>}
 <% } else { %>
 <%= daoData.EntityBlock %>
@@ -26,9 +26,9 @@ type <%= daoData.EntityName %> struct {
 func (e *<%= daoData.EntityName %>) Scan(rows *sql.Rows) error {
 	err := rows.Scan(<% for idx, column := range daoData.Table.Columns { %><% if idx != 0 { %>, <% } %>&e.<%= column.TitleName %><% } %>)
 	<% for _, column := range daoData.Table.Columns { %>
-		<% if column.TypeName == "time.Time" { %>
+		<% if column.TypeFullName(daoData.EntityPkgName) == "time.Time" { %>
 			e.<%= column.TitleName %> = e.<%= column.TitleName %>.In(time.Local)
-		<% } else if column.TypeName == "*time.Time" { %>
+		<% } else if column.TypeFullName(daoData.EntityPkgName) == "*time.Time" { %>
 			if e.<%= column.TitleName %> != nil {
 				_<%= column.TitleName %> := e.<%= column.TitleName %>.In(time.Local)
 				e.<%= column.TitleName %> = &_<%= column.TitleName %>
