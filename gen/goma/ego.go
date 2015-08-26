@@ -334,7 +334,7 @@ _, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  column.CamelName() )))
 //line templates/dao_template.go.ego:133
 _, _ = fmt.Fprint(w, " ")
 //line templates/dao_template.go.ego:133
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  column.TypeName )))
+_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  column.TypeFullName(daoData.DaoPkgName) )))
 //line templates/dao_template.go.ego:133
  } 
 //line templates/dao_template.go.ego:133
@@ -398,7 +398,7 @@ _, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  column.CamelName() )))
 //line templates/dao_template.go.ego:138
 _, _ = fmt.Fprint(w, " ")
 //line templates/dao_template.go.ego:138
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  column.TypeName )))
+_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  column.TypeFullName(daoData.DaoPkgName) )))
 //line templates/dao_template.go.ego:138
  } 
 //line templates/dao_template.go.ego:138
@@ -462,7 +462,7 @@ _, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  column.CamelName() )))
 //line templates/dao_template.go.ego:142
 _, _ = fmt.Fprint(w, " ")
 //line templates/dao_template.go.ego:142
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  column.TypeName )))
+_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  column.TypeFullName(daoData.DaoPkgName) )))
 //line templates/dao_template.go.ego:142
  } 
 //line templates/dao_template.go.ego:142
@@ -730,7 +730,7 @@ _, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  column.CamelName() )))
 //line templates/dao_template.go.ego:226
 _, _ = fmt.Fprint(w, " ")
 //line templates/dao_template.go.ego:226
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  column.TypeName )))
+_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  column.TypeFullName(daoData.DaoPkgName) )))
 //line templates/dao_template.go.ego:226
  } 
 //line templates/dao_template.go.ego:226
@@ -786,7 +786,7 @@ _, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  column.CamelName() )))
 //line templates/dao_template.go.ego:231
 _, _ = fmt.Fprint(w, " ")
 //line templates/dao_template.go.ego:231
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  column.TypeName )))
+_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  column.TypeFullName(daoData.DaoPkgName) )))
 //line templates/dao_template.go.ego:231
  } 
 //line templates/dao_template.go.ego:231
@@ -846,7 +846,7 @@ _, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  column.CamelName() )))
 //line templates/dao_template.go.ego:236
 _, _ = fmt.Fprint(w, " ")
 //line templates/dao_template.go.ego:236
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  column.TypeName )))
+_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  column.TypeFullName(daoData.DaoPkgName) )))
 //line templates/dao_template.go.ego:236
  } 
 //line templates/dao_template.go.ego:236
@@ -976,7 +976,7 @@ _, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  column.TitleName )))
 //line templates/entity_template.go.ego:19
 _, _ = fmt.Fprint(w, " ")
 //line templates/entity_template.go.ego:19
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  column.TypeName )))
+_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  column.TypeFullName(daoData.EntityPkgName) )))
 //line templates/entity_template.go.ego:19
 _, _ = fmt.Fprint(w, " ")
 //line templates/entity_template.go.ego:19
@@ -1028,7 +1028,7 @@ _, _ = fmt.Fprint(w, ")\n\t")
 //line templates/entity_template.go.ego:29
 _, _ = fmt.Fprint(w, "\n\t\t")
 //line templates/entity_template.go.ego:29
- if column.TypeName == "time.Time" { 
+ if column.TypeFullName(daoData.EntityPkgName) == "time.Time" { 
 //line templates/entity_template.go.ego:30
 _, _ = fmt.Fprint(w, "\n\t\t\te.")
 //line templates/entity_template.go.ego:30
@@ -1040,7 +1040,7 @@ _, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  column.TitleName )))
 //line templates/entity_template.go.ego:30
 _, _ = fmt.Fprint(w, ".In(time.Local)\n\t\t")
 //line templates/entity_template.go.ego:31
- } else if column.TypeName == "*time.Time" { 
+ } else if column.TypeFullName(daoData.EntityPkgName) == "*time.Time" { 
 //line templates/entity_template.go.ego:32
 _, _ = fmt.Fprint(w, "\n\t\t\tif e.")
 //line templates/entity_template.go.ego:32

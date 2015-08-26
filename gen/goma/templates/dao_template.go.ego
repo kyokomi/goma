@@ -130,16 +130,16 @@ func _<%= daoData.Table.TitleName %>SelectAll(g <%= daoData.Name %>Queryer) ([]<
 }
 
 // SelectByID select <%= daoData.Table.Name %> table by primaryKey.
-func (g <%= daoData.Name %>) SelectByID(<% for idx, column := range daoData.Table.Columns { %><% if !column.IsPrimaryKey { %><% continue %><% } %><% if idx != 0 { %>, <% } %><%= column.CamelName() %> <%= column.TypeName %><% } %>) (<%= daoData.EntityPkgName %>.<%= daoData.EntityName %>, error) {
+func (g <%= daoData.Name %>) SelectByID(<% for idx, column := range daoData.Table.Columns { %><% if !column.IsPrimaryKey { %><% continue %><% } %><% if idx != 0 { %>, <% } %><%= column.CamelName() %> <%= column.TypeFullName(daoData.DaoPkgName) %><% } %>) (<%= daoData.EntityPkgName %>.<%= daoData.EntityName %>, error) {
 	return _<%= daoData.Table.TitleName %>SelectByID(g, <% for idx, column := range daoData.Table.Columns { %><% if !column.IsPrimaryKey { %><% continue %><% } %><% if idx != 0 { %>, <% } %><%= column.CamelName() %><% } %>)
 }
 
 // SelectByID transaction select <%= daoData.Table.Name %> table by primaryKey.
-func (g Tx<%= daoData.Name %>) SelectByID(<% for idx, column := range daoData.Table.Columns { %><% if !column.IsPrimaryKey { %><% continue %><% } %><% if idx != 0 { %>, <% } %><%= column.CamelName() %> <%= column.TypeName %><% } %>) (<%= daoData.EntityPkgName %>.<%= daoData.EntityName %>, error) {
+func (g Tx<%= daoData.Name %>) SelectByID(<% for idx, column := range daoData.Table.Columns { %><% if !column.IsPrimaryKey { %><% continue %><% } %><% if idx != 0 { %>, <% } %><%= column.CamelName() %> <%= column.TypeFullName(daoData.DaoPkgName) %><% } %>) (<%= daoData.EntityPkgName %>.<%= daoData.EntityName %>, error) {
 	return _<%= daoData.Table.TitleName %>SelectByID(g, <% for idx, column := range daoData.Table.Columns { %><% if !column.IsPrimaryKey { %><% continue %><% } %><% if idx != 0 { %>, <% } %><%= column.CamelName() %><% } %>)
 }
 
-func _<%= daoData.Table.TitleName %>SelectByID(g <%= daoData.Name %>Queryer, <% for idx, column := range daoData.Table.Columns { %><% if !column.IsPrimaryKey { %><% continue %><% } %><% if idx != 0 { %>, <% } %><%= column.CamelName() %> <%= column.TypeName %><% } %>) (<%= daoData.EntityPkgName %>.<%= daoData.EntityName %>, error) {
+func _<%= daoData.Table.TitleName %>SelectByID(g <%= daoData.Name %>Queryer, <% for idx, column := range daoData.Table.Columns { %><% if !column.IsPrimaryKey { %><% continue %><% } %><% if idx != 0 { %>, <% } %><%= column.CamelName() %> <%= column.TypeFullName(daoData.DaoPkgName) %><% } %>) (<%= daoData.EntityPkgName %>.<%= daoData.EntityName %>, error) {
     argsMap := map[string]interface{}{
     <% for _, column := range daoData.Table.Columns { %><% if !column.IsPrimaryKey { %><% continue %><% } %>    "<%= column.Name %>": <%= column.CamelName() %>,
     <% } %>}
@@ -223,17 +223,17 @@ func _<%= daoData.Table.TitleName %>Update(g <%= daoData.Name %>Queryer, e <%= d
 }
 
 // Delete delete <%= daoData.Table.Name %> table.
-func (g <%= daoData.Name %>) Delete(<% for idx, column := range daoData.Table.Columns { %><% if !column.IsPrimaryKey { %><% continue %><% } %><% if idx != 0 { %>, <% } %><%= column.CamelName() %> <%= column.TypeName %><% } %>) (sql.Result, error) {
+func (g <%= daoData.Name %>) Delete(<% for idx, column := range daoData.Table.Columns { %><% if !column.IsPrimaryKey { %><% continue %><% } %><% if idx != 0 { %>, <% } %><%= column.CamelName() %> <%= column.TypeFullName(daoData.DaoPkgName) %><% } %>) (sql.Result, error) {
 	return _<%= daoData.Table.TitleName %>Delete(g, <% for idx, column := range daoData.Table.Columns { %><% if !column.IsPrimaryKey { %><% continue %><% } %><% if idx != 0 { %>, <% } %><%= column.CamelName() %><% } %>)
 }
 
 // Delete transaction delete <%= daoData.Table.Name %> table.
-func (g Tx<%= daoData.Name %>) Delete(<% for idx, column := range daoData.Table.Columns { %><% if !column.IsPrimaryKey { %><% continue %><% } %><% if idx != 0 { %>, <% } %><%= column.CamelName() %> <%= column.TypeName %><% } %>) (sql.Result, error) {
+func (g Tx<%= daoData.Name %>) Delete(<% for idx, column := range daoData.Table.Columns { %><% if !column.IsPrimaryKey { %><% continue %><% } %><% if idx != 0 { %>, <% } %><%= column.CamelName() %> <%= column.TypeFullName(daoData.DaoPkgName) %><% } %>) (sql.Result, error) {
 	return _<%= daoData.Table.TitleName %>Delete(g, <% for idx, column := range daoData.Table.Columns { %><% if !column.IsPrimaryKey { %><% continue %><% } %><% if idx != 0 { %>, <% } %><%= column.CamelName() %><% } %>)
 }
 
 // Delete delete <%= daoData.Table.Name %> table by primaryKey.
-func _<%= daoData.Table.TitleName %>Delete(g <%= daoData.Name %>Queryer, <% for idx, column := range daoData.Table.Columns { %><% if !column.IsPrimaryKey { %><% continue %><% } %><% if idx != 0 { %>, <% } %><%= column.CamelName() %> <%= column.TypeName %><% } %>) (sql.Result, error) {
+func _<%= daoData.Table.TitleName %>Delete(g <%= daoData.Name %>Queryer, <% for idx, column := range daoData.Table.Columns { %><% if !column.IsPrimaryKey { %><% continue %><% } %><% if idx != 0 { %>, <% } %><%= column.CamelName() %> <%= column.TypeFullName(daoData.DaoPkgName) %><% } %>) (sql.Result, error) {
     argsMap := map[string]interface{}{
     <% for _, column := range daoData.Table.Columns { %><% if !column.IsPrimaryKey { %><% continue %><% } %>    "<%= column.Name %>": <%= column.CamelName() %>,
     <% } %>}

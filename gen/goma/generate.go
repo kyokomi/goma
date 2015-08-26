@@ -131,7 +131,7 @@ func generate(pkg string, opt goma.Options) {
 
 func newTemplateData(table *core.Table, opt goma.Options) DaoTemplateData {
 	imports := newImports(table.Columns())
-	columns := newColumns(table.Columns())
+	columns := newColumns(table.Columns(), opt)
 
 	data := DaoTemplateData{}
 	data.Name = lintName(strings.Title(table.Name) + "Dao")
@@ -161,22 +161,14 @@ func newImports(columns []*core.Column) set {
 	return importsMap
 }
 
-func newColumns(columns []*core.Column) []ColumnTemplateData {
+func newColumns(columns []*core.Column, opt goma.Options) []ColumnTemplateData {
 	var results []ColumnTemplateData
 	for _, c := range columns {
 		typ := gomaSQLType2Type(c.SQLType)
 		typeName := typ.Name()
-		if typ.PkgPath() != "" {
-			typeName = typ.PkgPath() + "." + typ.Name()
-		}
 
 		if typeName == "" {
 			typeName = typ.String()
-		}
-
-		// NULL許可ならポインタにする
-		if c.Nullable {
-			typeName = "*" + typeName
 		}
 
 		primaryKey := ""
@@ -194,6 +186,8 @@ func newColumns(columns []*core.Column) []ColumnTemplateData {
 			Name:            c.Name,
 			TitleName:       lintName(strings.Title(c.Name)),
 			TypeName:        typeName,
+			TypePointer:     c.Nullable,
+			TypePkgName:     typ.PkgPath(),
 			TypeDetail:      typeDetail,
 			IsPrimaryKey:    c.IsPrimaryKey,
 			Sample:          sampleDataMap[typ],
@@ -220,7 +214,9 @@ func newColumns(columns []*core.Column) []ColumnTemplateData {
 			enumData.Enums = enums
 
 			column.TypeName = enumData.TypeName
+			column.TypePkgName = opt.EntityPkgName()
 			column.EnumData = enumData
+			column.TypePointer = false
 		}
 
 		results = append(results, column)
