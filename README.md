@@ -19,7 +19,7 @@ $ go get gopkg.in/kyokomi/goma.v1/gen/goma
 latest Ver
 
 ```
-$ go get github.com.kyokomi/goma/gen/goma
+$ go get github.com/kyokomi/goma/gen/goma
 ```
 
 
