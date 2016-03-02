@@ -7,314 +7,315 @@ import (
 "html"
 "io"
 )
+var _ = fmt.Sprint("") // just so that we can keep the fmt import for now
 //line templates/asset_file_template.go.ego:1
 func AssetFileTemplate(w io.Writer, assetData AssetTemplateData) error  {
 //line templates/asset_file_template.go.ego:1
-_, _ = fmt.Fprint(w, "package  ")
+_, _ = io.WriteString(w, "package  ")
 //line templates/asset_file_template.go.ego:1
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  assetData.DaoPkgName )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  assetData.DaoPkgName )))
 //line templates/asset_file_template.go.ego:2
-_, _ = fmt.Fprint(w, "\n\n// NOTE: THIS FILE WAS PRODUCED BY THE\n// GOMA CODE GENERATION TOOL (github.com/kyokomi/goma)\n// DO NOT EDIT\n\nimport (\n\t\"io/ioutil\"\n)\n\n// AssetFile default read file\nfunc AssetFile(filePath string) ([]byte, error) {\n\treturn ioutil.ReadFile(filePath)\n}\n")
+_, _ = io.WriteString(w, "\n\n// NOTE: THIS FILE WAS PRODUCED BY THE\n// GOMA CODE GENERATION TOOL (github.com/kyokomi/goma)\n// DO NOT EDIT\n\nimport (\n\t\"io/ioutil\"\n)\n\n// AssetFile default read file\nfunc AssetFile(filePath string) ([]byte, error) {\n\treturn ioutil.ReadFile(filePath)\n}\n")
 return nil
 }
 //line templates/asset_template.go.ego:1
 func AssetTemplate(w io.Writer, assetData AssetTemplateData) error  {
 //line templates/asset_template.go.ego:1
-_, _ = fmt.Fprint(w, "package  ")
+_, _ = io.WriteString(w, "package  ")
 //line templates/asset_template.go.ego:1
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  assetData.DaoPkgName )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  assetData.DaoPkgName )))
 //line templates/asset_template.go.ego:2
-_, _ = fmt.Fprint(w, "\n\n// NOTE: THIS FILE WAS PRODUCED BY THE\n// GOMA CODE GENERATION TOOL (github.com/kyokomi/goma)\n// DO NOT EDIT\n\nimport (\n\t\"io/ioutil\"\n)\n\nfunc init() {\n\tsettings.sqlFile = true\n}\n\n// Asset default read file\nfunc Asset(filePath string) ([]byte, error) {\n\treturn ioutil.ReadFile(filePath)\n}\n")
+_, _ = io.WriteString(w, "\n\n// NOTE: THIS FILE WAS PRODUCED BY THE\n// GOMA CODE GENERATION TOOL (github.com/kyokomi/goma)\n// DO NOT EDIT\n\nimport (\n\t\"io/ioutil\"\n)\n\nfunc init() {\n\tsettings.sqlFile = true\n}\n\n// Asset default read file\nfunc Asset(filePath string) ([]byte, error) {\n\treturn ioutil.ReadFile(filePath)\n}\n")
 return nil
 }
 //line templates/dao_template.go.ego:1
 func DaoTemplate(w io.Writer, daoData DaoTemplateData) error  {
 //line templates/dao_template.go.ego:1
-_, _ = fmt.Fprint(w, "package  ")
+_, _ = io.WriteString(w, "package  ")
 //line templates/dao_template.go.ego:1
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.DaoPkgName )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.DaoPkgName )))
 //line templates/dao_template.go.ego:2
-_, _ = fmt.Fprint(w, "\n\n// NOTE: THIS FILE WAS PRODUCED BY THE\n// GOMA CODE GENERATION TOOL (github.com/kyokomi/goma)\n// DO NOT EDIT\n\nimport (\n    \"log\"\n    \n    \"database/sql\"\n    \n    \"")
+_, _ = io.WriteString(w, "\n\n// NOTE: THIS FILE WAS PRODUCED BY THE\n// GOMA CODE GENERATION TOOL (github.com/kyokomi/goma)\n// DO NOT EDIT\n\nimport (\n    \"log\"\n    \n    \"database/sql\"\n    \n    \"")
 //line templates/dao_template.go.ego:12
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.EntityImport )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.EntityImport )))
 //line templates/dao_template.go.ego:12
-_, _ = fmt.Fprint(w, "\"\n)\n\nvar table")
+_, _ = io.WriteString(w, "\"\n)\n\nvar table")
 //line templates/dao_template.go.ego:15
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Table.TitleName )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Table.TitleName )))
 //line templates/dao_template.go.ego:15
-_, _ = fmt.Fprint(w, " = \"")
+_, _ = io.WriteString(w, " = \"")
 //line templates/dao_template.go.ego:15
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Table.Name )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Table.Name )))
 //line templates/dao_template.go.ego:15
-_, _ = fmt.Fprint(w, "\"\nvar columns")
+_, _ = io.WriteString(w, "\"\nvar columns")
 //line templates/dao_template.go.ego:16
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Table.TitleName )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Table.TitleName )))
 //line templates/dao_template.go.ego:16
-_, _ = fmt.Fprint(w, " = []string{\n")
+_, _ = io.WriteString(w, " = []string{\n")
 //line templates/dao_template.go.ego:17
  for _, column := range daoData.Table.Columns { 
 //line templates/dao_template.go.ego:17
-_, _ = fmt.Fprint(w, "\"")
+_, _ = io.WriteString(w, "\"")
 //line templates/dao_template.go.ego:17
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  column.Name )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  column.Name )))
 //line templates/dao_template.go.ego:17
-_, _ = fmt.Fprint(w, "\",\n")
+_, _ = io.WriteString(w, "\",\n")
 //line templates/dao_template.go.ego:18
  } 
 //line templates/dao_template.go.ego:19
-_, _ = fmt.Fprint(w, "\n}\n\n// ")
+_, _ = io.WriteString(w, "\n}\n\n// ")
 //line templates/dao_template.go.ego:21
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Table.TitleName )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Table.TitleName )))
 //line templates/dao_template.go.ego:21
-_, _ = fmt.Fprint(w, "TableName ")
+_, _ = io.WriteString(w, "TableName ")
 //line templates/dao_template.go.ego:21
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Table.Name )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Table.Name )))
 //line templates/dao_template.go.ego:21
-_, _ = fmt.Fprint(w, " table name\nfunc ")
+_, _ = io.WriteString(w, " table name\nfunc ")
 //line templates/dao_template.go.ego:22
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Table.TitleName )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Table.TitleName )))
 //line templates/dao_template.go.ego:22
-_, _ = fmt.Fprint(w, "TableName() string {\n\treturn table")
+_, _ = io.WriteString(w, "TableName() string {\n\treturn table")
 //line templates/dao_template.go.ego:23
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Table.TitleName )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Table.TitleName )))
 //line templates/dao_template.go.ego:24
-_, _ = fmt.Fprint(w, "\n}\n\n// ")
+_, _ = io.WriteString(w, "\n}\n\n// ")
 //line templates/dao_template.go.ego:26
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Table.TitleName )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Table.TitleName )))
 //line templates/dao_template.go.ego:26
-_, _ = fmt.Fprint(w, "TableColumns ")
+_, _ = io.WriteString(w, "TableColumns ")
 //line templates/dao_template.go.ego:26
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Table.Name )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Table.Name )))
 //line templates/dao_template.go.ego:26
-_, _ = fmt.Fprint(w, " table columns\nfunc ")
+_, _ = io.WriteString(w, " table columns\nfunc ")
 //line templates/dao_template.go.ego:27
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Table.TitleName )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Table.TitleName )))
 //line templates/dao_template.go.ego:27
-_, _ = fmt.Fprint(w, "TableColumns() []string {\n\treturn columns")
+_, _ = io.WriteString(w, "TableColumns() []string {\n\treturn columns")
 //line templates/dao_template.go.ego:28
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Table.TitleName )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Table.TitleName )))
 //line templates/dao_template.go.ego:29
-_, _ = fmt.Fprint(w, "\n}\n\n// ")
+_, _ = io.WriteString(w, "\n}\n\n// ")
 //line templates/dao_template.go.ego:31
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Name )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Name )))
 //line templates/dao_template.go.ego:31
-_, _ = fmt.Fprint(w, "Queryer is interface\ntype ")
+_, _ = io.WriteString(w, "Queryer is interface\ntype ")
 //line templates/dao_template.go.ego:32
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Name )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Name )))
 //line templates/dao_template.go.ego:32
-_, _ = fmt.Fprint(w, "Queryer interface {\n\tQuery(query string, args ...interface{}) (*sql.Rows, error)\n\tExec(query string, args ...interface{}) (sql.Result, error)\n}\n\n// ")
+_, _ = io.WriteString(w, "Queryer interface {\n\tQuery(query string, args ...interface{}) (*sql.Rows, error)\n\tExec(query string, args ...interface{}) (sql.Result, error)\n}\n\n// ")
 //line templates/dao_template.go.ego:37
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Name )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Name )))
 //line templates/dao_template.go.ego:37
-_, _ = fmt.Fprint(w, " is generated ")
+_, _ = io.WriteString(w, " is generated ")
 //line templates/dao_template.go.ego:37
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Table.Name )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Table.Name )))
 //line templates/dao_template.go.ego:37
-_, _ = fmt.Fprint(w, " table.\ntype ")
+_, _ = io.WriteString(w, " table.\ntype ")
 //line templates/dao_template.go.ego:38
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Name )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Name )))
 //line templates/dao_template.go.ego:38
-_, _ = fmt.Fprint(w, " struct {\n\t*sql.DB\n\tTableName string\n\tColumns []string\n}\n\n// Query ")
+_, _ = io.WriteString(w, " struct {\n\t*sql.DB\n\tTableName string\n\tColumns []string\n}\n\n// Query ")
 //line templates/dao_template.go.ego:44
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Name )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Name )))
 //line templates/dao_template.go.ego:44
-_, _ = fmt.Fprint(w, " query\nfunc (g ")
+_, _ = io.WriteString(w, " query\nfunc (g ")
 //line templates/dao_template.go.ego:45
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Name )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Name )))
 //line templates/dao_template.go.ego:45
-_, _ = fmt.Fprint(w, ") Query(query string, args ...interface{}) (*sql.Rows, error) {\n\treturn g.DB.Query(query, args...)\n}\n\n// Exec ")
+_, _ = io.WriteString(w, ") Query(query string, args ...interface{}) (*sql.Rows, error) {\n\treturn g.DB.Query(query, args...)\n}\n\n// Exec ")
 //line templates/dao_template.go.ego:49
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Name )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Name )))
 //line templates/dao_template.go.ego:49
-_, _ = fmt.Fprint(w, " exec\nfunc (g ")
+_, _ = io.WriteString(w, " exec\nfunc (g ")
 //line templates/dao_template.go.ego:50
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Name )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Name )))
 //line templates/dao_template.go.ego:50
-_, _ = fmt.Fprint(w, ") Exec(query string, args ...interface{}) (sql.Result, error) {\n\treturn g.DB.Exec(query, args...)\n}\n\nvar _ ")
+_, _ = io.WriteString(w, ") Exec(query string, args ...interface{}) (sql.Result, error) {\n\treturn g.DB.Exec(query, args...)\n}\n\nvar _ ")
 //line templates/dao_template.go.ego:54
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Name )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Name )))
 //line templates/dao_template.go.ego:54
-_, _ = fmt.Fprint(w, "Queryer = (*")
+_, _ = io.WriteString(w, "Queryer = (*")
 //line templates/dao_template.go.ego:54
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Name )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Name )))
 //line templates/dao_template.go.ego:54
-_, _ = fmt.Fprint(w, ")(nil)\n\n// ")
+_, _ = io.WriteString(w, ")(nil)\n\n// ")
 //line templates/dao_template.go.ego:56
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Table.TitleName )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Table.TitleName )))
 //line templates/dao_template.go.ego:56
-_, _ = fmt.Fprint(w, " is ")
+_, _ = io.WriteString(w, " is ")
 //line templates/dao_template.go.ego:56
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Name )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Name )))
 //line templates/dao_template.go.ego:56
-_, _ = fmt.Fprint(w, ".\nfunc ")
+_, _ = io.WriteString(w, ".\nfunc ")
 //line templates/dao_template.go.ego:57
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Table.TitleName )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Table.TitleName )))
 //line templates/dao_template.go.ego:57
-_, _ = fmt.Fprint(w, "(db *sql.DB) ")
+_, _ = io.WriteString(w, "(db *sql.DB) ")
 //line templates/dao_template.go.ego:57
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Name )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Name )))
 //line templates/dao_template.go.ego:57
-_, _ = fmt.Fprint(w, " {\n    tblDao := ")
+_, _ = io.WriteString(w, " {\n    tblDao := ")
 //line templates/dao_template.go.ego:58
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Name )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Name )))
 //line templates/dao_template.go.ego:58
-_, _ = fmt.Fprint(w, "{}\n    tblDao.DB = db\n    tblDao.TableName = table")
+_, _ = io.WriteString(w, "{}\n    tblDao.DB = db\n    tblDao.TableName = table")
 //line templates/dao_template.go.ego:60
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Table.TitleName )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Table.TitleName )))
 //line templates/dao_template.go.ego:61
-_, _ = fmt.Fprint(w, "\n\ttblDao.Columns = columns")
+_, _ = io.WriteString(w, "\n\ttblDao.Columns = columns")
 //line templates/dao_template.go.ego:61
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Table.TitleName )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Table.TitleName )))
 //line templates/dao_template.go.ego:62
-_, _ = fmt.Fprint(w, "\n\treturn tblDao\n}\n\n// Tx")
+_, _ = io.WriteString(w, "\n\treturn tblDao\n}\n\n// Tx")
 //line templates/dao_template.go.ego:65
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Name )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Name )))
 //line templates/dao_template.go.ego:65
-_, _ = fmt.Fprint(w, " is generated ")
+_, _ = io.WriteString(w, " is generated ")
 //line templates/dao_template.go.ego:65
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Table.Name )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Table.Name )))
 //line templates/dao_template.go.ego:65
-_, _ = fmt.Fprint(w, " table transaction.\ntype Tx")
+_, _ = io.WriteString(w, " table transaction.\ntype Tx")
 //line templates/dao_template.go.ego:66
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Name )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Name )))
 //line templates/dao_template.go.ego:66
-_, _ = fmt.Fprint(w, " struct {\n\t*sql.Tx\n\tTableName string\n\tColumns []string\n}\n\n// Query Tx")
+_, _ = io.WriteString(w, " struct {\n\t*sql.Tx\n\tTableName string\n\tColumns []string\n}\n\n// Query Tx")
 //line templates/dao_template.go.ego:72
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Name )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Name )))
 //line templates/dao_template.go.ego:72
-_, _ = fmt.Fprint(w, " query\nfunc (g Tx")
+_, _ = io.WriteString(w, " query\nfunc (g Tx")
 //line templates/dao_template.go.ego:73
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Name )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Name )))
 //line templates/dao_template.go.ego:73
-_, _ = fmt.Fprint(w, ") Query(query string, args ...interface{}) (*sql.Rows, error) {\n\treturn g.Tx.Query(query, args...)\n}\n\n// Exec Tx")
+_, _ = io.WriteString(w, ") Query(query string, args ...interface{}) (*sql.Rows, error) {\n\treturn g.Tx.Query(query, args...)\n}\n\n// Exec Tx")
 //line templates/dao_template.go.ego:77
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Name )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Name )))
 //line templates/dao_template.go.ego:77
-_, _ = fmt.Fprint(w, " exec\nfunc (g Tx")
+_, _ = io.WriteString(w, " exec\nfunc (g Tx")
 //line templates/dao_template.go.ego:78
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Name )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Name )))
 //line templates/dao_template.go.ego:78
-_, _ = fmt.Fprint(w, ") Exec(query string, args ...interface{}) (sql.Result, error) {\n\treturn g.Tx.Exec(query, args...)\n}\n\nvar _ ")
+_, _ = io.WriteString(w, ") Exec(query string, args ...interface{}) (sql.Result, error) {\n\treturn g.Tx.Exec(query, args...)\n}\n\nvar _ ")
 //line templates/dao_template.go.ego:82
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Name )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Name )))
 //line templates/dao_template.go.ego:82
-_, _ = fmt.Fprint(w, "Queryer = (*Tx")
+_, _ = io.WriteString(w, "Queryer = (*Tx")
 //line templates/dao_template.go.ego:82
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Name )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Name )))
 //line templates/dao_template.go.ego:82
-_, _ = fmt.Fprint(w, ")(nil)\n\n// Tx")
+_, _ = io.WriteString(w, ")(nil)\n\n// Tx")
 //line templates/dao_template.go.ego:84
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Table.TitleName )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Table.TitleName )))
 //line templates/dao_template.go.ego:84
-_, _ = fmt.Fprint(w, " is ")
+_, _ = io.WriteString(w, " is ")
 //line templates/dao_template.go.ego:84
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Name )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Name )))
 //line templates/dao_template.go.ego:84
-_, _ = fmt.Fprint(w, ".\nfunc Tx")
+_, _ = io.WriteString(w, ".\nfunc Tx")
 //line templates/dao_template.go.ego:85
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Table.TitleName )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Table.TitleName )))
 //line templates/dao_template.go.ego:85
-_, _ = fmt.Fprint(w, "(tx *sql.Tx) Tx")
+_, _ = io.WriteString(w, "(tx *sql.Tx) Tx")
 //line templates/dao_template.go.ego:85
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Name )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Name )))
 //line templates/dao_template.go.ego:85
-_, _ = fmt.Fprint(w, " {\n    tblDao := Tx")
+_, _ = io.WriteString(w, " {\n    tblDao := Tx")
 //line templates/dao_template.go.ego:86
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Name )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Name )))
 //line templates/dao_template.go.ego:86
-_, _ = fmt.Fprint(w, "{}\n    tblDao.Tx = tx\n\ttblDao.TableName = table")
+_, _ = io.WriteString(w, "{}\n    tblDao.Tx = tx\n\ttblDao.TableName = table")
 //line templates/dao_template.go.ego:88
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Table.TitleName )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Table.TitleName )))
 //line templates/dao_template.go.ego:89
-_, _ = fmt.Fprint(w, "\n\ttblDao.Columns = columns")
+_, _ = io.WriteString(w, "\n\ttblDao.Columns = columns")
 //line templates/dao_template.go.ego:89
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Table.TitleName )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Table.TitleName )))
 //line templates/dao_template.go.ego:90
-_, _ = fmt.Fprint(w, "\n\treturn tblDao\n}\n\n// SelectAll select ")
+_, _ = io.WriteString(w, "\n\treturn tblDao\n}\n\n// SelectAll select ")
 //line templates/dao_template.go.ego:93
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Table.Name )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Table.Name )))
 //line templates/dao_template.go.ego:93
-_, _ = fmt.Fprint(w, " table all recode.\nfunc (g ")
+_, _ = io.WriteString(w, " table all recode.\nfunc (g ")
 //line templates/dao_template.go.ego:94
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Name )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Name )))
 //line templates/dao_template.go.ego:94
-_, _ = fmt.Fprint(w, ") SelectAll() ([]")
+_, _ = io.WriteString(w, ") SelectAll() ([]")
 //line templates/dao_template.go.ego:94
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.EntityPkgName )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.EntityPkgName )))
 //line templates/dao_template.go.ego:94
-_, _ = fmt.Fprint(w, ".")
+_, _ = io.WriteString(w, ".")
 //line templates/dao_template.go.ego:94
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.EntityName )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.EntityName )))
 //line templates/dao_template.go.ego:94
-_, _ = fmt.Fprint(w, ", error) {\n\treturn _")
+_, _ = io.WriteString(w, ", error) {\n\treturn _")
 //line templates/dao_template.go.ego:95
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Table.TitleName )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Table.TitleName )))
 //line templates/dao_template.go.ego:95
-_, _ = fmt.Fprint(w, "SelectAll(g)\n}\n\n// SelectAll transaction select ")
+_, _ = io.WriteString(w, "SelectAll(g)\n}\n\n// SelectAll transaction select ")
 //line templates/dao_template.go.ego:98
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Table.Name )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Table.Name )))
 //line templates/dao_template.go.ego:98
-_, _ = fmt.Fprint(w, " table all recode.\nfunc (g Tx")
+_, _ = io.WriteString(w, " table all recode.\nfunc (g Tx")
 //line templates/dao_template.go.ego:99
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Name )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Name )))
 //line templates/dao_template.go.ego:99
-_, _ = fmt.Fprint(w, ") SelectAll() ([]")
+_, _ = io.WriteString(w, ") SelectAll() ([]")
 //line templates/dao_template.go.ego:99
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.EntityPkgName )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.EntityPkgName )))
 //line templates/dao_template.go.ego:99
-_, _ = fmt.Fprint(w, ".")
+_, _ = io.WriteString(w, ".")
 //line templates/dao_template.go.ego:99
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.EntityName )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.EntityName )))
 //line templates/dao_template.go.ego:99
-_, _ = fmt.Fprint(w, ", error) {\n\treturn _")
+_, _ = io.WriteString(w, ", error) {\n\treturn _")
 //line templates/dao_template.go.ego:100
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Table.TitleName )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Table.TitleName )))
 //line templates/dao_template.go.ego:100
-_, _ = fmt.Fprint(w, "SelectAll(g)\n}\n\nfunc _")
+_, _ = io.WriteString(w, "SelectAll(g)\n}\n\nfunc _")
 //line templates/dao_template.go.ego:103
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Table.TitleName )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Table.TitleName )))
 //line templates/dao_template.go.ego:103
-_, _ = fmt.Fprint(w, "SelectAll(g ")
+_, _ = io.WriteString(w, "SelectAll(g ")
 //line templates/dao_template.go.ego:103
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Name )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Name )))
 //line templates/dao_template.go.ego:103
-_, _ = fmt.Fprint(w, "Queryer) ([]")
+_, _ = io.WriteString(w, "Queryer) ([]")
 //line templates/dao_template.go.ego:103
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.EntityPkgName )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.EntityPkgName )))
 //line templates/dao_template.go.ego:103
-_, _ = fmt.Fprint(w, ".")
+_, _ = io.WriteString(w, ".")
 //line templates/dao_template.go.ego:103
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.EntityName )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.EntityName )))
 //line templates/dao_template.go.ego:103
-_, _ = fmt.Fprint(w, ", error) {\n\tqueryString, args, err := queryArgs(\"")
+_, _ = io.WriteString(w, ", error) {\n\tqueryString, args, err := queryArgs(\"")
 //line templates/dao_template.go.ego:104
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Table.Name )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Table.Name )))
 //line templates/dao_template.go.ego:104
-_, _ = fmt.Fprint(w, "\", \"selectAll\", nil)\n\tif err != nil {\n\t\treturn nil, err\n\t}\n\n\tvar es []")
+_, _ = io.WriteString(w, "\", \"selectAll\", nil)\n\tif err != nil {\n\t\treturn nil, err\n\t}\n\n\tvar es []")
 //line templates/dao_template.go.ego:109
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.EntityPkgName )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.EntityPkgName )))
 //line templates/dao_template.go.ego:109
-_, _ = fmt.Fprint(w, ".")
+_, _ = io.WriteString(w, ".")
 //line templates/dao_template.go.ego:109
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.EntityName )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.EntityName )))
 //line templates/dao_template.go.ego:110
-_, _ = fmt.Fprint(w, "\n\trows, err := g.Query(queryString, args...)\n\tif err != nil {\n\t\treturn nil, err\n\t}\n\tdefer rows.Close()\n\n\tfor rows.Next() {\n\t\tvar e ")
+_, _ = io.WriteString(w, "\n\trows, err := g.Query(queryString, args...)\n\tif err != nil {\n\t\treturn nil, err\n\t}\n\tdefer rows.Close()\n\n\tfor rows.Next() {\n\t\tvar e ")
 //line templates/dao_template.go.ego:117
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.EntityPkgName )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.EntityPkgName )))
 //line templates/dao_template.go.ego:117
-_, _ = fmt.Fprint(w, ".")
+_, _ = io.WriteString(w, ".")
 //line templates/dao_template.go.ego:117
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.EntityName )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.EntityName )))
 //line templates/dao_template.go.ego:118
-_, _ = fmt.Fprint(w, "\n\t\tif err := e.Scan(rows); err != nil {\n\t\t\tbreak\n\t\t}\n\n\t\tes = append(es, e)\n\t}\n\tif err != nil {\n\t    log.Println(err, queryString)\n\t\treturn nil, err\n\t}\n\n\treturn es, nil\n}\n\n// SelectByID select ")
+_, _ = io.WriteString(w, "\n\t\tif err := e.Scan(rows); err != nil {\n\t\t\tbreak\n\t\t}\n\n\t\tes = append(es, e)\n\t}\n\tif err != nil {\n\t    log.Println(err, queryString)\n\t\treturn nil, err\n\t}\n\n\treturn es, nil\n}\n\n// SelectByID select ")
 //line templates/dao_template.go.ego:132
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Table.Name )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Table.Name )))
 //line templates/dao_template.go.ego:132
-_, _ = fmt.Fprint(w, " table by primaryKey.\nfunc (g ")
+_, _ = io.WriteString(w, " table by primaryKey.\nfunc (g ")
 //line templates/dao_template.go.ego:133
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Name )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Name )))
 //line templates/dao_template.go.ego:133
-_, _ = fmt.Fprint(w, ") SelectByID(")
+_, _ = io.WriteString(w, ") SelectByID(")
 //line templates/dao_template.go.ego:133
  for idx, column := range daoData.Table.Columns { 
 //line templates/dao_template.go.ego:133
@@ -326,31 +327,31 @@ _, _ = fmt.Fprint(w, ") SelectByID(")
 //line templates/dao_template.go.ego:133
  if idx != 0 { 
 //line templates/dao_template.go.ego:133
-_, _ = fmt.Fprint(w, ", ")
+_, _ = io.WriteString(w, ", ")
 //line templates/dao_template.go.ego:133
  } 
 //line templates/dao_template.go.ego:133
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  column.CamelName() )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  column.CamelName() )))
 //line templates/dao_template.go.ego:133
-_, _ = fmt.Fprint(w, " ")
+_, _ = io.WriteString(w, " ")
 //line templates/dao_template.go.ego:133
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  column.TypeFullName(daoData.DaoPkgName) )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  column.TypeFullName(daoData.DaoPkgName) )))
 //line templates/dao_template.go.ego:133
  } 
 //line templates/dao_template.go.ego:133
-_, _ = fmt.Fprint(w, ") (")
+_, _ = io.WriteString(w, ") (")
 //line templates/dao_template.go.ego:133
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.EntityPkgName )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.EntityPkgName )))
 //line templates/dao_template.go.ego:133
-_, _ = fmt.Fprint(w, ".")
+_, _ = io.WriteString(w, ".")
 //line templates/dao_template.go.ego:133
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.EntityName )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.EntityName )))
 //line templates/dao_template.go.ego:133
-_, _ = fmt.Fprint(w, ", error) {\n\treturn _")
+_, _ = io.WriteString(w, ", error) {\n\treturn _")
 //line templates/dao_template.go.ego:134
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Table.TitleName )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Table.TitleName )))
 //line templates/dao_template.go.ego:134
-_, _ = fmt.Fprint(w, "SelectByID(g, ")
+_, _ = io.WriteString(w, "SelectByID(g, ")
 //line templates/dao_template.go.ego:134
  for idx, column := range daoData.Table.Columns { 
 //line templates/dao_template.go.ego:134
@@ -362,23 +363,23 @@ _, _ = fmt.Fprint(w, "SelectByID(g, ")
 //line templates/dao_template.go.ego:134
  if idx != 0 { 
 //line templates/dao_template.go.ego:134
-_, _ = fmt.Fprint(w, ", ")
+_, _ = io.WriteString(w, ", ")
 //line templates/dao_template.go.ego:134
  } 
 //line templates/dao_template.go.ego:134
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  column.CamelName() )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  column.CamelName() )))
 //line templates/dao_template.go.ego:134
  } 
 //line templates/dao_template.go.ego:134
-_, _ = fmt.Fprint(w, ")\n}\n\n// SelectByID transaction select ")
+_, _ = io.WriteString(w, ")\n}\n\n// SelectByID transaction select ")
 //line templates/dao_template.go.ego:137
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Table.Name )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Table.Name )))
 //line templates/dao_template.go.ego:137
-_, _ = fmt.Fprint(w, " table by primaryKey.\nfunc (g Tx")
+_, _ = io.WriteString(w, " table by primaryKey.\nfunc (g Tx")
 //line templates/dao_template.go.ego:138
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Name )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Name )))
 //line templates/dao_template.go.ego:138
-_, _ = fmt.Fprint(w, ") SelectByID(")
+_, _ = io.WriteString(w, ") SelectByID(")
 //line templates/dao_template.go.ego:138
  for idx, column := range daoData.Table.Columns { 
 //line templates/dao_template.go.ego:138
@@ -390,31 +391,31 @@ _, _ = fmt.Fprint(w, ") SelectByID(")
 //line templates/dao_template.go.ego:138
  if idx != 0 { 
 //line templates/dao_template.go.ego:138
-_, _ = fmt.Fprint(w, ", ")
+_, _ = io.WriteString(w, ", ")
 //line templates/dao_template.go.ego:138
  } 
 //line templates/dao_template.go.ego:138
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  column.CamelName() )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  column.CamelName() )))
 //line templates/dao_template.go.ego:138
-_, _ = fmt.Fprint(w, " ")
+_, _ = io.WriteString(w, " ")
 //line templates/dao_template.go.ego:138
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  column.TypeFullName(daoData.DaoPkgName) )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  column.TypeFullName(daoData.DaoPkgName) )))
 //line templates/dao_template.go.ego:138
  } 
 //line templates/dao_template.go.ego:138
-_, _ = fmt.Fprint(w, ") (")
+_, _ = io.WriteString(w, ") (")
 //line templates/dao_template.go.ego:138
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.EntityPkgName )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.EntityPkgName )))
 //line templates/dao_template.go.ego:138
-_, _ = fmt.Fprint(w, ".")
+_, _ = io.WriteString(w, ".")
 //line templates/dao_template.go.ego:138
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.EntityName )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.EntityName )))
 //line templates/dao_template.go.ego:138
-_, _ = fmt.Fprint(w, ", error) {\n\treturn _")
+_, _ = io.WriteString(w, ", error) {\n\treturn _")
 //line templates/dao_template.go.ego:139
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Table.TitleName )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Table.TitleName )))
 //line templates/dao_template.go.ego:139
-_, _ = fmt.Fprint(w, "SelectByID(g, ")
+_, _ = io.WriteString(w, "SelectByID(g, ")
 //line templates/dao_template.go.ego:139
  for idx, column := range daoData.Table.Columns { 
 //line templates/dao_template.go.ego:139
@@ -426,23 +427,23 @@ _, _ = fmt.Fprint(w, "SelectByID(g, ")
 //line templates/dao_template.go.ego:139
  if idx != 0 { 
 //line templates/dao_template.go.ego:139
-_, _ = fmt.Fprint(w, ", ")
+_, _ = io.WriteString(w, ", ")
 //line templates/dao_template.go.ego:139
  } 
 //line templates/dao_template.go.ego:139
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  column.CamelName() )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  column.CamelName() )))
 //line templates/dao_template.go.ego:139
  } 
 //line templates/dao_template.go.ego:139
-_, _ = fmt.Fprint(w, ")\n}\n\nfunc _")
+_, _ = io.WriteString(w, ")\n}\n\nfunc _")
 //line templates/dao_template.go.ego:142
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Table.TitleName )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Table.TitleName )))
 //line templates/dao_template.go.ego:142
-_, _ = fmt.Fprint(w, "SelectByID(g ")
+_, _ = io.WriteString(w, "SelectByID(g ")
 //line templates/dao_template.go.ego:142
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Name )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Name )))
 //line templates/dao_template.go.ego:142
-_, _ = fmt.Fprint(w, "Queryer, ")
+_, _ = io.WriteString(w, "Queryer, ")
 //line templates/dao_template.go.ego:142
  for idx, column := range daoData.Table.Columns { 
 //line templates/dao_template.go.ego:142
@@ -454,27 +455,27 @@ _, _ = fmt.Fprint(w, "Queryer, ")
 //line templates/dao_template.go.ego:142
  if idx != 0 { 
 //line templates/dao_template.go.ego:142
-_, _ = fmt.Fprint(w, ", ")
+_, _ = io.WriteString(w, ", ")
 //line templates/dao_template.go.ego:142
  } 
 //line templates/dao_template.go.ego:142
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  column.CamelName() )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  column.CamelName() )))
 //line templates/dao_template.go.ego:142
-_, _ = fmt.Fprint(w, " ")
+_, _ = io.WriteString(w, " ")
 //line templates/dao_template.go.ego:142
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  column.TypeFullName(daoData.DaoPkgName) )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  column.TypeFullName(daoData.DaoPkgName) )))
 //line templates/dao_template.go.ego:142
  } 
 //line templates/dao_template.go.ego:142
-_, _ = fmt.Fprint(w, ") (")
+_, _ = io.WriteString(w, ") (")
 //line templates/dao_template.go.ego:142
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.EntityPkgName )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.EntityPkgName )))
 //line templates/dao_template.go.ego:142
-_, _ = fmt.Fprint(w, ".")
+_, _ = io.WriteString(w, ".")
 //line templates/dao_template.go.ego:142
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.EntityName )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.EntityName )))
 //line templates/dao_template.go.ego:142
-_, _ = fmt.Fprint(w, ", error) {\n    argsMap := map[string]interface{}{\n    ")
+_, _ = io.WriteString(w, ", error) {\n    argsMap := map[string]interface{}{\n    ")
 //line templates/dao_template.go.ego:144
  for _, column := range daoData.Table.Columns { 
 //line templates/dao_template.go.ego:144
@@ -484,233 +485,233 @@ _, _ = fmt.Fprint(w, ", error) {\n    argsMap := map[string]interface{}{\n    ")
 //line templates/dao_template.go.ego:144
  } 
 //line templates/dao_template.go.ego:144
-_, _ = fmt.Fprint(w, "    \"")
+_, _ = io.WriteString(w, "    \"")
 //line templates/dao_template.go.ego:144
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  column.Name )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  column.Name )))
 //line templates/dao_template.go.ego:144
-_, _ = fmt.Fprint(w, "\": ")
+_, _ = io.WriteString(w, "\": ")
 //line templates/dao_template.go.ego:144
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  column.CamelName() )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  column.CamelName() )))
 //line templates/dao_template.go.ego:144
-_, _ = fmt.Fprint(w, ",\n    ")
+_, _ = io.WriteString(w, ",\n    ")
 //line templates/dao_template.go.ego:145
  } 
 //line templates/dao_template.go.ego:145
-_, _ = fmt.Fprint(w, "}\n    queryString, args, err := queryArgs(\"")
+_, _ = io.WriteString(w, "}\n    queryString, args, err := queryArgs(\"")
 //line templates/dao_template.go.ego:146
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Table.Name )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Table.Name )))
 //line templates/dao_template.go.ego:146
-_, _ = fmt.Fprint(w, "\", \"selectByID\", argsMap)\n\tif err != nil {\n\t\treturn ")
+_, _ = io.WriteString(w, "\", \"selectByID\", argsMap)\n\tif err != nil {\n\t\treturn ")
 //line templates/dao_template.go.ego:148
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.EntityPkgName )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.EntityPkgName )))
 //line templates/dao_template.go.ego:148
-_, _ = fmt.Fprint(w, ".")
+_, _ = io.WriteString(w, ".")
 //line templates/dao_template.go.ego:148
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.EntityName )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.EntityName )))
 //line templates/dao_template.go.ego:148
-_, _ = fmt.Fprint(w, "{}, err\n\t}\n\n\trows, err := g.Query(queryString, args...)\n\tif err != nil {\n\t\treturn ")
+_, _ = io.WriteString(w, "{}, err\n\t}\n\n\trows, err := g.Query(queryString, args...)\n\tif err != nil {\n\t\treturn ")
 //line templates/dao_template.go.ego:153
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.EntityPkgName )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.EntityPkgName )))
 //line templates/dao_template.go.ego:153
-_, _ = fmt.Fprint(w, ".")
+_, _ = io.WriteString(w, ".")
 //line templates/dao_template.go.ego:153
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.EntityName )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.EntityName )))
 //line templates/dao_template.go.ego:153
-_, _ = fmt.Fprint(w, "{}, err\n\t}\n\tdefer rows.Close()\n\n    if !rows.Next() {\n\t\treturn ")
+_, _ = io.WriteString(w, "{}, err\n\t}\n\tdefer rows.Close()\n\n    if !rows.Next() {\n\t\treturn ")
 //line templates/dao_template.go.ego:158
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.EntityPkgName )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.EntityPkgName )))
 //line templates/dao_template.go.ego:158
-_, _ = fmt.Fprint(w, ".")
+_, _ = io.WriteString(w, ".")
 //line templates/dao_template.go.ego:158
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.EntityName )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.EntityName )))
 //line templates/dao_template.go.ego:158
-_, _ = fmt.Fprint(w, "{}, sql.ErrNoRows\n\t}\n\n\tvar e ")
+_, _ = io.WriteString(w, "{}, sql.ErrNoRows\n\t}\n\n\tvar e ")
 //line templates/dao_template.go.ego:161
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.EntityPkgName )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.EntityPkgName )))
 //line templates/dao_template.go.ego:161
-_, _ = fmt.Fprint(w, ".")
+_, _ = io.WriteString(w, ".")
 //line templates/dao_template.go.ego:161
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.EntityName )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.EntityName )))
 //line templates/dao_template.go.ego:162
-_, _ = fmt.Fprint(w, "\n\tif err := e.Scan(rows); err != nil {\n\t    log.Println(err, queryString)\n\t\treturn ")
+_, _ = io.WriteString(w, "\n\tif err := e.Scan(rows); err != nil {\n\t    log.Println(err, queryString)\n\t\treturn ")
 //line templates/dao_template.go.ego:164
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.EntityPkgName )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.EntityPkgName )))
 //line templates/dao_template.go.ego:164
-_, _ = fmt.Fprint(w, ".")
+_, _ = io.WriteString(w, ".")
 //line templates/dao_template.go.ego:164
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.EntityName )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.EntityName )))
 //line templates/dao_template.go.ego:164
-_, _ = fmt.Fprint(w, "{}, err\n\t}\n\t\n\treturn e, nil\n}\n\n// Insert insert ")
+_, _ = io.WriteString(w, "{}, err\n\t}\n\t\n\treturn e, nil\n}\n\n// Insert insert ")
 //line templates/dao_template.go.ego:170
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Table.Name )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Table.Name )))
 //line templates/dao_template.go.ego:170
-_, _ = fmt.Fprint(w, " table.\nfunc (g ")
+_, _ = io.WriteString(w, " table.\nfunc (g ")
 //line templates/dao_template.go.ego:171
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Name )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Name )))
 //line templates/dao_template.go.ego:171
-_, _ = fmt.Fprint(w, ") Insert(e ")
+_, _ = io.WriteString(w, ") Insert(e ")
 //line templates/dao_template.go.ego:171
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.EntityPkgName )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.EntityPkgName )))
 //line templates/dao_template.go.ego:171
-_, _ = fmt.Fprint(w, ".")
+_, _ = io.WriteString(w, ".")
 //line templates/dao_template.go.ego:171
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.EntityName )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.EntityName )))
 //line templates/dao_template.go.ego:171
-_, _ = fmt.Fprint(w, ") (sql.Result, error) {\n\treturn _")
+_, _ = io.WriteString(w, ") (sql.Result, error) {\n\treturn _")
 //line templates/dao_template.go.ego:172
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Table.TitleName )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Table.TitleName )))
 //line templates/dao_template.go.ego:172
-_, _ = fmt.Fprint(w, "Insert(g, e)\n}\n\n// Insert transaction insert ")
+_, _ = io.WriteString(w, "Insert(g, e)\n}\n\n// Insert transaction insert ")
 //line templates/dao_template.go.ego:175
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Table.Name )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Table.Name )))
 //line templates/dao_template.go.ego:175
-_, _ = fmt.Fprint(w, " table.\nfunc (g Tx")
+_, _ = io.WriteString(w, " table.\nfunc (g Tx")
 //line templates/dao_template.go.ego:176
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Name )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Name )))
 //line templates/dao_template.go.ego:176
-_, _ = fmt.Fprint(w, ") Insert(e ")
+_, _ = io.WriteString(w, ") Insert(e ")
 //line templates/dao_template.go.ego:176
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.EntityPkgName )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.EntityPkgName )))
 //line templates/dao_template.go.ego:176
-_, _ = fmt.Fprint(w, ".")
+_, _ = io.WriteString(w, ".")
 //line templates/dao_template.go.ego:176
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.EntityName )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.EntityName )))
 //line templates/dao_template.go.ego:176
-_, _ = fmt.Fprint(w, ") (sql.Result, error) {\n\treturn _")
+_, _ = io.WriteString(w, ") (sql.Result, error) {\n\treturn _")
 //line templates/dao_template.go.ego:177
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Table.TitleName )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Table.TitleName )))
 //line templates/dao_template.go.ego:177
-_, _ = fmt.Fprint(w, "Insert(g, e)\n}\n\nfunc _")
+_, _ = io.WriteString(w, "Insert(g, e)\n}\n\nfunc _")
 //line templates/dao_template.go.ego:180
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Table.TitleName )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Table.TitleName )))
 //line templates/dao_template.go.ego:180
-_, _ = fmt.Fprint(w, "Insert(g ")
+_, _ = io.WriteString(w, "Insert(g ")
 //line templates/dao_template.go.ego:180
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Name )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Name )))
 //line templates/dao_template.go.ego:180
-_, _ = fmt.Fprint(w, "Queryer, e ")
+_, _ = io.WriteString(w, "Queryer, e ")
 //line templates/dao_template.go.ego:180
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.EntityPkgName )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.EntityPkgName )))
 //line templates/dao_template.go.ego:180
-_, _ = fmt.Fprint(w, ".")
+_, _ = io.WriteString(w, ".")
 //line templates/dao_template.go.ego:180
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.EntityName )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.EntityName )))
 //line templates/dao_template.go.ego:180
-_, _ = fmt.Fprint(w, ") (sql.Result, error) {\n\targsMap := map[string]interface{}{\n    ")
+_, _ = io.WriteString(w, ") (sql.Result, error) {\n\targsMap := map[string]interface{}{\n    ")
 //line templates/dao_template.go.ego:182
  for _, column := range daoData.Table.Columns { 
 //line templates/dao_template.go.ego:182
  if !column.IsAutoIncrement { 
 //line templates/dao_template.go.ego:182
-_, _ = fmt.Fprint(w, " \"")
+_, _ = io.WriteString(w, " \"")
 //line templates/dao_template.go.ego:182
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  column.Name )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  column.Name )))
 //line templates/dao_template.go.ego:182
-_, _ = fmt.Fprint(w, "\": e.")
+_, _ = io.WriteString(w, "\": e.")
 //line templates/dao_template.go.ego:182
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  column.TitleName )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  column.TitleName )))
 //line templates/dao_template.go.ego:182
-_, _ = fmt.Fprint(w, ",")
+_, _ = io.WriteString(w, ",")
 //line templates/dao_template.go.ego:182
  } 
 //line templates/dao_template.go.ego:183
-_, _ = fmt.Fprint(w, "\n    ")
+_, _ = io.WriteString(w, "\n    ")
 //line templates/dao_template.go.ego:183
  } 
 //line templates/dao_template.go.ego:184
-_, _ = fmt.Fprint(w, "\n\t}\n\tqueryString, args, err := queryArgs(\"")
+_, _ = io.WriteString(w, "\n\t}\n\tqueryString, args, err := queryArgs(\"")
 //line templates/dao_template.go.ego:185
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Table.Name )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Table.Name )))
 //line templates/dao_template.go.ego:185
-_, _ = fmt.Fprint(w, "\", \"insert\", argsMap)\n\tif err != nil {\n\t\treturn nil, err\n\t}\n\n\tresult, err := g.Exec(queryString, args...)\n    if err != nil {\n        log.Println(err, queryString)\n    }\n    return result, err\n}\n\n// Update update ")
+_, _ = io.WriteString(w, "\", \"insert\", argsMap)\n\tif err != nil {\n\t\treturn nil, err\n\t}\n\n\tresult, err := g.Exec(queryString, args...)\n    if err != nil {\n        log.Println(err, queryString)\n    }\n    return result, err\n}\n\n// Update update ")
 //line templates/dao_template.go.ego:197
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Table.Name )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Table.Name )))
 //line templates/dao_template.go.ego:197
-_, _ = fmt.Fprint(w, " table.\nfunc (g ")
+_, _ = io.WriteString(w, " table.\nfunc (g ")
 //line templates/dao_template.go.ego:198
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Name )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Name )))
 //line templates/dao_template.go.ego:198
-_, _ = fmt.Fprint(w, ") Update(e ")
+_, _ = io.WriteString(w, ") Update(e ")
 //line templates/dao_template.go.ego:198
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.EntityPkgName )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.EntityPkgName )))
 //line templates/dao_template.go.ego:198
-_, _ = fmt.Fprint(w, ".")
+_, _ = io.WriteString(w, ".")
 //line templates/dao_template.go.ego:198
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.EntityName )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.EntityName )))
 //line templates/dao_template.go.ego:198
-_, _ = fmt.Fprint(w, ") (sql.Result, error) {\n\treturn _")
+_, _ = io.WriteString(w, ") (sql.Result, error) {\n\treturn _")
 //line templates/dao_template.go.ego:199
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Table.TitleName )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Table.TitleName )))
 //line templates/dao_template.go.ego:199
-_, _ = fmt.Fprint(w, "Update(g, e)\n}\n\n// Update transaction update ")
+_, _ = io.WriteString(w, "Update(g, e)\n}\n\n// Update transaction update ")
 //line templates/dao_template.go.ego:202
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Table.Name )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Table.Name )))
 //line templates/dao_template.go.ego:202
-_, _ = fmt.Fprint(w, " table.\nfunc (g Tx")
+_, _ = io.WriteString(w, " table.\nfunc (g Tx")
 //line templates/dao_template.go.ego:203
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Name )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Name )))
 //line templates/dao_template.go.ego:203
-_, _ = fmt.Fprint(w, ") Update(e ")
+_, _ = io.WriteString(w, ") Update(e ")
 //line templates/dao_template.go.ego:203
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.EntityPkgName )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.EntityPkgName )))
 //line templates/dao_template.go.ego:203
-_, _ = fmt.Fprint(w, ".")
+_, _ = io.WriteString(w, ".")
 //line templates/dao_template.go.ego:203
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.EntityName )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.EntityName )))
 //line templates/dao_template.go.ego:203
-_, _ = fmt.Fprint(w, ") (sql.Result, error) {\n\treturn _")
+_, _ = io.WriteString(w, ") (sql.Result, error) {\n\treturn _")
 //line templates/dao_template.go.ego:204
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Table.TitleName )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Table.TitleName )))
 //line templates/dao_template.go.ego:204
-_, _ = fmt.Fprint(w, "Update(g, e)\n}\n\n// Update update ")
+_, _ = io.WriteString(w, "Update(g, e)\n}\n\n// Update update ")
 //line templates/dao_template.go.ego:207
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Table.Name )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Table.Name )))
 //line templates/dao_template.go.ego:207
-_, _ = fmt.Fprint(w, " table.\nfunc _")
+_, _ = io.WriteString(w, " table.\nfunc _")
 //line templates/dao_template.go.ego:208
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Table.TitleName )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Table.TitleName )))
 //line templates/dao_template.go.ego:208
-_, _ = fmt.Fprint(w, "Update(g ")
+_, _ = io.WriteString(w, "Update(g ")
 //line templates/dao_template.go.ego:208
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Name )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Name )))
 //line templates/dao_template.go.ego:208
-_, _ = fmt.Fprint(w, "Queryer, e ")
+_, _ = io.WriteString(w, "Queryer, e ")
 //line templates/dao_template.go.ego:208
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.EntityPkgName )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.EntityPkgName )))
 //line templates/dao_template.go.ego:208
-_, _ = fmt.Fprint(w, ".")
+_, _ = io.WriteString(w, ".")
 //line templates/dao_template.go.ego:208
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.EntityName )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.EntityName )))
 //line templates/dao_template.go.ego:208
-_, _ = fmt.Fprint(w, ") (sql.Result, error) {\n\targsMap := map[string]interface{}{\n\t")
+_, _ = io.WriteString(w, ") (sql.Result, error) {\n\targsMap := map[string]interface{}{\n\t")
 //line templates/dao_template.go.ego:210
  for _, column := range daoData.Table.Columns { 
 //line templates/dao_template.go.ego:210
-_, _ = fmt.Fprint(w, "  \"")
+_, _ = io.WriteString(w, "  \"")
 //line templates/dao_template.go.ego:210
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  column.Name )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  column.Name )))
 //line templates/dao_template.go.ego:210
-_, _ = fmt.Fprint(w, "\": e.")
+_, _ = io.WriteString(w, "\": e.")
 //line templates/dao_template.go.ego:210
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  column.TitleName )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  column.TitleName )))
 //line templates/dao_template.go.ego:210
-_, _ = fmt.Fprint(w, ",\n    ")
+_, _ = io.WriteString(w, ",\n    ")
 //line templates/dao_template.go.ego:211
  } 
 //line templates/dao_template.go.ego:212
-_, _ = fmt.Fprint(w, "\n\t}\n\tqueryString, args, err := queryArgs(\"")
+_, _ = io.WriteString(w, "\n\t}\n\tqueryString, args, err := queryArgs(\"")
 //line templates/dao_template.go.ego:213
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Table.Name )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Table.Name )))
 //line templates/dao_template.go.ego:213
-_, _ = fmt.Fprint(w, "\", \"update\", argsMap)\n\tif err != nil {\n\t\treturn nil, err\n\t}\n\n\tresult, err := g.Exec(queryString, args...)\n\tif err != nil {\n        log.Println(err, queryString)\n    }\n    return result, err\n}\n\n// Delete delete ")
+_, _ = io.WriteString(w, "\", \"update\", argsMap)\n\tif err != nil {\n\t\treturn nil, err\n\t}\n\n\tresult, err := g.Exec(queryString, args...)\n\tif err != nil {\n        log.Println(err, queryString)\n    }\n    return result, err\n}\n\n// Delete delete ")
 //line templates/dao_template.go.ego:225
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Table.Name )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Table.Name )))
 //line templates/dao_template.go.ego:225
-_, _ = fmt.Fprint(w, " table.\nfunc (g ")
+_, _ = io.WriteString(w, " table.\nfunc (g ")
 //line templates/dao_template.go.ego:226
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Name )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Name )))
 //line templates/dao_template.go.ego:226
-_, _ = fmt.Fprint(w, ") Delete(")
+_, _ = io.WriteString(w, ") Delete(")
 //line templates/dao_template.go.ego:226
  for idx, column := range daoData.Table.Columns { 
 //line templates/dao_template.go.ego:226
@@ -722,23 +723,23 @@ _, _ = fmt.Fprint(w, ") Delete(")
 //line templates/dao_template.go.ego:226
  if idx != 0 { 
 //line templates/dao_template.go.ego:226
-_, _ = fmt.Fprint(w, ", ")
+_, _ = io.WriteString(w, ", ")
 //line templates/dao_template.go.ego:226
  } 
 //line templates/dao_template.go.ego:226
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  column.CamelName() )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  column.CamelName() )))
 //line templates/dao_template.go.ego:226
-_, _ = fmt.Fprint(w, " ")
+_, _ = io.WriteString(w, " ")
 //line templates/dao_template.go.ego:226
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  column.TypeFullName(daoData.DaoPkgName) )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  column.TypeFullName(daoData.DaoPkgName) )))
 //line templates/dao_template.go.ego:226
  } 
 //line templates/dao_template.go.ego:226
-_, _ = fmt.Fprint(w, ") (sql.Result, error) {\n\treturn _")
+_, _ = io.WriteString(w, ") (sql.Result, error) {\n\treturn _")
 //line templates/dao_template.go.ego:227
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Table.TitleName )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Table.TitleName )))
 //line templates/dao_template.go.ego:227
-_, _ = fmt.Fprint(w, "Delete(g, ")
+_, _ = io.WriteString(w, "Delete(g, ")
 //line templates/dao_template.go.ego:227
  for idx, column := range daoData.Table.Columns { 
 //line templates/dao_template.go.ego:227
@@ -750,23 +751,23 @@ _, _ = fmt.Fprint(w, "Delete(g, ")
 //line templates/dao_template.go.ego:227
  if idx != 0 { 
 //line templates/dao_template.go.ego:227
-_, _ = fmt.Fprint(w, ", ")
+_, _ = io.WriteString(w, ", ")
 //line templates/dao_template.go.ego:227
  } 
 //line templates/dao_template.go.ego:227
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  column.CamelName() )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  column.CamelName() )))
 //line templates/dao_template.go.ego:227
  } 
 //line templates/dao_template.go.ego:227
-_, _ = fmt.Fprint(w, ")\n}\n\n// Delete transaction delete ")
+_, _ = io.WriteString(w, ")\n}\n\n// Delete transaction delete ")
 //line templates/dao_template.go.ego:230
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Table.Name )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Table.Name )))
 //line templates/dao_template.go.ego:230
-_, _ = fmt.Fprint(w, " table.\nfunc (g Tx")
+_, _ = io.WriteString(w, " table.\nfunc (g Tx")
 //line templates/dao_template.go.ego:231
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Name )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Name )))
 //line templates/dao_template.go.ego:231
-_, _ = fmt.Fprint(w, ") Delete(")
+_, _ = io.WriteString(w, ") Delete(")
 //line templates/dao_template.go.ego:231
  for idx, column := range daoData.Table.Columns { 
 //line templates/dao_template.go.ego:231
@@ -778,23 +779,23 @@ _, _ = fmt.Fprint(w, ") Delete(")
 //line templates/dao_template.go.ego:231
  if idx != 0 { 
 //line templates/dao_template.go.ego:231
-_, _ = fmt.Fprint(w, ", ")
+_, _ = io.WriteString(w, ", ")
 //line templates/dao_template.go.ego:231
  } 
 //line templates/dao_template.go.ego:231
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  column.CamelName() )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  column.CamelName() )))
 //line templates/dao_template.go.ego:231
-_, _ = fmt.Fprint(w, " ")
+_, _ = io.WriteString(w, " ")
 //line templates/dao_template.go.ego:231
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  column.TypeFullName(daoData.DaoPkgName) )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  column.TypeFullName(daoData.DaoPkgName) )))
 //line templates/dao_template.go.ego:231
  } 
 //line templates/dao_template.go.ego:231
-_, _ = fmt.Fprint(w, ") (sql.Result, error) {\n\treturn _")
+_, _ = io.WriteString(w, ") (sql.Result, error) {\n\treturn _")
 //line templates/dao_template.go.ego:232
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Table.TitleName )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Table.TitleName )))
 //line templates/dao_template.go.ego:232
-_, _ = fmt.Fprint(w, "Delete(g, ")
+_, _ = io.WriteString(w, "Delete(g, ")
 //line templates/dao_template.go.ego:232
  for idx, column := range daoData.Table.Columns { 
 //line templates/dao_template.go.ego:232
@@ -806,27 +807,27 @@ _, _ = fmt.Fprint(w, "Delete(g, ")
 //line templates/dao_template.go.ego:232
  if idx != 0 { 
 //line templates/dao_template.go.ego:232
-_, _ = fmt.Fprint(w, ", ")
+_, _ = io.WriteString(w, ", ")
 //line templates/dao_template.go.ego:232
  } 
 //line templates/dao_template.go.ego:232
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  column.CamelName() )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  column.CamelName() )))
 //line templates/dao_template.go.ego:232
  } 
 //line templates/dao_template.go.ego:232
-_, _ = fmt.Fprint(w, ")\n}\n\n// Delete delete ")
+_, _ = io.WriteString(w, ")\n}\n\n// Delete delete ")
 //line templates/dao_template.go.ego:235
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Table.Name )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Table.Name )))
 //line templates/dao_template.go.ego:235
-_, _ = fmt.Fprint(w, " table by primaryKey.\nfunc _")
+_, _ = io.WriteString(w, " table by primaryKey.\nfunc _")
 //line templates/dao_template.go.ego:236
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Table.TitleName )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Table.TitleName )))
 //line templates/dao_template.go.ego:236
-_, _ = fmt.Fprint(w, "Delete(g ")
+_, _ = io.WriteString(w, "Delete(g ")
 //line templates/dao_template.go.ego:236
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Name )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Name )))
 //line templates/dao_template.go.ego:236
-_, _ = fmt.Fprint(w, "Queryer, ")
+_, _ = io.WriteString(w, "Queryer, ")
 //line templates/dao_template.go.ego:236
  for idx, column := range daoData.Table.Columns { 
 //line templates/dao_template.go.ego:236
@@ -838,19 +839,19 @@ _, _ = fmt.Fprint(w, "Queryer, ")
 //line templates/dao_template.go.ego:236
  if idx != 0 { 
 //line templates/dao_template.go.ego:236
-_, _ = fmt.Fprint(w, ", ")
+_, _ = io.WriteString(w, ", ")
 //line templates/dao_template.go.ego:236
  } 
 //line templates/dao_template.go.ego:236
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  column.CamelName() )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  column.CamelName() )))
 //line templates/dao_template.go.ego:236
-_, _ = fmt.Fprint(w, " ")
+_, _ = io.WriteString(w, " ")
 //line templates/dao_template.go.ego:236
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  column.TypeFullName(daoData.DaoPkgName) )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  column.TypeFullName(daoData.DaoPkgName) )))
 //line templates/dao_template.go.ego:236
  } 
 //line templates/dao_template.go.ego:236
-_, _ = fmt.Fprint(w, ") (sql.Result, error) {\n    argsMap := map[string]interface{}{\n    ")
+_, _ = io.WriteString(w, ") (sql.Result, error) {\n    argsMap := map[string]interface{}{\n    ")
 //line templates/dao_template.go.ego:238
  for _, column := range daoData.Table.Columns { 
 //line templates/dao_template.go.ego:238
@@ -860,33 +861,33 @@ _, _ = fmt.Fprint(w, ") (sql.Result, error) {\n    argsMap := map[string]interfa
 //line templates/dao_template.go.ego:238
  } 
 //line templates/dao_template.go.ego:238
-_, _ = fmt.Fprint(w, "    \"")
+_, _ = io.WriteString(w, "    \"")
 //line templates/dao_template.go.ego:238
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  column.Name )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  column.Name )))
 //line templates/dao_template.go.ego:238
-_, _ = fmt.Fprint(w, "\": ")
+_, _ = io.WriteString(w, "\": ")
 //line templates/dao_template.go.ego:238
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  column.CamelName() )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  column.CamelName() )))
 //line templates/dao_template.go.ego:238
-_, _ = fmt.Fprint(w, ",\n    ")
+_, _ = io.WriteString(w, ",\n    ")
 //line templates/dao_template.go.ego:239
  } 
 //line templates/dao_template.go.ego:239
-_, _ = fmt.Fprint(w, "}\n    queryString, args, err := queryArgs(\"")
+_, _ = io.WriteString(w, "}\n    queryString, args, err := queryArgs(\"")
 //line templates/dao_template.go.ego:240
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Table.Name )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Table.Name )))
 //line templates/dao_template.go.ego:240
-_, _ = fmt.Fprint(w, "\", \"delete\", argsMap)\n\tif err != nil {\n\t\treturn nil, err\n\t}\n\n    result, err := g.Exec(queryString, args...)\n\tif err != nil {\n        log.Println(err, queryString)\n    }\n    return result, err\n}\n")
+_, _ = io.WriteString(w, "\", \"delete\", argsMap)\n\tif err != nil {\n\t\treturn nil, err\n\t}\n\n    result, err := g.Exec(queryString, args...)\n\tif err != nil {\n        log.Println(err, queryString)\n    }\n    return result, err\n}\n")
 return nil
 }
 //line templates/delete_template.sql.ego:1
 func DeleteTemplate(w io.Writer, tableData TableTemplateData) error  {
 //line templates/delete_template.sql.ego:1
-_, _ = fmt.Fprint(w, "delete\nfrom\n  ")
+_, _ = io.WriteString(w, "delete\nfrom\n  ")
 //line templates/delete_template.sql.ego:3
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  tableData.Name )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  tableData.Name )))
 //line templates/delete_template.sql.ego:4
-_, _ = fmt.Fprint(w, "\nwhere\n")
+_, _ = io.WriteString(w, "\nwhere\n")
 //line templates/delete_template.sql.ego:5
  for idx, column := range tableData.Columns { 
 //line templates/delete_template.sql.ego:5
@@ -898,245 +899,245 @@ _, _ = fmt.Fprint(w, "\nwhere\n")
 //line templates/delete_template.sql.ego:5
  if idx != 0 { 
 //line templates/delete_template.sql.ego:5
-_, _ = fmt.Fprint(w, "and")
+_, _ = io.WriteString(w, "and")
 //line templates/delete_template.sql.ego:5
  } 
 //line templates/delete_template.sql.ego:5
-_, _ = fmt.Fprint(w, "  ")
+_, _ = io.WriteString(w, "  ")
 //line templates/delete_template.sql.ego:5
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  column.Name )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  column.Name )))
 //line templates/delete_template.sql.ego:5
-_, _ = fmt.Fprint(w, " = :")
+_, _ = io.WriteString(w, " = :")
 //line templates/delete_template.sql.ego:5
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  column.Name )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  column.Name )))
 //line templates/delete_template.sql.ego:6
-_, _ = fmt.Fprint(w, "\n")
+_, _ = io.WriteString(w, "\n")
 //line templates/delete_template.sql.ego:6
  } 
 //line templates/delete_template.sql.ego:7
-_, _ = fmt.Fprint(w, "\n")
+_, _ = io.WriteString(w, "\n")
 return nil
 }
 //line templates/entity_template.go.ego:1
 func EntityTemplate(w io.Writer, daoData DaoTemplateData) error  {
 //line templates/entity_template.go.ego:1
-_, _ = fmt.Fprint(w, "package ")
+_, _ = io.WriteString(w, "package ")
 //line templates/entity_template.go.ego:1
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.EntityPkgName )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.EntityPkgName )))
 //line templates/entity_template.go.ego:2
-_, _ = fmt.Fprint(w, "\n\nimport (\n\t\"database/sql\"\n\t")
+_, _ = io.WriteString(w, "\n\nimport (\n\t\"database/sql\"\n\t")
 //line templates/entity_template.go.ego:5
  if daoData.IsDriverPkg() { 
 //line templates/entity_template.go.ego:5
-_, _ = fmt.Fprint(w, "\"database/sql/driver\"")
+_, _ = io.WriteString(w, "\"database/sql/driver\"")
 //line templates/entity_template.go.ego:5
  } 
 //line templates/entity_template.go.ego:6
-_, _ = fmt.Fprint(w, "\n\t")
+_, _ = io.WriteString(w, "\n\t")
 //line templates/entity_template.go.ego:6
  if len(daoData.Imports) > 0 { 
 //line templates/entity_template.go.ego:7
-_, _ = fmt.Fprint(w, "\n    \t")
+_, _ = io.WriteString(w, "\n    \t")
 //line templates/entity_template.go.ego:7
  for _, importName := range daoData.Imports { 
 //line templates/entity_template.go.ego:8
-_, _ = fmt.Fprint(w, "\n    \t    \"")
+_, _ = io.WriteString(w, "\n    \t    \"")
 //line templates/entity_template.go.ego:8
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  importName )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  importName )))
 //line templates/entity_template.go.ego:8
-_, _ = fmt.Fprint(w, "\"\n        ")
+_, _ = io.WriteString(w, "\"\n        ")
 //line templates/entity_template.go.ego:9
  } 
 //line templates/entity_template.go.ego:10
-_, _ = fmt.Fprint(w, "\n\t")
+_, _ = io.WriteString(w, "\n\t")
 //line templates/entity_template.go.ego:10
  } 
 //line templates/entity_template.go.ego:10
-_, _ = fmt.Fprint(w, ")\n\n// NOTE: THIS FILE WAS PRODUCED BY THE\n// GOMA CODE GENERATION TOOL (github.com/kyokomi/goma)\n// DO NOT EDIT\n\n")
+_, _ = io.WriteString(w, ")\n\n// NOTE: THIS FILE WAS PRODUCED BY THE\n// GOMA CODE GENERATION TOOL (github.com/kyokomi/goma)\n// DO NOT EDIT\n\n")
 //line templates/entity_template.go.ego:16
  if daoData.EntityBlock == "" { 
 //line templates/entity_template.go.ego:17
-_, _ = fmt.Fprint(w, "\n// ")
+_, _ = io.WriteString(w, "\n// ")
 //line templates/entity_template.go.ego:17
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.EntityName )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.EntityName )))
 //line templates/entity_template.go.ego:17
-_, _ = fmt.Fprint(w, " is generated ")
+_, _ = io.WriteString(w, " is generated ")
 //line templates/entity_template.go.ego:17
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Table.Name )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.Table.Name )))
 //line templates/entity_template.go.ego:17
-_, _ = fmt.Fprint(w, " table.\ntype ")
+_, _ = io.WriteString(w, " table.\ntype ")
 //line templates/entity_template.go.ego:18
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.EntityName )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.EntityName )))
 //line templates/entity_template.go.ego:18
-_, _ = fmt.Fprint(w, " struct {\n")
+_, _ = io.WriteString(w, " struct {\n")
 //line templates/entity_template.go.ego:19
  for _, column := range daoData.Table.Columns { 
 //line templates/entity_template.go.ego:19
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  column.TitleName )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  column.TitleName )))
 //line templates/entity_template.go.ego:19
-_, _ = fmt.Fprint(w, " ")
+_, _ = io.WriteString(w, " ")
 //line templates/entity_template.go.ego:19
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  column.TypeFullName(daoData.EntityPkgName) )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  column.TypeFullName(daoData.EntityPkgName) )))
 //line templates/entity_template.go.ego:19
-_, _ = fmt.Fprint(w, " ")
+_, _ = io.WriteString(w, " ")
 //line templates/entity_template.go.ego:19
 _, _ = fmt.Fprintf(w, "%v",  column.TypeDetail )
 //line templates/entity_template.go.ego:20
-_, _ = fmt.Fprint(w, "\n")
+_, _ = io.WriteString(w, "\n")
 //line templates/entity_template.go.ego:20
  } 
 //line templates/entity_template.go.ego:20
-_, _ = fmt.Fprint(w, "}\n")
+_, _ = io.WriteString(w, "}\n")
 //line templates/entity_template.go.ego:21
  } else { 
 //line templates/entity_template.go.ego:22
-_, _ = fmt.Fprint(w, "\n")
+_, _ = io.WriteString(w, "\n")
 //line templates/entity_template.go.ego:22
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.EntityBlock )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.EntityBlock )))
 //line templates/entity_template.go.ego:23
-_, _ = fmt.Fprint(w, "\n")
+_, _ = io.WriteString(w, "\n")
 //line templates/entity_template.go.ego:23
  } 
 //line templates/entity_template.go.ego:24
-_, _ = fmt.Fprint(w, "\n\n// Scan ")
+_, _ = io.WriteString(w, "\n\n// Scan ")
 //line templates/entity_template.go.ego:25
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.EntityName )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.EntityName )))
 //line templates/entity_template.go.ego:25
-_, _ = fmt.Fprint(w, " all scan\nfunc (e *")
+_, _ = io.WriteString(w, " all scan\nfunc (e *")
 //line templates/entity_template.go.ego:26
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  daoData.EntityName )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  daoData.EntityName )))
 //line templates/entity_template.go.ego:26
-_, _ = fmt.Fprint(w, ") Scan(rows *sql.Rows) error {\n\terr := rows.Scan(")
+_, _ = io.WriteString(w, ") Scan(rows *sql.Rows) error {\n\terr := rows.Scan(")
 //line templates/entity_template.go.ego:27
  for idx, column := range daoData.Table.Columns { 
 //line templates/entity_template.go.ego:27
  if idx != 0 { 
 //line templates/entity_template.go.ego:27
-_, _ = fmt.Fprint(w, ", ")
+_, _ = io.WriteString(w, ", ")
 //line templates/entity_template.go.ego:27
  } 
 //line templates/entity_template.go.ego:27
-_, _ = fmt.Fprint(w, "&e.")
+_, _ = io.WriteString(w, "&e.")
 //line templates/entity_template.go.ego:27
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  column.TitleName )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  column.TitleName )))
 //line templates/entity_template.go.ego:27
  } 
 //line templates/entity_template.go.ego:27
-_, _ = fmt.Fprint(w, ")\n\t")
+_, _ = io.WriteString(w, ")\n\t")
 //line templates/entity_template.go.ego:28
  for _, column := range daoData.Table.Columns { 
 //line templates/entity_template.go.ego:29
-_, _ = fmt.Fprint(w, "\n\t\t")
+_, _ = io.WriteString(w, "\n\t\t")
 //line templates/entity_template.go.ego:29
  if column.TypeFullName(daoData.EntityPkgName) == "time.Time" { 
 //line templates/entity_template.go.ego:30
-_, _ = fmt.Fprint(w, "\n\t\t\te.")
+_, _ = io.WriteString(w, "\n\t\t\te.")
 //line templates/entity_template.go.ego:30
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  column.TitleName )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  column.TitleName )))
 //line templates/entity_template.go.ego:30
-_, _ = fmt.Fprint(w, " = e.")
+_, _ = io.WriteString(w, " = e.")
 //line templates/entity_template.go.ego:30
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  column.TitleName )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  column.TitleName )))
 //line templates/entity_template.go.ego:30
-_, _ = fmt.Fprint(w, ".In(time.Local)\n\t\t")
+_, _ = io.WriteString(w, ".In(time.Local)\n\t\t")
 //line templates/entity_template.go.ego:31
  } else if column.TypeFullName(daoData.EntityPkgName) == "*time.Time" { 
 //line templates/entity_template.go.ego:32
-_, _ = fmt.Fprint(w, "\n\t\t\tif e.")
+_, _ = io.WriteString(w, "\n\t\t\tif e.")
 //line templates/entity_template.go.ego:32
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  column.TitleName )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  column.TitleName )))
 //line templates/entity_template.go.ego:32
-_, _ = fmt.Fprint(w, " != nil {\n\t\t\t\t_")
+_, _ = io.WriteString(w, " != nil {\n\t\t\t\t_")
 //line templates/entity_template.go.ego:33
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  column.TitleName )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  column.TitleName )))
 //line templates/entity_template.go.ego:33
-_, _ = fmt.Fprint(w, " := e.")
+_, _ = io.WriteString(w, " := e.")
 //line templates/entity_template.go.ego:33
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  column.TitleName )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  column.TitleName )))
 //line templates/entity_template.go.ego:33
-_, _ = fmt.Fprint(w, ".In(time.Local)\n\t\t\t\te.")
+_, _ = io.WriteString(w, ".In(time.Local)\n\t\t\t\te.")
 //line templates/entity_template.go.ego:34
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  column.TitleName )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  column.TitleName )))
 //line templates/entity_template.go.ego:34
-_, _ = fmt.Fprint(w, " = &_")
+_, _ = io.WriteString(w, " = &_")
 //line templates/entity_template.go.ego:34
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  column.TitleName )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  column.TitleName )))
 //line templates/entity_template.go.ego:35
-_, _ = fmt.Fprint(w, "\n\t\t\t}\n\t\t")
+_, _ = io.WriteString(w, "\n\t\t\t}\n\t\t")
 //line templates/entity_template.go.ego:36
  } 
 //line templates/entity_template.go.ego:37
-_, _ = fmt.Fprint(w, "\n\t")
+_, _ = io.WriteString(w, "\n\t")
 //line templates/entity_template.go.ego:37
  } 
 //line templates/entity_template.go.ego:38
-_, _ = fmt.Fprint(w, "\n\treturn err\n}\n\n")
+_, _ = io.WriteString(w, "\n\treturn err\n}\n\n")
 //line templates/entity_template.go.ego:41
  for _, column := range daoData.Table.Columns { 
 //line templates/entity_template.go.ego:42
-_, _ = fmt.Fprint(w, "\n\t")
+_, _ = io.WriteString(w, "\n\t")
 //line templates/entity_template.go.ego:42
  if column.EnumData.TypeName != "" { 
 //line templates/entity_template.go.ego:43
-_, _ = fmt.Fprint(w, "\n\t\t// ")
+_, _ = io.WriteString(w, "\n\t\t// ")
 //line templates/entity_template.go.ego:43
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  column.EnumData.TypeName )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  column.EnumData.TypeName )))
 //line templates/entity_template.go.ego:43
-_, _ = fmt.Fprint(w, " ")
+_, _ = io.WriteString(w, " ")
 //line templates/entity_template.go.ego:43
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  column.EnumData.TypeName )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  column.EnumData.TypeName )))
 //line templates/entity_template.go.ego:43
-_, _ = fmt.Fprint(w, " column type\n\t\ttype ")
+_, _ = io.WriteString(w, " column type\n\t\ttype ")
 //line templates/entity_template.go.ego:44
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  column.EnumData.TypeName )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  column.EnumData.TypeName )))
 //line templates/entity_template.go.ego:44
-_, _ = fmt.Fprint(w, " string\n\n\t\t// ")
+_, _ = io.WriteString(w, " string\n\n\t\t// ")
 //line templates/entity_template.go.ego:46
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  column.EnumData.TypeName )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  column.EnumData.TypeName )))
 //line templates/entity_template.go.ego:47
-_, _ = fmt.Fprint(w, "\n\t\tconst (")
+_, _ = io.WriteString(w, "\n\t\tconst (")
 //line templates/entity_template.go.ego:47
  for _, e := range column.EnumData.Enums { 
 //line templates/entity_template.go.ego:47
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  e.Name )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  e.Name )))
 //line templates/entity_template.go.ego:47
-_, _ = fmt.Fprint(w, " ")
+_, _ = io.WriteString(w, " ")
 //line templates/entity_template.go.ego:47
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  column.EnumData.TypeName )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  column.EnumData.TypeName )))
 //line templates/entity_template.go.ego:47
-_, _ = fmt.Fprint(w, " = \"")
+_, _ = io.WriteString(w, " = \"")
 //line templates/entity_template.go.ego:47
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  e.Value )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  e.Value )))
 //line templates/entity_template.go.ego:47
-_, _ = fmt.Fprint(w, "\"\n\t\t")
+_, _ = io.WriteString(w, "\"\n\t\t")
 //line templates/entity_template.go.ego:48
  } 
 //line templates/entity_template.go.ego:48
-_, _ = fmt.Fprint(w, ")\n\n\t\t// Scan database/sql Scanner\n\t\tfunc (e *")
+_, _ = io.WriteString(w, ")\n\n\t\t// Scan database/sql Scanner\n\t\tfunc (e *")
 //line templates/entity_template.go.ego:51
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  column.EnumData.TypeName )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  column.EnumData.TypeName )))
 //line templates/entity_template.go.ego:51
-_, _ = fmt.Fprint(w, ") Scan(v interface{}) error {\n        \t*e = ")
+_, _ = io.WriteString(w, ") Scan(v interface{}) error {\n        \t*e = ")
 //line templates/entity_template.go.ego:52
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  column.EnumData.TypeName )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  column.EnumData.TypeName )))
 //line templates/entity_template.go.ego:52
-_, _ = fmt.Fprint(w, "(v.([]byte))\n        \treturn nil\n        }\n\n        var _ sql.Scanner = (*")
+_, _ = io.WriteString(w, "(v.([]byte))\n        \treturn nil\n        }\n\n        var _ sql.Scanner = (*")
 //line templates/entity_template.go.ego:56
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  column.EnumData.TypeName )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  column.EnumData.TypeName )))
 //line templates/entity_template.go.ego:56
-_, _ = fmt.Fprint(w, ")(nil)\n\n        // Value database/sql/driver Valuer\n        func (e ")
+_, _ = io.WriteString(w, ")(nil)\n\n        // Value database/sql/driver Valuer\n        func (e ")
 //line templates/entity_template.go.ego:59
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  column.EnumData.TypeName )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  column.EnumData.TypeName )))
 //line templates/entity_template.go.ego:59
-_, _ = fmt.Fprint(w, ") Value() (driver.Value, error) {\n        \treturn string(e), nil\n        }\n\n        var _ driver.Valuer = (*")
+_, _ = io.WriteString(w, ") Value() (driver.Value, error) {\n        \treturn string(e), nil\n        }\n\n        var _ driver.Valuer = (*")
 //line templates/entity_template.go.ego:63
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  column.EnumData.TypeName )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  column.EnumData.TypeName )))
 //line templates/entity_template.go.ego:63
-_, _ = fmt.Fprint(w, ")(nil)\n\t")
+_, _ = io.WriteString(w, ")(nil)\n\t")
 //line templates/entity_template.go.ego:64
  } 
 //line templates/entity_template.go.ego:65
-_, _ = fmt.Fprint(w, "\n")
+_, _ = io.WriteString(w, "\n")
 //line templates/entity_template.go.ego:65
  } 
 return nil
@@ -1144,11 +1145,11 @@ return nil
 //line templates/insert_template.sql.ego:1
 func InsertTemplate(w io.Writer, tableData TableTemplateData) error  {
 //line templates/insert_template.sql.ego:1
-_, _ = fmt.Fprint(w, "insert into ")
+_, _ = io.WriteString(w, "insert into ")
 //line templates/insert_template.sql.ego:1
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  tableData.Name )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  tableData.Name )))
 //line templates/insert_template.sql.ego:1
-_, _ = fmt.Fprint(w, "(\n  ")
+_, _ = io.WriteString(w, "(\n  ")
 //line templates/insert_template.sql.ego:2
  var isComma bool 
 //line templates/insert_template.sql.ego:2
@@ -1164,19 +1165,19 @@ _, _ = fmt.Fprint(w, "(\n  ")
 //line templates/insert_template.sql.ego:2
  } else { 
 //line templates/insert_template.sql.ego:2
-_, _ = fmt.Fprint(w, ", ")
+_, _ = io.WriteString(w, ", ")
 //line templates/insert_template.sql.ego:2
  } 
 //line templates/insert_template.sql.ego:2
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  column.Name )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  column.Name )))
 //line templates/insert_template.sql.ego:2
  } 
 //line templates/insert_template.sql.ego:3
-_, _ = fmt.Fprint(w, "\n")
+_, _ = io.WriteString(w, "\n")
 //line templates/insert_template.sql.ego:3
  } 
 //line templates/insert_template.sql.ego:3
-_, _ = fmt.Fprint(w, ") values(\n  ")
+_, _ = io.WriteString(w, ") values(\n  ")
 //line templates/insert_template.sql.ego:4
  isComma = false 
 //line templates/insert_template.sql.ego:4
@@ -1190,103 +1191,103 @@ _, _ = fmt.Fprint(w, ") values(\n  ")
 //line templates/insert_template.sql.ego:4
  } else { 
 //line templates/insert_template.sql.ego:4
-_, _ = fmt.Fprint(w, ", ")
+_, _ = io.WriteString(w, ", ")
 //line templates/insert_template.sql.ego:4
  } 
 //line templates/insert_template.sql.ego:4
-_, _ = fmt.Fprint(w, ":")
+_, _ = io.WriteString(w, ":")
 //line templates/insert_template.sql.ego:4
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  column.Name )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  column.Name )))
 //line templates/insert_template.sql.ego:4
  } 
 //line templates/insert_template.sql.ego:5
-_, _ = fmt.Fprint(w, "\n")
+_, _ = io.WriteString(w, "\n")
 //line templates/insert_template.sql.ego:5
  } 
 //line templates/insert_template.sql.ego:5
-_, _ = fmt.Fprint(w, ")\n")
+_, _ = io.WriteString(w, ")\n")
 return nil
 }
 //line templates/queryargs_template.go.ego:1
 func QueryArgsTemplate(w io.Writer, queryArgsData QueryArgsTemplateData) error  {
 //line templates/queryargs_template.go.ego:1
-_, _ = fmt.Fprint(w, "package  ")
+_, _ = io.WriteString(w, "package  ")
 //line templates/queryargs_template.go.ego:1
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  queryArgsData.DaoPkgName )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  queryArgsData.DaoPkgName )))
 //line templates/queryargs_template.go.ego:2
-_, _ = fmt.Fprint(w, "\n\n// NOTE: THIS FILE WAS PRODUCED BY THE\n// GOMA CODE GENERATION TOOL (github.com/kyokomi/goma)\n// DO NOT EDIT\n\nimport (\n\t\"path/filepath\"\n\n\t\"github.com/kyokomi/goma\"\n)\n\ntype queryArgSettings struct {\n\trootDir string\n\tsqlFile bool\n}\n\nvar settings queryArgSettings\n\n// SetupQueryArgs setup query file path\nfunc SetupQueryArgs(rootDir string, sqlFile bool) {\n\tsettings.rootDir = rootDir\n\tsettings.sqlFile = sqlFile\n}\n\n// GenerateQuery exported queryArgs\nfunc GenerateQuery(tableName string, queryName string, args map[string]interface{}) (string, []interface{}, error) {\n\treturn queryArgs(tableName, queryName, args)\n}\n\nfunc queryArgs(tableName string, queryName string, args map[string]interface{}) (string, []interface{}, error) {\n\treturn settings.queryArgs(tableName, queryName, args)\n}\n\nfunc (s queryArgSettings) queryArgs(tableName string, queryName string, args map[string]interface{}) (string, []interface{}, error) {\n\tfilePath := createSqlFilePath(s.rootDir, tableName, queryName)\n\t")
+_, _ = io.WriteString(w, "\n\n// NOTE: THIS FILE WAS PRODUCED BY THE\n// GOMA CODE GENERATION TOOL (github.com/kyokomi/goma)\n// DO NOT EDIT\n\nimport (\n\t\"path/filepath\"\n\n\t\"github.com/kyokomi/goma\"\n)\n\ntype queryArgSettings struct {\n\trootDir string\n\tsqlFile bool\n}\n\nvar settings queryArgSettings\n\n// SetupQueryArgs setup query file path\nfunc SetupQueryArgs(rootDir string, sqlFile bool) {\n\tsettings.rootDir = rootDir\n\tsettings.sqlFile = sqlFile\n}\n\n// GenerateQuery exported queryArgs\nfunc GenerateQuery(tableName string, queryName string, args map[string]interface{}) (string, []interface{}, error) {\n\treturn queryArgs(tableName, queryName, args)\n}\n\nfunc queryArgs(tableName string, queryName string, args map[string]interface{}) (string, []interface{}, error) {\n\treturn settings.queryArgs(tableName, queryName, args)\n}\n\nfunc (s queryArgSettings) queryArgs(tableName string, queryName string, args map[string]interface{}) (string, []interface{}, error) {\n\tfilePath := createSQLFilePath(s.rootDir, tableName, queryName)\n\t")
 //line templates/queryargs_template.go.ego:37
  if queryArgsData.DriverName == "mysql" { 
 //line templates/queryargs_template.go.ego:37
-_, _ = fmt.Fprint(w, "return goma.MySQLGenerateQuery(assetSQL(filePath), args)\n\t")
+_, _ = io.WriteString(w, "return goma.MySQLGenerateQuery(assetSQL(filePath), args)\n\t")
 //line templates/queryargs_template.go.ego:38
  } else if queryArgsData.DriverName == "postgres" { 
 //line templates/queryargs_template.go.ego:38
-_, _ = fmt.Fprint(w, "return goma.PostgresGenerateQuery(assetSQL(filePath), args)\n\t")
+_, _ = io.WriteString(w, "return goma.PostgresGenerateQuery(assetSQL(filePath), args)\n\t")
 //line templates/queryargs_template.go.ego:39
  } else { 
 //line templates/queryargs_template.go.ego:39
-_, _ = fmt.Fprint(w, "return \"error\"\n")
+_, _ = io.WriteString(w, "return \"error\"\n")
 //line templates/queryargs_template.go.ego:40
  } 
 //line templates/queryargs_template.go.ego:40
-_, _ = fmt.Fprint(w, "}\n\nfunc assetSQL(filePath string) string {\n\tvar data []byte\n\tvar err error\n\tif settings.sqlFile {\n\t\tdata, err = AssetFile(filePath)\n\t} else {\n\t\tdata, err = Asset(filePath)\n\t}\n\tif err != nil {\n\t\t// Asset was not found.\n\t}\n\treturn string(data)\n}\n\nfunc createSqlFilePath(rootDir string, tableName string, queryName string) string {\n\treturn filepath.Join(rootDir, \"")
+_, _ = io.WriteString(w, "}\n\nfunc assetSQL(filePath string) string {\n\tvar data []byte\n\tvar err error\n\tif settings.sqlFile {\n\t\tdata, err = AssetFile(filePath)\n\t} else {\n\t\tdata, err = Asset(filePath)\n\t}\n\tif err != nil {\n\t\t// Asset was not found.\n\t}\n\treturn string(data)\n}\n\nfunc createSQLFilePath(rootDir string, tableName string, queryName string) string {\n\treturn filepath.Join(rootDir, \"")
 //line templates/queryargs_template.go.ego:57
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  queryArgsData.SQLRootDir )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  queryArgsData.SQLRootDir )))
 //line templates/queryargs_template.go.ego:57
-_, _ = fmt.Fprint(w, "\", tableName, queryName+\".sql\")\n}\n")
+_, _ = io.WriteString(w, "\", tableName, queryName+\".sql\")\n}\n")
 return nil
 }
 //line templates/selectAll_template.sql.ego:1
 func SelectAllTemplate(w io.Writer, tableData TableTemplateData) error  {
 //line templates/selectAll_template.sql.ego:1
-_, _ = fmt.Fprint(w, "select\n  ")
+_, _ = io.WriteString(w, "select\n  ")
 //line templates/selectAll_template.sql.ego:2
  for idx, column := range tableData.Columns { 
 //line templates/selectAll_template.sql.ego:2
  if idx != 0 { 
 //line templates/selectAll_template.sql.ego:2
-_, _ = fmt.Fprint(w, ", ")
+_, _ = io.WriteString(w, ", ")
 //line templates/selectAll_template.sql.ego:2
  } 
 //line templates/selectAll_template.sql.ego:2
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  column.Name )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  column.Name )))
 //line templates/selectAll_template.sql.ego:3
-_, _ = fmt.Fprint(w, "\n")
+_, _ = io.WriteString(w, "\n")
 //line templates/selectAll_template.sql.ego:3
  } 
 //line templates/selectAll_template.sql.ego:3
-_, _ = fmt.Fprint(w, "FROM\n  ")
+_, _ = io.WriteString(w, "FROM\n  ")
 //line templates/selectAll_template.sql.ego:4
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  tableData.Name )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  tableData.Name )))
 //line templates/selectAll_template.sql.ego:5
-_, _ = fmt.Fprint(w, "\n")
+_, _ = io.WriteString(w, "\n")
 return nil
 }
 //line templates/selectByID_template.sql.ego:1
 func SelectByIDTemplate(w io.Writer, tableData TableTemplateData) error  {
 //line templates/selectByID_template.sql.ego:1
-_, _ = fmt.Fprint(w, "select\n  ")
+_, _ = io.WriteString(w, "select\n  ")
 //line templates/selectByID_template.sql.ego:2
  for idx, column := range tableData.Columns { 
 //line templates/selectByID_template.sql.ego:2
  if idx != 0 { 
 //line templates/selectByID_template.sql.ego:2
-_, _ = fmt.Fprint(w, ", ")
+_, _ = io.WriteString(w, ", ")
 //line templates/selectByID_template.sql.ego:2
  } 
 //line templates/selectByID_template.sql.ego:2
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  column.Name )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  column.Name )))
 //line templates/selectByID_template.sql.ego:3
-_, _ = fmt.Fprint(w, "\n")
+_, _ = io.WriteString(w, "\n")
 //line templates/selectByID_template.sql.ego:3
  } 
 //line templates/selectByID_template.sql.ego:3
-_, _ = fmt.Fprint(w, "FROM\n  ")
+_, _ = io.WriteString(w, "FROM\n  ")
 //line templates/selectByID_template.sql.ego:4
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  tableData.Name )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  tableData.Name )))
 //line templates/selectByID_template.sql.ego:5
-_, _ = fmt.Fprint(w, "\nWHERE\n")
+_, _ = io.WriteString(w, "\nWHERE\n")
 //line templates/selectByID_template.sql.ego:6
  for idx, column := range tableData.Columns { 
 //line templates/selectByID_template.sql.ego:6
@@ -1298,55 +1299,55 @@ _, _ = fmt.Fprint(w, "\nWHERE\n")
 //line templates/selectByID_template.sql.ego:6
  if idx != 0 { 
 //line templates/selectByID_template.sql.ego:6
-_, _ = fmt.Fprint(w, "and")
+_, _ = io.WriteString(w, "and")
 //line templates/selectByID_template.sql.ego:6
  } 
 //line templates/selectByID_template.sql.ego:6
-_, _ = fmt.Fprint(w, "  ")
+_, _ = io.WriteString(w, "  ")
 //line templates/selectByID_template.sql.ego:6
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  column.Name )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  column.Name )))
 //line templates/selectByID_template.sql.ego:6
-_, _ = fmt.Fprint(w, " = :")
+_, _ = io.WriteString(w, " = :")
 //line templates/selectByID_template.sql.ego:6
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  column.Name )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  column.Name )))
 //line templates/selectByID_template.sql.ego:7
-_, _ = fmt.Fprint(w, "\n")
+_, _ = io.WriteString(w, "\n")
 //line templates/selectByID_template.sql.ego:7
  } 
 //line templates/selectByID_template.sql.ego:8
-_, _ = fmt.Fprint(w, "\n")
+_, _ = io.WriteString(w, "\n")
 return nil
 }
 //line templates/update_template.sql.ego:1
 func UpdateTemplate(w io.Writer, tableData TableTemplateData) error  {
 //line templates/update_template.sql.ego:1
-_, _ = fmt.Fprint(w, "update ")
+_, _ = io.WriteString(w, "update ")
 //line templates/update_template.sql.ego:1
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  tableData.Name )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  tableData.Name )))
 //line templates/update_template.sql.ego:1
-_, _ = fmt.Fprint(w, " set\n  ")
+_, _ = io.WriteString(w, " set\n  ")
 //line templates/update_template.sql.ego:2
  for idx, column := range tableData.Columns { 
 //line templates/update_template.sql.ego:2
  if idx != 0 { 
 //line templates/update_template.sql.ego:2
-_, _ = fmt.Fprint(w, ", ")
+_, _ = io.WriteString(w, ", ")
 //line templates/update_template.sql.ego:2
  } 
 //line templates/update_template.sql.ego:2
-_, _ = fmt.Fprint(w, "  ")
+_, _ = io.WriteString(w, "  ")
 //line templates/update_template.sql.ego:2
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  column.Name )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  column.Name )))
 //line templates/update_template.sql.ego:2
-_, _ = fmt.Fprint(w, " = :")
+_, _ = io.WriteString(w, " = :")
 //line templates/update_template.sql.ego:2
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  column.Name )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  column.Name )))
 //line templates/update_template.sql.ego:3
-_, _ = fmt.Fprint(w, "\n")
+_, _ = io.WriteString(w, "\n")
 //line templates/update_template.sql.ego:3
  } 
 //line templates/update_template.sql.ego:3
-_, _ = fmt.Fprint(w, " where\n  ")
+_, _ = io.WriteString(w, " where\n  ")
 //line templates/update_template.sql.ego:4
  for idx, column := range tableData.Columns { 
 //line templates/update_template.sql.ego:4
@@ -1358,22 +1359,22 @@ _, _ = fmt.Fprint(w, " where\n  ")
 //line templates/update_template.sql.ego:4
  if idx != 0 { 
 //line templates/update_template.sql.ego:4
-_, _ = fmt.Fprint(w, "and")
+_, _ = io.WriteString(w, "and")
 //line templates/update_template.sql.ego:4
  } 
 //line templates/update_template.sql.ego:4
-_, _ = fmt.Fprint(w, "  ")
+_, _ = io.WriteString(w, "  ")
 //line templates/update_template.sql.ego:4
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  column.Name )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  column.Name )))
 //line templates/update_template.sql.ego:4
-_, _ = fmt.Fprint(w, " = :")
+_, _ = io.WriteString(w, " = :")
 //line templates/update_template.sql.ego:4
-_, _ = fmt.Fprint(w, html.EscapeString(fmt.Sprintf("%v",  column.Name )))
+_, _ = io.WriteString(w, html.EscapeString(fmt.Sprintf("%v",  column.Name )))
 //line templates/update_template.sql.ego:5
-_, _ = fmt.Fprint(w, "\n")
+_, _ = io.WriteString(w, "\n")
 //line templates/update_template.sql.ego:5
  } 
 //line templates/update_template.sql.ego:6
-_, _ = fmt.Fprint(w, "\n")
+_, _ = io.WriteString(w, "\n")
 return nil
 }

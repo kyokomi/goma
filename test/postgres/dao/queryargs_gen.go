@@ -33,7 +33,7 @@ func queryArgs(tableName string, queryName string, args map[string]interface{}) 
 }
 
 func (s queryArgSettings) queryArgs(tableName string, queryName string, args map[string]interface{}) (string, []interface{}, error) {
-	filePath := createSqlFilePath(s.rootDir, tableName, queryName)
+	filePath := createSQLFilePath(s.rootDir, tableName, queryName)
 	return goma.PostgresGenerateQuery(assetSQL(filePath), args)
 }
 
@@ -51,6 +51,6 @@ func assetSQL(filePath string) string {
 	return string(data)
 }
 
-func createSqlFilePath(rootDir string, tableName string, queryName string) string {
+func createSQLFilePath(rootDir string, tableName string, queryName string) string {
 	return filepath.Join(rootDir, "sql", tableName, queryName+".sql")
 }

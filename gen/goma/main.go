@@ -16,26 +16,26 @@ func main() {
 	app.Author = "kyokomi"
 	app.Email = "kyoko1220adword@gmail.com"
 	app.Flags = []cli.Flag{
-		cli.BoolFlag{"debug", "goma debug mode", ""},
-		cli.StringFlag{"file", os.Getenv("GOFILE"), "input file", ""},
-		cli.StringFlag{"pkg", os.Getenv("GOPACKAGE"), "output package", ""},
+		cli.BoolFlag{Name: "debug", Usage: "goma debug mode", EnvVar: ""},
+		cli.StringFlag{Name: "file", Value: os.Getenv("GOFILE"), Usage: "input file", EnvVar: ""},
+		cli.StringFlag{Name: "pkg", Value: os.Getenv("GOPACKAGE"), Usage: "output package", EnvVar: ""},
 	}
 
 	genFlags := []cli.Flag{
-		cli.StringFlag{"driver", "mysql", "sql driver", ""},
-		cli.StringFlag{"user", "admin", "database access user's name", ""},
-		cli.StringFlag{"password", "", "database access user's password", ""},
-		cli.StringFlag{"host", "localhost", "database host", ""},
-		cli.IntFlag{"port", 3306, "database port", ""},
-		cli.StringFlag{"db", "test", "database name", ""},
-		cli.StringFlag{"location", "UTC", "database location name", ""},
+		cli.StringFlag{Name: "driver", Value: "mysql", Usage: "sql driver", EnvVar: ""},
+		cli.StringFlag{Name: "user", Value: "admin", Usage: "database access user's name", EnvVar: ""},
+		cli.StringFlag{Name: "password", Value: "", Usage: "database access user's password", EnvVar: ""},
+		cli.StringFlag{Name: "host", Value: "localhost", Usage: "database host", EnvVar: ""},
+		cli.IntFlag{Name: "port", Value: 3306, Usage: "database port", EnvVar: ""},
+		cli.StringFlag{Name: "db", Value: "test", Usage: "database name", EnvVar: ""},
+		cli.StringFlag{Name: "location", Value: "UTC", Usage: "database location name", EnvVar: ""},
 
-		cli.StringFlag{"ssl", "disable", "postgres ssl mode", ""},
+		cli.StringFlag{Name: "ssl", Value: "disable", Usage: "postgres ssl mode", EnvVar: ""},
 
-		cli.StringFlag{"sql", "sql", "generate sql root dir", ""},
-		cli.StringFlag{"dao", "dao", "generate dao root dir", ""},
-		cli.StringFlag{"entity", "entity", "generate entity root dir", ""},
-		cli.BoolFlag{"config", "generate config", ""},
+		cli.StringFlag{Name: "sql", Value: "sql", Usage: "generate sql root dir", EnvVar: ""},
+		cli.StringFlag{Name: "dao", Value: "dao", Usage: "generate dao root dir", EnvVar: ""},
+		cli.StringFlag{Name: "entity", Value: "entity", Usage: "generate entity root dir", EnvVar: ""},
+		cli.BoolFlag{Name: "config", Usage: "generate config", EnvVar: ""},
 	}
 
 	miguGenFlags := make([]cli.Flag, len(genFlags))
@@ -43,7 +43,7 @@ func main() {
 		miguGenFlags[idx] = c
 	}
 	miguGenFlags = append(miguGenFlags,
-		cli.StringFlag{"models", "models.go", "models struct file path", ""},
+		cli.StringFlag{Name: "models", Value: "models.go", Usage: "models struct file path", EnvVar: ""},
 	)
 
 	app.Commands = []cli.Command{
@@ -52,7 +52,7 @@ func main() {
 			Action: initConfigAction,
 			Usage:  "create example config file",
 			Flags: []cli.Flag{
-				cli.StringFlag{"out", "", "output dir path", ""},
+				cli.StringFlag{Name: "out", Value: "", Usage: "output dir path", EnvVar: ""},
 			},
 		},
 		{
@@ -66,7 +66,7 @@ func main() {
 			Action: genConfigAction,
 			Usage:  "generate code by config",
 			Flags: []cli.Flag{
-				cli.StringFlag{"path", "config.json", "config path", ""},
+				cli.StringFlag{Name: "path", Value: "config.json", Usage: "config path", EnvVar: ""},
 			},
 		},
 	}
